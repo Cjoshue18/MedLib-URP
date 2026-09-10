@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ExternalLink } from 'lucide-react';
 import headerLogo from '../../assets/logo-header.webp';
 
 interface NavbarProps {
@@ -67,12 +68,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
             Objetos Perdidos
           </button>
           <a
-            href="https://biblioteca.urp.edu.pe/abnopac/abnetcl.exe/OUPRkTEemSX5fzUCA6ikVwrO3fz?ACC=101"
+            href="https://biblioteca.urp.edu.pe/abnopac/"
             target="_blank"
             rel="noreferrer"
-            className="text-white/80 hover:text-white font-label-md text-label-md hover:text-primary transition-colors duration-200"
+            className="text-white/80 hover:text-white font-label-md text-label-md hover:text-primary transition-colors duration-200 inline-flex items-center gap-1.5"
           >
-            Catálogo ABNOPAC
+            <span>Catálogo ABNOPAC</span>
+            <ExternalLink className="w-3.5 h-3.5 text-white/70" />
           </a>
         </nav>
 
@@ -136,9 +138,10 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
             href="https://biblioteca.urp.edu.pe/abnopac/"
             target="_blank"
             rel="noreferrer"
-            className="block py-2 font-label-md text-white/90 hover:text-white"
+            className="py-2 font-label-md text-white/90 hover:text-white inline-flex items-center gap-1.5"
           >
-            Catálogo ABNOPAC
+            <span>Catálogo ABNOPAC</span>
+            <ExternalLink className="w-3.5 h-3.5 text-white/70" />
           </a>
           <div className="pt-2 border-t border-slate-700">
             <a
