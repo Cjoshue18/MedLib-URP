@@ -1,6 +1,6 @@
 import React from 'react';
 import { X, ShieldCheck, Globe, ExternalLink, AlertCircle } from 'lucide-react';
-import { BiomedicalDatabase } from '../data/databasesData';
+import { BiomedicalDatabase, getDatabaseLogoUrl } from '../data/databasesData';
 
 interface DatabaseModalProps {
   database: BiomedicalDatabase | null;
@@ -11,7 +11,7 @@ export const DatabaseModal: React.FC<DatabaseModalProps> = ({ database, onClose 
   if (!database) return null;
 
   const isSubscription = database.accessType === 'Suscripción URP';
-  const logoSrc = new URL(`../../../assets/logos/${database.logoFile}`, import.meta.url).href;
+  const logoSrc = getDatabaseLogoUrl(database.logoFile);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fadeIn">

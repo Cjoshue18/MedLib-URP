@@ -1,6 +1,6 @@
 import React from 'react';
 import { ExternalLink, ShieldCheck, Globe, PlayCircle } from 'lucide-react';
-import { BiomedicalDatabase } from '../data/databasesData';
+import { BiomedicalDatabase, getDatabaseLogoUrl } from '../data/databasesData';
 
 interface DatabaseCardProps {
   database: BiomedicalDatabase;
@@ -10,8 +10,8 @@ interface DatabaseCardProps {
 export const DatabaseCard: React.FC<DatabaseCardProps> = ({ database, onOpenTutorial }) => {
   const isSubscription = database.accessType === 'Suscripción URP';
   
-  // Dynamic logo resolution via Vite import.meta.url
-  const logoSrc = new URL(`../../../assets/logos/${database.logoFile}`, import.meta.url).href;
+  // Resuelto dinámicamente desde bucket / CDN externo
+  const logoSrc = getDatabaseLogoUrl(database.logoFile);
 
   return (
     <article className="group bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-urp-300 transition-all duration-300 flex flex-col justify-between overflow-hidden relative">

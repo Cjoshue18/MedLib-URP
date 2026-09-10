@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DATABASES_DATA, BiomedicalDatabase } from '../features/guides/data/databasesData';
+import { DATABASES_DATA, BiomedicalDatabase, getDatabaseLogoUrl } from '../features/guides/data/databasesData';
 
 export const DirectoryPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'TODAS' | 'ESPECIALIZADA' | 'CLINICAS' | 'REVISTAS'>('TODAS');
@@ -19,7 +19,7 @@ export const DirectoryPage: React.FC = () => {
     return matchesSearch;
   });
 
-  const selectedLogoSrc = new URL(`../assets/logos/${selectedDb.logoFile}`, import.meta.url).href;
+  const selectedLogoSrc = getDatabaseLogoUrl(selectedDb.logoFile);
 
   return (
     <main className="flex-grow w-full max-w-[1280px] mx-auto px-6 py-8 flex flex-col gap-6">

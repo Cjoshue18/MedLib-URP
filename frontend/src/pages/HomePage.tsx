@@ -11,6 +11,7 @@ import {
   X,
   Mail
 } from 'lucide-react';
+import { getDatabaseLogoUrl } from '../features/guides/data/databasesData';
 
 interface HomePageProps {
   onNavigate: (view: 'home' | 'directory' | 'conferences' | 'lost-found') => void;
@@ -18,7 +19,6 @@ interface HomePageProps {
 
 export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchCategory, setSearchCategory] = useState<'todos' | 'bases' | 'revistas' | 'alfin'>('todos');
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const [admissionsTab, setAdmissionsTab] = useState<'pregrado' | 'posgrado' | 'residentado'>('pregrado');
@@ -35,9 +35,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
     setSubscribed(true);
   };
 
-  // Dynamic logos via Vite import.meta.url
-  const getLogo = (filename: string) => 
-    new URL(`../assets/logos/${filename}`, import.meta.url).href;
+  // Resolución de logos desde storage/bucket externo
+  const getLogo = (filename: string) => getDatabaseLogoUrl(filename);
 
   return (
     <main className="w-full bg-[#f8fafc] text-slate-900 overflow-hidden">
@@ -54,19 +53,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#008744]/15 blur-[120px] rounded-full pointer-events-none"></div>
 
         <div className="max-w-[1280px] mx-auto relative z-10">
-          
-          {/* Top Identity Bar (Pastillas SUNEDU/IAC removidas, Portal Oficial para Estudiantes) */}
-          <div className="flex items-center justify-between gap-3 mb-8 border-b border-white/10 pb-4">
-            <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
-              <span className="w-2 h-2 rounded-full bg-[#00a859] animate-pulse"></span>
-              <span className="font-semibold tracking-wider uppercase">PORTAL OFICIAL PARA ESTUDIANTES — BIBLIOTECA FMH URP</span>
-            </div>
-            <div className="hidden sm:flex items-center gap-2 text-xs text-slate-400 font-medium">
-              <span>Universidad Ricardo Palma</span>
-            </div>
-          </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start lg:min-h-[570px]">
             
             {/* Left Column: Bold Typographic Statement & Integrated Search */}
             <div className="lg:col-span-7 space-y-6">
@@ -91,70 +79,51 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 </p>
               </div>
 
-              {/* Integrated Biomedical Search */}
-              <div className="bg-[#1e242c] p-3 sm:p-4 rounded-2xl border-2 border-white/15 shadow-2xl">
-                {/* Search category filters (Sin conteos rígidos) */}
-                <div className="flex items-center gap-2 mb-3 overflow-x-auto pb-1 text-xs">
-                  <button
-                    type="button"
-                    onClick={() => setSearchCategory('todos')}
-                    className={`px-3 py-1 rounded-full font-semibold transition-colors shrink-0 cursor-pointer ${
-                      searchCategory === 'todos' 
-                        ? 'bg-[#008744] text-white shadow-sm' 
-                        : 'bg-white/5 text-slate-300 hover:bg-white/10'
-                    }`}
-                  >
-                    Todo el catálogo
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setSearchCategory('bases')}
-                    className={`px-3 py-1 rounded-full font-semibold transition-colors shrink-0 cursor-pointer ${
-                      searchCategory === 'bases' 
-                        ? 'bg-[#008744] text-white shadow-sm' 
-                        : 'bg-white/5 text-slate-300 hover:bg-white/10'
-                    }`}
-                  >
-                    Bases de Datos Biomédicas
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setSearchCategory('revistas')}
-                    className={`px-3 py-1 rounded-full font-semibold transition-colors shrink-0 cursor-pointer ${
-                      searchCategory === 'revistas' 
-                        ? 'bg-[#008744] text-white shadow-sm' 
-                        : 'bg-white/5 text-slate-300 hover:bg-white/10'
-                    }`}
-                  >
-                    Revistas & Libros
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setSearchCategory('alfin')}
-                    className={`px-3 py-1 rounded-full font-semibold transition-colors shrink-0 cursor-pointer ${
-                      searchCategory === 'alfin' 
-                        ? 'bg-[#008744] text-white shadow-sm' 
-                        : 'bg-white/5 text-slate-300 hover:bg-white/10'
-                    }`}
-                  >
-                    Talleres ALFIN
-                  </button>
+              {/* Integrated Biomedical Search: Flotando libremente sin contenedor gris ni borde */}
+              <div className="space-y-3 max-w-xl">
+                {/* Carrusel de texto que panea de derecha a izquierda */}
+                <div className="overflow-hidden w-full py-1 relative">
+                  <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[#12161a] to-transparent z-10 pointer-events-none"></div>
+                  <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[#12161a] to-transparent z-10 pointer-events-none"></div>
+
+                  <div className="animate-marquee-scroll flex items-center gap-6 text-xs text-slate-300/90 font-semibold tracking-wide select-none">
+                    {[
+                      'Catálogo amplio',
+                      'Bases de datos biomédicas',
+                      'Revistas',
+                      'Conferencias',
+                      'Programa ALFIN',
+                      'Sorteo de Libros',
+                      'Catálogo amplio',
+                      'Bases de datos biomédicas',
+                      'Revistas',
+                      'Conferencias',
+                      'Programa ALFIN',
+                      'Sorteo de Libros'
+                    ].map((item, idx) => (
+                      <span key={idx} className="flex items-center gap-6 shrink-0 hover:text-white transition-colors cursor-default">
+                        <span>{item}</span>
+                        <span className="text-[#008744] font-black text-sm">•</span>
+                      </span>
+                    ))}
+                  </div>
                 </div>
 
-                <form onSubmit={handleSearch} className="flex gap-2">
+                {/* Barra de búsqueda flotante con sombra elegante */}
+                <form onSubmit={handleSearch} className="flex gap-2.5">
                   <div className="relative flex-1">
-                    <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                     <input
                       type="text"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       placeholder="Buscar por fármaco, patología, autor o tema biomédico..."
-                      className="w-full pl-11 pr-4 py-3 bg-white text-slate-900 rounded-xl border border-slate-300 font-sans text-sm focus:outline-none focus:ring-2 focus:ring-[#00a859]"
+                      className="w-full pl-12 pr-4 py-3.5 bg-white text-slate-900 rounded-2xl border border-white/20 font-sans text-sm focus:outline-none focus:ring-2 focus:ring-[#00a859] shadow-2xl transition-all"
                     />
                   </div>
                   <button
                     type="submit"
-                    className="bg-[#008744] hover:bg-[#006b35] text-white font-semibold px-6 py-3 rounded-xl transition-all shadow-urp-brutal-green tactile-btn-green flex items-center gap-1.5 shrink-0 cursor-pointer"
+                    className="bg-[#008744] hover:bg-[#006b35] text-white font-bold px-7 py-3.5 rounded-2xl transition-all shadow-urp-brutal-green tactile-btn-green flex items-center gap-1.5 shrink-0 cursor-pointer text-sm"
                   >
                     <span>Buscar</span>
                     <ArrowRight className="w-4 h-4" />
@@ -163,131 +132,131 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               </div>
 
               {/* Redes Sociales Oficiales: Sin pastillas, iconos auténticos, coloridos y directos */}
-              <div className="flex items-center gap-4 pt-1 pl-1">
-                <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-                  Síguenos en:
-                </span>
+              <div className="space-y-3 pt-1 pl-1">
                 <div className="flex items-center gap-4">
-                  {/* Facebook Oficial FAMURP */}
-                  <a
-                    href="https://www.facebook.com/famurp.pe/"
-                    target="_blank"
-                    rel="noreferrer"
-                    title="Facebook Oficial Facultad de Medicina Humana URP"
-                    aria-label="Facebook Oficial FAMURP"
-                    className="group flex items-center gap-2 text-slate-300 hover:text-white transition-all transform hover:scale-105 cursor-pointer"
-                  >
-                    <svg className="w-6 h-6 drop-shadow-md transition-transform group-hover:scale-110" viewBox="0 0 24 24">
-                      <circle cx="12" cy="12" r="12" fill="#1877F2" />
-                      <path
-                        fill="#FFFFFF"
-                        d="M14.5 12h-2v7h-3v-7h-1.5v-2.5H9.5V8c0-1.8 1-2.8 2.8-2.8h2.2v2.5h-1.4c-.9 0-1.1.4-1.1 1.1v.7h2.5L14.5 12z"
-                      />
-                    </svg>
-                    <span className="text-xs font-semibold text-slate-300 group-hover:text-white transition-colors">
-                      Facebook
-                    </span>
-                  </a>
+                  <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                    Síguenos en:
+                  </span>
+                  <div className="flex items-center gap-4">
+                    {/* Facebook Oficial FAMURP */}
+                    <a
+                      href="https://www.facebook.com/famurp.pe/"
+                      target="_blank"
+                      rel="noreferrer"
+                      title="Facebook Oficial Facultad de Medicina Humana URP"
+                      aria-label="Facebook Oficial FAMURP"
+                      className="group flex items-center gap-2 text-slate-300 hover:text-white transition-all transform hover:scale-105 cursor-pointer"
+                    >
+                      <svg className="w-6 h-6 drop-shadow-md transition-transform group-hover:scale-110" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="12" fill="#1877F2" />
+                        <path
+                          fill="#FFFFFF"
+                          d="M14.5 12h-2v7h-3v-7h-1.5v-2.5H9.5V8c0-1.8 1-2.8 2.8-2.8h2.2v2.5h-1.4c-.9 0-1.1.4-1.1 1.1v.7h2.5L14.5 12z"
+                        />
+                      </svg>
+                      <span className="text-xs font-semibold text-slate-300 group-hover:text-white transition-colors">
+                        Facebook
+                      </span>
+                    </a>
 
-                  {/* Instagram Oficial Biblioteca FAMURP */}
-                  <a
-                    href="https://www.instagram.com/bib_famurp/"
-                    target="_blank"
-                    rel="noreferrer"
-                    title="Instagram Oficial @bib_famurp"
-                    aria-label="Instagram Oficial Biblioteca FMH URP"
-                    className="group flex items-center gap-2 text-slate-300 hover:text-white transition-all transform hover:scale-105 cursor-pointer"
-                  >
-                    <svg className="w-6 h-6 drop-shadow-md transition-transform group-hover:scale-110" viewBox="0 0 24 24">
-                      <defs>
-                        <radialGradient id="ig-grad-hero" cx="20%" cy="100%" r="150%">
-                          <stop offset="0%" stopColor="#ffd521" />
-                          <stop offset="25%" stopColor="#f50000" />
-                          <stop offset="50%" stopColor="#b900b4" />
-                          <stop offset="100%" stopColor="#4300e8" />
-                        </radialGradient>
-                      </defs>
-                      <rect width="24" height="24" rx="6.5" fill="url(#ig-grad-hero)" />
-                      <circle cx="12" cy="12" r="4.2" fill="none" stroke="#FFFFFF" strokeWidth="1.8" />
-                      <circle cx="17.8" cy="6.2" r="1.1" fill="#FFFFFF" />
-                      <rect x="4.5" y="4.5" width="15" height="15" rx="3.8" fill="none" stroke="#FFFFFF" strokeWidth="1.8" />
-                    </svg>
-                    <span className="text-xs font-semibold text-slate-300 group-hover:text-white transition-colors">
-                      Instagram
-                    </span>
-                  </a>
+                    {/* Instagram Oficial Biblioteca FAMURP */}
+                    <a
+                      href="https://www.instagram.com/bib_famurp/"
+                      target="_blank"
+                      rel="noreferrer"
+                      title="Instagram Oficial @bib_famurp"
+                      aria-label="Instagram Oficial Biblioteca FMH URP"
+                      className="group flex items-center gap-2 text-slate-300 hover:text-white transition-all transform hover:scale-105 cursor-pointer"
+                    >
+                      <svg className="w-6 h-6 drop-shadow-md transition-transform group-hover:scale-110" viewBox="0 0 24 24">
+                        <defs>
+                          <radialGradient id="ig-grad-hero" cx="20%" cy="100%" r="150%">
+                            <stop offset="0%" stopColor="#ffd521" />
+                            <stop offset="25%" stopColor="#f50000" />
+                            <stop offset="50%" stopColor="#b900b4" />
+                            <stop offset="100%" stopColor="#4300e8" />
+                          </radialGradient>
+                        </defs>
+                        <rect width="24" height="24" rx="6.5" fill="url(#ig-grad-hero)" />
+                        <circle cx="12" cy="12" r="4.2" fill="none" stroke="#FFFFFF" strokeWidth="1.8" />
+                        <circle cx="17.8" cy="6.2" r="1.1" fill="#FFFFFF" />
+                        <rect x="4.5" y="4.5" width="15" height="15" rx="3.8" fill="none" stroke="#FFFFFF" strokeWidth="1.8" />
+                      </svg>
+                      <span className="text-xs font-semibold text-slate-300 group-hover:text-white transition-colors">
+                        Instagram
+                      </span>
+                    </a>
+                  </div>
+                </div>
+
+                {/* Portal Oficial para Estudiantes con tipografía cursiva / letra escrita a mano */}
+                <div className="flex items-center gap-2.5 pt-1">
+                  <span className="w-2 h-2 rounded-full bg-[#00a859] animate-pulse"></span>
+                  <span className="font-handwriting text-lg sm:text-xl text-emerald-300 font-semibold tracking-wide select-none drop-shadow-xs">
+                    Portal Oficial para Estudiantes — Biblioteca FMH URP
+                  </span>
                 </div>
               </div>
 
             </div>
 
-            {/* Right Column: Toggleable Hero Form with Slim Pill Trigger */}
-            <div className="lg:col-span-5 flex justify-center lg:justify-end">
+            {/* Right Column: Toggleable Hero Form with Vertical Capsule Pill Trigger */}
+            <div className="lg:col-span-5 flex justify-center lg:justify-end lg:min-h-[570px]">
               {!isHeroFormOpen ? (
-                /* Pastilla de alto medio y anchura delgada que al hacer click abre el formulario */
+                /* Pastilla vertical estilo cápsula (sin el circulito verde, con icono de email y texto vertical) */
                 <button
                   type="button"
                   onClick={() => setIsHeroFormOpen(true)}
-                  className="group relative w-48 sm:w-52 h-64 sm:h-72 rounded-3xl bg-gradient-to-b from-[#008744] via-[#006b35] to-[#004722] p-5 text-white border-2 border-white/20 shadow-2xl flex flex-col items-center justify-between text-center cursor-pointer hover:border-[#8cf9a9] hover:scale-105 active:scale-95 transition-all duration-300 tactile-btn-green"
-                  aria-label="Abrir formulario de boletín y acceso directo"
+                  className="group relative w-12 sm:w-14 h-64 sm:h-72 mt-4 lg:mt-6 rounded-full bg-[#008744] hover:bg-[#006b35] text-white shadow-urp-brutal-green tactile-btn-green flex flex-col items-center justify-between py-6 px-1.5 transition-all duration-300 cursor-pointer border-2 border-white/20 hover:scale-105 active:scale-95"
+                  title="Abrir formulario de boletín y novedades"
+                  aria-label="Abrir formulario de boletín y novedades"
                 >
-                  {/* Subtle top indicator */}
-                  <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-[#8cf9a9]">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#8cf9a9] animate-ping"></span>
-                    <span>Acceso Directo</span>
+                  {/* Icono de Email */}
+                  <div className="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center text-white shrink-0 group-hover:scale-110 transition-transform">
+                    <Mail className="w-4 h-4 text-white" />
                   </div>
 
-                  {/* Icon & Title */}
-                  <div className="flex flex-col items-center gap-3">
-                    <div className="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-xs border border-white/25 flex items-center justify-center text-white shadow-md group-hover:rotate-6 group-hover:scale-110 transition-transform">
-                      <Mail className="w-7 h-7 text-[#8cf9a9]" />
-                    </div>
-                    <div>
-                      <h3 className="text-base sm:text-lg font-display font-black leading-tight tracking-tight">
-                        Boletín &amp; Novedades
-                      </h3>
-                      <p className="text-[11px] text-slate-200 mt-1 leading-snug">
-                        Alertas y soporte FMH URP
-                      </p>
-                    </div>
-                  </div>
+                  {/* Texto vertical estilizado idéntico a la cápsula de referencia */}
+                  <span className="[writing-mode:vertical-rl] rotate-180 text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest text-white whitespace-nowrap select-none my-auto">
+                    BOLETÍN &amp; NOVEDADES
+                  </span>
 
-                  {/* Bottom call to action pill */}
-                  <div className="w-full py-2 px-3 rounded-xl bg-black/25 backdrop-blur-xs border border-white/20 flex items-center justify-center gap-1.5 text-xs font-bold text-white group-hover:bg-[#8cf9a9] group-hover:text-slate-950 transition-colors">
-                    <span>Abrir Formulario</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                  </div>
+                  {/* Indicador inferior */}
+                  <ChevronRight className="w-4 h-4 text-[#8cf9a9] rotate-90 shrink-0 group-hover:translate-y-0.5 transition-transform" />
                 </button>
               ) : (
-                /* Signature URP Admissions-Style Card con animación de aparición suave y botón cerrar */
-                <div className="relative w-full max-w-sm bg-white rounded-3xl border-2 border-slate-800 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-300">
+                /* Contenedor relativo del formulario con altura calibrada para no empujar la página */
+                <div className="relative w-full max-w-sm animate-in fade-in zoom-in-95 duration-300">
                   
-                  {/* Institutional Green Header with URP Gradient, Anniversary Badge & Close Button */}
-                  <div className="bg-gradient-to-r from-[#00572B] via-[#008744] to-[#00A859] p-5 text-white flex items-center justify-between">
-                    <div>
-                      <span className="text-[10px] font-bold tracking-widest uppercase text-[#8cf9a9] block mb-0.5">
-                        FACULTAD DE MEDICINA HUMANA
-                      </span>
-                      <h2 className="text-lg sm:text-xl font-display font-black leading-tight">
-                        ¡ACCESO DIRECTO <br />AL CONOCIMIENTO!
-                      </h2>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="text-right flex flex-col items-center bg-black/20 backdrop-blur-xs px-2.5 py-1.5 rounded-xl border border-white/20">
+                  {/* Botón de cierre (X): circulito gris traslúcido alineado a la altura de la cabecera */}
+                  <button
+                    type="button"
+                    onClick={() => setIsHeroFormOpen(false)}
+                    className="absolute top-4 -left-12 z-20 w-9 h-9 rounded-full bg-slate-600/50 hover:bg-slate-600/90 text-white backdrop-blur-xs border border-white/25 flex items-center justify-center transition-all duration-200 cursor-pointer shadow-lg hover:scale-110 active:scale-95 group"
+                    title="Cerrar formulario"
+                    aria-label="Cerrar formulario"
+                  >
+                    <X className="w-4 h-4 text-white/90 group-hover:text-white group-hover:rotate-90 transition-transform duration-200" />
+                  </button>
+
+                  {/* Signature URP Admissions-Style Card con header intacto sin nada empujado */}
+                  <div className="bg-white rounded-3xl border-2 border-slate-800 shadow-2xl overflow-hidden">
+                    
+                    {/* Institutional Green Header with URP Gradient & Anniversary Badge */}
+                    <div className="bg-gradient-to-r from-[#00572B] via-[#008744] to-[#00A859] p-5 text-white flex items-center justify-between">
+                      <div>
+                        <span className="text-[10px] font-bold tracking-widest uppercase text-[#8cf9a9] block mb-0.5">
+                          FACULTAD DE MEDICINA HUMANA
+                        </span>
+                        <h2 className="text-lg sm:text-xl font-display font-black leading-tight">
+                          ¡ACCESO DIRECTO <br />AL CONOCIMIENTO!
+                        </h2>
+                      </div>
+                      <div className="text-right flex flex-col items-center bg-black/20 backdrop-blur-xs px-2.5 py-1.5 rounded-xl border border-white/20 shrink-0">
                         <span className="text-2xl font-black leading-none text-white">57</span>
                         <span className="text-[9px] font-bold uppercase tracking-wider text-[#8cf9a9]">Años URP</span>
                       </div>
-                      <button
-                        type="button"
-                        onClick={() => setIsHeroFormOpen(false)}
-                        className="w-8 h-8 rounded-full bg-black/25 hover:bg-black/45 text-white flex items-center justify-center transition-colors cursor-pointer border border-white/20"
-                        title="Cerrar formulario"
-                        aria-label="Cerrar formulario"
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
                     </div>
-                  </div>
 
                   {/* Card Body: Unified Form & Actions */}
                   <div className="p-5 text-slate-900 space-y-4">
@@ -383,8 +352,9 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
                   </div>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
+          </div>
 
           </div>
         </div>
@@ -439,6 +409,13 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                         src={getLogo('dynamedex.png')}
                         alt="DynaMedex Logo"
                         className="max-h-full max-w-full object-contain"
+                        onError={(e) => {
+                          const target = e.currentTarget;
+                          target.style.display = 'none';
+                          if (target.parentElement) {
+                            target.parentElement.innerHTML = '<span class="text-xs font-black text-[#008744] font-display">DYNA</span>';
+                          }
+                        }}
                       />
                     </div>
                     <span className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-emerald-100 text-[#006b35] border border-emerald-200">
@@ -491,6 +468,13 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                         src={getLogo('biodigital.png')}
                         alt="BioDigital Logo"
                         className="max-h-full max-w-full object-contain"
+                        onError={(e) => {
+                          const target = e.currentTarget;
+                          target.style.display = 'none';
+                          if (target.parentElement) {
+                            target.parentElement.innerHTML = '<span class="text-xs font-black text-[#008744] font-display">BIO</span>';
+                          }
+                        }}
                       />
                     </div>
                     <span className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-emerald-100 text-[#006b35] border border-emerald-200">
@@ -527,6 +511,13 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                         src={getLogo('clinicalkeyespanol.png')}
                         alt="ClinicalKey Logo"
                         className="max-h-full max-w-full object-contain"
+                        onError={(e) => {
+                          const target = e.currentTarget;
+                          target.style.display = 'none';
+                          if (target.parentElement) {
+                            target.parentElement.innerHTML = '<span class="text-xs font-black text-[#008744] font-display">CK</span>';
+                          }
+                        }}
                       />
                     </div>
                     <span className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-emerald-100 text-[#006b35] border border-emerald-200">
@@ -563,6 +554,13 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                         src={getLogo('accessmedicina-espanol.png')}
                         alt="AccessMedicina Logo"
                         className="max-h-full max-w-full object-contain"
+                        onError={(e) => {
+                          const target = e.currentTarget;
+                          target.style.display = 'none';
+                          if (target.parentElement) {
+                            target.parentElement.innerHTML = '<span class="text-xs font-black text-[#008744] font-display">ACC</span>';
+                          }
+                        }}
                       />
                     </div>
                     <span className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-emerald-100 text-[#006b35] border border-emerald-200">
