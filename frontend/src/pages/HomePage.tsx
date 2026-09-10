@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   Search, 
   ArrowRight, 
@@ -9,7 +9,6 @@ import {
   X, 
   Mail,
   ChevronRight,
-  ExternalLink,
   RotateCcw
 } from 'lucide-react';
 
@@ -28,6 +27,16 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   const [isAllFlipped, setIsAllFlipped] = useState(false);
   const hoverTimerRef = useRef<NodeJS.Timeout | null>(null);
   const allFlipTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    const existingScript = document.querySelector('script[src="https://elfsightcdn.com/platform.js"]');
+    if (!existingScript) {
+      const script = document.createElement('script');
+      script.src = 'https://elfsightcdn.com/platform.js';
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  }, []);
 
   const handleHexHover = (id: string) => {
     if (hoverTimerRef.current) {
@@ -687,58 +696,17 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
       <section className="max-w-[1280px] mx-auto px-6 pb-20">
         <div className="bg-white rounded-3xl border-2 border-slate-900 shadow-urp-brutal p-6 sm:p-8">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 border-b border-slate-200 pb-4">
-            <div>
-              <span className="text-[11px] font-bold text-[#008744] uppercase tracking-wider block">
-                COMUNIDAD MÉDICA & ACTIVIDADES
-              </span>
-              <h3 className="text-xl sm:text-2xl font-display font-extrabold text-slate-900">
-                @bib_famurp en Instagram
-              </h3>
-            </div>
-            <a
-              href="https://www.instagram.com/bib_famurp/"
-              target="_blank"
-              rel="noreferrer"
-              className="px-5 py-2.5 rounded-xl bg-slate-900 text-white hover:bg-slate-800 text-xs font-bold transition-colors flex items-center gap-2 self-start sm:self-auto cursor-pointer"
-            >
-              <span>Seguir a @bib_famurp</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
+          <div className="mb-6 border-b border-slate-200 pb-4">
+            <span className="text-[11px] font-bold text-[#008744] uppercase tracking-wider block">
+              COMUNIDAD MÉDICA & ACTIVIDADES
+            </span>
+            <h3 className="text-xl sm:text-2xl font-display font-extrabold text-slate-900">
+              @bib_famurp en Instagram
+            </h3>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            <div className="aspect-square rounded-2xl overflow-hidden border border-slate-200 bg-slate-100 group">
-              <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsn8AqQ7LQ9a7cpggMBvOo6uUtrDzH-RSxjVguqDpbMJ4HrbR9A-H1tjWOhVwFAkv25jpxu7FRHWcRdVDnJ1GfTbZRBWr_PHq4LnbgDAa95RG2AV2ezQfXz8SULwv-R4d3Gbi2B-8jFLyWcR5p3crJ9W-_QXBYdzRbW_wX5JSeLLCyDFa-MJm0Epzakv-ZBMnnXyLyc1pD5hP3gFleqHJ3gVeZkOZ0PRYN2N4w7CPxz92CiEwdDJU"
-                alt="Instalaciones Biblioteca URP"
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-              />
-            </div>
-
-            <div className="aspect-square rounded-2xl overflow-hidden border border-slate-200 bg-slate-100 group">
-              <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoxyVJ9hVxn0zsPakl41qGZYZ3-sp9xMLeBPWGMBHsyurYWXN9At3vpLT2RjXTzre8Fpci-TZL4CWddottiT7jirnRFsqoJE7uJr13rgyTnYfCQDmxPg1JgW9xPo2tioK4-wAMUAXBOX072KwNH70TxRf1mRzxBUg5LQba0by2n-QiFKm4L_GuKRC5Vwqadv5bD76FZKg9Ob6UB4gLqrnBNfXIhHcxdCTN4PYOnJYX-7T7fvaCnUs"
-                alt="Talleres ALFIN URP"
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-              />
-            </div>
-
-            <div className="aspect-square rounded-2xl overflow-hidden border border-slate-200 bg-slate-100 group">
-              <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAidUIRZ5AE2f3_TC91yGMET1xv7yiwGPDI56rUABykDP0yC6nE6aHSoR-2gFHBMjKMVlzfsYYq2CvhCxZ9QbYDIqcB5G2tievSZsp1djZ_nA_R0l-lUbmro5718TiyMehlOpVvmaJgfG4H2HMIxA3OyHU0rxbBpE2jhF3wFZVXHdhwDBRkUFpTOYD_GTNX20FemdOC5psYFmq7Ch-j5de0EzCLAMn-V4e20Lb9L76wSe-rNTB6YMY"
-                alt="Atención al usuario"
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-              />
-            </div>
-
-            <div className="aspect-square rounded-2xl overflow-hidden border border-slate-200 bg-slate-100 group">
-              <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAF4LTqwOPgPOC1XTyiv340j1CucejKPYS9ZE3vHvhU-AzFWFA8z8ck0ux2u0FlQK2lvvKFUSXiWwzD4QK0wdOglcnmeZBOcUonEUAcPTrzAXFDFdCPHdObHH_cKq5k_dYpmGL_mr7tvzWyRllUWM_XYSQiAOS0irqWGjxUn7G14p80moJFvBYNd7Au9HE0EBT4cUR-65jRBRloFPH3snHRLTDIYW8POsMvIeWIApyvi42lQl-KMKo"
-                alt="Colección médica"
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-              />
-            </div>
+          <div className="w-full px-2 sm:px-8 py-2 overflow-visible min-h-[340px]">
+            <div className="elfsight-app-437cd9ca-7bc2-447c-9b36-5e9c7350b63f" data-elfsight-app-lazy></div>
           </div>
 
           <p className="text-xs text-slate-500 mt-4">
