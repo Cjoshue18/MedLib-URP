@@ -58,20 +58,36 @@ export default {
         "primary": "#006b35",
         "on-tertiary-fixed-variant": "#004b73",
         "text-slate": "#1e293b",
-        // URP Tailwind helpers
+        // URP Tailwind helpers & Anti-AI design tokens
         urp: {
           50: '#f0fdf4',
           100: '#dcfce7',
+          300: '#8cf9a9',
+          400: '#00a859',
           500: '#22c55e',
           700: '#008744',
           800: '#006b35',
           900: '#004d26',
+          charcoal: '#12161a',
+          surface: '#1e242c',
+          gold: '#f59e0b',
         }
+      },
+      boxShadow: {
+        'brutal': '4px 4px 0px #0f172a',
+        'brutal-sm': '2px 2px 0px #0f172a',
+        'brutal-lg': '6px 6px 0px #0f172a',
+        'brutal-green': '4px 4px 0px #00572b',
+        'brutal-gold': '4px 4px 0px #d97706',
+        'tactile': '0 2px 0 #0f172a',
       },
       borderRadius: {
         DEFAULT: "0.25rem",
         lg: "0.5rem",
         xl: "0.75rem",
+        '2xl': "1rem",
+        '3xl': "1.5rem",
+        'urp-card': "36px",
         full: "9999px"
       },
       spacing: {

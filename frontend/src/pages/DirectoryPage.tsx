@@ -165,7 +165,7 @@ export const DirectoryPage: React.FC = () => {
               }}
             >
               <div 
-                onClick={() => alert(`Guía de uso para ${selectedDb.title}: Ingresa con tus credenciales URP en intranet.urp.edu.pe.`)}
+                onClick={() => alert(`Guía de uso para ${selectedDb.title}: Ingresa con tus credenciales URP en https://test.urp.edu.pe/Intranet/.`)}
                 className="absolute inset-0 bg-black/20 flex items-center justify-center group cursor-pointer hover:bg-black/30 transition-colors"
               >
                 <span className="material-symbols-outlined text-white text-[48px] group-hover:scale-110 transition-transform">

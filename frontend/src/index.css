@@ -57,6 +57,30 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
 }
 
+@keyframes shimmer-sweep {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer-sweep {
+  background: linear-gradient(
+    90deg, 
+    #00a859 0%, 
+    #00a859 35%, 
+    #ffffff 50%, 
+    #00a859 65%, 
+    #00a859 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer-sweep 4s ease-in-out infinite;
+}
+
 @media (max-width: 768px) {
   .font-display-lg {
     font-size: 32px;
@@ -170,3 +194,93 @@ h1, h2, h3, h4, h5, h6 {
 .text-secondary {
   color: #575e70 !important;
 }
+
+/* Anti-AI & URP Screen Craft utilities */
+.rounded-urp-card {
+  border-radius: 36px 14px 36px 14px;
+}
+
+.rounded-urp-card-alt {
+  border-radius: 14px 36px 14px 36px;
+}
+
+.rounded-urp-header {
+  border-radius: 28px 28px 0 0;
+}
+
+.shadow-urp-brutal {
+  box-shadow: 4px 4px 0px #0f172a;
+}
+
+.shadow-urp-brutal-green {
+  box-shadow: 4px 4px 0px #00572b;
+}
+
+.shadow-urp-brutal-gold {
+  box-shadow: 4px 4px 0px #d97706;
+}
+
+.tactile-btn {
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tactile-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #0f172a;
+}
+
+.tactile-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px #0f172a;
+}
+
+.tactile-btn-green:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #00572b;
+}
+
+.tactile-btn-green:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px #00572b;
+}
+
+/* Subtle dot/grid background for depth */
+.bg-grid-pattern {
+  background-image: radial-gradient(rgba(15, 23, 42, 0.08) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.bg-grid-pattern-dark {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Paneo de cámara: Haz blanco constante que barre continuamente a velocidad media sobre el texto verde URP */
+@keyframes camera-pan-sweep {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.animate-camera-pan-text {
+  background: linear-gradient(
+    90deg,
+    #00a859 0%,
+    #00a859 35%,
+    #ffffff 50%,
+    #00a859 65%,
+    #00a859 100%
+  );
+  background-size: 200% auto;
+  color: #00a859;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: camera-pan-sweep 4.5s linear infinite;
+  display: inline-block;
+}
+
+
