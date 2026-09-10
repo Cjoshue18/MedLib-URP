@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { 
   Search, 
   ArrowRight, 
   ShieldCheck, 
   Clock, 
-  ExternalLink, 
   Stethoscope, 
+  Send, 
+  X, 
+  Mail,
   ChevronRight,
-  Send,
-  X,
-  Mail
+  ExternalLink,
+  RotateCcw
 } from 'lucide-react';
-import { getDatabaseLogoUrl } from '../features/guides/data/databasesData';
 
 interface HomePageProps {
   onNavigate: (view: 'home' | 'directory' | 'conferences' | 'lost-found') => void;
@@ -23,6 +23,46 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   const [subscribed, setSubscribed] = useState(false);
   const [admissionsTab, setAdmissionsTab] = useState<'pregrado' | 'posgrado' | 'residentado'>('pregrado');
   const [isHeroFormOpen, setIsHeroFormOpen] = useState(false);
+  const [lockedHexId, setLockedHexId] = useState<string | null>(null);
+  const [hoveredHexId, setHoveredHexId] = useState<string | null>(null);
+  const [isAllFlipped, setIsAllFlipped] = useState(false);
+  const hoverTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const allFlipTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleHexHover = (id: string) => {
+    if (hoverTimerRef.current) {
+      clearTimeout(hoverTimerRef.current);
+    }
+    setHoveredHexId(id);
+    hoverTimerRef.current = setTimeout(() => {
+      setHoveredHexId(prev => (prev === id ? null : prev));
+    }, 2000);
+  };
+
+  const handleHexLeave = (id: string) => {
+    if (hoverTimerRef.current) {
+      clearTimeout(hoverTimerRef.current);
+    }
+    setHoveredHexId(prev => (prev === id ? null : prev));
+  };
+
+  const handleHexClick = (id: string) => {
+    setLockedHexId(prev => (prev === id ? null : id));
+  };
+
+  const handleFlipAll = () => {
+    if (allFlipTimerRef.current) {
+      clearTimeout(allFlipTimerRef.current);
+    }
+    if (isAllFlipped) {
+      setIsAllFlipped(false);
+    } else {
+      setIsAllFlipped(true);
+      allFlipTimerRef.current = setTimeout(() => {
+        setIsAllFlipped(false);
+      }, 3500);
+    }
+  };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,8 +74,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
     if (!email.trim()) return;
     setSubscribed(true);
   };
-
-  const getLogo = (filename: string) => getDatabaseLogoUrl(filename);
 
   return (
     <main className="w-full bg-[#f8fafc] text-slate-900 overflow-hidden">
@@ -326,220 +364,154 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 <span>Colección Científica Especializada</span>
               </div>
 
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-slate-900 tracking-tight">
-                  Recursos Biomédicos Destacados
-                </h2>
-
-                <button
-                  onClick={() => onNavigate('directory')}
-                  className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#008744] hover:text-[#00572b] transition-colors whitespace-nowrap self-start sm:self-center cursor-pointer shrink-0"
-                >
-                  <span>Ver Catálogo Completo</span>
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-              </div>
+              <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-slate-900 tracking-tight">
+                Recursos Biomédicos
+              </h2>
 
               <p className="text-sm text-slate-600">
                 Herramientas clave suscritas por la facultad para diagnóstico, farmacología y soporte clínico.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-              <div className="md:col-span-7 bg-white rounded-3xl border-2 border-slate-900 shadow-urp-brutal p-6 flex flex-col justify-between relative overflow-hidden group">
-                <div>
-                  <div className="flex items-center justify-between gap-4 mb-4">
-                    <div className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-200 p-2 flex items-center justify-center shrink-0">
-                      <img
-                        src={getLogo('dynamedex.png')}
-                        alt="DynaMedex Logo"
-                        className="max-h-full max-w-full object-contain"
-                        onError={(e) => {
-                          const target = e.currentTarget;
-                          target.style.display = 'none';
-                          if (target.parentElement) {
-                            target.parentElement.innerHTML = '<span class="text-xs font-black text-[#008744] font-display">DYNA</span>';
-                          }
-                        }}
-                      />
-                    </div>
-                    <span className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-emerald-100 text-[#006b35] border border-emerald-200">
-                      Suscripción Oficial URP
+            <div className="relative w-full py-4 overflow-visible flex items-center justify-center lg:justify-end">
+              <div className="relative w-full max-w-[500px] aspect-[510/360] select-none">
+                <div
+                  className="absolute cursor-pointer group z-20"
+                  style={{
+                    left: `${(17 / 510) * 100}%`,
+                    top: `${(174.707 / 360) * 100}%`,
+                    width: `${(96 / 510) * 100}%`,
+                    height: `${(83.138 / 360) * 100}%`,
+                  }}
+                  onClick={handleFlipAll}
+                  title="Girar todos los recursos"
+                  aria-label="Girar todos los recursos"
+                >
+                  <svg viewBox="0 0 96 83.14" className="w-full h-full overflow-visible drop-shadow-xs">
+                    <polygon
+                      points="24,0 72,0 96,41.57 72,83.14 24,83.14 0,41.57"
+                      className="fill-white group-hover:fill-emerald-50/80 stroke-slate-800 group-hover:stroke-[#008744] stroke-[2] group-hover:stroke-[2.5] transition-all duration-200"
+                    />
+                  </svg>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-700 group-hover:text-[#008744] transition-colors p-1 select-none pointer-events-none">
+                    <RotateCcw className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-500 ${isAllFlipped ? 'rotate-180 text-[#008744]' : 'group-hover:-rotate-45'}`} />
+                    <span className="text-[7.5px] sm:text-[8px] font-black uppercase tracking-wider mt-0.5 text-slate-500 group-hover:text-[#008744]">
+                      {isAllFlipped ? 'Volver' : 'Girar'}
                     </span>
                   </div>
-
-                  <h3 className="text-xl font-display font-extrabold text-slate-900 mb-2 group-hover:text-[#008744] transition-colors">
-                    DynaMedex: Decisiones Clínicas en Tiempo Real
-                  </h3>
-
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
-                    Fusión de DynaMed y Micromedex. Accede a monografías de fármacos, calculadoras y guías diagnósticas basadas en evidencia para internado y pases de visita.
-                  </p>
-
-                  <div className="space-y-1.5 mb-5 text-xs text-slate-700">
-                    <div className="flex items-center gap-2 font-medium">
-                      <span className="text-[#008744] font-bold">✓</span>
-                      <span>Guías de Práctica Clínica actualizadas</span>
-                    </div>
-                    <div className="flex items-center gap-2 font-medium">
-                      <span className="text-[#008744] font-bold">✓</span>
-                      <span>Interacciones Farmacológicas Micromedex</span>
-                    </div>
-                    <div className="flex items-center gap-2 font-medium">
-                      <span className="text-[#008744] font-bold">✓</span>
-                      <span>Calculadoras y Algoritmos Clínicos</span>
-                    </div>
-                  </div>
                 </div>
 
-                <div className="pt-3 border-t border-slate-100">
-                  <button
-                    onClick={() => onNavigate('directory')}
-                    className="w-full py-2.5 px-4 rounded-xl bg-[#008744] hover:bg-[#00572b] text-white text-xs font-bold shadow-urp-brutal-green tactile-btn-green transition-all cursor-pointer flex items-center justify-center gap-1.5"
-                  >
-                    <span>Consultar DynaMedex</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              </div>
+                {[
+                  { id: 'clinicalkey-espanol', title: 'ClinicalKey', abbr: 'CK', cat: 'Elsevier', col: 2, row: 0 },
+                  { id: 'nature', title: 'Nature', abbr: 'NAT', cat: 'Genómica', col: 4, row: 0 },
+                  { id: 'biodigital', title: 'BioDigital 3D', abbr: 'BIO', cat: 'Anatomía 3D', col: 1, row: 0 },
+                  { id: 'nejm', title: 'NEJM', abbr: 'NEJM', cat: 'Medicina General', col: 3, row: 0 },
+                  { id: 'scopus', title: 'Scopus', abbr: 'SCOP', cat: 'Investigación', col: 2, row: 1 },
+                  { id: 'sciencedirect', title: 'ScienceDirect', abbr: 'SD', cat: 'Elsevier', col: 4, row: 1 },
+                  { id: 'dynamedex', title: 'DynaMedex', abbr: 'DYNA', cat: 'Point-of-Care', col: 1, row: 1 },
+                  { id: 'the-bmj', title: 'The BMJ', abbr: 'BMJ', cat: 'Revistas Q1', col: 3, row: 1 },
+                  { id: 'pubmed', title: 'PubMed', abbr: 'PUB', cat: 'MEDLINE', col: 2, row: 2 },
+                  { id: 'scielo', title: 'SciELO', abbr: 'SCI', cat: 'Open Access', col: 1, row: 2 },
+                  { id: 'epistemonikos', title: 'Epistemonikos', abbr: 'EPI', cat: 'Evidencia Clínica', col: 3, row: 2 },
+                  { id: 'accessmedicina', title: 'AccessMedicina', abbr: 'ACC', cat: 'McGraw-Hill', col: 2, row: 3 },
+                ].map((item) => {
+                  const cx = 65 + item.col * 72;
+                  const cy = 50 + item.row * 83.138 + (item.col % 2 !== 0 ? 41.569 : 0);
+                  const leftPct = ((cx - 48) / 510) * 100;
+                  const topPct = ((cy - 41.569) / 360) * 100;
+                  const widthPct = (96 / 510) * 100;
+                  const heightPct = (83.138 / 360) * 100;
+                  const isFlipped = isAllFlipped || lockedHexId === item.id || hoveredHexId === item.id;
 
-              <div className="md:col-span-5 bg-white rounded-3xl border-2 border-slate-900 shadow-urp-brutal p-6 flex flex-col justify-between group">
-                <div>
-                  <div className="flex items-center justify-between gap-4 mb-4">
-                    <div className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-200 p-2 flex items-center justify-center shrink-0">
-                      <img
-                        src={getLogo('biodigital.png')}
-                        alt="BioDigital Logo"
-                        className="max-h-full max-w-full object-contain"
-                        onError={(e) => {
-                          const target = e.currentTarget;
-                          target.style.display = 'none';
-                          if (target.parentElement) {
-                            target.parentElement.innerHTML = '<span class="text-xs font-black text-[#008744] font-display">BIO</span>';
-                          }
+                  const yTop = cy - 41.569;
+                  const yBottom = cy + 41.569;
+                  const tTop = Math.max(0, Math.min(1, (yTop - 10) / 340));
+                  const tBottom = Math.max(0, Math.min(1, (yBottom - 10) / 340));
+                  const topG = Math.round(195 - tTop * (195 - 48));
+                  const topB = Math.round(112 - tTop * (112 - 20));
+                  const botG = Math.round(195 - tBottom * (195 - 48));
+                  const botB = Math.round(112 - tBottom * (112 - 20));
+                  const topColor = `rgb(0, ${topG}, ${topB})`;
+                  const botColor = `rgb(0, ${botG}, ${botB})`;
+
+                  return (
+                    <div
+                      key={item.id}
+                      className="absolute cursor-pointer transition-all duration-200"
+                      style={{
+                        left: `${leftPct}%`,
+                        top: `${topPct}%`,
+                        width: `${widthPct}%`,
+                        height: `${heightPct}%`,
+                        perspective: '800px',
+                        zIndex: isFlipped ? 30 : 10,
+                      }}
+                      onClick={() => handleHexClick(item.id)}
+                      onMouseEnter={() => handleHexHover(item.id)}
+                      onMouseLeave={() => handleHexLeave(item.id)}
+                      title={`${item.title} — ${item.cat}`}
+                    >
+                      <div
+                        className={`w-full h-full relative transition-transform duration-500 ease-out preserve-3d ${
+                          isFlipped ? 'rotate-y-180' : ''
+                        }`}
+                        style={{
+                          transitionDelay: isAllFlipped ? `${item.col * 40 + item.row * 30}ms` : '0ms'
                         }}
-                      />
+                      >
+                        <div className="absolute inset-0 w-full h-full backface-hidden">
+                          <svg viewBox="0 0 96 83.14" className="w-full h-full drop-shadow-xs overflow-visible">
+                            <defs>
+                              <linearGradient id={`grad-${item.id}`} x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stopColor={topColor} />
+                                <stop offset="100%" stopColor={botColor} />
+                              </linearGradient>
+                            </defs>
+                            <polygon
+                              points="24,0 72,0 96,41.57 72,83.14 24,83.14 0,41.57"
+                              fill={`url(#grad-${item.id})`}
+                              stroke="#0f172a"
+                              strokeWidth="2"
+                              className="transition-colors duration-200"
+                            />
+                          </svg>
+                        </div>
+
+                        <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180">
+                          <svg viewBox="0 0 96 83.14" className="w-full h-full drop-shadow-md overflow-visible">
+                            <polygon
+                              points="24,0 72,0 96,41.57 72,83.14 24,83.14 0,41.57"
+                              fill="#0f172a"
+                              stroke="#00a859"
+                              strokeWidth="2.5"
+                            />
+                          </svg>
+                          <div className="absolute inset-0 flex flex-col items-center justify-center p-1.5 text-center select-none pointer-events-none">
+                            <span className="text-[#8cf9a9] font-black text-[8px] uppercase tracking-wider leading-none">
+                              {item.abbr}
+                            </span>
+                            <span className="text-white font-extrabold text-[9px] sm:text-[10px] leading-tight mt-0.5 line-clamp-2 px-1">
+                              {item.title}
+                            </span>
+                            <span className="text-emerald-400 text-[7px] sm:text-[8px] font-semibold truncate max-w-[70px] mt-0.5">
+                              {item.cat}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <span className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-emerald-100 text-[#006b35] border border-emerald-200">
-                      Suscripción Oficial URP
-                    </span>
-                  </div>
+                  );
+                })}
 
-                  <h3 className="text-xl font-display font-extrabold text-slate-900 mb-2 group-hover:text-[#008744] transition-colors">
-                    BioDigital Human 3D
-                  </h3>
-
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
-                    Disección virtual tridimensional interactiva. Explora la anatomía humana, fisiopatología y estructuras neurovasculares en alta fidelidad.
-                  </p>
-                </div>
-
-                <div className="pt-3 border-t border-slate-100">
+                <div className="absolute left-[76%] top-[71%] -translate-y-1/2 select-none z-20">
                   <button
+                    type="button"
                     onClick={() => onNavigate('directory')}
-                    className="w-full py-2.5 px-4 rounded-xl bg-[#008744] hover:bg-[#00572b] text-white text-xs font-bold shadow-urp-brutal-green tactile-btn-green transition-all cursor-pointer flex items-center justify-center gap-1.5"
+                    className="inline-flex items-center gap-1.5 text-sm sm:text-base font-extrabold text-[#008744] hover:text-[#00572b] transition-all hover:translate-x-1 cursor-pointer group"
+                    title="Ver más recursos biomédicos"
                   >
-                    <span>Abrir BioDigital 3D</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              </div>
-
-              <div className="md:col-span-5 bg-white rounded-3xl border-2 border-slate-900 shadow-urp-brutal p-6 flex flex-col justify-between group">
-                <div>
-                  <div className="flex items-center justify-between gap-4 mb-4">
-                    <div className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-200 p-2 flex items-center justify-center shrink-0">
-                      <img
-                        src={getLogo('clinicalkeyespanol.png')}
-                        alt="ClinicalKey Logo"
-                        className="max-h-full max-w-full object-contain"
-                        onError={(e) => {
-                          const target = e.currentTarget;
-                          target.style.display = 'none';
-                          if (target.parentElement) {
-                            target.parentElement.innerHTML = '<span class="text-xs font-black text-[#008744] font-display">CK</span>';
-                          }
-                        }}
-                      />
-                    </div>
-                    <span className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-emerald-100 text-[#006b35] border border-emerald-200">
-                      Suscripción Oficial URP
-                    </span>
-                  </div>
-
-                  <h3 className="text-xl font-display font-extrabold text-slate-900 mb-2 group-hover:text-[#008744] transition-colors">
-                    ClinicalKey Español
-                  </h3>
-
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
-                    Colección médica completa de Elsevier: tratados de referencia médica, revistas biomédicas y material multimedia clínico.
-                  </p>
-                </div>
-
-                <div className="pt-3 border-t border-slate-100">
-                  <button
-                    onClick={() => onNavigate('directory')}
-                    className="w-full py-2.5 px-4 rounded-xl bg-[#008744] hover:bg-[#00572b] text-white text-xs font-bold shadow-urp-brutal-green tactile-btn-green transition-all cursor-pointer flex items-center justify-center gap-1.5"
-                  >
-                    <span>Consultar ClinicalKey</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              </div>
-
-              <div className="md:col-span-7 bg-white rounded-3xl border-2 border-slate-900 shadow-urp-brutal p-6 flex flex-col justify-between group">
-                <div>
-                  <div className="flex items-center justify-between gap-4 mb-4">
-                    <div className="w-14 h-14 rounded-2xl bg-slate-50 border border-slate-200 p-2 flex items-center justify-center shrink-0">
-                      <img
-                        src={getLogo('accessmedicina-espanol.png')}
-                        alt="AccessMedicina Logo"
-                        className="max-h-full max-w-full object-contain"
-                        onError={(e) => {
-                          const target = e.currentTarget;
-                          target.style.display = 'none';
-                          if (target.parentElement) {
-                            target.parentElement.innerHTML = '<span class="text-xs font-black text-[#008744] font-display">ACC</span>';
-                          }
-                        }}
-                      />
-                    </div>
-                    <span className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-emerald-100 text-[#006b35] border border-emerald-200">
-                      Suscripción Oficial URP
-                    </span>
-                  </div>
-
-                  <h3 className="text-xl font-display font-extrabold text-slate-900 mb-2 group-hover:text-[#008744] transition-colors">
-                    AccessMedicina McGraw-Hill
-                  </h3>
-
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
-                    Textos médicos indispensables de formación médica continua, casos clínicos interactivos de ciencias básicas y clínicas, y autoevaluaciones.
-                  </p>
-
-                  <div className="space-y-1.5 mb-5 text-xs text-slate-700">
-                    <div className="flex items-center gap-2 font-medium">
-                      <span className="text-[#008744] font-bold">✓</span>
-                      <span>Harrison Principios de Medicina Interna</span>
-                    </div>
-                    <div className="flex items-center gap-2 font-medium">
-                      <span className="text-[#008744] font-bold">✓</span>
-                      <span>Goodman &amp; Gilman: Farmacología Médica</span>
-                    </div>
-                    <div className="flex items-center gap-2 font-medium">
-                      <span className="text-[#008744] font-bold">✓</span>
-                      <span>Casos Clínicos &amp; Autoevaluaciones USMLE</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="pt-3 border-t border-slate-100">
-                  <button
-                    onClick={() => onNavigate('directory')}
-                    className="w-full py-2.5 px-4 rounded-xl bg-[#008744] hover:bg-[#00572b] text-white text-xs font-bold shadow-urp-brutal-green tactile-btn-green transition-all cursor-pointer flex items-center justify-center gap-1.5"
-                  >
-                    <span>Ingresar a AccessMedicina</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <span>Ver Más</span>
+                    <span className="text-lg sm:text-xl leading-none font-black text-[#008744] group-hover:translate-x-1 transition-transform">&gt;</span>
                   </button>
                 </div>
               </div>

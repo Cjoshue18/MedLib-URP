@@ -247,3 +247,28 @@ h1, h2, h3, h4, h5, h6 {
 .animate-marquee-scroll:hover {
   animation-play-state: paused;
 }
+
+.hex-clip {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+.hex-filter-shadow {
+  filter: drop-shadow(2px 3px 0px #0f172a);
+}
+
+.hex-filter-shadow-green {
+  filter: drop-shadow(3px 4px 0px #00572b);
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
