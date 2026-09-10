@@ -24,6 +24,20 @@ export interface BiomedicalDatabase {
   tags: string[];
 }
 
+/**
+ * Resuelve la URL del logo de la base de datos biomédica.
+ * Soporta buckets de almacenamiento en la nube (S3, Cloud Storage, etc.)
+ * para no almacenar archivos binarios dentro del repositorio git.
+ */
+export const getDatabaseLogoUrl = (logoFile?: string): string => {
+  if (!logoFile) return '';
+  const bucketUrl = (import.meta.env.VITE_LOGOS_BUCKET_URL as string) || '';
+  if (bucketUrl) {
+    return `${bucketUrl.replace(/\/$/, '')}/${logoFile}`;
+  }
+  return `/logos/${logoFile}`;
+};
+
 export const DATABASES_DATA: BiomedicalDatabase[] = [
   {
     "id": "clinicalkey-espanol",
@@ -32,7 +46,7 @@ export const DATABASES_DATA: BiomedicalDatabase[] = [
     "category": "Especializada",
     "accessType": "Suscripción URP",
     "logoFile": "clinicalkeyespanol.png",
-    "accessUrl": "https://intranet.urp.edu.pe",
+    "accessUrl": "https://test.urp.edu.pe/Intranet/",
     "isFeatured": true,
     "tutorialUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     "tags": [
@@ -49,7 +63,7 @@ export const DATABASES_DATA: BiomedicalDatabase[] = [
     "category": "Especializada",
     "accessType": "Suscripción URP",
     "logoFile": "clinicalkeystudent.png",
-    "accessUrl": "https://intranet.urp.edu.pe",
+    "accessUrl": "https://test.urp.edu.pe/Intranet/",
     "isFeatured": true,
     "tags": [
       "Pregrado",
@@ -65,7 +79,7 @@ export const DATABASES_DATA: BiomedicalDatabase[] = [
     "category": "Especializada",
     "accessType": "Suscripción URP",
     "logoFile": "accessmedicina-espanol.png",
-    "accessUrl": "https://intranet.urp.edu.pe",
+    "accessUrl": "https://test.urp.edu.pe/Intranet/",
     "isFeatured": true,
     "tags": [
       "McGraw-Hill",
@@ -81,7 +95,7 @@ export const DATABASES_DATA: BiomedicalDatabase[] = [
     "category": "Herramientas Clínicas",
     "accessType": "Suscripción URP",
     "logoFile": "dynamedex.png",
-    "accessUrl": "https://intranet.urp.edu.pe",
+    "accessUrl": "https://test.urp.edu.pe/Intranet/",
     "isFeatured": true,
     "tags": [
       "Point of Care",
@@ -97,7 +111,7 @@ export const DATABASES_DATA: BiomedicalDatabase[] = [
     "category": "Herramientas Clínicas",
     "accessType": "Suscripción URP",
     "logoFile": "bmjbestpractice.png",
-    "accessUrl": "https://intranet.urp.edu.pe",
+    "accessUrl": "https://test.urp.edu.pe/Intranet/",
     "isFeatured": true,
     "tags": [
       "BMJ",
@@ -112,7 +126,7 @@ export const DATABASES_DATA: BiomedicalDatabase[] = [
     "category": "Revistas y Libros",
     "accessType": "Suscripción URP",
     "logoFile": "britishmedicaljournal-thebmj.png",
-    "accessUrl": "https://intranet.urp.edu.pe",
+    "accessUrl": "https://test.urp.edu.pe/Intranet/",
     "isFeatured": true,
     "tags": [
       "Revistas Q1",
@@ -127,7 +141,7 @@ export const DATABASES_DATA: BiomedicalDatabase[] = [
     "category": "Revistas y Libros",
     "accessType": "Suscripción URP",
     "logoFile": "newenglandjournalofmedicine.png",
-    "accessUrl": "https://intranet.urp.edu.pe",
+    "accessUrl": "https://test.urp.edu.pe/Intranet/",
     "isFeatured": true,
     "tags": [
       "Impact Factor Líder",
@@ -142,7 +156,7 @@ export const DATABASES_DATA: BiomedicalDatabase[] = [
     "category": "Herramientas Clínicas",
     "accessType": "Suscripción URP",
     "logoFile": "5minuteconsult.png",
-    "accessUrl": "https://intranet.urp.edu.pe",
+    "accessUrl": "https://test.urp.edu.pe/Intranet/",
     "isFeatured": false,
     "tags": [
       "Urgencias",
@@ -157,7 +171,7 @@ export const DATABASES_DATA: BiomedicalDatabase[] = [
     "category": "Especializada",
     "accessType": "Suscripción URP",
     "logoFile": "healthlibraryclerkship.png",
-    "accessUrl": "https://intranet.urp.edu.pe",
+    "accessUrl": "https://test.urp.edu.pe/Intranet/",
     "isFeatured": false,
     "tags": [
       "Internado",
@@ -172,7 +186,7 @@ export const DATABASES_DATA: BiomedicalDatabase[] = [
     "category": "Especializada",
     "accessType": "Suscripción URP",
     "logoFile": "biodigital.png",
-    "accessUrl": "https://intranet.urp.edu.pe",
+    "accessUrl": "https://test.urp.edu.pe/Intranet/",
     "isFeatured": false,
     "tags": [
       "Anatomía 3D",
@@ -187,7 +201,7 @@ export const DATABASES_DATA: BiomedicalDatabase[] = [
     "category": "Multidisciplinaria",
     "accessType": "Suscripción URP",
     "logoFile": "scopus.png",
-    "accessUrl": "https://intranet.urp.edu.pe",
+    "accessUrl": "https://test.urp.edu.pe/Intranet/",
     "isFeatured": true,
     "tags": [
       "Bibliometría",
@@ -203,7 +217,7 @@ export const DATABASES_DATA: BiomedicalDatabase[] = [
     "category": "Multidisciplinaria",
     "accessType": "Suscripción URP",
     "logoFile": "sciencedirect.png",
-    "accessUrl": "https://intranet.urp.edu.pe",
+    "accessUrl": "https://test.urp.edu.pe/Intranet/",
     "isFeatured": true,
     "tags": [
       "Texto Completo",
@@ -218,7 +232,7 @@ export const DATABASES_DATA: BiomedicalDatabase[] = [
     "category": "Revistas y Libros",
     "accessType": "Suscripción URP",
     "logoFile": "nature.png",
-    "accessUrl": "https://intranet.urp.edu.pe",
+    "accessUrl": "https://test.urp.edu.pe/Intranet/",
     "isFeatured": false,
     "tags": [
       "Revista de Alto Impacto",
@@ -233,7 +247,7 @@ export const DATABASES_DATA: BiomedicalDatabase[] = [
     "category": "Multidisciplinaria",
     "accessType": "Suscripción URP",
     "logoFile": "springerlink.png",
-    "accessUrl": "https://intranet.urp.edu.pe",
+    "accessUrl": "https://test.urp.edu.pe/Intranet/",
     "isFeatured": false,
     "tags": [
       "Springer",
@@ -248,7 +262,7 @@ export const DATABASES_DATA: BiomedicalDatabase[] = [
     "category": "Revistas y Libros",
     "accessType": "Suscripción URP",
     "logoFile": "springerjournals.png",
-    "accessUrl": "https://intranet.urp.edu.pe",
+    "accessUrl": "https://test.urp.edu.pe/Intranet/",
     "isFeatured": false,
     "tags": [
       "Oncología",
@@ -263,7 +277,7 @@ export const DATABASES_DATA: BiomedicalDatabase[] = [
     "category": "Revistas y Libros",
     "accessType": "Suscripción URP",
     "logoFile": "ebooksdeovid.jpg",
-    "accessUrl": "https://intranet.urp.edu.pe",
+    "accessUrl": "https://test.urp.edu.pe/Intranet/",
     "isFeatured": false,
     "tags": [
       "Bates Semiología",
@@ -278,7 +292,7 @@ export const DATABASES_DATA: BiomedicalDatabase[] = [
     "category": "Revistas y Libros",
     "accessType": "Suscripción URP",
     "logoFile": "revistasovid.jpg",
-    "accessUrl": "https://intranet.urp.edu.pe",
+    "accessUrl": "https://test.urp.edu.pe/Intranet/",
     "isFeatured": false,
     "tags": [
       "Cuidados Intensivos",

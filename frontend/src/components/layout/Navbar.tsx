@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import headerLogo from '../../assets/logo-header.webp';
 
 interface NavbarProps {
   currentView: 'home' | 'directory' | 'conferences' | 'lost-found';
@@ -11,14 +12,16 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
   return (
     <header className="bg-[#111827] shadow-md sticky top-0 z-50 w-full">
       <div className="flex justify-between items-center w-full px-6 max-w-[1280px] mx-auto h-20">
-        {/* Brand */}
-        <button 
+        {/* Brand with official URP logo */}
+        <button
           onClick={() => { onNavigate('home'); setMobileMenuOpen(false); }}
           className="flex items-center gap-3 text-left focus:outline-none group cursor-pointer"
         >
-          <span className="material-symbols-outlined text-primary text-3xl transition-transform group-hover:scale-105">
-            local_library
-          </span>
+          <img
+            src={headerLogo}
+            alt="Logo Universidad Ricardo Palma"
+            className="w-11 h-11 object-contain rounded-full shadow-md group-hover:scale-105 transition-transform"
+          />
           <span className="font-headline-md text-headline-md font-bold text-white tracking-tight">
             MedLib-URP
           </span>
@@ -28,31 +31,28 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
         <nav className="hidden md:flex items-center gap-8">
           <button
             onClick={() => onNavigate('directory')}
-            className={`font-label-md text-label-md transition-colors duration-200 cursor-pointer ${
-              currentView === 'directory'
+            className={`font-label-md text-label-md transition-colors duration-200 cursor-pointer ${currentView === 'directory'
                 ? 'text-primary border-b-2 border-primary pb-1 font-semibold'
                 : 'text-white/80 hover:text-white hover:text-primary'
-            }`}
+              }`}
           >
             Directorio Biomédico
           </button>
           <button
             onClick={() => onNavigate('conferences')}
-            className={`font-label-md text-label-md transition-colors duration-200 cursor-pointer ${
-              currentView === 'conferences'
+            className={`font-label-md text-label-md transition-colors duration-200 cursor-pointer ${currentView === 'conferences'
                 ? 'text-primary border-b-2 border-primary pb-1 font-semibold'
                 : 'text-white/80 hover:text-white hover:text-primary'
-            }`}
+              }`}
           >
             Conferencias &amp; ALFIN
           </button>
           <button
             onClick={() => onNavigate('lost-found')}
-            className={`font-label-md text-label-md transition-colors duration-200 cursor-pointer ${
-              currentView === 'lost-found'
+            className={`font-label-md text-label-md transition-colors duration-200 cursor-pointer ${currentView === 'lost-found'
                 ? 'text-primary border-b-2 border-primary pb-1 font-semibold'
                 : 'text-white/80 hover:text-white hover:text-primary'
-            }`}
+              }`}
           >
             Objetos Perdidos
           </button>
@@ -68,7 +68,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
 
         {/* Actions */}
         <div className="flex items-center gap-4">
-          <button 
+          <button
             onClick={() => onNavigate('directory')}
             className="text-white/80 hover:text-white transition-colors duration-200 flex items-center justify-center w-10 h-10 rounded-full hover:bg-white/10 cursor-pointer"
             title="Buscar en el catálogo"
@@ -78,7 +78,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
 
           {/* RN-04: Button to Intranet URP */}
           <a
-            href="https://intranet.urp.edu.pe"
+            href="https://test.urp.edu.pe/Intranet/"
             target="_blank"
             rel="noreferrer"
             className="hidden md:flex bg-primary-container text-white px-6 py-2 rounded-full font-label-md text-label-md hover:bg-surface-tint transition-colors items-center gap-1 shadow-sm font-semibold"
@@ -87,7 +87,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
           </a>
 
           {/* Mobile Hamburger */}
-          <button 
+          <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="md:hidden text-white/80 hover:text-white flex items-center justify-center w-10 h-10 rounded-full hover:bg-white/10 cursor-pointer"
             aria-label="Toggle Menu"
@@ -127,7 +127,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
             Objetos Perdidos
           </button>
           <a
-            href="https://biblioteca.urp.edu.pe/abnopac/abnetcl.exe/OUPRkTEemSX5fzUCA6ikVwrO3fz?ACC=101"
+            href="https://biblioteca.urp.edu.pe/abnopac/"
             target="_blank"
             rel="noreferrer"
             className="block py-2 font-label-md text-white/90 hover:text-white"
@@ -136,7 +136,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
           </a>
           <div className="pt-2 border-t border-slate-700">
             <a
-              href="https://intranet.urp.edu.pe"
+              href="https://test.urp.edu.pe/Intranet/"
               target="_blank"
               rel="noreferrer"
               className="flex justify-center bg-primary-container text-white px-6 py-2.5 rounded-full font-label-md text-center hover:bg-surface-tint transition-colors font-semibold"

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { ChevronUp } from 'lucide-react';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { HomePage } from './pages/HomePage';
@@ -10,6 +11,7 @@ export type AppView = 'home' | 'directory' | 'conferences' | 'lost-found';
 
 export const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<AppView>('home');
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
   // Sync with window.location.hash
   useEffect(() => {
@@ -34,6 +36,26 @@ export const App: React.FC = () => {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
+  // Monitor scroll position for floating scroll-to-top button
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 350) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
   const navigateTo = (view: AppView) => {
     setCurrentView(view);
     if (view === 'home') window.location.hash = '#inicio';
@@ -45,10 +67,10 @@ export const App: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-on-background font-body-md antialiased selection:bg-primary-fixed selection:text-on-primary-fixed">
-      {/* Top Navbar matching Stitch */}
+      {/* Top Navbar */}
       <Navbar currentView={currentView} onNavigate={navigateTo} />
 
-      {/* Dynamic View rendering adhering to Stitch multi-page architecture */}
+      {/* Dynamic View rendering */}
       <div className="flex-grow">
         {currentView === 'home' && <HomePage onNavigate={navigateTo} />}
         {currentView === 'directory' && <DirectoryPage />}
@@ -56,10 +78,24 @@ export const App: React.FC = () => {
         {currentView === 'lost-found' && <LostFoundPage />}
       </div>
 
-      {/* Institutional Footer matching Stitch */}
+      {/* Institutional Footer */}
       <Footer />
+
+      {/* Floating Scroll to Top Button (circulito en la esquina inferior derecha con paneo suave) */}
+      {showScrollTop && (
+        <button
+          type="button"
+          onClick={scrollToTop}
+          className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-[#008744] hover:bg-[#006b35] text-white shadow-urp-brutal-green tactile-btn-green flex items-center justify-center transition-all duration-300 cursor-pointer animate-in fade-in zoom-in-95 group"
+          title="Regresar al inicio"
+          aria-label="Regresar al inicio"
+        >
+          <ChevronUp className="w-6 h-6 group-hover:-translate-y-0.5 transition-transform" />
+        </button>
+      )}
     </div>
   );
 };
 
 export default App;
+
