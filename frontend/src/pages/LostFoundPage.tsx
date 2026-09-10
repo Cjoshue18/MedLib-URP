@@ -3,7 +3,6 @@ import React from 'react';
 export const LostFoundPage: React.FC = () => {
   return (
     <main className="flex-grow w-full px-6 max-w-[1280px] mx-auto py-10">
-      {/* Page Header matching Stitch */}
       <div className="mb-8 border-b border-border-subtle pb-4">
         <h1 className="font-headline-lg-mobile md:font-headline-lg text-text-slate flex items-center gap-3">
           <span className="material-symbols-outlined text-primary-container" style={{ fontSize: '32px' }}>
@@ -13,9 +12,7 @@ export const LostFoundPage: React.FC = () => {
         </h1>
       </div>
 
-      {/* Two Column Layout (Stitch exact layout) */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-        {/* Left Column: Objetos Perdidos */}
         <section className="flex flex-col gap-4">
           <div className="mb-2">
             <h2 className="font-title-lg text-title-lg text-text-slate flex items-center gap-2">
@@ -26,7 +23,6 @@ export const LostFoundPage: React.FC = () => {
             </p>
           </div>
 
-          {/* Lost Item Card (Exact Stitch specification) */}
           <div className="bg-surface-card border border-border-subtle rounded-xl p-6 hover:border-primary-container hover:shadow-lg transition-all duration-200 flex flex-col gap-4">
             <div className="flex gap-6 flex-col sm:flex-row">
               <div className="w-full sm:w-1/3 aspect-square bg-surface-container-low rounded-lg flex items-center justify-center overflow-hidden border border-border-subtle flex-shrink-0">
@@ -64,7 +60,6 @@ export const LostFoundPage: React.FC = () => {
           </div>
         </section>
 
-        {/* Right Column: Instagram */}
         <section className="flex flex-col gap-4">
           <div className="mb-2">
             <h2 className="font-title-lg text-title-lg text-text-slate flex items-center gap-2">
@@ -76,9 +71,7 @@ export const LostFoundPage: React.FC = () => {
             </p>
           </div>
 
-          {/* Instagram Grid (Exact Stitch 3-post grid) */}
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-            {/* Post 1 */}
             <a 
               className="group block relative aspect-square bg-surface-container-low rounded-lg overflow-hidden border border-border-subtle hover:border-primary-container transition-colors" 
               href="https://instagram.com" 
@@ -95,7 +88,6 @@ export const LostFoundPage: React.FC = () => {
               </div>
             </a>
 
-            {/* Post 2 */}
             <a 
               className="group block relative aspect-square bg-surface-container-low rounded-lg overflow-hidden border border-border-subtle hover:border-primary-container transition-colors" 
               href="https://instagram.com" 
@@ -112,7 +104,6 @@ export const LostFoundPage: React.FC = () => {
               </div>
             </a>
 
-            {/* Post 3 */}
             <a 
               className="group block relative aspect-square bg-surface-container-low rounded-lg overflow-hidden border border-border-subtle hover:border-primary-container transition-colors hidden sm:block" 
               href="https://instagram.com" 

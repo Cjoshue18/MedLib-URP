@@ -12,7 +12,6 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
   return (
     <header className="bg-[#111827] shadow-md sticky top-0 z-50 w-full">
       <div className="flex justify-between items-center w-full px-6 max-w-[1280px] mx-auto h-20">
-        {/* Brand with official URP logo (El logo redirige a urp.edu.pe, el título navega a home) */}
         <div className="flex items-center gap-3">
           <a
             href="https://www.urp.edu.pe/"
@@ -39,7 +38,6 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
           </button>
         </div>
 
-        {/* Navigation Links */}
         <nav className="hidden md:flex items-center gap-8">
           <button
             onClick={() => onNavigate('directory')}
@@ -78,7 +76,6 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
           </a>
         </nav>
 
-        {/* Actions */}
         <div className="flex items-center gap-4">
           <button
             onClick={() => onNavigate('directory')}
@@ -88,7 +85,6 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
             <span className="material-symbols-outlined text-2xl">search</span>
           </button>
 
-          {/* RN-04: Button to Intranet URP */}
           <a
             href="https://test.urp.edu.pe/Intranet/"
             target="_blank"
@@ -98,7 +94,6 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
             INTRANET URP
           </a>
 
-          {/* Mobile Hamburger */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="md:hidden text-white/80 hover:text-white flex items-center justify-center w-10 h-10 rounded-full hover:bg-white/10 cursor-pointer"
@@ -111,7 +106,6 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
         </div>
       </div>
 
-      {/* Mobile Dropdown */}
       {mobileMenuOpen && (
         <div className="md:hidden bg-[#1f2937] border-t border-slate-700 px-6 py-4 space-y-3">
           <button

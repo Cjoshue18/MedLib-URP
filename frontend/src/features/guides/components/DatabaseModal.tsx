@@ -19,7 +19,6 @@ export const DatabaseModal: React.FC<DatabaseModalProps> = ({ database, onClose 
         className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-100 animate-scaleUp"
         role="dialog"
       >
-        {/* Modal Header */}
         <div className="p-6 sm:p-8 border-b border-slate-100 flex items-start justify-between gap-4 bg-gradient-to-br from-slate-50 to-white">
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 rounded-2xl bg-white border border-slate-200/80 shadow-sm flex items-center justify-center p-2.5 shrink-0">
@@ -54,7 +53,6 @@ export const DatabaseModal: React.FC<DatabaseModalProps> = ({ database, onClose 
           </button>
         </div>
 
-        {/* Modal Body */}
         <div className="p-6 sm:p-8 space-y-6 text-sm text-slate-700">
           <div>
             <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 font-display">
@@ -65,7 +63,6 @@ export const DatabaseModal: React.FC<DatabaseModalProps> = ({ database, onClose 
             </p>
           </div>
 
-          {/* Step by step access instructions */}
           <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-5 space-y-3">
             <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2 font-display">
               <ShieldCheck className="w-4 h-4 text-urp-700" />
@@ -95,7 +92,6 @@ export const DatabaseModal: React.FC<DatabaseModalProps> = ({ database, onClose 
             </div>
           </div>
 
-          {/* Tags */}
           <div>
             <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 font-display">
               Temas y Especialidades Cubiertas
@@ -110,7 +106,6 @@ export const DatabaseModal: React.FC<DatabaseModalProps> = ({ database, onClose 
           </div>
         </div>
 
-        {/* Modal Footer */}
         <div className="p-6 sm:p-8 bg-slate-50 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3">
           <button
             onClick={onClose}

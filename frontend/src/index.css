@@ -2,7 +2,6 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-
 :root {
   --primary: #006b35;
   --primary-container: #008744;
@@ -29,9 +28,8 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
-/* Material Symbols configuration */
 .material-symbols-outlined {
-  font-family: 'Material Symbols Outlined' !important;
+  font-family: 'Material Symbols Outlined';
   font-weight: normal;
   font-style: normal;
   font-size: 24px;
@@ -48,7 +46,6 @@ h1, h2, h3, h4, h5, h6 {
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
 
-/* Typography classes matching Stitch exactly */
 .font-display-lg {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 48px;
@@ -138,64 +135,6 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 500;
 }
 
-/* Stitch Exact Colors Guarantee */
-.bg-primary-container {
-  background-color: #008744 !important;
-}
-
-.text-primary-container {
-  color: #008744 !important;
-}
-
-.border-primary-container {
-  border-color: #008744 !important;
-}
-
-.bg-primary {
-  background-color: #006b35 !important;
-}
-
-.text-primary {
-  color: #008744 !important;
-}
-
-.text-primary-fixed {
-  color: #8cf9a9 !important;
-}
-
-.bg-primary-fixed {
-  background-color: #8cf9a9 !important;
-}
-
-.bg-surface-card {
-  background-color: #ffffff !important;
-}
-
-.bg-surface-container-low {
-  background-color: #f2f4f6 !important;
-}
-
-.bg-surface-container-lowest {
-  background-color: #ffffff !important;
-}
-
-.bg-surface-dim {
-  background-color: #d8dadc !important;
-}
-
-.border-border-subtle {
-  border-color: #e2e8f0 !important;
-}
-
-.text-text-slate {
-  color: #1e293b !important;
-}
-
-.text-secondary {
-  color: #575e70 !important;
-}
-
-/* Anti-AI & URP Screen Craft utilities */
 .rounded-urp-card {
   border-radius: 36px 14px 36px 14px;
 }
@@ -244,7 +183,6 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0px 0px 0px #00572b;
 }
 
-/* Subtle dot/grid background for depth */
 .bg-grid-pattern {
   background-image: radial-gradient(rgba(15, 23, 42, 0.08) 1px, transparent 1px);
   background-size: 20px 20px;
@@ -255,7 +193,6 @@ h1, h2, h3, h4, h5, h6 {
   background-size: 24px 24px;
 }
 
-/* Paneo de cámara: Haz blanco constante que barre continuamente a velocidad media sobre el texto verde URP */
 @keyframes camera-pan-sweep {
   0% {
     background-position: -200% center;
@@ -283,7 +220,6 @@ h1, h2, h3, h4, h5, h6 {
   display: inline-block;
 }
 
-/* Tipografías Cursivas / Letra Escrita a Mano (Anti-robótico) */
 .font-handwriting {
   font-family: 'Caveat', cursive, sans-serif;
 }
@@ -292,7 +228,6 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Dancing Script', cursive, sans-serif;
 }
 
-/* Carrusel de Texto Infinito (Paneo horizontal suave de derecha a izquierda) */
 @keyframes marquee-horizontal {
   0% {
     transform: translateX(0%);
@@ -311,5 +246,3 @@ h1, h2, h3, h4, h5, h6 {
 .animate-marquee-scroll:hover {
   animation-play-state: paused;
 }
-
-

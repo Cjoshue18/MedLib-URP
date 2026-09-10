@@ -6,7 +6,6 @@ export const DirectoryPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDb, setSelectedDb] = useState<BiomedicalDatabase>(DATABASES_DATA[0]);
 
-  // Filter databases
   const filteredDbs = DATABASES_DATA.filter((db) => {
     const matchesSearch = 
       db.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -23,7 +22,6 @@ export const DirectoryPage: React.FC = () => {
 
   return (
     <main className="flex-grow w-full max-w-[1280px] mx-auto px-6 py-8 flex flex-col gap-6">
-      {/* Filter Navigation Tabs (Stitch exact layout) */}
       <div className="border-b border-border-subtle">
         <nav aria-label="Tabs" className="flex gap-8 overflow-x-auto pb-3">
           <button
@@ -69,7 +67,6 @@ export const DirectoryPage: React.FC = () => {
         </nav>
       </div>
 
-      {/* Search Bar */}
       <div className="relative w-full max-w-3xl mx-auto my-2">
         <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
           <span className="material-symbols-outlined text-slate-400 text-2xl">search</span>
@@ -89,11 +86,8 @@ export const DirectoryPage: React.FC = () => {
         </button>
       </div>
 
-      {/* Content Grid (Side-by-Side as in Stitch) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 bg-surface-card p-6 rounded-xl shadow-sm border border-border-subtle">
-        {/* Left Sidebar: Active Resource Detail & Video */}
         <aside className="lg:col-span-5 xl:col-span-4 flex flex-col gap-6">
-          {/* Active Subject Pill */}
           <div className="bg-surface-container-low border-2 border-primary-container rounded-lg p-4 flex justify-between items-center transition-all duration-200">
             <span className="font-label-md text-primary-container font-semibold truncate mr-2 text-base">
               {selectedDb.title}
@@ -103,7 +97,6 @@ export const DirectoryPage: React.FC = () => {
             </span>
           </div>
 
-          {/* Detailed Preview Card */}
           <div className="bg-white border border-border-subtle rounded-xl p-5 shadow-sm flex flex-col gap-4">
             <div className="border-b border-border-subtle pb-3">
               <span className="font-title-lg text-slate-800 font-semibold">
@@ -111,7 +104,6 @@ export const DirectoryPage: React.FC = () => {
               </span>
             </div>
 
-            {/* Logo box */}
             <div className="flex justify-center items-center h-20 p-3 bg-slate-50 border border-slate-100 rounded-lg">
               <img 
                 src={selectedLogoSrc} 
@@ -120,7 +112,6 @@ export const DirectoryPage: React.FC = () => {
               />
             </div>
 
-            {/* Tags */}
             <div className="flex gap-2 flex-wrap">
               {selectedDb.tags.map((tag, idx) => (
                 <span 
@@ -132,19 +123,16 @@ export const DirectoryPage: React.FC = () => {
               ))}
             </div>
 
-            {/* Description */}
             <p className="font-body-md text-slate-700 text-sm leading-relaxed">
               {selectedDb.description}
             </p>
 
-            {/* Bullet points */}
             <ul className="list-disc list-inside text-xs text-slate-600 flex flex-col gap-1.5">
               <li>Modalidad de Acceso: <strong className="text-slate-800">{selectedDb.accessType}</strong></li>
               <li>Categoría Temática: <strong className="text-slate-800">{selectedDb.category}</strong></li>
               <li>Soporte Institucional URP Facultad de Medicina</li>
             </ul>
 
-            {/* Launch Button (RN-04 Compliance) */}
             <a
               href={selectedDb.accessUrl}
               target="_blank"
@@ -156,7 +144,6 @@ export const DirectoryPage: React.FC = () => {
             </a>
           </div>
 
-          {/* Video Tutorial Card */}
           <div className="bg-white border border-border-subtle rounded-xl overflow-hidden shadow-sm">
             <div 
               className="bg-cover bg-center w-full h-44 relative"
@@ -186,7 +173,6 @@ export const DirectoryPage: React.FC = () => {
           </div>
         </aside>
 
-        {/* Right Side: Database Grid */}
         <section className="lg:col-span-7 xl:col-span-8 flex flex-col gap-4">
           <div className="flex justify-between items-center border-b border-border-subtle pb-3">
             <span className="font-title-lg text-slate-800 font-semibold">
