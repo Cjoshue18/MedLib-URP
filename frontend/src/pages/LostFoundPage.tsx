@@ -1,136 +1,192 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { 
+  MapPin, 
+  Calendar, 
+  ShieldCheck, 
+  Info, 
+  Package, 
+  AlertCircle
+} from 'lucide-react';
+import { InstagramIcon } from '../components/common/InstagramIcon';
 
 export const LostFoundPage: React.FC = () => {
+  useEffect(() => {
+    const existingScript = document.querySelector('script[src="https://elfsightcdn.com/platform.js"]');
+    if (!existingScript) {
+      const script = document.createElement('script');
+      script.src = 'https://elfsightcdn.com/platform.js';
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  }, []);
+
+  const lostItems = [
+    {
+      id: 'lost-1',
+      title: 'Estuche de disección negro con instrumental quirúrgico',
+      location: 'Mesa 4 — Sala de Lectura de Libros',
+      date: '20 de Agosto, 2026',
+      imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBVy8k5krBimW03Z7yv_lJAstUZ40bSmjN4c-aN9j_5VPG6735hD7gcrO3fAQtururStUswR4oNLoM7eI7U5vDRLt4-fdvP3IEc-iPN7_h5yToqfBFr1sGkAWZqz7P0NUZaSJ2H3Ut2AhYarRb-_Hvoo7_y3u_y2wcnNSP33wa0XyV4Q51MJatWruVooDFUXZJRLWrszWfDQvOUVevdVEdrUMBvJLgImhhrdm8zq_yAdgvkosswZyA',
+      status: 'En Custodia',
+      notes: 'Hallado durante la ronda de cierre nocturna en sala general.'
+    },
+    {
+      id: 'lost-2',
+      title: 'Estetoscopio Littmann Classic III azul marino',
+      location: 'Cubículo de Estudio Grupal 2 — Piso 4',
+      date: '28 de Agosto, 2026',
+      imageUrl: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=600&q=80',
+      status: 'En Custodia',
+      notes: 'Olvidado sobre la mesa de discusión clínica de internos.'
+    },
+    {
+      id: 'lost-3',
+      title: 'Cuaderno espiralado y compendio de Farmacología',
+      location: 'Sala Multimedia & Hemeroteca',
+      date: '02 de Septiembre, 2026',
+      imageUrl: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=600&q=80',
+      status: 'En Custodia',
+      notes: 'Contiene apuntes manuscritos de dosificación y terapéutica médica.'
+    },
+    {
+      id: 'lost-4',
+      title: 'Calculadora científica Casio fx-991LA Plus',
+      location: 'Laboratorio de Cómputo B',
+      date: '05 de Septiembre, 2026',
+      imageUrl: 'https://images.unsplash.com/photo-1594980596870-8aa52a78d8cd?auto=format&fit=crop&w=600&q=80',
+      status: 'En Custodia',
+      notes: 'Dejada junto a la terminal 12 tras el examen de bioestadística.'
+    }
+  ];
+
   return (
-    <main className="flex-grow w-full px-6 max-w-[1280px] mx-auto py-10">
-      <div className="mb-8 border-b border-border-subtle pb-4">
-        <h1 className="font-headline-lg-mobile md:font-headline-lg text-text-slate flex items-center gap-3">
-          <span className="material-symbols-outlined text-primary-container" style={{ fontSize: '32px' }}>
-            account_balance
-          </span>
-          COMUNIDAD Y SERVICIOS DE BIBLIOTECA FAMURP
-        </h1>
-      </div>
+    <div className="w-full pb-20">
+      <section className="bg-slate-50 border-b-2 border-slate-900 py-10 sm:py-12">
+        <div className="max-w-[1280px] mx-auto px-6">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-[#008744] text-white text-xs font-extrabold uppercase tracking-wider shadow-sm mb-3">
+            <Package className="w-3.5 h-3.5 text-white" />
+            <span>Custodia &amp; Hallazgos en Sala</span>
+          </div>
+          <h1 className="text-2xl sm:text-4xl font-display font-extrabold text-slate-900 tracking-tight">
+            Objetos Perdidos en Biblioteca
+          </h1>
+          <p className="text-sm sm:text-base text-slate-600 max-w-3xl mt-2 leading-relaxed">
+            Pertenencias recuperadas en salas de lectura, cubículos y laboratorios de la Facultad de Medicina Humana. Reclamo presencial presentando tu carné institucional URP en la recepción de mostrador.
+          </p>
+        </div>
+      </section>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-        <section className="flex flex-col gap-4">
-          <div className="mb-2">
-            <h2 className="font-title-lg text-title-lg text-text-slate flex items-center gap-2">
-              <span>📦</span> OBJETOS PERDIDOS EN SALA
-            </h2>
-            <p className="font-body-md text-secondary mt-1">
-              Pertenencias bajo custodia en mostrador
-            </p>
+      <main className="max-w-[1280px] mx-auto px-6 pt-10">
+        <div className="flex flex-col gap-12">
+          <div>
+            <div className="flex items-center justify-between border-b border-slate-200 pb-3 mb-6">
+              <div>
+                <h2 className="text-xl sm:text-2xl font-display font-extrabold text-slate-900">
+                  Publicaciones de Objetos Bajo Custodia
+                </h2>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Actualizado diariamente por el personal de sala FAMURP
+                </p>
+              </div>
+              <div className="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-bold text-[#008744]">
+                <ShieldCheck className="w-4 h-4" />
+                <span>Custodia Segura en Mostrador</span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {lostItems.map((item) => (
+                <div 
+                  key={item.id}
+                  className="bg-white rounded-2xl border-2 border-slate-900 shadow-urp-brutal-sm hover:translate-x-0.5 hover:-translate-y-0.5 transition-all overflow-hidden flex flex-col group"
+                >
+                  <div className="p-3 border-b border-slate-100 flex items-center justify-between bg-slate-50/70">
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-amber-500 to-rose-600 flex items-center justify-center text-white text-[10px]">
+                        <InstagramIcon className="w-3.5 h-3.5" />
+                      </div>
+                      <span className="text-xs font-bold text-slate-800">bib_famurp</span>
+                    </div>
+                    <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-[#008744] text-white">
+                      {item.status}
+                    </span>
+                  </div>
+
+                  <div className="relative aspect-square w-full overflow-hidden bg-slate-100 border-b border-slate-200">
+                    <img 
+                      src={item.imageUrl} 
+                      alt={item.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+
+                  <div className="p-4 flex-1 flex flex-col justify-between">
+                    <div>
+                      <h3 className="font-display font-extrabold text-slate-900 text-sm mb-3 leading-snug line-clamp-2">
+                        {item.title}
+                      </h3>
+
+                      <ul className="space-y-2 text-xs text-slate-600 mb-4">
+                        <li className="flex items-start gap-1.5">
+                          <MapPin className="w-3.5 h-3.5 text-[#008744] shrink-0 mt-0.5" />
+                          <span className="line-clamp-1">{item.location}</span>
+                        </li>
+                        <li className="flex items-center gap-1.5">
+                          <Calendar className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                          <span>{item.date}</span>
+                        </li>
+                      </ul>
+
+                      <p className="text-[11px] text-slate-500 bg-slate-50 p-2.5 rounded-xl border border-slate-200 leading-relaxed mb-4">
+                        {item.notes}
+                      </p>
+                    </div>
+
+                    <button 
+                      onClick={() => alert(`Para reclamar "${item.title}": Acércate al mostrador de la Biblioteca de Medicina (Piso 4) portando tu carné universitario URP.`)}
+                      className="w-full py-2 px-3 rounded-xl border-2 border-slate-900 font-bold text-xs text-slate-900 hover:bg-slate-900 hover:text-white transition-all shadow-urp-brutal-sm tactile-btn cursor-pointer flex items-center justify-center gap-1.5"
+                    >
+                      <Info className="w-3.5 h-3.5" />
+                      <span>Reclamar en Mostrador</span>
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6 p-4 rounded-2xl bg-amber-50 border-2 border-amber-200 flex items-center gap-3 text-xs text-amber-900 font-semibold">
+              <AlertCircle className="w-5 h-5 text-amber-600 shrink-0" />
+              <span>
+                Nota: Todo objeto hallado permanece bajo custodia en recepción durante un plazo máximo de 30 días hábiles conforme al reglamento de biblioteca URP.
+              </span>
+            </div>
           </div>
 
-          <div className="bg-surface-card border border-border-subtle rounded-xl p-6 hover:border-primary-container hover:shadow-lg transition-all duration-200 flex flex-col gap-4">
-            <div className="flex gap-6 flex-col sm:flex-row">
-              <div className="w-full sm:w-1/3 aspect-square bg-surface-container-low rounded-lg flex items-center justify-center overflow-hidden border border-border-subtle flex-shrink-0">
-                <img 
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVy8k5krBimW03Z7yv_lJAstUZ40bSmjN4c-aN9j_5VPG6735hD7gcrO3fAQtururStUswR4oNLoM7eI7U5vDRLt4-fdvP3IEc-iPN7_h5yToqfBFr1sGkAWZqz7P0NUZaSJ2H3Ut2AhYarRb-_Hvoo7_y3u_y2wcnNSP33wa0XyV4Q51MJatWruVooDFUXZJRLWrszWfDQvOUVevdVEdrUMBvJLgImhhrdm8zq_yAdgvkosswZyA" 
-                  alt="Estuche de disección negro" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="flex-1 flex flex-col justify-center gap-2">
-                <h3 className="font-label-md text-text-slate text-xl font-bold">
-                  Estuche de disección negro
+          <section>
+            <div className="bg-white rounded-3xl border-2 border-slate-900 shadow-urp-brutal p-6 sm:p-8">
+              <div className="mb-6 border-b border-slate-200 pb-4">
+                <span className="text-[11px] font-bold text-[#008744] uppercase tracking-wider block">
+                  COMUNIDAD MÉDICA &amp; ACTIVIDADES
+                </span>
+                <h3 className="text-xl sm:text-2xl font-display font-extrabold text-slate-900">
+                  @bib_famurp en Instagram
                 </h3>
-                <ul className="flex flex-col gap-2 mt-2">
-                  <li className="flex items-center gap-2 font-body-md text-secondary text-sm">
-                    <span className="material-symbols-outlined text-primary-container text-lg">location_on</span>
-                    Mesa 4 - Sala de Lectura Libros
-                  </li>
-                  <li className="flex items-center gap-2 font-body-md text-secondary text-sm">
-                    <span className="material-symbols-outlined text-primary-container text-lg">calendar_month</span>
-                    Hallado: 20 de Agosto
-                  </li>
-                  <li className="flex items-center gap-2 font-label-md text-text-slate text-sm font-semibold mt-1">
-                    <span className="material-symbols-outlined text-[#0284c7] text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>sell</span>
-                    Estado: En Custodia (Reclamar)
-                  </li>
-                </ul>
+                <p className="text-xs text-slate-500 mt-1">
+                  Sigue nuestras publicaciones en vivo para avisos inmediatos de objetos encontrados, horarios y servicios.
+                </p>
               </div>
+
+              <div className="w-full px-2 sm:px-8 py-2 overflow-visible min-h-[340px]">
+                <div className="elfsight-app-437cd9ca-7bc2-447c-9b36-5e9c7350b63f" data-elfsight-app-lazy></div>
+              </div>
+
+              <p className="text-xs text-slate-500 mt-4">
+                Publicaciones sincronizadas en tiempo real desde la cuenta oficial de la Biblioteca de Medicina Humana URP.
+              </p>
             </div>
-
-            <div className="bg-[#0284c7]/10 text-[#0284c7] rounded-lg p-3.5 flex items-center gap-2 border border-[#0284c7]/20">
-              <span className="material-symbols-outlined text-lg">info</span>
-              <span className="font-caption text-sm font-medium">Reclámalo en recepción con tu carné.</span>
-            </div>
-          </div>
-        </section>
-
-        <section className="flex flex-col gap-4">
-          <div className="mb-2">
-            <h2 className="font-title-lg text-title-lg text-text-slate flex items-center gap-2">
-              <span className="material-symbols-outlined text-2xl">photo_camera</span>
-              SÍGUENOS EN INSTAGRAM (@famurp.biblioteca)
-            </h2>
-            <p className="font-body-md text-secondary mt-1">
-              Novedades, tips de búsqueda y eventos
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-            <a 
-              className="group block relative aspect-square bg-surface-container-low rounded-lg overflow-hidden border border-border-subtle hover:border-primary-container transition-colors" 
-              href="https://instagram.com" 
-              target="_blank" 
-              rel="noreferrer"
-            >
-              <img 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFZtyMAFbJzZAKcaoAJtauXVMRKojLKsmHfQ83SsTLUHAuUJVa3EToToempkBO8H-ulaUc88vSvVv_3dUSwVGebgP4CvQKgR7OLCf6UEfgiJphT2nvFNv4s5Wr8qaUMUh6uSta1_HffoFP4ODGCxMr4BxxxhRZ7EjGwgSmjSvKxozSp_EGMEbtGBS4M-pub7c2t_hSTALF25q_vHlt7kO3zApeGmErjDkpDyTsZsYPZMhxu67tqJc" 
-                alt="Tips PubMed" 
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-2 text-center">
-                <span className="text-white font-label-md text-sm font-semibold drop-shadow-md">Tips PubMed</span>
-              </div>
-            </a>
-
-            <a 
-              className="group block relative aspect-square bg-surface-container-low rounded-lg overflow-hidden border border-border-subtle hover:border-primary-container transition-colors" 
-              href="https://instagram.com" 
-              target="_blank" 
-              rel="noreferrer"
-            >
-              <img 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5hUXxyb5mta11r1OYcNfZZL38qbptAE2T482UJC7Oi2GiNgFN8_jUyWf24xWjsRLpRQdG399aPQGqxKqgyYGPq5HNVXsWpyImqT_HkIqBnbBwhAD7ieE7yAKco-qQgy17ULTRlBFcxXvrqySpJP-rXxtOtQbs-_4_iKNg0s5a8lMckVKLMNXk91M_l-U23v3ZtDuSHYF3VezqZZsB9_UoGxUGVUhSKZH9Nk5Nxp3tKH5Mch44NnY" 
-                alt="Taller ALFIN" 
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-2 text-center">
-                <span className="text-white font-label-md text-sm font-semibold drop-shadow-md">Taller ALFIN</span>
-              </div>
-            </a>
-
-            <a 
-              className="group block relative aspect-square bg-surface-container-low rounded-lg overflow-hidden border border-border-subtle hover:border-primary-container transition-colors hidden sm:block" 
-              href="https://instagram.com" 
-              target="_blank" 
-              rel="noreferrer"
-            >
-              <img 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkA0_SVovJirv9tp8jpWtv9KoDpd8x5aWBqvLGscC-IA4oTGGgSPmqbVC5xzlX8FJ7x6UhvlaHLZiTOrSibyfdSbEY_bOYabh8lBgK0p60HkYLOybJTtH2yJWRAHh-pD4cmhE3GPaJDr-t8UfFr31vLFOVzMrvccnQPvX9bPjGO7ZoIIfbbR-Uaqk0ZXo0Y4OQ8VijczwoqOlgvXFTxsOH5O7u7DU_9Z_1IUzX45zp8zKsYzEBgh8" 
-                alt="Estudiantes en biblioteca" 
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-            </a>
-          </div>
-
-          <div className="mt-2 flex justify-start">
-            <a 
-              href="https://instagram.com" 
-              target="_blank" 
-              rel="noreferrer"
-              className="bg-primary-container text-white px-6 py-3 rounded-lg font-label-md hover:bg-surface-tint transition-colors flex items-center gap-2 h-[44px] font-semibold shadow-sm"
-            >
-              Seguir en Instagram
-              <span className="material-symbols-outlined text-lg">open_in_new</span>
-            </a>
-          </div>
-        </section>
-      </div>
-    </main>
+          </section>
+        </div>
+      </main>
+    </div>
   );
 };
