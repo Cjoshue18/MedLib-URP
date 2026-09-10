@@ -283,4 +283,33 @@ h1, h2, h3, h4, h5, h6 {
   display: inline-block;
 }
 
+/* Tipografías Cursivas / Letra Escrita a Mano (Anti-robótico) */
+.font-handwriting {
+  font-family: 'Caveat', cursive, sans-serif;
+}
+
+.font-cursive {
+  font-family: 'Dancing Script', cursive, sans-serif;
+}
+
+/* Carrusel de Texto Infinito (Paneo horizontal suave de derecha a izquierda) */
+@keyframes marquee-horizontal {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee-scroll {
+  display: flex;
+  width: max-content;
+  animation: marquee-horizontal 26s linear infinite;
+}
+
+.animate-marquee-scroll:hover {
+  animation-play-state: paused;
+}
+
 
