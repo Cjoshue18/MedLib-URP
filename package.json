@@ -1,0 +1,13 @@
+{
+  "name": "medlib-urp",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Biblioteca Virtual y Especializada de la Facultad de Medicina Humana - Universidad Ricardo Palma",
+  "packageManager": "pnpm@10.5.2",
+  "scripts": {
+    "dev": "corepack pnpm --filter medlib-urp-frontend dev",
+    "build": "corepack pnpm --filter medlib-urp-frontend build",
+    "preview": "corepack pnpm --filter medlib-urp-frontend preview",
+    "typecheck": "corepack pnpm --filter medlib-urp-frontend typecheck"
+  }
+}
