@@ -401,16 +401,80 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                   </div>
                 </div>
 
+                <svg
+                  viewBox="0 0 510 360"
+                  className="absolute inset-0 w-full h-full pointer-events-none overflow-visible z-10"
+                >
+                  <polyline
+                    points="113,-33.1 161,-33.1 185,8.4"
+                    fill="none"
+                    stroke="#008744"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <polyline
+                    points="401,50 449,50 473,91.6"
+                    fill="none"
+                    stroke="#008744"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <circle
+                    cx="473"
+                    cy="91.6"
+                    r="5"
+                    fill="white"
+                    stroke="#008744"
+                    strokeWidth="2"
+                  />
+                  <polyline
+                    points="41,341 89,341 113,299.4"
+                    fill="none"
+                    stroke="#008744"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <line
+                    x1="257"
+                    y1="299.4"
+                    x2="281"
+                    y2="341"
+                    stroke="#008744"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                  <line
+                    x1="89"
+                    y1="91.6"
+                    x2="65"
+                    y2="50"
+                    stroke="#008744"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                  <circle
+                    cx="65"
+                    cy="50"
+                    r="5"
+                    fill="white"
+                    stroke="#008744"
+                    strokeWidth="2"
+                  />
+                </svg>
+
                 {[
                   { id: 'clinicalkey-espanol', title: 'ClinicalKey', abbr: 'CK', cat: 'Elsevier', col: 2, row: 0 },
-                  { id: 'nature', title: 'Nature', abbr: 'NAT', cat: 'Genómica', col: 4, row: 0 },
+                  { id: 'nature', title: 'Nature', abbr: 'NAT', cat: 'Genómica', col: 4, row: 0, innerBond: { x1: 30, y1: 6.5, x2: 66, y2: 6.5 } },
                   { id: 'biodigital', title: 'BioDigital 3D', abbr: 'BIO', cat: 'Anatomía 3D', col: 1, row: 0 },
-                  { id: 'nejm', title: 'NEJM', abbr: 'NEJM', cat: 'Medicina General', col: 3, row: 0 },
+                  { id: 'nejm', title: 'NEJM', abbr: 'NEJM', cat: 'Medicina General', col: 3, row: 0, innerBond: { x1: 26.6, y1: 74.7, x2: 8.6, y2: 43.5 } },
                   { id: 'scopus', title: 'Scopus', abbr: 'SCOP', cat: 'Investigación', col: 2, row: 1 },
-                  { id: 'sciencedirect', title: 'ScienceDirect', abbr: 'SD', cat: 'Elsevier', col: 4, row: 1 },
-                  { id: 'dynamedex', title: 'DynaMedex', abbr: 'DYNA', cat: 'Point-of-Care', col: 1, row: 1 },
+                  { id: 'sciencedirect', title: 'ScienceDirect', abbr: 'SD', cat: 'Elsevier', col: 4, row: 1, innerBond: { x1: 69.4, y1: 8.4, x2: 87.4, y2: 39.6 } },
+                  { id: 'dynamedex', title: 'DynaMedex', abbr: 'DYNA', cat: 'Point-of-Care', col: 1, row: 1, innerBond: { x1: 8.6, y1: 39.6, x2: 26.6, y2: 8.4 } },
                   { id: 'the-bmj', title: 'The BMJ', abbr: 'BMJ', cat: 'Revistas Q1', col: 3, row: 1 },
-                  { id: 'pubmed', title: 'PubMed', abbr: 'PUB', cat: 'MEDLINE', col: 2, row: 2 },
+                  { id: 'pubmed', title: 'PubMed', abbr: 'PUB', cat: 'MEDLINE', col: 2, row: 2, innerBond: { x1: 30, y1: 6.5, x2: 66, y2: 6.5 } },
                   { id: 'scielo', title: 'SciELO', abbr: 'SCI', cat: 'Open Access', col: 1, row: 2 },
                   { id: 'epistemonikos', title: 'Epistemonikos', abbr: 'EPI', cat: 'Evidencia Clínica', col: 3, row: 2 },
                   { id: 'accessmedicina', title: 'AccessMedicina', abbr: 'ACC', cat: 'McGraw-Hill', col: 2, row: 3 },
@@ -474,6 +538,18 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                               strokeWidth="2"
                               className="transition-colors duration-200"
                             />
+                            {item.innerBond && (
+                              <line
+                                x1={item.innerBond.x1}
+                                y1={item.innerBond.y1}
+                                x2={item.innerBond.x2}
+                                y2={item.innerBond.y2}
+                                stroke="#8cf9a9"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                opacity="0.45"
+                              />
+                            )}
                           </svg>
                         </div>
 
