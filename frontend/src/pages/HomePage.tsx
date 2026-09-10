@@ -320,27 +320,29 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       <section className="max-w-[1280px] mx-auto px-6 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           <div className="lg:col-span-7 space-y-8">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b border-slate-200 pb-4">
-              <div>
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-[#008744] text-white text-xs font-extrabold uppercase tracking-wider shadow-sm mb-2">
-                  <Stethoscope className="w-3.5 h-3.5 text-white" />
-                  <span>Colección Científica Especializada</span>
-                </div>
+            <div className="border-b border-slate-200 pb-4 space-y-2">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-[#008744] text-white text-xs font-extrabold uppercase tracking-wider shadow-sm">
+                <Stethoscope className="w-3.5 h-3.5 text-white" />
+                <span>Colección Científica Especializada</span>
+              </div>
+
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-slate-900 tracking-tight">
                   Recursos Biomédicos Destacados
                 </h2>
-                <p className="text-sm text-slate-600 mt-0.5">
-                  Herramientas clave suscritas por la facultad para diagnóstico, farmacología y soporte clínico.
-                </p>
+
+                <button
+                  onClick={() => onNavigate('directory')}
+                  className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#008744] hover:text-[#00572b] transition-colors whitespace-nowrap self-start sm:self-center cursor-pointer shrink-0"
+                >
+                  <span>Ver Catálogo Completo</span>
+                  <ChevronRight className="w-4 h-4" />
+                </button>
               </div>
 
-              <button
-                onClick={() => onNavigate('directory')}
-                className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#008744] hover:text-[#00572b] transition-colors self-start sm:self-auto cursor-pointer"
-              >
-                <span>Ver Catálogo Completo</span>
-                <ChevronRight className="w-4 h-4" />
-              </button>
+              <p className="text-sm text-slate-600">
+                Herramientas clave suscritas por la facultad para diagnóstico, farmacología y soporte clínico.
+              </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
