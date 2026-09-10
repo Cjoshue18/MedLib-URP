@@ -1,6 +1,3 @@
-// Catálogo Oficial de Bases de Datos y Recursos Biomédicos - MedLib URP
-// Generado conforme a la extracción de Elogim y la regla institucional RN-04.
-
 export type DatabaseCategory =
   | 'Todas'
   | 'Especializada'
@@ -24,11 +21,6 @@ export interface BiomedicalDatabase {
   tags: string[];
 }
 
-/**
- * Resuelve la URL del logo de la base de datos biomédica.
- * Soporta buckets de almacenamiento en la nube (S3, Cloud Storage, etc.)
- * para no almacenar archivos binarios dentro del repositorio git.
- */
 export const getDatabaseLogoUrl = (logoFile?: string): string => {
   if (!logoFile) return '';
   const bucketUrl = (import.meta.env.VITE_LOGOS_BUCKET_URL as string) || '';

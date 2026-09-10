@@ -13,7 +13,6 @@ export const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<AppView>('home');
   const [showScrollTop, setShowScrollTop] = useState(false);
 
-  // Sync with window.location.hash
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.toLowerCase();
@@ -29,14 +28,12 @@ export const App: React.FC = () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    // Initial check
     handleHashChange();
 
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  // Monitor scroll position for floating scroll-to-top button
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 350) {
@@ -67,10 +64,8 @@ export const App: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-on-background font-body-md antialiased selection:bg-primary-fixed selection:text-on-primary-fixed">
-      {/* Top Navbar */}
       <Navbar currentView={currentView} onNavigate={navigateTo} />
 
-      {/* Dynamic View rendering */}
       <div className="flex-grow">
         {currentView === 'home' && <HomePage onNavigate={navigateTo} />}
         {currentView === 'directory' && <DirectoryPage />}
@@ -78,10 +73,8 @@ export const App: React.FC = () => {
         {currentView === 'lost-found' && <LostFoundPage />}
       </div>
 
-      {/* Institutional Footer */}
       <Footer />
 
-      {/* Floating Scroll to Top Button (circulito en la esquina inferior derecha con paneo suave) */}
       {showScrollTop && (
         <button
           type="button"
@@ -98,4 +91,3 @@ export const App: React.FC = () => {
 };
 
 export default App;
-

@@ -51,7 +51,6 @@ export const ConferencesPage: React.FC = () => {
 
   return (
     <div className="w-full">
-      {/* Page Header matching Stitch */}
       <section className="bg-surface-container-low border-b border-border-subtle py-8">
         <div className="max-w-[1280px] mx-auto px-6">
           <h1 className="font-headline-lg text-text-slate mb-2">
@@ -63,10 +62,8 @@ export const ConferencesPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Main Content */}
       <main className="max-w-[1280px] mx-auto px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* Events List (Left Column) */}
           <div className="lg:col-span-8 flex flex-col gap-6">
             <div className="flex items-center justify-between">
               <h2 className="font-title-lg text-text-slate font-semibold">
@@ -79,7 +76,6 @@ export const ConferencesPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Event Cards */}
             {conferences.map((conf) => (
               <div 
                 key={conf.id}
@@ -120,9 +116,7 @@ export const ConferencesPage: React.FC = () => {
             ))}
           </div>
 
-          {/* Sidebar (Right Column) */}
           <aside className="lg:col-span-4 flex flex-col gap-6">
-            {/* Calendar Widget matching Stitch */}
             <div className="bg-surface-card border border-border-subtle rounded-xl p-6 shadow-sm">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-title-lg text-text-slate font-semibold">Noviembre 2026</h3>
@@ -185,7 +179,6 @@ export const ConferencesPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Newsletter Subscription Card matching Stitch */}
             <div className="bg-surface-card border border-border-subtle rounded-xl p-6 shadow-sm overflow-hidden relative">
               <div className="absolute inset-0 bg-primary-container/5 pointer-events-none"></div>
               <h3 className="font-title-lg text-text-slate mb-1 relative z-10 font-semibold">
@@ -210,7 +203,6 @@ export const ConferencesPage: React.FC = () => {
               </form>
             </div>
 
-            {/* Attendance Check Box */}
             <div className="bg-surface-card border border-border-subtle rounded-xl p-6 shadow-sm space-y-3">
               <h3 className="font-title-lg text-text-slate font-semibold">
                 Consultar Mis Asistencias

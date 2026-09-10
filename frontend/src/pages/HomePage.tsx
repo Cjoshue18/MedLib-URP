@@ -35,32 +35,19 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
     setSubscribed(true);
   };
 
-  // Resolución de logos desde storage/bucket externo
   const getLogo = (filename: string) => getDatabaseLogoUrl(filename);
 
   return (
     <main className="w-full bg-[#f8fafc] text-slate-900 overflow-hidden">
-      
-      {/* =========================================================================
-          HERO SECTION: Anti-AI Asymmetric Split Layout
-          Inspirado en urp.edu.pe y el formulario oficial de Admisión URP
-          ========================================================================= */}
       <section className="relative bg-[#12161a] text-white pt-10 pb-20 px-6 sm:px-8 border-b-4 border-[#008744] overflow-hidden">
-        {/* Subtle grid background pattern */}
         <div className="absolute inset-0 bg-grid-pattern-dark opacity-40 pointer-events-none"></div>
 
-        {/* Ambient emerald radial glow */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#008744]/15 blur-[120px] rounded-full pointer-events-none"></div>
 
         <div className="max-w-[1280px] mx-auto relative z-10">
-
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start lg:min-h-[570px]">
-            
-            {/* Left Column: Bold Typographic Statement & Integrated Search */}
             <div className="lg:col-span-7 space-y-6">
-              
               <div className="space-y-4">
-                {/* Pastilla no translúcida: Color puro sólido de alto contraste */}
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#008744] text-white text-xs font-extrabold uppercase tracking-wider shadow-sm">
                   <span className="w-2 h-2 rounded-full bg-[#8cf9a9] animate-pulse"></span>
                   <span>Biblioteca Virtual y Especializada</span>
@@ -79,13 +66,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 </p>
               </div>
 
-              {/* Integrated Biomedical Search: Flotando libremente sin contenedor gris ni borde */}
               <div className="space-y-3 max-w-xl">
-                {/* Carrusel de texto que panea de derecha a izquierda */}
                 <div className="overflow-hidden w-full py-1 relative">
-                  <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[#12161a] to-transparent z-10 pointer-events-none"></div>
-                  <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[#12161a] to-transparent z-10 pointer-events-none"></div>
-
                   <div className="animate-marquee-scroll flex items-center gap-6 text-xs text-slate-300/90 font-semibold tracking-wide select-none">
                     {[
                       'Catálogo amplio',
@@ -109,7 +91,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                   </div>
                 </div>
 
-                {/* Barra de búsqueda flotante con sombra elegante */}
                 <form onSubmit={handleSearch} className="flex gap-2.5">
                   <div className="relative flex-1">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
@@ -131,14 +112,12 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 </form>
               </div>
 
-              {/* Redes Sociales Oficiales: Sin pastillas, iconos auténticos, coloridos y directos */}
               <div className="space-y-3 pt-1 pl-1">
                 <div className="flex items-center gap-4">
                   <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
                     Síguenos en:
                   </span>
                   <div className="flex items-center gap-4">
-                    {/* Facebook Oficial FAMURP */}
                     <a
                       href="https://www.facebook.com/famurp.pe/"
                       target="_blank"
@@ -159,7 +138,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                       </span>
                     </a>
 
-                    {/* Instagram Oficial Biblioteca FAMURP */}
                     <a
                       href="https://www.instagram.com/bib_famurp/"
                       target="_blank"
@@ -189,7 +167,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                   </div>
                 </div>
 
-                {/* Portal Oficial para Estudiantes con tipografía cursiva / letra escrita a mano */}
                 <div className="flex items-center gap-2.5 pt-1">
                   <span className="w-2 h-2 rounded-full bg-[#00a859] animate-pulse"></span>
                   <span className="font-handwriting text-lg sm:text-xl text-emerald-300 font-semibold tracking-wide select-none drop-shadow-xs">
@@ -197,13 +174,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                   </span>
                 </div>
               </div>
-
             </div>
 
-            {/* Right Column: Toggleable Hero Form with Vertical Capsule Pill Trigger */}
             <div className="lg:col-span-5 flex justify-center lg:justify-end lg:min-h-[570px]">
               {!isHeroFormOpen ? (
-                /* Pastilla vertical estilo cápsula (sin el circulito verde, con icono de email y texto vertical) */
                 <button
                   type="button"
                   onClick={() => setIsHeroFormOpen(true)}
@@ -211,24 +185,18 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                   title="Abrir formulario de boletín y novedades"
                   aria-label="Abrir formulario de boletín y novedades"
                 >
-                  {/* Icono de Email */}
                   <div className="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center text-white shrink-0 group-hover:scale-110 transition-transform">
                     <Mail className="w-4 h-4 text-white" />
                   </div>
 
-                  {/* Texto vertical estilizado idéntico a la cápsula de referencia */}
                   <span className="[writing-mode:vertical-rl] rotate-180 text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest text-white whitespace-nowrap select-none my-auto">
                     BOLETÍN &amp; NOVEDADES
                   </span>
 
-                  {/* Indicador inferior */}
                   <ChevronRight className="w-4 h-4 text-[#8cf9a9] rotate-90 shrink-0 group-hover:translate-y-0.5 transition-transform" />
                 </button>
               ) : (
-                /* Contenedor relativo del formulario con altura calibrada para no empujar la página */
                 <div className="relative w-full max-w-sm animate-in fade-in zoom-in-95 duration-300">
-                  
-                  {/* Botón de cierre (X): circulito gris traslúcido alineado a la altura de la cabecera */}
                   <button
                     type="button"
                     onClick={() => setIsHeroFormOpen(false)}
@@ -239,10 +207,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     <X className="w-4 h-4 text-white/90 group-hover:text-white group-hover:rotate-90 transition-transform duration-200" />
                   </button>
 
-                  {/* Signature URP Admissions-Style Card con header intacto sin nada empujado */}
                   <div className="bg-white rounded-3xl border-2 border-slate-800 shadow-2xl overflow-hidden">
-                    
-                    {/* Institutional Green Header with URP Gradient & Anniversary Badge */}
                     <div className="bg-gradient-to-r from-[#00572B] via-[#008744] to-[#00A859] p-5 text-white flex items-center justify-between">
                       <div>
                         <span className="text-[10px] font-bold tracking-widest uppercase text-[#8cf9a9] block mb-0.5">
@@ -258,122 +223,103 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                       </div>
                     </div>
 
-                  {/* Card Body: Unified Form & Actions */}
-                  <div className="p-5 text-slate-900 space-y-4">
-                    
-                    {/* Selector de Nivel Académico (Pregrado / Posgrado / Residentado) */}
-                    <div>
-                      <span className="text-xs font-bold text-slate-700 block mb-1.5">
-                        Selecciona tu nivel académico:
-                      </span>
-                      <div className="flex items-center justify-between gap-1 p-1 bg-slate-100 rounded-xl text-xs font-semibold">
-                        <button
-                          type="button"
-                          onClick={() => setAdmissionsTab('pregrado')}
-                          className={`flex-1 py-1.5 rounded-lg transition-all cursor-pointer ${
-                            admissionsTab === 'pregrado' 
-                              ? 'bg-[#008744] text-white shadow-xs' 
-                              : 'text-slate-600 hover:text-slate-900'
-                          }`}
-                        >
-                          Pregrado
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setAdmissionsTab('posgrado')}
-                          className={`flex-1 py-1.5 rounded-lg transition-all cursor-pointer ${
-                            admissionsTab === 'posgrado' 
-                              ? 'bg-[#008744] text-white shadow-xs' 
-                              : 'text-slate-600 hover:text-slate-900'
-                          }`}
-                        >
-                          Posgrado
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setAdmissionsTab('residentado')}
-                          className={`flex-1 py-1.5 rounded-lg transition-all cursor-pointer ${
-                            admissionsTab === 'residentado' 
-                              ? 'bg-[#008744] text-white shadow-xs' 
-                              : 'text-slate-600 hover:text-slate-900'
-                          }`}
-                        >
-                          Residentado
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Formulario de Boletín Institucional integrado */}
-                    <form onSubmit={handleFormSubmit} className="space-y-3 pt-0.5">
+                    <div className="p-5 text-slate-900 space-y-4">
                       <div>
-                        <label className="text-xs font-bold text-slate-700 block mb-1">
-                          Recibe alertas bibliográficas y novedades:
-                        </label>
-                        <input
-                          type="email"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          placeholder="tu.correo@urp.edu.pe"
-                          required
-                          className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#008744]"
-                        />
+                        <span className="text-xs font-bold text-slate-700 block mb-1.5">
+                          Selecciona tu nivel académico:
+                        </span>
+                        <div className="flex items-center justify-between gap-1 p-1 bg-slate-100 rounded-xl text-xs font-semibold">
+                          <button
+                            type="button"
+                            onClick={() => setAdmissionsTab('pregrado')}
+                            className={`flex-1 py-1.5 rounded-lg transition-all cursor-pointer ${
+                              admissionsTab === 'pregrado' 
+                                ? 'bg-[#008744] text-white shadow-xs' 
+                                : 'text-slate-600 hover:text-slate-900'
+                            }`}
+                          >
+                            Pregrado
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setAdmissionsTab('posgrado')}
+                            className={`flex-1 py-1.5 rounded-lg transition-all cursor-pointer ${
+                              admissionsTab === 'posgrado' 
+                                ? 'bg-[#008744] text-white shadow-xs' 
+                                : 'text-slate-600 hover:text-slate-900'
+                            }`}
+                          >
+                            Posgrado
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setAdmissionsTab('residentado')}
+                            className={`flex-1 py-1.5 rounded-lg transition-all cursor-pointer ${
+                              admissionsTab === 'residentado' 
+                                ? 'bg-[#008744] text-white shadow-xs' 
+                                : 'text-slate-600 hover:text-slate-900'
+                            }`}
+                          >
+                            Residentado
+                          </button>
+                        </div>
                       </div>
-                      <button
-                        type="submit"
-                        className="w-full py-2.5 px-4 rounded-xl bg-[#008744] hover:bg-[#006b35] text-white font-bold text-xs sm:text-sm shadow-urp-brutal-green tactile-btn-green transition-all cursor-pointer flex items-center justify-center gap-2"
-                      >
-                        <Send className="w-3.5 h-3.5" />
-                        <span>{subscribed ? `¡Registrado como ${admissionsTab.toUpperCase()}!` : 'Registrarme al Boletín'}</span>
-                      </button>
-                    </form>
 
-                    {/* Highlight de Beneficio */}
-                    <div className="text-xs pt-0.5">
-                      <div className="flex items-start gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200">
-                        <ShieldCheck className="w-4 h-4 text-[#008744] shrink-0 mt-0.5" />
-                        <span className="text-slate-600 leading-snug">Acceso con cuenta institucional a literatura científica y soporte clínico.</span>
+                      <form onSubmit={handleFormSubmit} className="space-y-3 pt-0.5">
+                        <div>
+                          <label className="text-xs font-bold text-slate-700 block mb-1">
+                            Recibe alertas bibliográficas y novedades:
+                          </label>
+                          <input
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="tu.correo@urp.edu.pe"
+                            required
+                            className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#008744]"
+                          />
+                        </div>
+                        <button
+                          type="submit"
+                          className="w-full py-2.5 px-4 rounded-xl bg-[#008744] hover:bg-[#006b35] text-white font-bold text-xs sm:text-sm shadow-urp-brutal-green tactile-btn-green transition-all cursor-pointer flex items-center justify-center gap-2"
+                        >
+                          <Send className="w-3.5 h-3.5" />
+                          <span>{subscribed ? `¡Registrado como ${admissionsTab.toUpperCase()}!` : 'Registrarme al Boletín'}</span>
+                        </button>
+                      </form>
+
+                      <div className="text-xs pt-0.5">
+                        <div className="flex items-start gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+                          <ShieldCheck className="w-4 h-4 text-[#008744] shrink-0 mt-0.5" />
+                          <span className="text-slate-600 leading-snug">Acceso con cuenta institucional a literatura científica y soporte clínico.</span>
+                        </div>
                       </div>
+
+                      <div className="pt-2 border-t border-slate-100">
+                        <button
+                          onClick={() => onNavigate('directory')}
+                          className="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+                        >
+                          <span>Explorar Catálogo de Bases de Datos</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+
+                      <p className="text-[10px] text-center text-slate-400">
+                        (*) Servicios biomédicos exclusivos para la comunidad médica URP
+                      </p>
                     </div>
-
-                    {/* Botón de Acceso a Bases de Datos */}
-                    <div className="pt-2 border-t border-slate-100">
-                      <button
-                        onClick={() => onNavigate('directory')}
-                        className="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm"
-                      >
-                        <span>Explorar Catálogo de Bases de Datos</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-
-                    <p className="text-[10px] text-center text-slate-400">
-                      (*) Servicios biomédicos exclusivos para la comunidad médica URP
-                    </p>
-
                   </div>
                 </div>
-              </div>
-            )}
-          </div>
-
+              )}
+            </div>
           </div>
         </div>
       </section>
 
-
-      {/* =========================================================================
-          MAIN BODY LAYOUT: 2/3 (Recursos Biomédicos) + 1/3 (Próximas Actividades)
-          Organización en paralelo tal como solicitó el usuario
-          ========================================================================= */}
       <section className="max-w-[1280px] mx-auto px-6 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
-          {/* =====================================================================
-              LEFT COLUMN (7 cols): Recursos Biomédicos Destacados
-              ===================================================================== */}
           <div className="lg:col-span-7 space-y-8">
-            
-            {/* Header del bloque de Recursos */}
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b border-slate-200 pb-4">
               <div>
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-[#008744] text-white text-xs font-extrabold uppercase tracking-wider shadow-sm mb-2">
@@ -397,10 +343,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               </button>
             </div>
 
-            {/* Asymmetrical Bento Grid: Row 1 (Dyna 7 cols, Bio 5 cols) / Row 2 (ClinicalKey 5 cols, AccessMedicina 7 cols) */}
             <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-              
-              {/* Row 1, Col 1: DynaMedex (Dominante 7 cols - Soporte Clínico Integral) */}
               <div className="md:col-span-7 bg-white rounded-3xl border-2 border-slate-900 shadow-urp-brutal p-6 flex flex-col justify-between relative overflow-hidden group">
                 <div>
                   <div className="flex items-center justify-between gap-4 mb-4">
@@ -431,7 +374,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     Fusión de DynaMed y Micromedex. Accede a monografías de fármacos, calculadoras y guías diagnósticas basadas en evidencia para internado y pases de visita.
                   </p>
 
-                  {/* Checklist limpio sin pastillas */}
                   <div className="space-y-1.5 mb-5 text-xs text-slate-700">
                     <div className="flex items-center gap-2 font-medium">
                       <span className="text-[#008744] font-bold">✓</span>
@@ -459,7 +401,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 </div>
               </div>
 
-              {/* Row 1, Col 2: BioDigital Human 3D (Especializado 5 cols - Anatomía Visual) */}
               <div className="md:col-span-5 bg-white rounded-3xl border-2 border-slate-900 shadow-urp-brutal p-6 flex flex-col justify-between group">
                 <div>
                   <div className="flex items-center justify-between gap-4 mb-4">
@@ -502,7 +443,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 </div>
               </div>
 
-              {/* Row 2, Col 1: ClinicalKey Español (5 cols - Biblioteca Elsevier) */}
               <div className="md:col-span-5 bg-white rounded-3xl border-2 border-slate-900 shadow-urp-brutal p-6 flex flex-col justify-between group">
                 <div>
                   <div className="flex items-center justify-between gap-4 mb-4">
@@ -545,7 +485,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 </div>
               </div>
 
-              {/* Row 2, Col 2: AccessMedicina McGraw-Hill (7 cols - Núcleo de Textos y Casos Clínicos) */}
               <div className="md:col-span-7 bg-white rounded-3xl border-2 border-slate-900 shadow-urp-brutal p-6 flex flex-col justify-between group">
                 <div>
                   <div className="flex items-center justify-between gap-4 mb-4">
@@ -576,7 +515,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     Textos médicos indispensables de formación médica continua, casos clínicos interactivos de ciencias básicas y clínicas, y autoevaluaciones.
                   </p>
 
-                  {/* Checklist limpio sin pastillas */}
                   <div className="space-y-1.5 mb-5 text-xs text-slate-700">
                     <div className="flex items-center gap-2 font-medium">
                       <span className="text-[#008744] font-bold">✓</span>
@@ -603,17 +541,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                   </button>
                 </div>
               </div>
-
             </div>
-
           </div>
 
-
-          {/* =====================================================================
-              RIGHT COLUMN (5 cols): Próximas Actividades & ALFIN (Estilo limpio como en captura)
-              ===================================================================== */}
           <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-24">
-            
             <div className="bg-white rounded-3xl border-2 border-slate-900 shadow-urp-brutal p-6 sm:p-7 flex flex-col justify-between">
               <div>
                 <h3 className="text-xl sm:text-2xl font-display font-extrabold text-slate-900 mb-1">
@@ -624,13 +555,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 </p>
 
                 <div className="space-y-4">
-                  
-                  {/* Actividad 1 */}
                   <div 
                     onClick={() => onNavigate('conferences')}
                     className="flex items-center gap-4 cursor-pointer group py-1"
                   >
-                    {/* Date Badge: Espacio cuadrado y amplio, no aplastado */}
                     <div className="w-14 h-14 sm:w-16 sm:h-16 aspect-square rounded-2xl bg-[#008744] text-white flex flex-col items-center justify-center shrink-0 shadow-sm group-hover:scale-105 transition-transform">
                       <span className="text-xl sm:text-2xl font-display font-black leading-none">15</span>
                       <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider mt-0.5">NOV</span>
@@ -647,15 +575,12 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     </div>
                   </div>
 
-                  {/* Raya centrada en el medio con opacidad baja */}
                   <div className="w-4/5 mx-auto border-t border-slate-200/60"></div>
 
-                  {/* Actividad 2 */}
                   <div 
                     onClick={() => onNavigate('conferences')}
                     className="flex items-center gap-4 cursor-pointer group py-1"
                   >
-                    {/* Date Badge: Espacio cuadrado y amplio */}
                     <div className="w-14 h-14 sm:w-16 sm:h-16 aspect-square rounded-2xl bg-[#008744] text-white flex flex-col items-center justify-center shrink-0 shadow-sm group-hover:scale-105 transition-transform">
                       <span className="text-xl sm:text-2xl font-display font-black leading-none">22</span>
                       <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider mt-0.5">NOV</span>
@@ -672,15 +597,12 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     </div>
                   </div>
 
-                  {/* Raya centrada en el medio con opacidad baja */}
                   <div className="w-4/5 mx-auto border-t border-slate-200/60"></div>
 
-                  {/* Actividad 3 (Máximo 3 actividades) */}
                   <div 
                     onClick={() => onNavigate('conferences')}
                     className="flex items-center gap-4 cursor-pointer group py-1"
                   >
-                    {/* Date Badge: Espacio cuadrado y amplio */}
                     <div className="w-14 h-14 sm:w-16 sm:h-16 aspect-square rounded-2xl bg-[#008744] text-white flex flex-col items-center justify-center shrink-0 shadow-sm group-hover:scale-105 transition-transform">
                       <span className="text-xl sm:text-2xl font-display font-black leading-none">29</span>
                       <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider mt-0.5">NOV</span>
@@ -696,7 +618,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                       </p>
                     </div>
                   </div>
-
                 </div>
               </div>
 
@@ -709,18 +630,11 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
-
             </div>
-
           </div>
-
         </div>
       </section>
 
-
-      {/* =========================================================================
-          COMMUNITY SECTION: Feed de Instagram de la Biblioteca
-          ========================================================================= */}
       <section className="max-w-[1280px] mx-auto px-6 pb-20">
         <div className="bg-white rounded-3xl border-2 border-slate-900 shadow-urp-brutal p-6 sm:p-8">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 border-b border-slate-200 pb-4">
@@ -743,7 +657,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             </a>
           </div>
 
-          {/* Asymmetrical Photo Cards */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <div className="aspect-square rounded-2xl overflow-hidden border border-slate-200 bg-slate-100 group">
               <img
@@ -783,7 +696,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           </p>
         </div>
       </section>
-
     </main>
   );
 };
