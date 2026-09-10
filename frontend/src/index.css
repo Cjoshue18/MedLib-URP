@@ -272,3 +272,11 @@ h1, h2, h3, h4, h5, h6 {
 .rotate-y-180 {
   transform: rotateY(180deg);
 }
+
+.elfsight-app-437cd9ca-7bc2-447c-9b36-5e9c7350b63f [class*="Arrow"],
+.elfsight-app-437cd9ca-7bc2-447c-9b36-5e9c7350b63f [class*="NavigationButton"] {
+  z-index: 30;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+
