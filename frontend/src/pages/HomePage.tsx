@@ -1,14 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { 
-  Search, 
-  ArrowRight, 
-  ShieldCheck, 
-  Clock, 
-  Stethoscope, 
-  Send, 
-  X, 
+import {
+  Search,
+  ArrowRight,
+  ShieldCheck,
+  Clock,
+  Stethoscope,
+  Send,
+  X,
   Mail,
   ChevronRight,
+  ChevronLeft,
   RotateCcw
 } from 'lucide-react';
 
@@ -16,7 +17,14 @@ interface HomePageProps {
   onNavigate: (view: 'home' | 'directory' | 'conferences' | 'lost-found') => void;
 }
 
+const heroSlides = [
+  { id: 'slide-1', src: '/carousel/20260910_210323.webp', alt: 'Biblioteca FMH URP - Imagen 1' },
+  { id: 'slide-2', src: '/carousel/20260910_210341.webp', alt: 'Biblioteca FMH URP - Imagen 2' },
+  { id: 'slide-3', src: '/carousel/20260910_210422.webp', alt: 'Biblioteca FMH URP - Imagen 3' },
+];
+
 export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
+  const [currentSlide, setCurrentSlide] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
@@ -26,6 +34,25 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   const [isAllFlipped, setIsAllFlipped] = useState(false);
   const hexTimersRef = useRef<Map<string, NodeJS.Timeout>>(new Map());
   const allFlipTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    heroSlides.forEach((slide) => {
+      const img = new Image();
+      img.src = slide.src;
+    });
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const handlePrevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
+  };
+
+  const handleNextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+  };
 
   useEffect(() => {
     const existingScript = document.querySelector('script[src="https://elfsightcdn.com/platform.js"]');
@@ -117,10 +144,24 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
   return (
     <main className="w-full bg-[#f8fafc] text-slate-900 overflow-hidden">
-      <section className="relative bg-[#12161a] text-white pt-10 pb-20 px-6 sm:px-8 border-b-4 border-[#008744] overflow-hidden">
-        <div className="absolute inset-0 bg-grid-pattern-dark opacity-40 pointer-events-none"></div>
-
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#008744]/15 blur-[120px] rounded-full pointer-events-none"></div>
+      <section className="relative bg-[#12161a] text-white pt-10 pb-24 px-6 sm:px-8 border-b-4 border-[#008744] overflow-hidden">
+        <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
+          {heroSlides.map((slide, idx) => (
+            <img
+              key={slide.id}
+              src={slide.src}
+              alt={slide.alt}
+              loading="eager"
+              decoding="async"
+              className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ease-in-out ${idx === currentSlide ? 'opacity-65' : 'opacity-0'
+                }`}
+            />
+          ))}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#12161a]/90 via-[#12161a]/70 to-[#12161a]/50"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#12161a]/85 via-transparent to-black/35"></div>
+          <div className="absolute inset-0 bg-grid-pattern-dark opacity-20"></div>
+          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#008744]/20 blur-[120px] rounded-full pointer-events-none"></div>
+        </div>
 
         <div className="max-w-[1280px] mx-auto relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start lg:min-h-[570px]">
@@ -130,7 +171,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                   <span className="w-2 h-2 rounded-full bg-[#8cf9a9] animate-pulse"></span>
                   <span>Biblioteca Virtual y Especializada</span>
                 </div>
-                
+
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[54px] font-display font-extrabold leading-[1.1] tracking-tight">
                   <span className="text-white block sm:inline">Facultad de </span>
                   <br className="hidden sm:block" />
@@ -138,7 +179,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     Medicina Humana
                   </span>
                 </h1>
-                
+
                 <p className="text-base sm:text-lg text-slate-300 max-w-xl leading-relaxed">
                   Acceso exclusivo a una amplia colección de recursos científicos médicos indexados, soporte clínico especializado y certificaciones oficiales de <strong className="text-white font-semibold">Alfabetización Informacional (ALFIN)</strong>.
                 </p>
@@ -310,33 +351,30 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                           <button
                             type="button"
                             onClick={() => setAdmissionsTab('pregrado')}
-                            className={`flex-1 py-1.5 rounded-lg transition-all cursor-pointer ${
-                              admissionsTab === 'pregrado' 
-                                ? 'bg-[#008744] text-white shadow-xs' 
-                                : 'text-slate-600 hover:text-slate-900'
-                            }`}
+                            className={`flex-1 py-1.5 rounded-lg transition-all cursor-pointer ${admissionsTab === 'pregrado'
+                              ? 'bg-[#008744] text-white shadow-xs'
+                              : 'text-slate-600 hover:text-slate-900'
+                              }`}
                           >
                             Pregrado
                           </button>
                           <button
                             type="button"
                             onClick={() => setAdmissionsTab('posgrado')}
-                            className={`flex-1 py-1.5 rounded-lg transition-all cursor-pointer ${
-                              admissionsTab === 'posgrado' 
-                                ? 'bg-[#008744] text-white shadow-xs' 
-                                : 'text-slate-600 hover:text-slate-900'
-                            }`}
+                            className={`flex-1 py-1.5 rounded-lg transition-all cursor-pointer ${admissionsTab === 'posgrado'
+                              ? 'bg-[#008744] text-white shadow-xs'
+                              : 'text-slate-600 hover:text-slate-900'
+                              }`}
                           >
                             Posgrado
                           </button>
                           <button
                             type="button"
                             onClick={() => setAdmissionsTab('residentado')}
-                            className={`flex-1 py-1.5 rounded-lg transition-all cursor-pointer ${
-                              admissionsTab === 'residentado' 
-                                ? 'bg-[#008744] text-white shadow-xs' 
-                                : 'text-slate-600 hover:text-slate-900'
-                            }`}
+                            className={`flex-1 py-1.5 rounded-lg transition-all cursor-pointer ${admissionsTab === 'residentado'
+                              ? 'bg-[#008744] text-white shadow-xs'
+                              : 'text-slate-600 hover:text-slate-900'
+                              }`}
                           >
                             Residentado
                           </button>
@@ -392,6 +430,44 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               )}
             </div>
           </div>
+        </div>
+
+        <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-3 select-none">
+          <button
+            type="button"
+            onClick={handlePrevSlide}
+            className="w-8 h-8 flex items-center justify-center text-white/75 hover:text-white transition-colors cursor-pointer drop-shadow-md"
+            title="Imagen anterior"
+            aria-label="Imagen anterior"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+
+          <div className="flex items-center gap-2">
+            {heroSlides.map((slide, idx) => (
+              <button
+                key={slide.id}
+                type="button"
+                onClick={() => setCurrentSlide(idx)}
+                className={`w-2.5 h-2.5 rounded-full transition-colors duration-200 cursor-pointer drop-shadow-md ${idx === currentSlide
+                  ? 'bg-[#008744] ring-2 ring-white/80'
+                  : 'bg-white/40 hover:bg-white/80'
+                  }`}
+                title={`Ir a imagen ${idx + 1}`}
+                aria-label={`Ir a imagen ${idx + 1}`}
+              />
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={handleNextSlide}
+            className="w-8 h-8 flex items-center justify-center text-white/75 hover:text-white transition-colors cursor-pointer drop-shadow-md"
+            title="Imagen siguiente"
+            aria-label="Imagen siguiente"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
         </div>
       </section>
 
@@ -557,9 +633,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                       title={`${item.title} — ${item.cat}`}
                     >
                       <div
-                        className={`w-full h-full relative transition-transform duration-500 ease-out preserve-3d ${
-                          isFlipped ? 'rotate-y-180' : ''
-                        }`}
+                        className={`w-full h-full relative transition-transform duration-500 ease-out preserve-3d ${isFlipped ? 'rotate-y-180' : ''
+                          }`}
                         style={{
                           transitionDelay: isAllFlipped ? `${item.col * 40 + item.row * 30}ms` : '0ms'
                         }}
@@ -646,7 +721,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 </p>
 
                 <div className="space-y-4">
-                  <div 
+                  <div
                     onClick={() => onNavigate('conferences')}
                     className="flex items-center gap-4 cursor-pointer group py-1"
                   >
@@ -654,7 +729,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                       <span className="text-xl sm:text-2xl font-display font-black leading-none">15</span>
                       <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider mt-0.5">NOV</span>
                     </div>
-                    
+
                     <div className="flex-1 min-w-0">
                       <h4 className="text-xs sm:text-sm font-bold text-slate-900 leading-snug group-hover:text-[#008744] transition-colors line-clamp-2">
                         Capacitación: Uso avanzado de ClinicalKey
@@ -668,7 +743,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
                   <div className="w-4/5 mx-auto border-t border-slate-200/60"></div>
 
-                  <div 
+                  <div
                     onClick={() => onNavigate('conferences')}
                     className="flex items-center gap-4 cursor-pointer group py-1"
                   >
@@ -676,7 +751,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                       <span className="text-xl sm:text-2xl font-display font-black leading-none">22</span>
                       <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider mt-0.5">NOV</span>
                     </div>
-                    
+
                     <div className="flex-1 min-w-0">
                       <h4 className="text-xs sm:text-sm font-bold text-slate-900 leading-snug group-hover:text-[#008744] transition-colors line-clamp-2">
                         Taller: Búsqueda bibliográfica en Scopus &amp; PubMed
@@ -690,7 +765,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
                   <div className="w-4/5 mx-auto border-t border-slate-200/60"></div>
 
-                  <div 
+                  <div
                     onClick={() => onNavigate('conferences')}
                     className="flex items-center gap-4 cursor-pointer group py-1"
                   >
@@ -698,7 +773,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                       <span className="text-xl sm:text-2xl font-display font-black leading-none">29</span>
                       <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider mt-0.5">NOV</span>
                     </div>
-                    
+
                     <div className="flex-1 min-w-0">
                       <h4 className="text-xs sm:text-sm font-bold text-slate-900 leading-snug group-hover:text-[#008744] transition-colors line-clamp-2">
                         Sesión ALFIN: Gestores de Referencias Zotero &amp; Mendeley
