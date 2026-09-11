@@ -13,7 +13,7 @@ import {
   Sparkles,
   ChevronDown
 } from 'lucide-react';
-import { DATABASES_DATA, BiomedicalDatabase, getDatabaseLogoUrl } from '../features/guides/data/databasesData';
+import { DATABASES_DATA, MedicalDatabase, getDatabaseLogoUrl } from '../features/guides/data/databasesData';
 
 export const DirectoryPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -67,7 +67,7 @@ export const DirectoryPage: React.FC = () => {
     'Elsevier'
   ];
 
-  const renderDatabaseCard = (db: BiomedicalDatabase) => {
+  const renderDatabaseCard = (db: MedicalDatabase) => {
     const isExpanded = expandedDbIds.has(db.id);
     const logoSrc = getDatabaseLogoUrl(db.logoFile);
 
@@ -220,34 +220,38 @@ export const DirectoryPage: React.FC = () => {
     <div className="w-full pb-20">
       <main className="max-w-[1280px] mx-auto px-6 pt-8 sm:pt-10 flex flex-col gap-8">
         <div className="w-full max-w-3xl mx-auto flex flex-col items-center gap-3">
-          <div className="w-full bg-white rounded-2xl border-2 border-slate-900 shadow-urp-brutal-sm p-1.5 flex items-center gap-2">
-            <div className="pl-3 text-slate-400 flex items-center justify-center">
-              <Search className="w-5 h-5" />
+          <form 
+            onSubmit={(e) => e.preventDefault()} 
+            className="w-full flex items-center gap-2.5 sm:gap-3"
+          >
+            <div className="relative flex-1 bg-white rounded-2xl border-2 border-slate-900 shadow-urp-brutal-sm px-4 py-3 flex items-center gap-2.5">
+              <Search className="w-5 h-5 text-slate-400 shrink-0" />
+              <input 
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Buscar recurso por nombre, materia o especialidad..."
+                className="w-full text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 bg-transparent outline-none font-medium"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery('')}
+                  className="p-1 text-slate-400 hover:text-slate-700 rounded-lg cursor-pointer transition-colors shrink-0"
+                  title="Limpiar búsqueda"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
             </div>
-            <input 
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Buscar recurso por nombre, materia o especialidad..."
-              className="flex-1 py-2 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 bg-transparent outline-none font-medium"
-            />
-            {searchQuery && (
-              <button
-                type="button"
-                onClick={() => setSearchQuery('')}
-                className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg cursor-pointer"
-                title="Limpiar búsqueda"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            )}
+
             <button 
-              type="button"
-              className="px-5 sm:px-6 py-2 rounded-xl bg-[#008744] hover:bg-[#006b35] text-white font-bold text-xs sm:text-sm shadow-urp-brutal-green tactile-btn-green transition-all cursor-pointer shrink-0"
+              type="submit"
+              className="px-6 sm:px-8 py-3.5 rounded-2xl bg-[#008744] hover:bg-[#006b35] text-white font-bold text-xs sm:text-sm border-2 border-slate-900 shadow-urp-brutal tactile-btn-green transition-all cursor-pointer shrink-0 flex items-center justify-center gap-1.5"
             >
-              Buscar
+              <span>Buscar</span>
             </button>
-          </div>
+          </form>
 
           <div className="flex flex-wrap items-center justify-center gap-1.5 pt-1">
             <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wide mr-1 flex items-center gap-1">

@@ -140,7 +140,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                 </h1>
                 
                 <p className="text-base sm:text-lg text-slate-300 max-w-xl leading-relaxed">
-                  Acceso exclusivo a una amplia colección de recursos científicos biomédicos indexados, soporte clínico especializado y certificaciones oficiales de <strong className="text-white font-semibold">Alfabetización Informacional (ALFIN)</strong>.
+                  Acceso exclusivo a una amplia colección de recursos científicos médicos indexados, soporte clínico especializado y certificaciones oficiales de <strong className="text-white font-semibold">Alfabetización Informacional (ALFIN)</strong>.
                 </p>
               </div>
 
@@ -149,13 +149,13 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                   <div className="animate-marquee-scroll flex items-center gap-6 text-xs text-slate-300/90 font-semibold tracking-wide select-none">
                     {[
                       'Catálogo amplio',
-                      'Bases de datos biomédicas',
+                      'Bases de datos médicas',
                       'Revistas',
                       'Conferencias',
                       'Programa ALFIN',
                       'Sorteo de Libros',
                       'Catálogo amplio',
-                      'Bases de datos biomédicas',
+                      'Bases de datos médicas',
                       'Revistas',
                       'Conferencias',
                       'Programa ALFIN',
@@ -176,7 +176,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                       type="text"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      placeholder="Buscar por fármaco, patología, autor o tema biomédico..."
+                      placeholder="Buscar por fármaco, patología, autor o tema médico..."
                       className="w-full pl-12 pr-4 py-3.5 bg-white text-slate-900 rounded-2xl border border-white/20 font-sans text-sm focus:outline-none focus:ring-2 focus:ring-[#00a859] shadow-2xl transition-all"
                     />
                   </div>
@@ -384,7 +384,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                       </div>
 
                       <p className="text-[10px] text-center text-slate-400">
-                        (*) Servicios biomédicos exclusivos para la comunidad médica URP
+                        (*) Servicios médicos exclusivos para la comunidad médica URP
                       </p>
                     </div>
                   </div>
@@ -405,7 +405,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               </div>
 
               <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-slate-900 tracking-tight">
-                Recursos Biomédicos
+                Bases de Datos Médicas
               </h2>
 
               <p className="text-sm text-slate-600">
@@ -625,7 +625,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     type="button"
                     onClick={() => onNavigate('directory')}
                     className="inline-flex items-center gap-1.5 text-sm sm:text-base font-extrabold text-[#008744] hover:text-[#00572b] transition-all hover:translate-x-1 cursor-pointer group"
-                    title="Ver más recursos biomédicos"
+                    title="Ver más bases de datos médicas"
                   >
                     <span>Ver Más</span>
                     <span className="text-lg sm:text-xl leading-none font-black text-[#008744] group-hover:translate-x-1 transition-transform">&gt;</span>

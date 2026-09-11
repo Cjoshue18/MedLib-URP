@@ -47,7 +47,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
                 : 'text-white/80 hover:text-white hover:text-primary'
               }`}
           >
-            Directorio Biomédico
+            Bases de Datos
           </button>
           <button
             onClick={() => onNavigate('conferences')}
@@ -120,7 +120,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
             onClick={() => { onNavigate('directory'); setMobileMenuOpen(false); }}
             className="block w-full text-left py-2 font-label-md text-white/90 hover:text-white"
           >
-            Directorio Biomédico
+            Bases de Datos
           </button>
           <button
             onClick={() => { onNavigate('conferences'); setMobileMenuOpen(false); }}
