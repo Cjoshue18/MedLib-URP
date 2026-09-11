@@ -26,8 +26,8 @@ export const ConferencesPage: React.FC = () => {
       location: 'Auditorio Principal FAMURP',
       locationType: 'onsite',
       title: 'Búsqueda Sistémica Avanzada',
-      description: 'Estrategias de búsqueda estructurada en bases de datos biomédicas (PubMed, Scopus, Web of Science) para revisiones sistemáticas y metaanálisis.',
-      tag: 'Investigación Biomédica',
+      description: 'Estrategias de búsqueda estructurada en bases de datos médicas (PubMed, Scopus, Web of Science) para revisiones sistemáticas y metaanálisis.',
+      tag: 'Investigación Médica',
       tagColor: 'bg-emerald-50 text-[#008744] border-emerald-200',
     },
     {

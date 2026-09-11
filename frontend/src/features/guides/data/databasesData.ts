@@ -8,7 +8,7 @@ export type DatabaseCategory =
 
 export type AccessType = 'Suscripción URP' | 'Acceso Abierto';
 
-export interface BiomedicalDatabase {
+export interface MedicalDatabase {
   id: string;
   title: string;
   description: string;
@@ -20,6 +20,8 @@ export interface BiomedicalDatabase {
   tutorialUrl?: string;
   tags: string[];
 }
+
+export type BiomedicalDatabase = MedicalDatabase;
 
 export const getDatabaseLogoUrl = (logoFile?: string): string => {
   if (!logoFile) return '';
@@ -129,7 +131,7 @@ export const DATABASES_DATA: BiomedicalDatabase[] = [
   {
     "id": "nejm",
     "title": "The New England Journal of Medicine (NEJM)",
-    "description": "La revista médica general más leída, citada e influyente del mundo. Publica investigaciones biomédicas de vanguardia, casos clínicos anatomopatológicos e imágenes en medicina clínica.",
+    "description": "La revista médica general más leída, citada e influyente del mundo. Publica investigaciones médicas de vanguardia, casos clínicos anatomopatológicos e imágenes en medicina clínica.",
     "category": "Revistas y Libros",
     "accessType": "Suscripción URP",
     "logoFile": "newenglandjournalofmedicine.png",
@@ -220,7 +222,7 @@ export const DATABASES_DATA: BiomedicalDatabase[] = [
   {
     "id": "nature",
     "title": "Nature Medicine & Portfolio",
-    "description": "Artículos de investigación de alto impacto en biomedicina translacional, genómica, inmunología y ensayos clínicos de frontera en el grupo Nature.",
+    "description": "Artículos de investigación de alto impacto en medicina translacional, genómica, inmunología y ensayos clínicos de frontera en el grupo Nature.",
     "category": "Revistas y Libros",
     "accessType": "Suscripción URP",
     "logoFile": "nature.png",
@@ -235,7 +237,7 @@ export const DATABASES_DATA: BiomedicalDatabase[] = [
   {
     "id": "springerlink",
     "title": "SpringerLink",
-    "description": "Colección masiva de monografías biomédicas, manuales de protocolos de laboratorio y revistas científicas de Springer Nature con acceso a texto completo.",
+    "description": "Colección masiva de monografías médicas, manuales de protocolos de laboratorio y revistas científicas de Springer Nature con acceso a texto completo.",
     "category": "Multidisciplinaria",
     "accessType": "Suscripción URP",
     "logoFile": "springerlink.png",
@@ -295,7 +297,7 @@ export const DATABASES_DATA: BiomedicalDatabase[] = [
   {
     "id": "pubmed",
     "title": "PubMed / MEDLINE (NCBI - NLM)",
-    "description": "El motor de búsqueda bibliográfica biomédica más utilizado a nivel mundial, gestionado por la Biblioteca Nacional de Medicina de los Estados Unidos (NLM). Más de 36 millones de citas.",
+    "description": "El motor de búsqueda bibliográfica médica más utilizado a nivel mundial, gestionado por la Biblioteca Nacional de Medicina de los Estados Unidos (NLM). Más de 36 millones de citas.",
     "category": "Acceso Abierto",
     "accessType": "Acceso Abierto",
     "logoFile": "pubmed.png",
@@ -325,7 +327,7 @@ export const DATABASES_DATA: BiomedicalDatabase[] = [
   {
     "id": "pmc-pubmed-central",
     "title": "PubMed Central (PMC)",
-    "description": "Archivo digital gratuito de artículos biomédicos y de ciencias de la vida a texto completo del Instituto Nacional de Salud (NIH) de EE. UU.",
+    "description": "Archivo digital gratuito de artículos médicos y de ciencias de la vida a texto completo del Instituto Nacional de Salud (NIH) de EE. UU.",
     "category": "Acceso Abierto",
     "accessType": "Acceso Abierto",
     "logoFile": "pmc-pubmed.png",
@@ -340,7 +342,7 @@ export const DATABASES_DATA: BiomedicalDatabase[] = [
   {
     "id": "europe-pmc",
     "title": "Europe PMC",
-    "description": "Repositorio abierto que indexa millones de artículos biomédicos, preprints, patentes y directrices clínicas de la Unión Europea y el Reino Unido.",
+    "description": "Repositorio abierto que indexa millones de artículos médicos, preprints, patentes y directrices clínicas de la Unión Europea y el Reino Unido.",
     "category": "Acceso Abierto",
     "accessType": "Acceso Abierto",
     "logoFile": "europepmc.png",
@@ -543,7 +545,7 @@ export const DATABASES_DATA: BiomedicalDatabase[] = [
   {
     "id": "mdpi",
     "title": "MDPI Healthcare & Medicine",
-    "description": "Plataforma editorial suiza con más de 400 revistas de acceso abierto revisadas por pares en biomedicina, farmacología y salud pública.",
+    "description": "Plataforma editorial suiza con más de 400 revistas de acceso abierto revisadas por pares en medicina, farmacología y salud pública.",
     "category": "Revistas y Libros",
     "accessType": "Acceso Abierto",
     "logoFile": "mdpi.png",
@@ -565,7 +567,7 @@ export const DATABASES_DATA: BiomedicalDatabase[] = [
     "isFeatured": false,
     "tags": [
       "Wiley",
-      "Revistas Biomédicas"
+      "Revistas Médicas"
     ]
   },
   {

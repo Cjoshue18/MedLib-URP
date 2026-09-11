@@ -84,7 +84,7 @@ export const Footer: React.FC = () => {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <p>© {new Date().getFullYear()} Universidad Ricardo Palma. Todos los derechos reservados.</p>
           <p className="text-slate-500">
-            Portal de Recursos Biomédicos
+            Portal de Recursos Médicos
           </p>
         </div>
       </div>
