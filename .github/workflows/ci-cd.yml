@@ -1,4 +1,4 @@
-name: CI & Deployment Pipeline
+name: CI Pipeline
 
 on:
   push:
@@ -40,47 +40,3 @@ jobs:
 
       - name: Build Frontend Production Bundle
         run: pnpm --filter medlib-urp-frontend build
-
-  deploy-vercel:
-    name: Deploy Frontend to Vercel
-    needs: validate-frontend
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Deploy via Vercel Action
-        if: env.VERCEL_TOKEN != ''
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: '--prod'
-          working-directory: ./frontend
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-
-      - name: Report Native Git Deployment Notice
-        if: env.VERCEL_TOKEN == ''
-        run: |
-          echo "VERCEL_TOKEN no configurado en GitHub Secrets."
-          echo "El frontend se desplegara automaticamente a traves de la integracion nativa de Vercel para GitHub."
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-
-  deploy-render-backend:
-    name: Deploy Backend to Render
-    needs: validate-frontend
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger Render Deploy Hook
-        if: env.RENDER_HOOK != ''
-        env:
-          RENDER_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
-        run: |
-          echo "Enviando senal de despliegue a Render..."
-          curl -f -X POST "$RENDER_HOOK"
-          echo "Senal recibida por Render con exito."
