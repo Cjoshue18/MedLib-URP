@@ -50,17 +50,8 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Check Vercel Credentials
-        id: check-credentials
-        run: |
-          if [ -n "${{ secrets.VERCEL_TOKEN }}" ]; then
-            echo "has_token=true" >> $GITHUB_OUTPUT
-          else
-            echo "has_token=false" >> $GITHUB_OUTPUT
-          fi
-
       - name: Deploy via Vercel Action
-        if: steps:check-credentials.outputs.has_token == 'true'
+        if: env.VERCEL_TOKEN != ''
         uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
@@ -68,12 +59,16 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           vercel-args: '--prod'
           working-directory: ./frontend
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
       - name: Report Native Git Deployment Notice
-        if: steps:check-credentials.outputs.has_token == 'false'
+        if: env.VERCEL_TOKEN == ''
         run: |
           echo "VERCEL_TOKEN no configurado en GitHub Secrets."
           echo "El frontend se desplegara automaticamente a traves de la integracion nativa de Vercel para GitHub."
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
   deploy-render-backend:
     name: Deploy Backend to Render
