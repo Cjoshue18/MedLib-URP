@@ -22,10 +22,9 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   const [subscribed, setSubscribed] = useState(false);
   const [admissionsTab, setAdmissionsTab] = useState<'pregrado' | 'posgrado' | 'residentado'>('pregrado');
   const [isHeroFormOpen, setIsHeroFormOpen] = useState(false);
-  const [lockedHexId, setLockedHexId] = useState<string | null>(null);
-  const [hoveredHexId, setHoveredHexId] = useState<string | null>(null);
+  const [flippedHexIds, setFlippedHexIds] = useState<Set<string>>(new Set());
   const [isAllFlipped, setIsAllFlipped] = useState(false);
-  const hoverTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const hexTimersRef = useRef<Map<string, NodeJS.Timeout>>(new Map());
   const allFlipTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -36,40 +35,72 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       script.async = true;
       document.body.appendChild(script);
     }
+    return () => {
+      if (allFlipTimerRef.current) clearTimeout(allFlipTimerRef.current);
+      hexTimersRef.current.forEach(timer => clearTimeout(timer));
+    };
   }, []);
 
   const handleHexHover = (id: string) => {
-    if (hoverTimerRef.current) {
-      clearTimeout(hoverTimerRef.current);
+    const existingTimer = hexTimersRef.current.get(id);
+    if (existingTimer) {
+      clearTimeout(existingTimer);
+      hexTimersRef.current.delete(id);
     }
-    setHoveredHexId(id);
-    hoverTimerRef.current = setTimeout(() => {
-      setHoveredHexId(prev => (prev === id ? null : prev));
-    }, 2000);
-  };
 
-  const handleHexLeave = (id: string) => {
-    if (hoverTimerRef.current) {
-      clearTimeout(hoverTimerRef.current);
-    }
-    setHoveredHexId(prev => (prev === id ? null : prev));
+    setFlippedHexIds(prev => {
+      if (prev.has(id)) return prev;
+      const next = new Set(prev);
+      next.add(id);
+      return next;
+    });
+
+    const timer = setTimeout(() => {
+      setFlippedHexIds(prev => {
+        if (!prev.has(id)) return prev;
+        const next = new Set(prev);
+        next.delete(id);
+        return next;
+      });
+      hexTimersRef.current.delete(id);
+    }, 7000);
+
+    hexTimersRef.current.set(id, timer);
   };
 
   const handleHexClick = (id: string) => {
-    setLockedHexId(prev => (prev === id ? null : id));
+    const existingTimer = hexTimersRef.current.get(id);
+    if (existingTimer) {
+      clearTimeout(existingTimer);
+      hexTimersRef.current.delete(id);
+    }
+
+    setFlippedHexIds(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
   };
 
   const handleFlipAll = () => {
     if (allFlipTimerRef.current) {
       clearTimeout(allFlipTimerRef.current);
     }
-    if (isAllFlipped) {
+    hexTimersRef.current.forEach(timer => clearTimeout(timer));
+    hexTimersRef.current.clear();
+
+    if (isAllFlipped || flippedHexIds.size > 0) {
       setIsAllFlipped(false);
+      setFlippedHexIds(new Set());
     } else {
       setIsAllFlipped(true);
       allFlipTimerRef.current = setTimeout(() => {
         setIsAllFlipped(false);
-      }, 3500);
+      }, 5000);
     }
   };
 
@@ -496,7 +527,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                   const topPct = ((cy - 41.569) / 360) * 100;
                   const widthPct = (96 / 510) * 100;
                   const heightPct = (83.138 / 360) * 100;
-                  const isFlipped = isAllFlipped || lockedHexId === item.id || hoveredHexId === item.id;
+                  const isFlipped = isAllFlipped || flippedHexIds.has(item.id);
 
                   const yTop = cy - 41.569;
                   const yBottom = cy + 41.569;
@@ -523,7 +554,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                       }}
                       onClick={() => handleHexClick(item.id)}
                       onMouseEnter={() => handleHexHover(item.id)}
-                      onMouseLeave={() => handleHexLeave(item.id)}
                       title={`${item.title} — ${item.cat}`}
                     >
                       <div
