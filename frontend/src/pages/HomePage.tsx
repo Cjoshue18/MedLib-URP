@@ -382,8 +382,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               </p>
             </div>
 
-            <div className="relative w-full py-4 overflow-visible flex items-center justify-center lg:justify-end">
-              <div className="relative w-full max-w-[500px] aspect-[510/360] select-none">
+            <div className="relative w-full py-6 overflow-visible flex items-center justify-center">
+              <div className="relative w-full max-w-[530px] aspect-[510/360] select-none">
                 <div
                   className="absolute cursor-pointer group z-20"
                   style={{
@@ -439,6 +439,22 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     strokeWidth="2"
                   />
                   <polyline
+                    points="17,50 -31,50 -55,91.6"
+                    fill="none"
+                    stroke="#008744"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <circle
+                    cx="-55"
+                    cy="91.6"
+                    r="5"
+                    fill="white"
+                    stroke="#008744"
+                    strokeWidth="2"
+                  />
+                  <polyline
                     points="41,341 89,341 113,299.4"
                     fill="none"
                     stroke="#008744"
@@ -455,38 +471,24 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                     strokeWidth="2"
                     strokeLinecap="round"
                   />
-                  <line
-                    x1="89"
-                    y1="91.6"
-                    x2="65"
-                    y2="50"
-                    stroke="#008744"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                  <circle
-                    cx="65"
-                    cy="50"
-                    r="5"
-                    fill="white"
-                    stroke="#008744"
-                    strokeWidth="2"
-                  />
                 </svg>
 
                 {[
-                  { id: 'clinicalkey-espanol', title: 'ClinicalKey', abbr: 'CK', cat: 'Elsevier', col: 2, row: 0 },
-                  { id: 'nature', title: 'Nature', abbr: 'NAT', cat: 'Genómica', col: 4, row: 0, innerBond: { x1: 30, y1: 6.5, x2: 66, y2: 6.5 } },
+                  { id: 'bmj-best-practice', title: 'BMJ Best Practice', abbr: 'BBP', cat: 'Point-of-Care', col: 0, row: 0 },
+                  { id: 'uptodate', title: 'UpToDate', abbr: 'UTD', cat: 'Soporte Clínico', col: 0, row: 1, innerBond: { x1: 30, y1: 6.5, x2: 66, y2: 6.5 } },
                   { id: 'biodigital', title: 'BioDigital 3D', abbr: 'BIO', cat: 'Anatomía 3D', col: 1, row: 0 },
-                  { id: 'nejm', title: 'NEJM', abbr: 'NEJM', cat: 'Medicina General', col: 3, row: 0, innerBond: { x1: 26.6, y1: 74.7, x2: 8.6, y2: 43.5 } },
-                  { id: 'scopus', title: 'Scopus', abbr: 'SCOP', cat: 'Investigación', col: 2, row: 1 },
-                  { id: 'sciencedirect', title: 'ScienceDirect', abbr: 'SD', cat: 'Elsevier', col: 4, row: 1, innerBond: { x1: 69.4, y1: 8.4, x2: 87.4, y2: 39.6 } },
                   { id: 'dynamedex', title: 'DynaMedex', abbr: 'DYNA', cat: 'Point-of-Care', col: 1, row: 1, innerBond: { x1: 8.6, y1: 39.6, x2: 26.6, y2: 8.4 } },
-                  { id: 'the-bmj', title: 'The BMJ', abbr: 'BMJ', cat: 'Revistas Q1', col: 3, row: 1 },
-                  { id: 'pubmed', title: 'PubMed', abbr: 'PUB', cat: 'MEDLINE', col: 2, row: 2, innerBond: { x1: 30, y1: 6.5, x2: 66, y2: 6.5 } },
                   { id: 'scielo', title: 'SciELO', abbr: 'SCI', cat: 'Open Access', col: 1, row: 2 },
-                  { id: 'epistemonikos', title: 'Epistemonikos', abbr: 'EPI', cat: 'Evidencia Clínica', col: 3, row: 2 },
+                  { id: 'clinicalkey-espanol', title: 'ClinicalKey', abbr: 'CK', cat: 'Elsevier', col: 2, row: 0 },
+                  { id: 'scopus', title: 'Scopus', abbr: 'SCOP', cat: 'Investigación', col: 2, row: 1 },
+                  { id: 'pubmed', title: 'PubMed', abbr: 'PUB', cat: 'MEDLINE', col: 2, row: 2, innerBond: { x1: 30, y1: 6.5, x2: 66, y2: 6.5 } },
                   { id: 'accessmedicina', title: 'AccessMedicina', abbr: 'ACC', cat: 'McGraw-Hill', col: 2, row: 3 },
+                  { id: 'nejm', title: 'NEJM', abbr: 'NEJM', cat: 'Medicina General', col: 3, row: 0, innerBond: { x1: 26.6, y1: 74.7, x2: 8.6, y2: 43.5 } },
+                  { id: 'the-bmj', title: 'The BMJ', abbr: 'BMJ', cat: 'Revistas Q1', col: 3, row: 1 },
+                  { id: 'epistemonikos', title: 'Epistemonikos', abbr: 'EPI', cat: 'Evidencia Clínica', col: 3, row: 2 },
+                  { id: 'nature', title: 'Nature', abbr: 'NAT', cat: 'Genómica', col: 4, row: 0, innerBond: { x1: 30, y1: 6.5, x2: 66, y2: 6.5 } },
+                  { id: 'sciencedirect', title: 'ScienceDirect', abbr: 'SD', cat: 'Elsevier', col: 4, row: 1, innerBond: { x1: 69.4, y1: 8.4, x2: 87.4, y2: 39.6 } },
+                  { id: 'cochrane', title: 'Cochrane Library', abbr: 'COCH', cat: 'Revisiones Q1', col: 4, row: 2 },
                 ].map((item) => {
                   const cx = 65 + item.col * 72;
                   const cy = 50 + item.row * 83.138 + (item.col % 2 !== 0 ? 41.569 : 0);
@@ -588,7 +590,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
                   );
                 })}
 
-                <div className="absolute left-[76%] top-[71%] -translate-y-1/2 select-none z-20">
+                <div className="absolute left-[83%] sm:left-[84%] top-[72%] -translate-y-1/2 select-none z-20 whitespace-nowrap">
                   <button
                     type="button"
                     onClick={() => onNavigate('directory')}
