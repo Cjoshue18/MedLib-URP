@@ -43,22 +43,7 @@ export const DirectoryPage: React.FC = () => {
 
   return (
     <div className="w-full pb-20">
-      <section className="bg-slate-50 border-b-2 border-slate-900 py-10 sm:py-12">
-        <div className="max-w-[1280px] mx-auto px-6">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-[#008744] text-white text-xs font-extrabold uppercase tracking-wider shadow-sm mb-3">
-            <Database className="w-3.5 h-3.5 text-white" />
-            <span>Catálogo Científico Digital</span>
-          </div>
-          <h1 className="text-2xl sm:text-4xl font-display font-extrabold text-slate-900 tracking-tight">
-            Directorio de Recursos Biomédicos
-          </h1>
-          <p className="text-sm sm:text-base text-slate-600 max-w-3xl mt-2 leading-relaxed">
-            Plataformas suscritas, bases de datos referenciales, point-of-care y revistas de alto impacto clínico acreditadas para la Facultad de Medicina Humana URP.
-          </p>
-        </div>
-      </section>
-
-      <main className="max-w-[1280px] mx-auto px-6 pt-10 flex flex-col gap-8">
+      <main className="max-w-[1280px] mx-auto px-6 pt-8 sm:pt-10 flex flex-col gap-8">
         <div className="w-full max-w-3xl mx-auto flex flex-col items-center gap-3">
           <div className="w-full bg-white rounded-2xl border-2 border-slate-900 shadow-urp-brutal-sm p-1.5 flex items-center gap-2">
             <div className="pl-3 text-slate-400 flex items-center justify-center">
