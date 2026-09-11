@@ -49,7 +49,7 @@ export const Footer: React.FC = () => {
                 Contacto Directo
               </h4>
               <p className="text-sm font-semibold text-slate-100">
-                fvalero@urp.edu.pe
+                biblioteca.famurp@urp.edu.pe
               </p>
               <p className="text-xs text-slate-400 mt-0.5 font-mono">
                 Tel: +51 1 708-0000 Anexo 212
@@ -64,7 +64,7 @@ export const Footer: React.FC = () => {
               MedLib URP
             </span>
             <p className="text-xs sm:text-sm text-slate-400 max-w-md leading-relaxed">
-              Biblioteca Virtual y Especializada de la Facultad de Medicina Humana — Universidad Ricardo Palma.
+              Biblioteca Virtual y Especializada de la Facultad de Medicina Humana - Universidad Ricardo Palma.
             </p>
           </div>
 
