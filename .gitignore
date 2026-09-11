@@ -20,6 +20,9 @@ obj/
 .env
 .env.local
 .env.*.local
+secrets.env
+*.env
+*.env.*
 
 # Logs
 npm-debug.log*
