@@ -1,0 +1,91 @@
+name: CI & Deployment Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-frontend:
+    name: Validate Frontend (Typecheck & Build)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.5.2
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck Frontend
+        run: pnpm --filter medlib-urp-frontend typecheck
+
+      - name: Build Frontend Production Bundle
+        run: pnpm --filter medlib-urp-frontend build
+
+  deploy-vercel:
+    name: Deploy Frontend to Vercel
+    needs: validate-frontend
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Check Vercel Credentials
+        id: check-credentials
+        run: |
+          if [ -n "${{ secrets.VERCEL_TOKEN }}" ]; then
+            echo "has_token=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_token=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Deploy via Vercel Action
+        if: steps:check-credentials.outputs.has_token == 'true'
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+          working-directory: ./frontend
+
+      - name: Report Native Git Deployment Notice
+        if: steps:check-credentials.outputs.has_token == 'false'
+        run: |
+          echo "VERCEL_TOKEN no configurado en GitHub Secrets."
+          echo "El frontend se desplegara automaticamente a traves de la integracion nativa de Vercel para GitHub."
+
+  deploy-render-backend:
+    name: Deploy Backend to Render
+    needs: validate-frontend
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Render Deploy Hook
+        if: env.RENDER_HOOK != ''
+        env:
+          RENDER_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          echo "Enviando senal de despliegue a Render..."
+          curl -f -X POST "$RENDER_HOOK"
+          echo "Senal recibida por Render con exito."
