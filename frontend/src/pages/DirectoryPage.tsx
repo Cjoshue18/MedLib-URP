@@ -9,13 +9,23 @@ import {
   DatabaseAccordionCard,
 } from '../features/guides';
 
-export const DirectoryPage: React.FC = () => {
+interface DirectoryPageProps {
+  initialSearchQuery?: string;
+}
+
+export const DirectoryPage: React.FC<DirectoryPageProps> = ({ initialSearchQuery = '' }) => {
   const [databases, setDatabases] = useState<MedicalDatabase[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLiveConnected, setIsLiveConnected] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
   const [licenseFilter, setLicenseFilter] = useState<'all' | 'subscription' | 'open'>('all');
   const [expandedDbIds, setExpandedDbIds] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    if (initialSearchQuery !== undefined) {
+      setSearchQuery(initialSearchQuery);
+    }
+  }, [initialSearchQuery]);
 
   const loadLiveDatabases = useCallback(async () => {
     try {
@@ -59,14 +69,22 @@ export const DirectoryPage: React.FC = () => {
     });
   };
 
+  const normalizeText = (str: string): string => {
+    return str
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .trim();
+  };
+
   const filteredDbs = databases.filter((db) => {
-    const q = searchQuery.toLowerCase().trim();
+    const q = normalizeText(searchQuery);
     const matchesSearch =
       !q ||
-      db.title.toLowerCase().includes(q) ||
-      db.description.toLowerCase().includes(q) ||
-      db.accessType.toLowerCase().includes(q) ||
-      db.tags.some((t) => t.toLowerCase().includes(q));
+      normalizeText(db.title).includes(q) ||
+      normalizeText(db.description).includes(q) ||
+      normalizeText(db.accessType).includes(q) ||
+      db.tags.some((t) => normalizeText(t).includes(q));
 
     const matchesLicense =
       licenseFilter === 'all' ||
