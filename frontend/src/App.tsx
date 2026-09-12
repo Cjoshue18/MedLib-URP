@@ -6,8 +6,9 @@ import { HomePage } from './pages/HomePage';
 import { DirectoryPage } from './pages/DirectoryPage';
 import { ConferencesPage } from './pages/ConferencesPage';
 import { LostFoundPage } from './pages/LostFoundPage';
+import { AdminPage } from './pages/AdminPage';
 
-export type AppView = 'home' | 'directory' | 'conferences' | 'lost-found';
+export type AppView = 'home' | 'directory' | 'conferences' | 'lost-found' | 'admin';
 
 export const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<AppView>('home');
@@ -22,6 +23,8 @@ export const App: React.FC = () => {
         setCurrentView('conferences');
       } else if (hash === '#objetos-perdidos' || hash === '#comunidad') {
         setCurrentView('lost-found');
+      } else if (hash === '#gestion-bibliotecaria-famurp') {
+        setCurrentView('admin');
       } else {
         setCurrentView('home');
       }
@@ -59,8 +62,13 @@ export const App: React.FC = () => {
     else if (view === 'directory') window.location.hash = '#directorio';
     else if (view === 'conferences') window.location.hash = '#conferencias';
     else if (view === 'lost-found') window.location.hash = '#objetos-perdidos';
+    else if (view === 'admin') window.location.hash = '#gestion-bibliotecaria-famurp';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  if (currentView === 'admin') {
+    return <AdminPage onNavigate={navigateTo} />;
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-on-background font-body-md antialiased selection:bg-primary-fixed selection:text-on-primary-fixed">
