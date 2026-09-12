@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Search, 
   ExternalLink, 
@@ -11,15 +11,50 @@ import {
   BookOpen,
   CheckCircle2,
   Sparkles,
-  ChevronDown
+  ChevronDown,
+  RefreshCw
 } from 'lucide-react';
 import { DATABASES_DATA, MedicalDatabase, getDatabaseLogoUrl } from '../features/guides/data/databasesData';
+import { resourceService } from '../features/guides/services/resourceService';
+import { mapApiResourceToMedicalDatabase } from '../features/guides/utils/resourceAdapter';
 
 export const DirectoryPage: React.FC = () => {
+  const [databases, setDatabases] = useState<MedicalDatabase[]>(DATABASES_DATA);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLiveConnected, setIsLiveConnected] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedDbIds, setExpandedDbIds] = useState<Set<string>>(new Set());
 
-  const filteredDbs = DATABASES_DATA.filter((db) => {
+  useEffect(() => {
+    let isMounted = true;
+    const loadLiveDatabases = async () => {
+      try {
+        setIsLoading(true);
+        const apiResources = await resourceService.getResources();
+        if (isMounted && apiResources && apiResources.length > 0) {
+          const mapped = apiResources.map(mapApiResourceToMedicalDatabase);
+          setDatabases(mapped);
+          setIsLiveConnected(true);
+        }
+      } catch {
+        if (isMounted) {
+          setDatabases(DATABASES_DATA);
+          setIsLiveConnected(false);
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    loadLiveDatabases();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const filteredDbs = databases.filter((db) => {
     if (!searchQuery.trim()) return true;
     const q = searchQuery.toLowerCase();
     return (
@@ -287,9 +322,23 @@ export const DirectoryPage: React.FC = () => {
         <div className="bg-white rounded-3xl border-2 border-slate-900 shadow-urp-brutal p-6 sm:p-8 flex flex-col gap-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">
             <div>
-              <h3 className="font-display font-extrabold text-lg sm:text-2xl text-slate-900">
-                Mostrando recursos ({filteredDbs.length})
-              </h3>
+              <div className="flex items-center gap-2.5 flex-wrap">
+                <h3 className="font-display font-extrabold text-lg sm:text-2xl text-slate-900">
+                  Mostrando recursos ({filteredDbs.length})
+                </h3>
+                {isLiveConnected && (
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-[#00572B] border border-emerald-300 shadow-2xs">
+                    <span className="w-2 h-2 rounded-full bg-[#008744] animate-pulse" />
+                    EN VIVO
+                  </span>
+                )}
+                {isLoading && (
+                  <span className="inline-flex items-center gap-1 text-xs text-slate-400 font-medium">
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#008744]" />
+                    Sincronizando...
+                  </span>
+                )}
+              </div>
               <p className="text-xs sm:text-sm text-slate-500 mt-1">
                 Haz clic en cualquier plataforma para desplegar su ficha técnica completa, tutorial de acceso remoto y enlace directo.
               </p>

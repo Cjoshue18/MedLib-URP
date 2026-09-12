@@ -6,9 +6,13 @@ import {
   UpdateResourceApiRequest,
 } from '../types/resourceApiTypes';
 
+const getApiBase = (): string => {
+  return ((import.meta.env.VITE_API_URL || import.meta.env.API_URL) as string)?.replace(/\/$/, '') || '';
+};
+
 export const resourceService = {
   async getResources(): Promise<ResourceApiDto[]> {
-    const response = await fetch('/api/v1/resources');
+    const response = await fetch(`${getApiBase()}/api/v1/resources`);
     if (!response.ok) {
       throw new Error(`Error al obtener recursos: ${response.statusText}`);
     }
@@ -16,7 +20,7 @@ export const resourceService = {
   },
 
   async getResourceById(id: number): Promise<ResourceApiDto> {
-    const response = await fetch(`/api/v1/resources/${id}`);
+    const response = await fetch(`${getApiBase()}/api/v1/resources/${id}`);
     if (!response.ok) {
       throw new Error(`Error al obtener recurso con ID ${id}`);
     }
@@ -24,7 +28,7 @@ export const resourceService = {
   },
 
   async getSubjects(): Promise<SubjectApiDto[]> {
-    const response = await fetch('/api/v1/subjects');
+    const response = await fetch(`${getApiBase()}/api/v1/subjects`);
     if (!response.ok) {
       throw new Error(`Error al obtener materias: ${response.statusText}`);
     }
@@ -33,7 +37,7 @@ export const resourceService = {
 
   async createResource(request: CreateResourceApiRequest): Promise<ResourceApiDto> {
     const token = authService.getToken();
-    const response = await fetch('/api/v1/admin/resources', {
+    const response = await fetch(`${getApiBase()}/api/v1/admin/resources`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -52,7 +56,7 @@ export const resourceService = {
 
   async updateResource(id: number, request: UpdateResourceApiRequest): Promise<ResourceApiDto> {
     const token = authService.getToken();
-    const response = await fetch(`/api/v1/admin/resources/${id}`, {
+    const response = await fetch(`${getApiBase()}/api/v1/admin/resources/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -71,7 +75,7 @@ export const resourceService = {
 
   async deleteResource(id: number): Promise<void> {
     const token = authService.getToken();
-    const response = await fetch(`/api/v1/admin/resources/${id}`, {
+    const response = await fetch(`${getApiBase()}/api/v1/admin/resources/${id}`, {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -89,7 +93,7 @@ export const resourceService = {
     const formData = new FormData();
     formData.append('file', file);
 
-    const response = await fetch('/api/v1/admin/resources/upload-logo', {
+    const response = await fetch(`${getApiBase()}/api/v1/admin/resources/upload-logo`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
