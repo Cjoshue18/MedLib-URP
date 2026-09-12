@@ -1,26 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  Search, 
   ExternalLink, 
   Database, 
   PlayCircle, 
   Lock, 
   Globe, 
-  X,
   BookOpen,
-  Sparkles,
   ChevronDown,
   RefreshCw
 } from 'lucide-react';
-import { MedicalDatabase, getDatabaseLogoUrl } from '../features/guides/data/databasesData';
-import { resourceService } from '../features/guides/services/resourceService';
-import { mapApiResourceToMedicalDatabase } from '../features/guides/utils/resourceAdapter';
+import {
+  MedicalDatabase,
+  getDatabaseLogoUrl,
+  resourceService,
+  mapApiResourceToMedicalDatabase,
+  DatabaseSearchBar,
+} from '../features/guides';
 
 export const DirectoryPage: React.FC = () => {
   const [databases, setDatabases] = useState<MedicalDatabase[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLiveConnected, setIsLiveConnected] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [licenseFilter, setLicenseFilter] = useState<'all' | 'subscription' | 'open'>('all');
   const [expandedDbIds, setExpandedDbIds] = useState<Set<string>>(new Set());
 
   const loadLiveDatabases = async () => {
@@ -48,14 +50,20 @@ export const DirectoryPage: React.FC = () => {
   }, []);
 
   const filteredDbs = databases.filter((db) => {
-    if (!searchQuery.trim()) return true;
-    const q = searchQuery.toLowerCase();
-    return (
+    const q = searchQuery.toLowerCase().trim();
+    const matchesSearch =
+      !q ||
       db.title.toLowerCase().includes(q) ||
       db.description.toLowerCase().includes(q) ||
       db.accessType.toLowerCase().includes(q) ||
-      db.tags.some(t => t.toLowerCase().includes(q))
-    );
+      db.tags.some((t) => t.toLowerCase().includes(q));
+
+    const matchesLicense =
+      licenseFilter === 'all' ||
+      (licenseFilter === 'subscription' && db.accessType === 'Suscripción URP') ||
+      (licenseFilter === 'open' && db.accessType !== 'Suscripción URP');
+
+    return matchesSearch && matchesLicense;
   });
 
   const col1DbsLg = filteredDbs.filter((_, i) => i % 3 === 0);
@@ -225,70 +233,24 @@ export const DirectoryPage: React.FC = () => {
   return (
     <div className="w-full pb-20">
       <main className="max-w-[1280px] mx-auto px-6 pt-8 sm:pt-10 flex flex-col gap-8">
-        <div className="w-full max-w-3xl mx-auto flex flex-col items-center gap-3">
-          <form 
-            onSubmit={(e) => e.preventDefault()} 
-            className="w-full flex items-center gap-2.5 sm:gap-3"
-          >
-            <div className="relative flex-1 bg-white rounded-2xl border-2 border-slate-900 shadow-urp-brutal-sm px-4 py-3 flex items-center gap-2.5">
-              <Search className="w-5 h-5 text-slate-400 shrink-0" />
-              <input 
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Buscar recurso por nombre, materia o especialidad..."
-                className="w-full text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 bg-transparent outline-none font-medium"
-              />
-              {searchQuery && (
-                <button
-                  type="button"
-                  onClick={() => setSearchQuery('')}
-                  className="p-1 text-slate-400 hover:text-slate-700 rounded-lg cursor-pointer transition-colors shrink-0"
-                  title="Limpiar búsqueda"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              )}
-            </div>
-
+        <DatabaseSearchBar
+          searchTerm={searchQuery}
+          onSearchChange={setSearchQuery}
+          placeholder="Buscar recurso por nombre, materia o especialidad..."
+          licenseFilter={licenseFilter}
+          onLicenseFilterChange={setLicenseFilter}
+          suggestions={quickKeywords}
+          onSuggestionClick={setSearchQuery}
+          variant="hero"
+          actionsRight={
             <button 
               type="submit"
               className="px-6 sm:px-8 py-3.5 rounded-2xl bg-[#008744] hover:bg-[#006b35] text-white font-bold text-xs sm:text-sm border-2 border-slate-900 shadow-urp-brutal tactile-btn-green transition-all cursor-pointer shrink-0 flex items-center justify-center gap-1.5"
             >
               <span>Buscar</span>
             </button>
-          </form>
-
-          <div className="flex flex-wrap items-center justify-center gap-1.5 pt-1">
-            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wide mr-1 flex items-center gap-1">
-              <Sparkles className="w-3 h-3 text-[#008744]" />
-              Sugerencias:
-            </span>
-            {quickKeywords.map((kw) => (
-              <button
-                key={kw}
-                type="button"
-                onClick={() => setSearchQuery(kw)}
-                className={`text-xs px-2.5 py-1 rounded-lg border transition-all cursor-pointer font-semibold ${
-                  searchQuery.toLowerCase() === kw.toLowerCase()
-                    ? 'bg-[#008744] text-white border-[#008744]'
-                    : 'bg-white text-slate-600 border-slate-200 hover:border-slate-900 hover:text-slate-900 shadow-2xs'
-                }`}
-              >
-                {kw}
-              </button>
-            ))}
-            {searchQuery && (
-              <button
-                type="button"
-                onClick={() => setSearchQuery('')}
-                className="text-xs px-2.5 py-1 rounded-lg bg-rose-50 text-rose-700 border border-rose-200 font-bold hover:bg-rose-100 transition-colors cursor-pointer"
-              >
-                Ver todos
-              </button>
-            )}
-          </div>
-        </div>
+          }
+        />
 
         <div className="bg-white rounded-3xl border-2 border-slate-900 shadow-urp-brutal p-6 sm:p-8 flex flex-col gap-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">
