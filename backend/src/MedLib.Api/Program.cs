@@ -29,6 +29,7 @@ builder.Services.AddDbContext<MedLibDbContext>(options =>
 
 builder.Services.AddSingleton<IPasswordHasher, BCryptPasswordHasher>();
 builder.Services.AddScoped<ITokenService, JwtTokenService>();
+builder.Services.AddScoped<IRefreshTokenService, RefreshTokenService>();
 
 var storageProvider = Environment.GetEnvironmentVariable("STORAGE_PROVIDER")
     ?? builder.Configuration["Storage:Provider"] 

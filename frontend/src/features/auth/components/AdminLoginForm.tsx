@@ -11,7 +11,7 @@ export const AdminLoginForm: React.FC<AdminLoginFormProps> = ({
   onLoginSuccess,
   onBackToHome,
 }) => {
-  const [username, setUsername] = useState('admin_famurp');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState('');

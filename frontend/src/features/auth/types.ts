@@ -5,10 +5,19 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   token: string;
+  refreshToken: string;
   username: string;
   fullName: string;
   role: string;
   expiresAt: string;
+  refreshExpiresAt: string;
+}
+
+export interface TokenRefreshResponse {
+  token: string;
+  refreshToken: string;
+  expiresAt: string;
+  refreshExpiresAt: string;
 }
 
 export interface AdminUserProfile {

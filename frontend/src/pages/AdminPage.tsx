@@ -45,7 +45,17 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      loadResources();
+      if (!authService.isAuthenticated()) {
+        setIsAuthenticated(false);
+        return;
+      }
+      authService.verifyProfile().then((profile) => {
+        if (!profile) {
+          setIsAuthenticated(false);
+        } else {
+          loadResources();
+        }
+      });
     }
   }, [isAuthenticated]);
 
