@@ -143,12 +143,6 @@ export const AdminLoginForm: React.FC<AdminLoginFormProps> = ({
                 </>
               )}
             </button>
-
-            <div className="pt-2 text-center">
-              <p className="text-[11px] text-slate-500 font-medium">
-                Autorización protegida por tokens criptográficos y cifrado BCrypt. Acceso auditado bajo normativa SUNEDU.
-              </p>
-            </div>
           </form>
         </div>
       </main>
