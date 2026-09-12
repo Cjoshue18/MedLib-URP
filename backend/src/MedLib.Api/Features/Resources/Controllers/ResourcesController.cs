@@ -21,6 +21,7 @@ public class ResourcesController : ControllerBase
         [FromQuery] string? q,
         [FromQuery] string? materia,
         [FromQuery] bool? suscripcion,
+        [FromQuery] bool? lite,
         CancellationToken cancellationToken)
     {
         var query = _context.BasesDatosMedicas
@@ -28,8 +29,12 @@ public class ResourcesController : ControllerBase
             .Where(r => r.EstadoActivo)
             .Include(r => r.RelacionesMateria)
                 .ThenInclude(rm => rm.Materia)
-            .Include(r => r.Tutorial)
             .AsQueryable();
+
+        if (lite != true)
+        {
+            query = query.Include(r => r.Tutorial);
+        }
 
         if (!string.IsNullOrWhiteSpace(q))
         {
@@ -56,13 +61,13 @@ public class ResourcesController : ControllerBase
                 r.IdBaseDatos,
                 r.NombreRecurso,
                 r.LogotipoUrl,
-                r.DescripcionClinica,
+                lite == true ? "" : r.DescripcionClinica,
                 r.EsSuscripcion,
                 r.TieneAppMovil,
-                r.UrlExterno,
+                lite == true ? null : r.UrlExterno,
                 r.EstadoActivo,
                 r.RelacionesMateria.Select(rm => rm.Materia.NombreMateria).OrderBy(m => m).ToList(),
-                r.Tutorial != null ? new TutorialDto(r.Tutorial.IdTutorial, r.Tutorial.TituloVideo, r.Tutorial.YoutubeVideoId, r.Tutorial.GuiaPdfUrl) : null
+                lite == true || r.Tutorial == null ? null : new TutorialDto(r.Tutorial.IdTutorial, r.Tutorial.TituloVideo, r.Tutorial.YoutubeVideoId, r.Tutorial.GuiaPdfUrl)
             ))
             .ToListAsync(cancellationToken);
 

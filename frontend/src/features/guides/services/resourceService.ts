@@ -10,9 +10,12 @@ const getApiBase = (): string => {
   return (import.meta.env.VITE_API_URL as string)?.replace(/\/$/, '') || '';
 };
 
+const resourceDetailCache = new Map<number, ResourceApiDto>();
+
 export const resourceService = {
-  async getResources(): Promise<ResourceApiDto[]> {
-    const response = await fetch(`${getApiBase()}/api/v1/resources`);
+  async getResources(lite: boolean = false): Promise<ResourceApiDto[]> {
+    const url = lite ? `${getApiBase()}/api/v1/resources?lite=true` : `${getApiBase()}/api/v1/resources`;
+    const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`Error al obtener recursos: ${response.statusText}`);
     }
@@ -37,11 +40,25 @@ export const resourceService = {
   },
 
   async getResourceById(id: number): Promise<ResourceApiDto> {
+    const cached = resourceDetailCache.get(id);
+    if (cached) {
+      return cached;
+    }
     const response = await fetch(`${getApiBase()}/api/v1/resources/${id}`);
     if (!response.ok) {
       throw new Error(`Error al obtener recurso con ID ${id}`);
     }
-    return await response.json();
+    const data = await response.json();
+    resourceDetailCache.set(id, data);
+    return data;
+  },
+
+  clearDetailCache(id?: number): void {
+    if (id !== undefined) {
+      resourceDetailCache.delete(id);
+    } else {
+      resourceDetailCache.clear();
+    }
   },
 
   async getSubjects(): Promise<SubjectApiDto[]> {
@@ -87,6 +104,7 @@ export const resourceService = {
       throw new Error(err.message || 'Error al actualizar recurso');
     }
 
+    this.clearDetailCache(id);
     return await response.json();
   },
 
@@ -103,6 +121,8 @@ export const resourceService = {
       const err = await response.json().catch(() => ({ message: 'Error al eliminar recurso' }));
       throw new Error(err.message || 'Error al eliminar recurso');
     }
+
+    this.clearDetailCache(id);
   },
 
   async uploadLogo(file: File): Promise<string> {
