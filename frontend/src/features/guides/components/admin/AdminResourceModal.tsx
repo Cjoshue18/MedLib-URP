@@ -10,6 +10,7 @@ export interface ResourceFormData {
   hasMobileApp: boolean;
   externalUrl: string;
   isActive: boolean;
+  mostrarEnHexagonos: boolean;
   subjectsStr: string;
   youtubeVideoId: string;
   videoTitle: string;
@@ -24,6 +25,7 @@ const initialResourceFormData: ResourceFormData = {
   hasMobileApp: false,
   externalUrl: 'https://test.urp.edu.pe/Intranet/',
   isActive: true,
+  mostrarEnHexagonos: false,
   subjectsStr: 'Medicina Humana, Ciencias Básicas',
   youtubeVideoId: '',
   videoTitle: '',
@@ -35,6 +37,7 @@ interface AdminResourceModalProps {
   onClose: () => void;
   onSave: (data: ResourceFormData) => Promise<void>;
   initialData?: ResourceFormData | null;
+  activeResourcesCount?: number;
 }
 
 export const AdminResourceModal: React.FC<AdminResourceModalProps> = ({
@@ -42,6 +45,7 @@ export const AdminResourceModal: React.FC<AdminResourceModalProps> = ({
   onClose,
   onSave,
   initialData,
+  activeResourcesCount,
 }) => {
   const [formData, setFormData] = useState<ResourceFormData>(initialResourceFormData);
   const [isSaving, setIsSaving] = useState(false);
@@ -220,26 +224,85 @@ export const AdminResourceModal: React.FC<AdminResourceModalProps> = ({
             </div>
           </div>
 
-          <div className="flex items-center gap-6 border-t border-slate-200 pt-3">
-            <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-slate-700">
-              <input
-                type="checkbox"
-                checked={formData.hasMobileApp}
-                onChange={(e) => setFormData({ ...formData, hasMobileApp: e.target.checked })}
-                className="w-4 h-4 rounded text-[#008744] focus:ring-[#008744]"
-              />
-              <span>Dispone de App Móvil</span>
-            </label>
+          {formData.mostrarEnHexagonos ? (
+            <div className="rounded-xl border border-amber-200 bg-amber-50/80 p-3 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2.5">
+                <div className="w-7 h-7 rounded-lg bg-amber-100 flex items-center justify-center shrink-0">
+                  <span className="text-amber-700 font-bold text-xs">HEX</span>
+                </div>
+                <div>
+                  <span className="font-bold text-xs text-slate-900 block">Asignada a la Matriz Hexagonal de Portada</span>
+                  <span className="text-[11px] text-slate-500 font-medium">Forma parte de las 15 bases activas en la red 3D de inicio.</span>
+                </div>
+              </div>
+              <span className="text-[10px] font-bold text-amber-800 bg-amber-100 px-2.5 py-1 rounded-full border border-amber-300 shrink-0">
+                En Portada
+              </span>
+            </div>
+          ) : (
+            <div className="rounded-xl border border-slate-200 bg-slate-50 p-3 flex items-center justify-between gap-3 text-xs">
+              <div className="flex items-center gap-2.5">
+                <div className="w-7 h-7 rounded-lg bg-slate-200 flex items-center justify-center shrink-0">
+                  <span className="text-slate-500 font-bold text-xs">DIR</span>
+                </div>
+                <div>
+                  <span className="font-bold text-slate-700 block">No visible en los hexágonos de portada</span>
+                  <span className="text-[11px] text-slate-500 font-medium">Para incluirla en la matriz de 15, usa el botón "Matriz Hexagonal".</span>
+                </div>
+              </div>
+              <span className="text-[10px] font-bold text-slate-500 bg-slate-200 px-2 py-0.5 rounded-full shrink-0">
+                Oculto
+              </span>
+            </div>
+          )}
 
-            <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-slate-700">
-              <input
-                type="checkbox"
-                checked={formData.isActive}
-                onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
-                className="w-4 h-4 rounded text-[#008744] focus:ring-[#008744]"
-              />
-              <span>Visible y Activo en el Portal</span>
-            </label>
+          <div className="flex flex-col gap-3 border-t border-slate-200 pt-3">
+            <div className="flex items-center gap-6">
+              <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-slate-700">
+                <input
+                  type="checkbox"
+                  checked={formData.hasMobileApp}
+                  onChange={(e) => setFormData({ ...formData, hasMobileApp: e.target.checked })}
+                  className="w-4 h-4 rounded text-[#008744] focus:ring-[#008744]"
+                />
+                <span>Dispone de App Móvil</span>
+              </label>
+
+              <label
+                className={`flex items-center gap-2 text-xs font-bold ${
+                  initialData?.mostrarEnHexagonos || ((activeResourcesCount ?? 99) <= 15 && initialData?.isActive)
+                    ? 'cursor-not-allowed text-slate-400'
+                    : 'cursor-pointer text-slate-700'
+                }`}
+              >
+                <input
+                  type="checkbox"
+                  disabled={
+                    initialData?.mostrarEnHexagonos || ((activeResourcesCount ?? 99) <= 15 && initialData?.isActive)
+                  }
+                  checked={formData.isActive}
+                  onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
+                  className={`w-4 h-4 rounded text-[#008744] focus:ring-[#008744] ${
+                    initialData?.mostrarEnHexagonos || ((activeResourcesCount ?? 99) <= 15 && initialData?.isActive)
+                      ? 'cursor-not-allowed text-slate-400'
+                      : 'cursor-pointer'
+                  }`}
+                />
+                <span>Visible y Activo en el Portal</span>
+              </label>
+            </div>
+
+            {initialData?.mostrarEnHexagonos && (
+              <p className="text-[11px] text-rose-700 font-semibold bg-rose-50 border border-rose-200 p-2.5 rounded-xl">
+                Esta base de datos forma parte de la matriz hexagonal de inicio y no puede inactivarse directamente. Para inactivarla, primero debes reemplazarla por otra en la matriz usando el botón "Matriz Hexagonal".
+              </p>
+            )}
+
+            {!initialData?.mostrarEnHexagonos && (activeResourcesCount ?? 99) <= 15 && initialData?.isActive && (
+              <p className="text-[11px] text-amber-700 font-semibold bg-amber-50 border border-amber-200 p-2.5 rounded-xl">
+                No se puede inactivar: el sistema requiere tener al menos 15 bases de datos activas.
+              </p>
+            )}
           </div>
 
           <div className="border-t border-slate-200 pt-4 flex items-center justify-end gap-3">

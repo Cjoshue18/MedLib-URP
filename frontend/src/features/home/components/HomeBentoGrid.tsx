@@ -6,31 +6,28 @@ interface HomeBentoGridProps {
   onNavigate: (view: 'directory') => void;
 }
 
-interface HexSlot {
-  id: number;
-  slug: string;
-  fallbackTitle: string;
+interface HexPosition {
   col: number;
   row: number;
   innerBond?: { x1: number; y1: number; x2: number; y2: number };
 }
 
-const hexSlots: HexSlot[] = [
-  { id: 5, slug: 'bmj-best-practice', fallbackTitle: 'BMJ Best Practice', col: 0, row: 0 },
-  { id: 26, slug: 'paho', fallbackTitle: 'PAHO / OPS', col: 0, row: 1, innerBond: { x1: 30, y1: 6.5, x2: 66, y2: 6.5 } },
-  { id: 10, slug: 'biodigital', fallbackTitle: 'BioDigital Human 3D', col: 1, row: 0 },
-  { id: 4, slug: 'dynamedex', fallbackTitle: 'DynaMedex', col: 1, row: 1, innerBond: { x1: 8.6, y1: 39.6, x2: 26.6, y2: 8.4 } },
-  { id: 22, slug: 'scielo', fallbackTitle: 'SciELO', col: 1, row: 2 },
-  { id: 34, slug: 'plos', fallbackTitle: 'PLOS Medicine', col: 2, row: 0 },
-  { id: 11, slug: 'scopus', fallbackTitle: 'Scopus', col: 2, row: 1 },
-  { id: 18, slug: 'pubmed', fallbackTitle: 'PubMed / MEDLINE', col: 2, row: 2, innerBond: { x1: 30, y1: 6.5, x2: 66, y2: 6.5 } },
-  { id: 20, slug: 'pmc', fallbackTitle: 'PubMed Central', col: 2, row: 3 },
-  { id: 7, slug: 'nejm', fallbackTitle: 'NEJM', col: 3, row: 0, innerBond: { x1: 26.6, y1: 74.7, x2: 8.6, y2: 43.5 } },
-  { id: 6, slug: 'the-bmj', fallbackTitle: 'The BMJ', col: 3, row: 1 },
-  { id: 25, slug: 'epistemonikos', fallbackTitle: 'Epistemonikos', col: 3, row: 2 },
-  { id: 13, slug: 'nature', fallbackTitle: 'Nature Medicine', col: 4, row: 0, innerBond: { x1: 30, y1: 6.5, x2: 66, y2: 6.5 } },
-  { id: 12, slug: 'sciencedirect', fallbackTitle: 'ScienceDirect', col: 4, row: 1, innerBond: { x1: 69.4, y1: 8.4, x2: 87.4, y2: 39.6 } },
-  { id: 31, slug: 'doaj', fallbackTitle: 'DOAJ', col: 4, row: 2 },
+const HEX_POSITIONS: HexPosition[] = [
+  { col: 0, row: 0 },
+  { col: 0, row: 1, innerBond: { x1: 30, y1: 6.5, x2: 66, y2: 6.5 } },
+  { col: 1, row: 0 },
+  { col: 1, row: 1, innerBond: { x1: 8.6, y1: 39.6, x2: 26.6, y2: 8.4 } },
+  { col: 1, row: 2 },
+  { col: 2, row: 0 },
+  { col: 2, row: 1 },
+  { col: 2, row: 2, innerBond: { x1: 30, y1: 6.5, x2: 66, y2: 6.5 } },
+  { col: 2, row: 3 },
+  { col: 3, row: 0, innerBond: { x1: 26.6, y1: 74.7, x2: 8.6, y2: 43.5 } },
+  { col: 3, row: 1 },
+  { col: 3, row: 2 },
+  { col: 4, row: 0, innerBond: { x1: 30, y1: 6.5, x2: 66, y2: 6.5 } },
+  { col: 4, row: 1, innerBond: { x1: 69.4, y1: 8.4, x2: 87.4, y2: 39.6 } },
+  { col: 4, row: 2 },
 ];
 
 export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
@@ -47,13 +44,15 @@ export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
       .then((data) => {
         if (isMounted && data && data.length > 0) {
           setResources(data);
-          data.forEach((r) => {
-            const url = getDatabaseLogoUrl(r.logoUrl);
-            if (url) {
-              const img = new Image();
-              img.src = url;
-            }
-          });
+          data
+            .filter((r) => r.mostrarEnHexagonos)
+            .forEach((r) => {
+              const url = getDatabaseLogoUrl(r.logoUrl);
+              if (url) {
+                const img = new Image();
+                img.src = url;
+              }
+            });
         }
       })
       .catch(() => {});
@@ -127,6 +126,37 @@ export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
       }, 5000);
     }
   };
+  const hexagonResources = React.useMemo(() => {
+    const selected = resources.filter((r) => r.mostrarEnHexagonos && r.isActive);
+    if (selected.length >= 15) {
+      return selected.slice(0, 15);
+    }
+    const selectedIds = new Set(selected.map((r) => r.id));
+    const fallbackCandidates = resources.filter(
+      (r) => !selectedIds.has(r.id) && r.isActive && r.logoUrl
+    );
+    const combined = [...selected, ...fallbackCandidates];
+    if (combined.length >= 15) {
+      return combined.slice(0, 15);
+    }
+    const remaining = resources.filter(
+      (r) => !combined.some((c) => c.id === r.id) && r.isActive
+    );
+    return [...combined, ...remaining].slice(0, 15);
+  }, [resources]);
+
+  const activeSlots = React.useMemo(() => {
+    return HEX_POSITIONS.map((pos, index) => {
+      const res = hexagonResources[index];
+      return {
+        id: res ? res.id : index + 1000,
+        resource: res || null,
+        col: pos.col,
+        row: pos.row,
+        innerBond: pos.innerBond,
+      };
+    });
+  }, [hexagonResources]);
 
   return (
     <div className="space-y-8">
@@ -240,10 +270,9 @@ export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
             />
           </svg>
 
-          {hexSlots.map((slot) => {
-            const matched = resources.find((r) => r.id === slot.id);
-            const logoSrc = getDatabaseLogoUrl(matched?.logoUrl);
-            const title = matched?.name || slot.fallbackTitle;
+          {activeSlots.map((slot) => {
+            const logoSrc = getDatabaseLogoUrl(slot.resource?.logoUrl);
+            const title = slot.resource?.name || 'Base de Datos Biomédica';
 
             const cx = 65 + slot.col * 72;
             const cy = 50 + slot.row * 83.138 + (slot.col % 2 !== 0 ? 41.569 : 0);
@@ -350,7 +379,7 @@ export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
                             fontSize="8"
                             fontWeight="bold"
                           >
-                            {title.slice(0, 10)}
+                            {title}
                           </text>
                         </g>
                       )}

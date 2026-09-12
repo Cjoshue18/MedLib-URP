@@ -1,24 +1,26 @@
 import React from 'react';
-import { RefreshCw, Database, ShieldCheck, Globe, Smartphone, Video, Edit } from 'lucide-react';
+import { RefreshCw, Database, ShieldCheck, Globe, Smartphone, Video, Edit, Hexagon, Trash2 } from 'lucide-react';
 import { ResourceApiDto } from '../../types/resourceApiTypes';
 import { getDatabaseLogoUrl } from '../../data/databasesData';
 
 interface AdminResourceTableProps {
   resources: ResourceApiDto[];
   totalResourcesCount: number;
+  totalHexagonCount: number;
   isLoading: boolean;
-  togglingId: number | null;
   onEdit: (res: ResourceApiDto) => void;
-  onToggleActive: (res: ResourceApiDto) => void;
+  onDelete?: (res: ResourceApiDto) => void;
+  onOpenMatrixModal?: () => void;
 }
 
 export const AdminResourceTable: React.FC<AdminResourceTableProps> = ({
   resources,
   totalResourcesCount,
+  totalHexagonCount,
   isLoading,
-  togglingId,
   onEdit,
-  onToggleActive,
+  onDelete,
+  onOpenMatrixModal,
 }) => {
   return (
     <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
@@ -27,11 +29,53 @@ export const AdminResourceTable: React.FC<AdminResourceTableProps> = ({
           <h2 className="text-sm font-bold font-display text-slate-900">
             Catálogo de Bases de Datos Biomédicas
           </h2>
-          <p className="text-xs text-slate-500 mt-0.5">
-            Mostrando {resources.length} de {totalResourcesCount} recursos administrados
+          <p className="text-xs text-slate-500 mt-0.5 flex items-center gap-2 flex-wrap">
+            <span>Mostrando {resources.length} de {totalResourcesCount} recursos administrados</span>
+            <span
+              className={`inline-flex items-center gap-1 font-semibold px-2.5 py-0.5 rounded-full border text-[11px] ${
+                totalHexagonCount === 15
+                  ? 'text-emerald-900 bg-emerald-50 border-emerald-300'
+                  : totalHexagonCount < 15
+                  ? 'text-amber-900 bg-amber-50 border-amber-300'
+                  : 'text-rose-900 bg-rose-50 border-rose-300'
+              }`}
+            >
+              <Hexagon
+                className={`w-3 h-3 ${
+                  totalHexagonCount === 15 ? 'fill-emerald-500 text-emerald-700' : 'fill-amber-400 text-amber-600'
+                }`}
+              />
+              {totalHexagonCount === 15 ? (
+                <span>15 / 15 en hexágonos de inicio (Completo)</span>
+              ) : totalHexagonCount < 15 ? (
+                <span>{totalHexagonCount} / 15 en hexágonos (Faltan {15 - totalHexagonCount} para completar)</span>
+              ) : (
+                <span>{totalHexagonCount} / 15 en hexágonos (Excedido en {totalHexagonCount - 15})</span>
+              )}
+            </span>
           </p>
         </div>
       </div>
+
+      {totalHexagonCount < 15 && (
+        <div className="bg-amber-50 border-b border-amber-200 px-5 py-3 text-xs text-amber-900 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <Hexagon className="w-4 h-4 fill-amber-400 text-amber-600 shrink-0" />
+            <span>
+              <strong>Configuración de Portada Incompleta:</strong> Se requieren exactamente <strong>15 bases de datos</strong> para la red molecular 3D de la portada. Actualmente hay <strong>{totalHexagonCount} de 15</strong> seleccionadas.
+            </span>
+          </div>
+          {onOpenMatrixModal && (
+            <button
+              type="button"
+              onClick={onOpenMatrixModal}
+              className="px-3 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shrink-0 cursor-pointer shadow-xs"
+            >
+              Configurar Matriz
+            </button>
+          )}
+        </div>
+      )}
 
       {isLoading ? (
         <div className="p-12 text-center space-y-3">
@@ -55,6 +99,7 @@ export const AdminResourceTable: React.FC<AdminResourceTableProps> = ({
                 <th className="py-3 px-4">Materias</th>
                 <th className="py-3 px-4 text-center">App</th>
                 <th className="py-3 px-4 text-center">Tutorial</th>
+                <th className="py-3 px-4 text-center">Hexágonos Inicio</th>
                 <th className="py-3 px-4 text-center">Estado</th>
                 <th className="py-3 px-4 text-right">Acciones</th>
               </tr>
@@ -152,23 +197,31 @@ export const AdminResourceTable: React.FC<AdminResourceTableProps> = ({
                     </td>
 
                     <td className="py-3 px-4 text-center whitespace-nowrap">
-                      <button
-                        type="button"
-                        disabled={togglingId === res.id}
-                        onClick={() => onToggleActive(res)}
-                        className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold border transition-colors cursor-pointer ${
-                          res.isActive
-                            ? 'bg-emerald-50 text-emerald-800 border-emerald-300 hover:bg-emerald-100'
-                            : 'bg-slate-100 text-slate-500 border-slate-300 hover:bg-slate-200'
-                        }`}
-                      >
-                        <span
-                          className={`w-1.5 h-1.5 rounded-full ${
-                            res.isActive ? 'bg-emerald-600' : 'bg-slate-400'
-                          }`}
-                        ></span>
-                        <span>{res.isActive ? 'Activo' : 'Inactivo'}</span>
-                      </button>
+                      {res.mostrarEnHexagonos ? (
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-50 text-amber-900 border border-amber-300 select-none">
+                          <Hexagon className="w-3 h-3 fill-amber-400 text-amber-600" />
+                          <span>En Portada</span>
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-50 text-slate-400 border border-slate-200 select-none">
+                          <Hexagon className="w-3 h-3 text-slate-300" />
+                          <span>Oculto</span>
+                        </span>
+                      )}
+                    </td>
+
+                    <td className="py-3 px-4 text-center whitespace-nowrap">
+                      {res.isActive ? (
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-300 select-none">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                          <span>Activo</span>
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-100 text-slate-500 border border-slate-300 select-none">
+                          <span className="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+                          <span>Inactivo</span>
+                        </span>
+                      )}
                     </td>
 
                     <td className="py-3 px-4 text-right whitespace-nowrap">
@@ -181,6 +234,27 @@ export const AdminResourceTable: React.FC<AdminResourceTableProps> = ({
                         >
                           <Edit className="w-3.5 h-3.5" />
                         </button>
+                        {onDelete && (
+                          <button
+                            type="button"
+                            disabled={res.mostrarEnHexagonos || totalResourcesCount <= 15}
+                            onClick={() => onDelete(res)}
+                            className={`p-1.5 rounded-lg border transition-colors ${
+                              res.mostrarEnHexagonos || totalResourcesCount <= 15
+                                ? 'border-slate-200 text-slate-300 cursor-not-allowed'
+                                : 'border-slate-200 text-slate-600 hover:text-red-700 hover:border-red-300 hover:bg-red-50 cursor-pointer'
+                            }`}
+                            title={
+                              res.mostrarEnHexagonos
+                                ? 'No se puede eliminar: esta base de datos está asignada a la matriz hexagonal de inicio'
+                                : totalResourcesCount <= 15
+                                ? 'No se puede eliminar: se requiere un mínimo de 15 bases de datos en el sistema'
+                                : 'Eliminar base de datos'
+                            }
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        )}
                       </div>
                     </td>
                   </tr>

@@ -31,6 +31,7 @@ public class MedLibDbContext : DbContext
             entidad.Property(e => e.TieneAppMovil).HasColumnName("tiene_app_movil").HasDefaultValue(false);
             entidad.Property(e => e.UrlExterno).HasColumnName("url_externo").HasMaxLength(255);
             entidad.Property(e => e.EstadoActivo).HasColumnName("estado_activo").HasDefaultValue(true);
+            entidad.Property(e => e.MostrarEnHexagonos).HasColumnName("mostrar_en_hexagonos").HasDefaultValue(false);
 
             entidad.HasOne(e => e.Tutorial)
                    .WithOne(t => t.BaseDatos)

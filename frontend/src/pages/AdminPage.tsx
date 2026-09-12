@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ExternalLink, LogOut, CheckCircle2, RefreshCw, Plus } from 'lucide-react';
+import { ExternalLink, LogOut, CheckCircle2, RefreshCw, Plus, Hexagon } from 'lucide-react';
 import { authService, AdminLoginForm } from '../features/auth';
 import {
   resourceService,
@@ -7,6 +7,7 @@ import {
   AdminMetricsGrid,
   AdminResourceTable,
   AdminResourceModal,
+  HexagonMatrixModal,
   ResourceFormData,
   ResourceApiDto,
   CreateResourceApiRequest,
@@ -26,8 +27,8 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
   const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'inactive'>('all');
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMatrixModalOpen, setIsMatrixModalOpen] = useState(false);
   const [editingResourceData, setEditingResourceData] = useState<ResourceFormData | null>(null);
-  const [togglingId, setTogglingId] = useState<number | null>(null);
   const [statusFeedback, setStatusFeedback] = useState<string | null>(null);
 
   const loadResources = async () => {
@@ -69,6 +70,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
       hasMobileApp: res.hasMobileApp,
       externalUrl: res.externalUrl || '',
       isActive: res.isActive,
+      mostrarEnHexagonos: res.mostrarEnHexagonos,
       subjectsStr: (res.subjects || []).join(', '),
       youtubeVideoId: res.tutorial?.youtubeVideoId || '',
       videoTitle: res.tutorial?.videoTitle || '',
@@ -84,6 +86,23 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
       .filter(Boolean);
 
     if (formData.id) {
+      const existing = resources.find((r) => r.id === formData.id);
+      if (existing?.mostrarEnHexagonos && !formData.isActive) {
+        setStatusFeedback(
+          `No se puede inactivar "${formData.name}": forma parte de la matriz hexagonal. Reemplázala en la matriz antes de inactivarla.`
+        );
+        setTimeout(() => setStatusFeedback(null), 5000);
+        return;
+      }
+
+      if (existing?.isActive && !formData.isActive && activeCount <= 15) {
+        setStatusFeedback(
+          'No se puede inactivar: deben mantenerse al menos 15 bases de datos activas en el catálogo.'
+        );
+        setTimeout(() => setStatusFeedback(null), 5000);
+        return;
+      }
+
       const updateReq: UpdateResourceApiRequest = {
         name: formData.name.trim(),
         logoUrl: formData.logoUrl.trim() || null,
@@ -92,6 +111,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
         hasMobileApp: formData.hasMobileApp,
         externalUrl: formData.externalUrl.trim() || null,
         isActive: formData.isActive,
+        mostrarEnHexagonos: existing ? existing.mostrarEnHexagonos : false,
         subjects: parsedSubjects,
         youtubeVideoId: formData.youtubeVideoId.trim() || null,
         videoTitle: formData.videoTitle.trim() || null,
@@ -107,6 +127,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
         isSubscription: formData.isSubscription,
         hasMobileApp: formData.hasMobileApp,
         externalUrl: formData.externalUrl.trim() || null,
+        mostrarEnHexagonos: false,
         subjects: parsedSubjects,
         youtubeVideoId: formData.youtubeVideoId.trim() || null,
         videoTitle: formData.videoTitle.trim() || null,
@@ -120,34 +141,53 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
     setTimeout(() => setStatusFeedback(null), 4000);
   };
 
-  const handleToggleActive = async (res: ResourceApiDto) => {
-    setTogglingId(res.id);
+  const handleDeleteResource = async (res: ResourceApiDto) => {
+    if (res.mostrarEnHexagonos) {
+      setStatusFeedback(`No se puede eliminar "${res.name}": está asignada a la matriz hexagonal de inicio.`);
+      setTimeout(() => setStatusFeedback(null), 5000);
+      return;
+    }
+
+    if (resources.length <= 15) {
+      setStatusFeedback('No se puede eliminar: el sistema debe mantener un mínimo de 15 bases de datos registradas.');
+      setTimeout(() => setStatusFeedback(null), 5000);
+      return;
+    }
+
+    const confirmed = window.confirm(
+      `¿Confirmas que deseas eliminar la base de datos "${res.name}"? Esta acción no se puede deshacer.`
+    );
+    if (!confirmed) return;
+
     try {
-      const updateReq: UpdateResourceApiRequest = {
-        name: res.name,
-        logoUrl: res.logoUrl,
-        clinicalDescription: res.clinicalDescription,
-        isSubscription: res.isSubscription,
-        hasMobileApp: res.hasMobileApp,
-        externalUrl: res.externalUrl,
-        isActive: !res.isActive,
-        subjects: res.subjects || [],
-        youtubeVideoId: res.tutorial?.youtubeVideoId,
-        videoTitle: res.tutorial?.videoTitle,
-        guidePdfUrl: res.tutorial?.guidePdfUrl,
-      };
-      await resourceService.updateResource(res.id, updateReq);
-      setResources((prev) =>
-        prev.map((r) => (r.id === res.id ? { ...r, isActive: !r.isActive } : r))
-      );
-      setStatusFeedback(`Estado de "${res.name}" actualizado a ${!res.isActive ? 'Activo' : 'Inactivo'}.`);
-      setTimeout(() => setStatusFeedback(null), 3000);
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Error al cambiar estado.';
-      setStatusFeedback(msg);
+      await resourceService.deleteResource(res.id);
+      setResources((prev) => prev.filter((r) => r.id !== res.id));
+      setStatusFeedback(`Base de datos "${res.name}" eliminada correctamente.`);
       setTimeout(() => setStatusFeedback(null), 4000);
-    } finally {
-      setTogglingId(null);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Error al eliminar la base de datos.';
+      setStatusFeedback(msg);
+      setTimeout(() => setStatusFeedback(null), 5000);
+    }
+  };
+
+  const handleSaveHexagonMatrix = async (selectedIds: number[]) => {
+    if (selectedIds.length !== 15) {
+      setStatusFeedback('Error: Se deben seleccionar exactamente 15 bases de datos para la matriz.');
+      setTimeout(() => setStatusFeedback(null), 4000);
+      return;
+    }
+
+    try {
+      const updatedList = await resourceService.setHexagonMatrix(selectedIds);
+      setResources(updatedList);
+      setIsMatrixModalOpen(false);
+      setStatusFeedback('Matriz hexagonal sincronizada con éxito (15 bases asignadas a portada).');
+      setTimeout(() => setStatusFeedback(null), 4000);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Error al guardar la matriz hexagonal.';
+      setStatusFeedback(msg);
+      setTimeout(() => setStatusFeedback(null), 5000);
     }
   };
 
@@ -205,6 +245,19 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
           </div>
 
           <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setIsMatrixModalOpen(true)}
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-800 hover:text-emerald-900 px-3 py-1.5 rounded-lg border border-emerald-300 hover:border-emerald-400 bg-emerald-50 hover:bg-emerald-100 transition-colors cursor-pointer shadow-xs"
+              title="Configurar los 15 recursos de la matriz hexagonal de inicio"
+            >
+              <Hexagon className="w-3.5 h-3.5 fill-emerald-600 text-emerald-700" />
+              <span>Matriz Hexagonal</span>
+              <span className="ml-1 px-1.5 py-0.5 bg-emerald-200 text-emerald-900 rounded-full text-[10px] font-black">
+                {resources.filter((r) => r.mostrarEnHexagonos).length}/15
+              </span>
+            </button>
+
             <button
               type="button"
               onClick={() => onNavigate('home')}
@@ -289,10 +342,11 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
         <AdminResourceTable
           resources={filteredResources}
           totalResourcesCount={resources.length}
+          totalHexagonCount={resources.filter((r) => r.mostrarEnHexagonos).length}
           isLoading={isLoadingResources}
-          togglingId={togglingId}
           onEdit={handleOpenEditModal}
-          onToggleActive={handleToggleActive}
+          onDelete={handleDeleteResource}
+          onOpenMatrixModal={() => setIsMatrixModalOpen(true)}
         />
       </main>
 
@@ -301,6 +355,14 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
         onClose={() => setIsModalOpen(false)}
         onSave={handleSaveResource}
         initialData={editingResourceData}
+        activeResourcesCount={activeCount}
+      />
+
+      <HexagonMatrixModal
+        isOpen={isMatrixModalOpen}
+        onClose={() => setIsMatrixModalOpen(false)}
+        resources={resources}
+        onSave={handleSaveHexagonMatrix}
       />
     </div>
   );
