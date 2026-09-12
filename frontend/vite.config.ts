@@ -5,7 +5,6 @@ import path from 'path';
 export default defineConfig({
   plugins: [react()],
   envDir: '../',
-  envPrefix: ['VITE_', 'API_', 'LOGOS_'],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
