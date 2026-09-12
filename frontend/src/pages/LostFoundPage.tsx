@@ -4,7 +4,6 @@ import {
   Calendar, 
   ShieldCheck, 
   Info, 
-  Package, 
   AlertCircle
 } from 'lucide-react';
 import { InstagramIcon } from '../components/common/InstagramIcon';
@@ -53,21 +52,6 @@ export const LostFoundPage: React.FC = () => {
 
   return (
     <div className="w-full pb-20">
-      <section className="bg-slate-50 border-b-2 border-slate-900 py-10 sm:py-12">
-        <div className="max-w-[1280px] mx-auto px-6">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-[#008744] text-white text-xs font-extrabold uppercase tracking-wider shadow-sm mb-3">
-            <Package className="w-3.5 h-3.5 text-white" />
-            <span>Custodia &amp; Hallazgos en Sala</span>
-          </div>
-          <h1 className="text-2xl sm:text-4xl font-display font-extrabold text-slate-900 tracking-tight">
-            Objetos Perdidos en Biblioteca
-          </h1>
-          <p className="text-sm sm:text-base text-slate-600 max-w-3xl mt-2 leading-relaxed">
-            Pertenencias recuperadas en salas de lectura, cubículos y laboratorios de la Facultad de Medicina Humana. Reclamo presencial presentando tu carné institucional URP en la recepción de mostrador.
-          </p>
-        </div>
-      </section>
-
       <main className="max-w-[1280px] mx-auto px-6 pt-10">
         <div className="flex flex-col gap-12">
           <div>
