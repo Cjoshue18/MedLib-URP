@@ -405,10 +405,6 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
                 <h1 className="text-base font-bold font-display text-slate-900 tracking-tight">
                   Panel de Gestión &bull; FAMURP
                 </h1>
-                <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
-                  Neon PostgreSQL
-                </span>
               </div>
               <p className="text-xs text-slate-500 font-medium">
                 Biblioteca Virtual y Especializada de Medicina Humana
