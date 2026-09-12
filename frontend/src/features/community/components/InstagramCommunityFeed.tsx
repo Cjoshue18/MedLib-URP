@@ -1,6 +1,14 @@
 import React, { useEffect } from 'react';
 
-export const HomeCommunityFeed: React.FC = () => {
+interface InstagramCommunityFeedProps {
+  subtitle?: string;
+  footerNote?: string;
+}
+
+export const InstagramCommunityFeed: React.FC<InstagramCommunityFeedProps> = ({
+  subtitle,
+  footerNote = 'Síguenos para avisos de horarios especiales en sala, nuevas adquisiciones bibliográficas y convocatorias ALFIN.',
+}) => {
   useEffect(() => {
     const existingScript = document.querySelector('script[src="https://elfsightcdn.com/platform.js"]');
     if (!existingScript) {
@@ -21,15 +29,22 @@ export const HomeCommunityFeed: React.FC = () => {
           <h3 className="text-xl sm:text-2xl font-display font-extrabold text-slate-900">
             @bib_famurp en Instagram
           </h3>
+          {subtitle && (
+            <p className="text-xs text-slate-500 mt-1">
+              {subtitle}
+            </p>
+          )}
         </div>
 
         <div className="w-full px-2 sm:px-8 py-2 overflow-visible min-h-[340px]">
           <div className="elfsight-app-437cd9ca-7bc2-447c-9b36-5e9c7350b63f" data-elfsight-app-lazy></div>
         </div>
 
-        <p className="text-xs text-slate-500 mt-4">
-          Síguenos para avisos de horarios especiales en sala, nuevas adquisiciones bibliográficas y convocatorias ALFIN.
-        </p>
+        {footerNote && (
+          <p className="text-xs text-slate-500 mt-4">
+            {footerNote}
+          </p>
+        )}
       </div>
     </section>
   );

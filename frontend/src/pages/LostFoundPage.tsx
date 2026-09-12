@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { 
   MapPin, 
   Calendar, 
@@ -8,17 +8,9 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { InstagramIcon } from '../components/common/InstagramIcon';
+import { InstagramCommunityFeed } from '../features/community';
 
 export const LostFoundPage: React.FC = () => {
-  useEffect(() => {
-    const existingScript = document.querySelector('script[src="https://elfsightcdn.com/platform.js"]');
-    if (!existingScript) {
-      const script = document.createElement('script');
-      script.src = 'https://elfsightcdn.com/platform.js';
-      script.async = true;
-      document.body.appendChild(script);
-    }
-  }, []);
 
   const lostItems = [
     {
@@ -162,29 +154,10 @@ export const LostFoundPage: React.FC = () => {
             </div>
           </div>
 
-          <section>
-            <div className="bg-white rounded-3xl border-2 border-slate-900 shadow-urp-brutal p-6 sm:p-8">
-              <div className="mb-6 border-b border-slate-200 pb-4">
-                <span className="text-[11px] font-bold text-[#008744] uppercase tracking-wider block">
-                  COMUNIDAD MÉDICA &amp; ACTIVIDADES
-                </span>
-                <h3 className="text-xl sm:text-2xl font-display font-extrabold text-slate-900">
-                  @bib_famurp en Instagram
-                </h3>
-                <p className="text-xs text-slate-500 mt-1">
-                  Sigue nuestras publicaciones en vivo para avisos inmediatos de objetos encontrados, horarios y servicios.
-                </p>
-              </div>
-
-              <div className="w-full px-2 sm:px-8 py-2 overflow-visible min-h-[340px]">
-                <div className="elfsight-app-437cd9ca-7bc2-447c-9b36-5e9c7350b63f" data-elfsight-app-lazy></div>
-              </div>
-
-              <p className="text-xs text-slate-500 mt-4">
-                Publicaciones sincronizadas en tiempo real desde la cuenta oficial de la Biblioteca de Medicina Humana URP.
-              </p>
-            </div>
-          </section>
+          <InstagramCommunityFeed
+            subtitle="Sigue nuestras publicaciones en vivo para avisos inmediatos de objetos encontrados, horarios y servicios."
+            footerNote="Publicaciones sincronizadas en tiempo real desde la cuenta oficial de la Biblioteca de Medicina Humana URP."
+          />
         </div>
       </main>
     </div>
