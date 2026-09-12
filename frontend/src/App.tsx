@@ -12,13 +12,22 @@ export type AppView = 'home' | 'directory' | 'conferences' | 'lost-found' | 'adm
 
 export const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<AppView>('home');
+  const [directorySearchQuery, setDirectorySearchQuery] = useState('');
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
     const handleHashChange = () => {
-      const hash = window.location.hash.toLowerCase();
+      const fullHash = window.location.hash;
+      const [rawRoute, rawQuery] = fullHash.split('?');
+      const hash = rawRoute.toLowerCase();
+      const params = new URLSearchParams(rawQuery || '');
+      const queryParam = params.get('q') || '';
+
       if (hash === '#directorio' || hash === '#catalogo') {
         setCurrentView('directory');
+        if (queryParam) {
+          setDirectorySearchQuery(queryParam);
+        }
       } else if (hash === '#conferencias' || hash === '#alfin') {
         setCurrentView('conferences');
       } else if (hash === '#objetos-perdidos' || hash === '#comunidad') {
@@ -56,13 +65,21 @@ export const App: React.FC = () => {
     });
   };
 
-  const navigateTo = (view: AppView) => {
+  const navigateTo = (view: AppView, query?: string) => {
     setCurrentView(view);
-    if (view === 'home') window.location.hash = '#inicio';
-    else if (view === 'directory') window.location.hash = '#directorio';
-    else if (view === 'conferences') window.location.hash = '#conferencias';
-    else if (view === 'lost-found') window.location.hash = '#objetos-perdidos';
-    else if (view === 'admin') window.location.hash = '#gestion-bibliotecaria-famurp';
+    if (view === 'home') {
+      window.location.hash = '#inicio';
+    } else if (view === 'directory') {
+      const trimmed = query?.trim() || '';
+      setDirectorySearchQuery(trimmed);
+      window.location.hash = trimmed ? `#directorio?q=${encodeURIComponent(trimmed)}` : '#directorio';
+    } else if (view === 'conferences') {
+      window.location.hash = '#conferencias';
+    } else if (view === 'lost-found') {
+      window.location.hash = '#objetos-perdidos';
+    } else if (view === 'admin') {
+      window.location.hash = '#gestion-bibliotecaria-famurp';
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -76,7 +93,7 @@ export const App: React.FC = () => {
 
       <div className="flex-grow">
         {currentView === 'home' && <HomePage onNavigate={navigateTo} />}
-        {currentView === 'directory' && <DirectoryPage />}
+        {currentView === 'directory' && <DirectoryPage initialSearchQuery={directorySearchQuery} />}
         {currentView === 'conferences' && <ConferencesPage />}
         {currentView === 'lost-found' && <LostFoundPage />}
       </div>

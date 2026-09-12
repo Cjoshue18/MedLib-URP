@@ -3,7 +3,7 @@ import { Search, ArrowRight, ChevronRight, ChevronLeft } from 'lucide-react';
 import { HomeBoletinDrawer, BoletinPill } from './HomeBoletinDrawer';
 
 interface HomeHeroProps {
-  onNavigate: (view: 'home' | 'directory' | 'conferences' | 'lost-found') => void;
+  onNavigate: (view: 'home' | 'directory' | 'conferences' | 'lost-found', query?: string) => void;
 }
 
 const heroSlides = [
@@ -38,7 +38,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    onNavigate('directory');
+    onNavigate('directory', searchQuery);
   };
 
   return (
