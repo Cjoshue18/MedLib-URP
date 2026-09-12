@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { 
   Search, 
   ExternalLink, 
-  ShieldCheck, 
   Database, 
   PlayCircle, 
   Lock, 
@@ -125,13 +124,6 @@ export const DirectoryPage: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
-            <span className={`text-[10px] sm:text-[11px] font-extrabold px-2.5 py-1 rounded-md border ${
-              db.accessType === 'Suscripción URP'
-                ? 'bg-emerald-50 text-[#008744] border-emerald-300'
-                : 'bg-sky-50 text-sky-700 border-sky-300'
-            }`}>
-              {db.accessType === 'Suscripción URP' ? '🔐 URP' : '🌐 OPEN'}
-            </span>
             <div className={`w-7 h-7 rounded-lg border flex items-center justify-center transition-transform duration-300 ${
               isExpanded 
                 ? 'rotate-180 bg-[#008744] text-white border-[#008744]' 
@@ -176,7 +168,7 @@ export const DirectoryPage: React.FC = () => {
             </div>
 
             <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 text-xs text-slate-700">
-              <div className="flex items-center justify-between pb-1.5 border-b border-slate-200/80">
+              <div className={`flex items-center justify-between ${db.hasMobileApp ? 'pb-1.5 border-b border-slate-200/80' : ''}`}>
                 <span className="font-bold text-slate-500">Modalidad de Acceso:</span>
                 <span className="font-black text-slate-900 flex items-center gap-1">
                   {db.accessType === 'Suscripción URP' ? <Lock className="w-3 h-3 text-[#008744]" /> : <Globe className="w-3 h-3 text-sky-600" />}
@@ -184,18 +176,11 @@ export const DirectoryPage: React.FC = () => {
                 </span>
               </div>
               {db.hasMobileApp && (
-                <div className="flex items-center justify-between pb-1.5 border-b border-slate-200/80">
+                <div className="flex items-center justify-between">
                   <span className="font-bold text-slate-500">App Móvil:</span>
                   <span className="font-black text-emerald-700">Disponible (iOS / Android)</span>
                 </div>
               )}
-              <div className="flex items-center justify-between">
-                <span className="font-bold text-slate-500">Afiliación:</span>
-                <span className="font-black text-[#008744] flex items-center gap-1">
-                  <ShieldCheck className="w-3.5 h-3.5" />
-                  Facultad de Medicina URP
-                </span>
-              </div>
             </div>
 
             <a
@@ -314,12 +299,6 @@ export const DirectoryPage: React.FC = () => {
                     ? 'Consultando catálogo activo...'
                     : `Mostrando recursos (${filteredDbs.length}${searchQuery ? ` de ${databases.length}` : ''})`}
                 </h3>
-                {isLiveConnected && !isLoading && (
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-[#00572B] border border-emerald-300 shadow-2xs">
-                    <span className="w-2 h-2 rounded-full bg-[#008744] animate-pulse" />
-                    {databases.length} ACTIVOS EN NEON
-                  </span>
-                )}
                 {isLoading && (
                   <span className="inline-flex items-center gap-1 text-xs text-slate-400 font-medium">
                     <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#008744]" />
