@@ -37,7 +37,9 @@ export const DatabaseModal: React.FC<DatabaseModalProps> = ({ database, onClose 
                     <span>Acceso Abierto</span>
                   </span>
                 )}
-                <span className="text-xs text-slate-500">{database.category}</span>
+                {database.tags && database.tags.length > 0 && (
+                  <span className="text-xs text-slate-500">{database.tags.slice(0, 2).join(' • ')}</span>
+                )}
               </div>
               <h2 className="text-xl sm:text-2xl font-bold text-slate-900 font-display">
                 {database.title}

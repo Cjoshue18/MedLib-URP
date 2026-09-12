@@ -48,9 +48,11 @@ export const DatabaseCard: React.FC<DatabaseCardProps> = ({ database, onOpenTuto
               </span>
             )}
             
-            <span className="text-[11px] font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">
-              {database.category}
-            </span>
+            {database.tags && database.tags.length > 0 && (
+              <span className="text-[11px] font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">
+                {database.tags[0]}
+              </span>
+            )}
           </div>
         </div>
 

@@ -9,49 +9,43 @@ import {
   Globe, 
   X,
   BookOpen,
-  CheckCircle2,
   Sparkles,
   ChevronDown,
   RefreshCw
 } from 'lucide-react';
-import { DATABASES_DATA, MedicalDatabase, getDatabaseLogoUrl } from '../features/guides/data/databasesData';
+import { MedicalDatabase, getDatabaseLogoUrl } from '../features/guides/data/databasesData';
 import { resourceService } from '../features/guides/services/resourceService';
 import { mapApiResourceToMedicalDatabase } from '../features/guides/utils/resourceAdapter';
 
 export const DirectoryPage: React.FC = () => {
-  const [databases, setDatabases] = useState<MedicalDatabase[]>(DATABASES_DATA);
-  const [isLoading, setIsLoading] = useState(false);
+  const [databases, setDatabases] = useState<MedicalDatabase[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [isLiveConnected, setIsLiveConnected] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedDbIds, setExpandedDbIds] = useState<Set<string>>(new Set());
 
-  useEffect(() => {
-    let isMounted = true;
-    const loadLiveDatabases = async () => {
-      try {
-        setIsLoading(true);
-        const apiResources = await resourceService.getResources();
-        if (isMounted && apiResources && apiResources.length > 0) {
-          const mapped = apiResources.map(mapApiResourceToMedicalDatabase);
-          setDatabases(mapped);
-          setIsLiveConnected(true);
-        }
-      } catch {
-        if (isMounted) {
-          setDatabases(DATABASES_DATA);
-          setIsLiveConnected(false);
-        }
-      } finally {
-        if (isMounted) {
-          setIsLoading(false);
-        }
+  const loadLiveDatabases = async () => {
+    try {
+      setIsLoading(true);
+      const apiResources = await resourceService.getResources();
+      if (apiResources && apiResources.length > 0) {
+        const mapped = apiResources.map(mapApiResourceToMedicalDatabase);
+        setDatabases(mapped);
+        setIsLiveConnected(true);
+      } else {
+        setDatabases([]);
+        setIsLiveConnected(false);
       }
-    };
+    } catch {
+      setDatabases([]);
+      setIsLiveConnected(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  useEffect(() => {
     loadLiveDatabases();
-    return () => {
-      isMounted = false;
-    };
   }, []);
 
   const filteredDbs = databases.filter((db) => {
@@ -60,7 +54,7 @@ export const DirectoryPage: React.FC = () => {
     return (
       db.title.toLowerCase().includes(q) ||
       db.description.toLowerCase().includes(q) ||
-      db.category.toLowerCase().includes(q) ||
+      db.accessType.toLowerCase().includes(q) ||
       db.tags.some(t => t.toLowerCase().includes(q))
     );
   });
@@ -126,7 +120,7 @@ export const DirectoryPage: React.FC = () => {
               {db.title}
             </h4>
             <span className="text-[11px] text-slate-500 font-medium block truncate mt-0.5">
-              {db.category}
+              {db.tags && db.tags.length > 0 ? db.tags.slice(0, 2).join(' • ') : db.accessType}
             </span>
           </div>
 
@@ -189,10 +183,12 @@ export const DirectoryPage: React.FC = () => {
                   {db.accessType}
                 </span>
               </div>
-              <div className="flex items-center justify-between pb-1.5 border-b border-slate-200/80">
-                <span className="font-bold text-slate-500">Categoría:</span>
-                <span className="font-black text-slate-900">{db.category}</span>
-              </div>
+              {db.hasMobileApp && (
+                <div className="flex items-center justify-between pb-1.5 border-b border-slate-200/80">
+                  <span className="font-bold text-slate-500">App Móvil:</span>
+                  <span className="font-black text-emerald-700">Disponible (iOS / Android)</span>
+                </div>
+              )}
               <div className="flex items-center justify-between">
                 <span className="font-bold text-slate-500">Afiliación:</span>
                 <span className="font-black text-[#008744] flex items-center gap-1">
@@ -213,38 +209,28 @@ export const DirectoryPage: React.FC = () => {
               <ExternalLink className="w-4 h-4" />
             </a>
 
-            <div className="bg-white rounded-2xl border-2 border-slate-900 shadow-urp-brutal-sm overflow-hidden mt-1">
-              <div 
-                className="bg-cover bg-center w-full h-36 relative group cursor-pointer"
-                style={{
-                  backgroundImage: `url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=800&q=80')`
-                }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (db.tutorialUrl) {
-                    window.open(db.tutorialUrl, '_blank');
-                  } else {
-                    alert(`Guía de uso para ${db.title}: Ingresa con tus credenciales URP en https://test.urp.edu.pe/Intranet/.`);
-                  }
-                }}
-              >
-                <div className="absolute inset-0 bg-slate-900/40 group-hover:bg-slate-900/50 transition-colors flex items-center justify-center">
-                  <div className="w-11 h-11 rounded-full bg-white/90 group-hover:scale-110 group-hover:bg-white transition-all flex items-center justify-center text-[#008744] shadow-md">
-                    <PlayCircle className="w-7 h-7" />
+            {Boolean(db.tutorialUrl) && (
+              <div className="bg-white rounded-2xl border-2 border-slate-900 shadow-urp-brutal-sm overflow-hidden mt-1">
+                <a
+                  href={db.tutorialUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="p-3 bg-slate-900 hover:bg-slate-800 text-white flex items-center justify-between transition-colors group/tut cursor-pointer"
+                >
+                  <div className="flex items-center gap-2.5 min-w-0 pr-2">
+                    <div className="w-8 h-8 rounded-lg bg-[#008744] flex items-center justify-center text-white shrink-0 group-hover/tut:scale-105 transition-transform">
+                      <PlayCircle className="w-4.5 h-4.5" />
+                    </div>
+                    <div className="min-w-0">
+                      <span className="text-[10px] uppercase font-mono tracking-wider text-emerald-400 block font-bold">Tutorial Oficial</span>
+                      <h5 className="font-bold text-xs truncate">Video Guía de Acceso</h5>
+                    </div>
                   </div>
-                </div>
-                <span className="absolute bottom-2.5 right-2.5 bg-slate-900/90 text-white font-mono text-[10px] font-bold px-2 py-0.5 rounded-md">
-                  2:15 MIN
-                </span>
+                  <ExternalLink className="w-4 h-4 text-emerald-400 shrink-0 group-hover/tut:translate-x-0.5 transition-transform" />
+                </a>
               </div>
-              <div className="p-3 bg-slate-900 text-white flex items-center justify-between">
-                <div>
-                  <h4 className="font-bold text-xs text-white">Tutorial de Acceso Remoto</h4>
-                  <span className="text-[10px] text-slate-400">Guía paso a paso para estudiantes y docentes</span>
-                </div>
-                <CheckCircle2 className="w-4 h-4 text-[#8cf9a9]" />
-              </div>
-            </div>
+            )}
           </div>
         )}
       </div>
@@ -324,18 +310,20 @@ export const DirectoryPage: React.FC = () => {
             <div>
               <div className="flex items-center gap-2.5 flex-wrap">
                 <h3 className="font-display font-extrabold text-lg sm:text-2xl text-slate-900">
-                  Mostrando recursos ({filteredDbs.length})
+                  {isLoading
+                    ? 'Consultando catálogo activo...'
+                    : `Mostrando recursos (${filteredDbs.length}${searchQuery ? ` de ${databases.length}` : ''})`}
                 </h3>
-                {isLiveConnected && (
+                {isLiveConnected && !isLoading && (
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-[#00572B] border border-emerald-300 shadow-2xs">
                     <span className="w-2 h-2 rounded-full bg-[#008744] animate-pulse" />
-                    EN VIVO
+                    {databases.length} ACTIVOS EN NEON
                   </span>
                 )}
                 {isLoading && (
                   <span className="inline-flex items-center gap-1 text-xs text-slate-400 font-medium">
                     <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#008744]" />
-                    Sincronizando...
+                    Sincronizando con base de datos...
                   </span>
                 )}
               </div>
@@ -343,7 +331,7 @@ export const DirectoryPage: React.FC = () => {
                 Haz clic en cualquier plataforma para desplegar su ficha técnica completa, tutorial de acceso remoto y enlace directo.
               </p>
             </div>
-            {filteredDbs.length > 0 && (
+            {!isLoading && filteredDbs.length > 0 && (
               <div className="flex items-center gap-2 shrink-0">
                 <button
                   type="button"
@@ -356,7 +344,19 @@ export const DirectoryPage: React.FC = () => {
             )}
           </div>
 
-          {filteredDbs.length > 0 ? (
+          {isLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {Array.from({ length: 6 }).map((_, idx) => (
+                <div key={idx} className="bg-white rounded-2xl border-2 border-slate-200 p-4.5 animate-pulse flex items-center justify-between">
+                  <div className="space-y-2 flex-1 pr-4">
+                    <div className="h-4 bg-slate-200 rounded w-3/4"></div>
+                    <div className="h-3 bg-slate-100 rounded w-1/2"></div>
+                  </div>
+                  <div className="w-14 h-6 bg-slate-100 rounded-md"></div>
+                </div>
+              ))}
+            </div>
+          ) : filteredDbs.length > 0 ? (
             <>
               <div className="hidden lg:grid lg:grid-cols-3 gap-4 items-start">
                 <div className="flex flex-col gap-4">
@@ -387,7 +387,21 @@ export const DirectoryPage: React.FC = () => {
             <div className="py-16 text-center text-slate-500">
               <BookOpen className="w-10 h-10 text-slate-400 mx-auto mb-3" />
               <p className="text-base font-bold text-slate-800">No se encontraron recursos</p>
-              <p className="text-xs text-slate-500 mt-1">Prueba con otra palabra clave o limpia el campo de búsqueda.</p>
+              <p className="text-xs text-slate-500 mt-1">
+                {isLiveConnected
+                  ? 'Prueba con otra palabra clave o limpia el campo de búsqueda.'
+                  : 'No se pudo establecer conexión con el catálogo de bases de datos biomédicas.'}
+              </p>
+              {!isLiveConnected && (
+                <button
+                  type="button"
+                  onClick={loadLiveDatabases}
+                  className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-white bg-urp-600 hover:bg-urp-700 transition-colors shadow-sm cursor-pointer"
+                >
+                  <RefreshCw className="w-3.5 h-3.5" />
+                  <span>Reintentar conexión</span>
+                </button>
+              )}
             </div>
           )}
         </div>
