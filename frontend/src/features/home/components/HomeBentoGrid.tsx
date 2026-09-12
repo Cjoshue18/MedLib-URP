@@ -32,6 +32,7 @@ const HEX_POSITIONS: HexPosition[] = [
 
 export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
   const [resources, setResources] = useState<ResourceApiDto[]>(() => resourceService.getCachedLiteResources());
+  const [isLoading, setIsLoading] = useState(() => resources.length === 0);
   const [flippedHexIds, setFlippedHexIds] = useState<Set<number>>(new Set());
   const [isAllFlipped, setIsAllFlipped] = useState(false);
   const hexTimersRef = useRef<Map<number, NodeJS.Timeout>>(new Map());
@@ -67,8 +68,15 @@ export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
               }
             });
         }
+        if (isMounted) {
+          setIsLoading(false);
+        }
       })
-      .catch(() => {});
+      .catch(() => {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      });
 
     return () => {
       isMounted = false;
@@ -285,7 +293,7 @@ export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
 
           {activeSlots.map((slot) => {
             const logoSrc = getDatabaseLogoUrl(slot.resource?.logoUrl);
-            const title = slot.resource?.name || 'Base de Datos Biomédica';
+            const title = slot.resource?.name || 'Base de datos médica';
 
             const cx = 65 + slot.col * 72;
             const cy = 50 + slot.row * 83.138 + (slot.col % 2 !== 0 ? 41.569 : 0);
@@ -369,9 +377,11 @@ export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
                       </defs>
                       <polygon
                         points="24,0 72,0 96,41.57 72,83.14 24,83.14 0,41.57"
-                        fill="#ffffff"
+                        fill={logoSrc ? "#ffffff" : "#0f172a"}
+                        stroke={logoSrc ? "#e2e8f0" : "#00a859"}
+                        strokeWidth={logoSrc ? "1" : "2"}
                       />
-                      {logoSrc ? (
+                      {logoSrc && (
                         <g clipPath={`url(#hex-clip-${slot.id})`}>
                           <image
                             href={logoSrc}
@@ -382,21 +392,32 @@ export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
                             preserveAspectRatio="xMidYMid meet"
                           />
                         </g>
-                      ) : (
-                        <g clipPath={`url(#hex-clip-${slot.id})`}>
-                          <text
-                            x="48"
-                            y="44"
-                            textAnchor="middle"
-                            fill="#008744"
-                            fontSize="8"
-                            fontWeight="bold"
-                          >
-                            {title}
-                          </text>
-                        </g>
                       )}
                     </svg>
+
+                    {!logoSrc && (
+                      <div className="absolute inset-0 flex flex-col items-center justify-center p-1.5 text-center select-none pointer-events-none">
+                        {isLoading || !slot.resource ? (
+                          <div className="flex flex-col items-center justify-center gap-1">
+                            <div className="w-3.5 h-3.5 rounded-full border-2 border-emerald-500/30 border-t-emerald-400 animate-spin" />
+                            <span className="text-emerald-400 font-bold text-[7px] tracking-wider uppercase">
+                              Cargando...
+                            </span>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col items-center justify-center px-1 max-w-[78px]">
+                            {slot.resource.subjects && slot.resource.subjects.length > 0 && (
+                              <span className="text-[#8cf9a9] font-black text-[7px] uppercase tracking-wider truncate max-w-[70px] mb-0.5">
+                                {slot.resource.subjects[0]}
+                              </span>
+                            )}
+                            <span className="text-white font-extrabold text-[8px] sm:text-[9px] leading-tight line-clamp-3 text-center">
+                              {slot.resource.name}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
