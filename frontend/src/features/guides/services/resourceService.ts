@@ -12,6 +12,26 @@ const getApiBase = (): string => {
 
 const resourceDetailCache = new Map<number, ResourceApiDto>();
 
+const authenticatedFetch = async (input: string, init: RequestInit = {}): Promise<Response> => {
+  const token = await authService.getValidToken();
+  const headers = new Headers(init.headers || {});
+  if (token) {
+    headers.set('Authorization', `Bearer ${token}`);
+  }
+
+  let response = await fetch(input, { ...init, headers });
+
+  if (response.status === 401) {
+    const refreshedToken = await authService.refreshToken();
+    if (refreshedToken) {
+      headers.set('Authorization', `Bearer ${refreshedToken}`);
+      response = await fetch(input, { ...init, headers });
+    }
+  }
+
+  return response;
+};
+
 export const resourceService = {
   getCachedLiteResources(): ResourceApiDto[] {
     try {
@@ -42,13 +62,8 @@ export const resourceService = {
   },
 
   async getAdminResources(): Promise<ResourceApiDto[]> {
-    const token = authService.getToken();
-    const headers: Record<string, string> = {};
-    if (token) {
-      headers['Authorization'] = `Bearer ${token}`;
-    }
     try {
-      const response = await fetch(`${getApiBase()}/api/v1/admin/resources`, { headers });
+      const response = await authenticatedFetch(`${getApiBase()}/api/v1/admin/resources`);
       if (!response.ok) {
         return await this.getResources();
       }
@@ -89,12 +104,10 @@ export const resourceService = {
   },
 
   async createResource(request: CreateResourceApiRequest): Promise<ResourceApiDto> {
-    const token = authService.getToken();
-    const response = await fetch(`${getApiBase()}/api/v1/admin/resources`, {
+    const response = await authenticatedFetch(`${getApiBase()}/api/v1/admin/resources`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(request),
     });
@@ -108,12 +121,10 @@ export const resourceService = {
   },
 
   async updateResource(id: number, request: UpdateResourceApiRequest): Promise<ResourceApiDto> {
-    const token = authService.getToken();
-    const response = await fetch(`${getApiBase()}/api/v1/admin/resources/${id}`, {
+    const response = await authenticatedFetch(`${getApiBase()}/api/v1/admin/resources/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(request),
     });
@@ -128,12 +139,8 @@ export const resourceService = {
   },
 
   async deleteResource(id: number): Promise<void> {
-    const token = authService.getToken();
-    const response = await fetch(`${getApiBase()}/api/v1/admin/resources/${id}`, {
+    const response = await authenticatedFetch(`${getApiBase()}/api/v1/admin/resources/${id}`, {
       method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
     });
 
     if (!response.ok) {
@@ -145,15 +152,11 @@ export const resourceService = {
   },
 
   async uploadLogo(file: File): Promise<string> {
-    const token = authService.getToken();
     const formData = new FormData();
     formData.append('file', file);
 
-    const response = await fetch(`${getApiBase()}/api/v1/admin/resources/upload-logo`, {
+    const response = await authenticatedFetch(`${getApiBase()}/api/v1/admin/resources/upload-logo`, {
       method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
       body: formData,
     });
 
@@ -167,12 +170,8 @@ export const resourceService = {
   },
 
   async toggleHexagonDisplay(id: number): Promise<ResourceApiDto> {
-    const token = authService.getToken();
-    const response = await fetch(`${getApiBase()}/api/v1/admin/resources/${id}/toggle-hexagonos`, {
+    const response = await authenticatedFetch(`${getApiBase()}/api/v1/admin/resources/${id}/toggle-hexagonos`, {
       method: 'PATCH',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
     });
 
     if (!response.ok) {
@@ -185,16 +184,11 @@ export const resourceService = {
   },
 
   async setHexagonMatrix(resourceIds: number[]): Promise<ResourceApiDto[]> {
-    const token = authService.getToken();
-    const headers: Record<string, string> = {
-      'Content-Type': 'application/json',
-    };
-    if (token) {
-      headers['Authorization'] = `Bearer ${token}`;
-    }
-    const response = await fetch(`${getApiBase()}/api/v1/admin/resources/hexagon-matrix`, {
+    const response = await authenticatedFetch(`${getApiBase()}/api/v1/admin/resources/hexagon-matrix`, {
       method: 'PUT',
-      headers,
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({ resourceIds }),
     });
 

@@ -16,15 +16,18 @@ public class AuthController : ControllerBase
     private readonly MedLibDbContext _context;
     private readonly IPasswordHasher _passwordHasher;
     private readonly ITokenService _tokenService;
+    private readonly IRefreshTokenService _refreshTokenService;
 
     public AuthController(
         MedLibDbContext context,
         IPasswordHasher passwordHasher,
-        ITokenService tokenService)
+        ITokenService tokenService,
+        IRefreshTokenService refreshTokenService)
     {
         _context = context;
         _passwordHasher = passwordHasher;
         _tokenService = tokenService;
+        _refreshTokenService = refreshTokenService;
     }
 
     [HttpPost("login")]
@@ -52,16 +55,85 @@ public class AuthController : ControllerBase
             return Unauthorized(new { message = "Credenciales incorrectas o usuario inactivo." });
         }
 
-        var token = _tokenService.GenerateToken(user);
+        var (token, expiresAt) = _tokenService.GenerateTokenWithExpiration(user);
+        var rawRefreshToken = _refreshTokenService.GenerateRefreshToken();
+        var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+        var userAgent = Request.Headers.UserAgent.ToString();
+        if (userAgent.Length > 255) userAgent = userAgent[..255];
+
+        var refreshTokenEntity = await _refreshTokenService.CreateRefreshTokenAsync(
+            user.IdUsuarioAdmin,
+            rawRefreshToken,
+            ipAddress,
+            userAgent,
+            cancellationToken
+        );
+
         var response = new LoginResponse(
             token,
+            rawRefreshToken,
             user.Username,
             user.Nombres,
             user.Rol,
-            DateTime.UtcNow.AddHours(8)
+            expiresAt,
+            refreshTokenEntity.FechaExpiracion
         );
 
         return Ok(response);
+    }
+
+    [HttpPost("refresh")]
+    public async Task<ActionResult<TokenRefreshResponse>> Refresh(
+        [FromBody] RefreshTokenRequest request,
+        CancellationToken cancellationToken)
+    {
+        if (string.IsNullOrWhiteSpace(request.RefreshToken))
+        {
+            return BadRequest(new { message = "Refresh token requerido." });
+        }
+
+        var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+        var userAgent = Request.Headers.UserAgent.ToString();
+        if (userAgent.Length > 255) userAgent = userAgent[..255];
+
+        var result = await _refreshTokenService.RotateRefreshTokenAsync(
+            request.RefreshToken.Trim(),
+            ipAddress,
+            userAgent,
+            cancellationToken
+        );
+
+        if (result == null)
+        {
+            return Unauthorized(new { message = "Sesión inválida o expirada. Por favor inicie sesión nuevamente." });
+        }
+
+        var (user, newRawToken, jwtExpiresAt, refreshExpiresAt) = result.Value;
+        return Ok(new TokenRefreshResponse(
+            _tokenService.GenerateToken(user),
+            newRawToken,
+            jwtExpiresAt,
+            refreshExpiresAt
+        ));
+    }
+
+    [HttpPost("revoke")]
+    public async Task<IActionResult> Revoke(
+        [FromBody] RevokeTokenRequest request,
+        CancellationToken cancellationToken)
+    {
+        if (!string.IsNullOrWhiteSpace(request.RefreshToken))
+        {
+            var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString();
+            await _refreshTokenService.RevokeRefreshTokenAsync(
+                request.RefreshToken.Trim(),
+                ipAddress,
+                "User requested logout",
+                cancellationToken
+            );
+        }
+
+        return Ok(new { message = "Sesión cerrada correctamente." });
     }
 
     [Authorize]

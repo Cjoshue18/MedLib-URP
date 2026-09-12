@@ -18,6 +18,11 @@ public class JwtTokenService : ITokenService
 
     public string GenerateToken(UsuarioAdmin user)
     {
+        return GenerateTokenWithExpiration(user).Token;
+    }
+
+    public (string Token, DateTime ExpiresAt) GenerateTokenWithExpiration(UsuarioAdmin user)
+    {
         var secretKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY")
             ?? _configuration["Jwt:SecretKey"] 
             ?? throw new InvalidOperationException("Jwt:SecretKey configuration is missing.");
@@ -28,9 +33,22 @@ public class JwtTokenService : ITokenService
         var audience = Environment.GetEnvironmentVariable("JWT_AUDIENCE") 
             ?? _configuration["Jwt:Audience"] 
             ?? "MedLibUrpApp";
-        var expStr = Environment.GetEnvironmentVariable("JWT_EXPIRATION_HOURS") 
-            ?? _configuration["Jwt:ExpirationHours"];
-        var expirationHours = double.TryParse(expStr, out var hours) ? hours : 8.0;
+
+        var expMinStr = Environment.GetEnvironmentVariable("JWT_EXPIRATION_MINUTES") 
+            ?? _configuration["Jwt:ExpirationMinutes"];
+        double expirationMinutes;
+        if (double.TryParse(expMinStr, out var mins))
+        {
+            expirationMinutes = mins;
+        }
+        else
+        {
+            var expHoursStr = Environment.GetEnvironmentVariable("JWT_EXPIRATION_HOURS") 
+                ?? _configuration["Jwt:ExpirationHours"];
+            expirationMinutes = double.TryParse(expHoursStr, out var hours) ? hours * 60.0 : 15.0;
+        }
+
+        var expiresAt = DateTime.UtcNow.AddMinutes(expirationMinutes);
 
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -48,10 +66,11 @@ public class JwtTokenService : ITokenService
             issuer: issuer,
             audience: audience,
             claims: claims,
-            expires: DateTime.UtcNow.AddHours(expirationHours),
+            expires: expiresAt,
             signingCredentials: credentials
         );
 
-        return new JwtSecurityTokenHandler().WriteToken(token);
+        var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+        return (tokenString, expiresAt);
     }
 }
