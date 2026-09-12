@@ -25,6 +25,9 @@ export type BiomedicalDatabase = MedicalDatabase;
 
 export const getDatabaseLogoUrl = (logoFile?: string): string => {
   if (!logoFile) return '';
+  if (logoFile.startsWith('http://') || logoFile.startsWith('https://')) {
+    return logoFile;
+  }
   const bucketUrl = (import.meta.env.VITE_LOGOS_BUCKET_URL as string) || '';
   if (bucketUrl) {
     return `${bucketUrl.replace(/\/$/, '')}/${logoFile}`;
