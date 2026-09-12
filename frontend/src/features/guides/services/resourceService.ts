@@ -19,6 +19,23 @@ export const resourceService = {
     return await response.json();
   },
 
+  async getAdminResources(): Promise<ResourceApiDto[]> {
+    const token = authService.getToken();
+    const headers: Record<string, string> = {};
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+    try {
+      const response = await fetch(`${getApiBase()}/api/v1/admin/resources`, { headers });
+      if (!response.ok) {
+        return await this.getResources();
+      }
+      return await response.json();
+    } catch {
+      return await this.getResources();
+    }
+  },
+
   async getResourceById(id: number): Promise<ResourceApiDto> {
     const response = await fetch(`${getApiBase()}/api/v1/resources/${id}`);
     if (!response.ok) {

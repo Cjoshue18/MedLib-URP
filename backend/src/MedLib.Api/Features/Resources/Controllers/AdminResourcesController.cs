@@ -22,6 +22,32 @@ public class AdminResourcesController : ControllerBase
         _storageService = storageService;
     }
 
+    [HttpGet]
+    public async Task<ActionResult<List<ResourceSummaryDto>>> GetAll(CancellationToken cancellationToken)
+    {
+        var list = await _context.BasesDatosMedicas
+            .AsNoTracking()
+            .Include(r => r.RelacionesMateria)
+                .ThenInclude(rm => rm.Materia)
+            .Include(r => r.Tutorial)
+            .OrderBy(r => r.NombreRecurso)
+            .Select(r => new ResourceSummaryDto(
+                r.IdBaseDatos,
+                r.NombreRecurso,
+                r.LogotipoUrl,
+                r.DescripcionClinica,
+                r.EsSuscripcion,
+                r.TieneAppMovil,
+                r.UrlExterno,
+                r.EstadoActivo,
+                r.RelacionesMateria.Select(rm => rm.Materia.NombreMateria).OrderBy(m => m).ToList(),
+                r.Tutorial != null ? new TutorialDto(r.Tutorial.IdTutorial, r.Tutorial.TituloVideo, r.Tutorial.YoutubeVideoId, r.Tutorial.GuiaPdfUrl) : null
+            ))
+            .ToListAsync(cancellationToken);
+
+        return Ok(list);
+    }
+
     [HttpPost]
     public async Task<ActionResult<ResourceSummaryDto>> Create(
         [FromBody] CreateResourceRequest request,
