@@ -184,6 +184,42 @@ export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
     });
   }, [hexagonResources]);
 
+  useEffect(() => {
+    const autoFlipInterval = 3500;
+    const interval = setInterval(() => {
+      if (isAllFlipped || activeSlots.length === 0) return;
+
+      setFlippedHexIds((prev) => {
+        const availableSlots = activeSlots.filter((slot) => !prev.has(slot.id));
+        if (availableSlots.length === 0) return prev;
+
+        const randomSlot = availableSlots[Math.floor(Math.random() * availableSlots.length)];
+        const targetId = randomSlot.id;
+
+        const next = new Set(prev);
+        next.add(targetId);
+
+        const unflipTimer = setTimeout(() => {
+          setFlippedHexIds((curr) => {
+            if (!curr.has(targetId)) return curr;
+            const updated = new Set(curr);
+            updated.delete(targetId);
+            return updated;
+          });
+          hexTimersRef.current.delete(targetId);
+        }, autoFlipInterval);
+
+        const existing = hexTimersRef.current.get(targetId);
+        if (existing) clearTimeout(existing);
+        hexTimersRef.current.set(targetId, unflipTimer);
+
+        return next;
+      });
+    }, autoFlipInterval);
+
+    return () => clearInterval(interval);
+  }, [activeSlots, isAllFlipped]);
+
   return (
     <div className="space-y-8">
       <div className="border-b border-slate-200 pb-4 space-y-2">
