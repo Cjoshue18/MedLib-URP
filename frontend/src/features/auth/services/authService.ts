@@ -3,9 +3,13 @@ import { LoginRequest, LoginResponse, AdminUserProfile } from '../types';
 const TOKEN_KEY = 'medlib_urp_admin_token';
 const USER_KEY = 'medlib_urp_admin_user';
 
+const getApiBase = (): string => {
+  return ((import.meta.env.VITE_API_URL || import.meta.env.API_URL) as string)?.replace(/\/$/, '') || '';
+};
+
 export const authService = {
   async login(credentials: LoginRequest): Promise<LoginResponse> {
-    const response = await fetch('/api/v1/auth/login', {
+    const response = await fetch(`${getApiBase()}/api/v1/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -43,7 +47,7 @@ export const authService = {
     if (!token) return null;
 
     try {
-      const response = await fetch('/api/v1/auth/me', {
+      const response = await fetch(`${getApiBase()}/api/v1/auth/me`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

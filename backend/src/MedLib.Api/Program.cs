@@ -74,18 +74,27 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 
 const string corsPolicyName = "MedLibCorsPolicy";
+var customOrigins = Environment.GetEnvironmentVariable("ALLOWED_ORIGINS")?
+    .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(corsPolicyName, policy =>
     {
-        policy.WithOrigins(
-            "http://localhost:5173",
-            "http://localhost:3000",
-            "https://localhost:5173"
-        )
-        .AllowAnyMethod()
-        .AllowAnyHeader()
-        .AllowCredentials();
+        if (customOrigins != null && customOrigins.Length > 0)
+        {
+            policy.WithOrigins(customOrigins)
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials();
+        }
+        else
+        {
+            policy.SetIsOriginAllowed(_ => true)
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials();
+        }
     });
 });
 
