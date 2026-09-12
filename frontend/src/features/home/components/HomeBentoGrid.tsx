@@ -185,39 +185,59 @@ export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
   }, [hexagonResources]);
 
   useEffect(() => {
-    const autoFlipInterval = 3500;
-    const interval = setInterval(() => {
-      if (isAllFlipped || activeSlots.length === 0) return;
+    const tracks = [
+      { interval: 3500, unflipDelay: 2500, initialDelay: 800 },
+      { interval: 5400, unflipDelay: 3900, initialDelay: 2400 },
+      { interval: 4400, unflipDelay: 3100, initialDelay: 1600 },
+    ];
 
-      setFlippedHexIds((prev) => {
-        const availableSlots = activeSlots.filter((slot) => !prev.has(slot.id));
-        if (availableSlots.length === 0) return prev;
+    const timeouts: NodeJS.Timeout[] = [];
+    const intervals: NodeJS.Timeout[] = [];
 
-        const randomSlot = availableSlots[Math.floor(Math.random() * availableSlots.length)];
-        const targetId = randomSlot.id;
+    tracks.forEach((track) => {
+      const startTrack = () => {
+        const intervalId = setInterval(() => {
+          if (isAllFlipped || activeSlots.length === 0) return;
 
-        const next = new Set(prev);
-        next.add(targetId);
+          setFlippedHexIds((prev) => {
+            const availableSlots = activeSlots.filter((slot) => !prev.has(slot.id));
+            if (availableSlots.length === 0) return prev;
 
-        const unflipTimer = setTimeout(() => {
-          setFlippedHexIds((curr) => {
-            if (!curr.has(targetId)) return curr;
-            const updated = new Set(curr);
-            updated.delete(targetId);
-            return updated;
+            const randomSlot = availableSlots[Math.floor(Math.random() * availableSlots.length)];
+            const targetId = randomSlot.id;
+
+            const next = new Set(prev);
+            next.add(targetId);
+
+            const unflipTimer = setTimeout(() => {
+              setFlippedHexIds((curr) => {
+                if (!curr.has(targetId)) return curr;
+                const updated = new Set(curr);
+                updated.delete(targetId);
+                return updated;
+              });
+              hexTimersRef.current.delete(targetId);
+            }, track.unflipDelay);
+
+            const existing = hexTimersRef.current.get(targetId);
+            if (existing) clearTimeout(existing);
+            hexTimersRef.current.set(targetId, unflipTimer);
+
+            return next;
           });
-          hexTimersRef.current.delete(targetId);
-        }, autoFlipInterval);
+        }, track.interval);
 
-        const existing = hexTimersRef.current.get(targetId);
-        if (existing) clearTimeout(existing);
-        hexTimersRef.current.set(targetId, unflipTimer);
+        intervals.push(intervalId);
+      };
 
-        return next;
-      });
-    }, autoFlipInterval);
+      const delayId = setTimeout(startTrack, track.initialDelay);
+      timeouts.push(delayId);
+    });
 
-    return () => clearInterval(interval);
+    return () => {
+      timeouts.forEach((id) => clearTimeout(id));
+      intervals.forEach((id) => clearInterval(id));
+    };
   }, [activeSlots, isAllFlipped]);
 
   return (
