@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Stethoscope, RotateCcw } from 'lucide-react';
-import { resourceService, ResourceApiDto } from '../../guides';
+import { resourceService, ResourceApiDto, getDatabaseLogoUrl } from '../../guides';
 
 interface HomeBentoGridProps {
   onNavigate: (view: 'directory') => void;
@@ -48,9 +48,10 @@ export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
         if (isMounted && data && data.length > 0) {
           setResources(data);
           data.forEach((r) => {
-            if (r.logoUrl) {
+            const url = getDatabaseLogoUrl(r.logoUrl);
+            if (url) {
               const img = new Image();
-              img.src = r.logoUrl;
+              img.src = url;
             }
           });
         }
@@ -241,7 +242,7 @@ export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
 
           {hexSlots.map((slot) => {
             const matched = resources.find((r) => r.id === slot.id);
-            const logoSrc = matched?.logoUrl || '';
+            const logoSrc = getDatabaseLogoUrl(matched?.logoUrl);
             const title = matched?.name || slot.fallbackTitle;
 
             const cx = 65 + slot.col * 72;

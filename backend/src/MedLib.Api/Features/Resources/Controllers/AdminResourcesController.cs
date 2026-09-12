@@ -5,6 +5,7 @@ using MedLib.Api.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace MedLib.Api.Features.Resources.Controllers;
 
@@ -15,11 +16,16 @@ public class AdminResourcesController : ControllerBase
 {
     private readonly MedLibDbContext _context;
     private readonly IFileStorageService _storageService;
+    private readonly IMemoryCache _cache;
 
-    public AdminResourcesController(MedLibDbContext context, IFileStorageService storageService)
+    public AdminResourcesController(
+        MedLibDbContext context, 
+        IFileStorageService storageService,
+        IMemoryCache cache)
     {
         _context = context;
         _storageService = storageService;
+        _cache = cache;
     }
 
     [HttpGet]
@@ -92,6 +98,7 @@ public class AdminResourcesController : ControllerBase
             await _context.SaveChangesAsync(cancellationToken);
         }
 
+        _cache.Remove("resources_lite_catalog");
         return await GetResourceByIdInternal(database.IdBaseDatos, cancellationToken);
     }
 
@@ -111,7 +118,10 @@ public class AdminResourcesController : ControllerBase
         }
 
         database.NombreRecurso = request.Name.Trim();
-        database.LogotipoUrl = request.LogoUrl.Trim();
+        if (!string.IsNullOrWhiteSpace(request.LogoUrl) && !request.LogoUrl.StartsWith("/api/v1/resources/"))
+        {
+            database.LogotipoUrl = request.LogoUrl.Trim();
+        }
         database.DescripcionClinica = request.ClinicalDescription.Trim();
         database.EsSuscripcion = request.IsSubscription;
         database.TieneAppMovil = request.HasMobileApp;
@@ -149,6 +159,10 @@ public class AdminResourcesController : ControllerBase
         }
 
         await _context.SaveChangesAsync(cancellationToken);
+
+        _cache.Remove("resources_lite_catalog");
+        _cache.Remove($"logo_resource_{id}");
+
         return await GetResourceByIdInternal(database.IdBaseDatos, cancellationToken);
     }
 
@@ -163,6 +177,9 @@ public class AdminResourcesController : ControllerBase
 
         database.EstadoActivo = false;
         await _context.SaveChangesAsync(cancellationToken);
+
+        _cache.Remove("resources_lite_catalog");
+        _cache.Remove($"logo_resource_{id}");
 
         return NoContent();
     }
