@@ -1,42 +1,70 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Stethoscope, RotateCcw } from 'lucide-react';
+import { resourceService, ResourceApiDto } from '../../guides';
 
 interface HomeBentoGridProps {
   onNavigate: (view: 'directory') => void;
 }
 
-const hexItems = [
-  { id: 'bmj-best-practice', title: 'BMJ Best Practice', abbr: 'BBP', cat: 'Point-of-Care', col: 0, row: 0 },
-  { id: 'uptodate', title: 'UpToDate', abbr: 'UTD', cat: 'Soporte Clínico', col: 0, row: 1, innerBond: { x1: 30, y1: 6.5, x2: 66, y2: 6.5 } },
-  { id: 'biodigital', title: 'BioDigital 3D', abbr: 'BIO', cat: 'Anatomía 3D', col: 1, row: 0 },
-  { id: 'dynamedex', title: 'DynaMedex', abbr: 'DYNA', cat: 'Point-of-Care', col: 1, row: 1, innerBond: { x1: 8.6, y1: 39.6, x2: 26.6, y2: 8.4 } },
-  { id: 'scielo', title: 'SciELO', abbr: 'SCI', cat: 'Open Access', col: 1, row: 2 },
-  { id: 'clinicalkey-espanol', title: 'ClinicalKey', abbr: 'CK', cat: 'Elsevier', col: 2, row: 0 },
-  { id: 'scopus', title: 'Scopus', abbr: 'SCOP', cat: 'Investigación', col: 2, row: 1 },
-  { id: 'pubmed', title: 'PubMed', abbr: 'PUB', cat: 'MEDLINE', col: 2, row: 2, innerBond: { x1: 30, y1: 6.5, x2: 66, y2: 6.5 } },
-  { id: 'accessmedicina', title: 'AccessMedicina', abbr: 'ACC', cat: 'McGraw-Hill', col: 2, row: 3 },
-  { id: 'nejm', title: 'NEJM', abbr: 'NEJM', cat: 'Medicina General', col: 3, row: 0, innerBond: { x1: 26.6, y1: 74.7, x2: 8.6, y2: 43.5 } },
-  { id: 'the-bmj', title: 'The BMJ', abbr: 'BMJ', cat: 'Revistas Q1', col: 3, row: 1 },
-  { id: 'epistemonikos', title: 'Epistemonikos', abbr: 'EPI', cat: 'Evidencia Clínica', col: 3, row: 2 },
-  { id: 'nature', title: 'Nature', abbr: 'NAT', cat: 'Genómica', col: 4, row: 0, innerBond: { x1: 30, y1: 6.5, x2: 66, y2: 6.5 } },
-  { id: 'sciencedirect', title: 'ScienceDirect', abbr: 'SD', cat: 'Elsevier', col: 4, row: 1, innerBond: { x1: 69.4, y1: 8.4, x2: 87.4, y2: 39.6 } },
-  { id: 'cochrane', title: 'Cochrane Library', abbr: 'COCH', cat: 'Revisiones Q1', col: 4, row: 2 },
+interface HexSlot {
+  id: number;
+  slug: string;
+  fallbackTitle: string;
+  col: number;
+  row: number;
+  innerBond?: { x1: number; y1: number; x2: number; y2: number };
+}
+
+const hexSlots: HexSlot[] = [
+  { id: 5, slug: 'bmj-best-practice', fallbackTitle: 'BMJ Best Practice', col: 0, row: 0 },
+  { id: 26, slug: 'paho', fallbackTitle: 'PAHO / OPS', col: 0, row: 1, innerBond: { x1: 30, y1: 6.5, x2: 66, y2: 6.5 } },
+  { id: 10, slug: 'biodigital', fallbackTitle: 'BioDigital Human 3D', col: 1, row: 0 },
+  { id: 4, slug: 'dynamedex', fallbackTitle: 'DynaMedex', col: 1, row: 1, innerBond: { x1: 8.6, y1: 39.6, x2: 26.6, y2: 8.4 } },
+  { id: 22, slug: 'scielo', fallbackTitle: 'SciELO', col: 1, row: 2 },
+  { id: 34, slug: 'plos', fallbackTitle: 'PLOS Medicine', col: 2, row: 0 },
+  { id: 11, slug: 'scopus', fallbackTitle: 'Scopus', col: 2, row: 1 },
+  { id: 18, slug: 'pubmed', fallbackTitle: 'PubMed / MEDLINE', col: 2, row: 2, innerBond: { x1: 30, y1: 6.5, x2: 66, y2: 6.5 } },
+  { id: 20, slug: 'pmc', fallbackTitle: 'PubMed Central', col: 2, row: 3 },
+  { id: 7, slug: 'nejm', fallbackTitle: 'NEJM', col: 3, row: 0, innerBond: { x1: 26.6, y1: 74.7, x2: 8.6, y2: 43.5 } },
+  { id: 6, slug: 'the-bmj', fallbackTitle: 'The BMJ', col: 3, row: 1 },
+  { id: 25, slug: 'epistemonikos', fallbackTitle: 'Epistemonikos', col: 3, row: 2 },
+  { id: 13, slug: 'nature', fallbackTitle: 'Nature Medicine', col: 4, row: 0, innerBond: { x1: 30, y1: 6.5, x2: 66, y2: 6.5 } },
+  { id: 12, slug: 'sciencedirect', fallbackTitle: 'ScienceDirect', col: 4, row: 1, innerBond: { x1: 69.4, y1: 8.4, x2: 87.4, y2: 39.6 } },
+  { id: 31, slug: 'doaj', fallbackTitle: 'DOAJ', col: 4, row: 2 },
 ];
 
 export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
-  const [flippedHexIds, setFlippedHexIds] = useState<Set<string>>(new Set());
+  const [resources, setResources] = useState<ResourceApiDto[]>([]);
+  const [flippedHexIds, setFlippedHexIds] = useState<Set<number>>(new Set());
   const [isAllFlipped, setIsAllFlipped] = useState(false);
-  const hexTimersRef = useRef<Map<string, NodeJS.Timeout>>(new Map());
+  const hexTimersRef = useRef<Map<number, NodeJS.Timeout>>(new Map());
   const allFlipTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
+    let isMounted = true;
+    resourceService
+      .getResources(true)
+      .then((data) => {
+        if (isMounted && data && data.length > 0) {
+          setResources(data);
+          data.forEach((r) => {
+            if (r.logoUrl) {
+              const img = new Image();
+              img.src = r.logoUrl;
+            }
+          });
+        }
+      })
+      .catch(() => {});
+
     return () => {
+      isMounted = false;
       if (allFlipTimerRef.current) clearTimeout(allFlipTimerRef.current);
       hexTimersRef.current.forEach((timer) => clearTimeout(timer));
     };
   }, []);
 
-  const handleHexHover = (id: string) => {
+  const handleHexHover = (id: number) => {
     const existingTimer = hexTimersRef.current.get(id);
     if (existingTimer) {
       clearTimeout(existingTimer);
@@ -63,7 +91,7 @@ export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
     hexTimersRef.current.set(id, timer);
   };
 
-  const handleHexClick = (id: string) => {
+  const handleHexClick = (id: number) => {
     const existingTimer = hexTimersRef.current.get(id);
     if (existingTimer) {
       clearTimeout(existingTimer);
@@ -211,14 +239,18 @@ export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
             />
           </svg>
 
-          {hexItems.map((item) => {
-            const cx = 65 + item.col * 72;
-            const cy = 50 + item.row * 83.138 + (item.col % 2 !== 0 ? 41.569 : 0);
+          {hexSlots.map((slot) => {
+            const matched = resources.find((r) => r.id === slot.id);
+            const logoSrc = matched?.logoUrl || '';
+            const title = matched?.name || slot.fallbackTitle;
+
+            const cx = 65 + slot.col * 72;
+            const cy = 50 + slot.row * 83.138 + (slot.col % 2 !== 0 ? 41.569 : 0);
             const leftPct = ((cx - 48) / 510) * 100;
             const topPct = ((cy - 41.569) / 360) * 100;
             const widthPct = (96 / 510) * 100;
             const heightPct = (83.138 / 360) * 100;
-            const isFlipped = isAllFlipped || flippedHexIds.has(item.id);
+            const isFlipped = isAllFlipped || flippedHexIds.has(slot.id);
 
             const yTop = cy - 41.569;
             const yBottom = cy + 41.569;
@@ -233,7 +265,7 @@ export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
 
             return (
               <div
-                key={item.id}
+                key={slot.id}
                 className="absolute cursor-pointer transition-all duration-200"
                 style={{
                   left: `${leftPct}%`,
@@ -243,39 +275,39 @@ export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
                   perspective: '800px',
                   zIndex: isFlipped ? 30 : 10,
                 }}
-                onClick={() => handleHexClick(item.id)}
-                onMouseEnter={() => handleHexHover(item.id)}
-                title={`${item.title} — ${item.cat}`}
+                onClick={() => handleHexClick(slot.id)}
+                onMouseEnter={() => handleHexHover(slot.id)}
+                title={title}
               >
                 <div
                   className={`w-full h-full relative transition-transform duration-500 ease-out preserve-3d ${
                     isFlipped ? 'rotate-y-180' : ''
                   }`}
                   style={{
-                    transitionDelay: isAllFlipped ? `${item.col * 40 + item.row * 30}ms` : '0ms',
+                    transitionDelay: isAllFlipped ? `${slot.col * 40 + slot.row * 30}ms` : '0ms',
                   }}
                 >
                   <div className="absolute inset-0 w-full h-full backface-hidden">
                     <svg viewBox="0 0 96 83.14" className="w-full h-full drop-shadow-xs overflow-visible">
                       <defs>
-                        <linearGradient id={`grad-${item.id}`} x1="0%" y1="0%" x2="0%" y2="100%">
+                        <linearGradient id={`grad-${slot.id}`} x1="0%" y1="0%" x2="0%" y2="100%">
                           <stop offset="0%" stopColor={topColor} />
                           <stop offset="100%" stopColor={botColor} />
                         </linearGradient>
                       </defs>
                       <polygon
                         points="24,0 72,0 96,41.57 72,83.14 24,83.14 0,41.57"
-                        fill={`url(#grad-${item.id})`}
+                        fill={`url(#grad-${slot.id})`}
                         stroke="#0f172a"
                         strokeWidth="2"
                         className="transition-colors duration-200"
                       />
-                      {item.innerBond && (
+                      {slot.innerBond && (
                         <line
-                          x1={item.innerBond.x1}
-                          y1={item.innerBond.y1}
-                          x2={item.innerBond.x2}
-                          y2={item.innerBond.y2}
+                          x1={slot.innerBond.x1}
+                          y1={slot.innerBond.y1}
+                          x2={slot.innerBond.x2}
+                          y2={slot.innerBond.y2}
                           stroke="#8cf9a9"
                           strokeWidth="1.5"
                           strokeLinecap="round"
@@ -286,25 +318,42 @@ export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
                   </div>
 
                   <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180">
-                    <svg viewBox="0 0 96 83.14" className="w-full h-full drop-shadow-md overflow-visible">
+                    <svg viewBox="0 0 96 83.14" className="w-full h-full drop-shadow-md overflow-hidden">
+                      <defs>
+                        <clipPath id={`hex-clip-${slot.id}`}>
+                          <polygon points="24,0 72,0 96,41.57 72,83.14 24,83.14 0,41.57" />
+                        </clipPath>
+                      </defs>
                       <polygon
                         points="24,0 72,0 96,41.57 72,83.14 24,83.14 0,41.57"
-                        fill="#0f172a"
-                        stroke="#00a859"
-                        strokeWidth="2.5"
+                        fill="#ffffff"
                       />
+                      {logoSrc ? (
+                        <g clipPath={`url(#hex-clip-${slot.id})`}>
+                          <image
+                            href={logoSrc}
+                            x="12"
+                            y="10"
+                            width="72"
+                            height="63"
+                            preserveAspectRatio="xMidYMid meet"
+                          />
+                        </g>
+                      ) : (
+                        <g clipPath={`url(#hex-clip-${slot.id})`}>
+                          <text
+                            x="48"
+                            y="44"
+                            textAnchor="middle"
+                            fill="#008744"
+                            fontSize="8"
+                            fontWeight="bold"
+                          >
+                            {title.slice(0, 10)}
+                          </text>
+                        </g>
+                      )}
                     </svg>
-                    <div className="absolute inset-0 flex flex-col items-center justify-center p-1.5 text-center select-none pointer-events-none">
-                      <span className="text-[#8cf9a9] font-black text-[8px] uppercase tracking-wider leading-none">
-                        {item.abbr}
-                      </span>
-                      <span className="text-white font-extrabold text-[9px] sm:text-[10px] leading-tight mt-0.5 line-clamp-2 px-1">
-                        {item.title}
-                      </span>
-                      <span className="text-emerald-400 text-[7px] sm:text-[8px] font-semibold truncate max-w-[70px] mt-0.5">
-                        {item.cat}
-                      </span>
-                    </div>
                   </div>
                 </div>
               </div>
