@@ -2,6 +2,7 @@ export type AccessType = 'Suscripción URP' | 'Acceso Abierto';
 
 export interface MedicalDatabase {
   id: string;
+  rawId?: number;
   title: string;
   description: string;
   accessType: AccessType;

@@ -1,0 +1,214 @@
+import React, { useState } from 'react';
+import {
+  ExternalLink,
+  Database,
+  PlayCircle,
+  Lock,
+  Globe,
+  ChevronDown,
+  Loader2,
+} from 'lucide-react';
+import {
+  MedicalDatabase,
+  getDatabaseLogoUrl,
+} from '../../data/databasesData';
+import { resourceService } from '../../services/resourceService';
+import { mapApiResourceToMedicalDatabase } from '../../utils/resourceAdapter';
+
+interface DatabaseAccordionCardProps {
+  database: MedicalDatabase;
+  isExpanded: boolean;
+  onToggle: () => void;
+  onDetailLoaded?: (updated: MedicalDatabase) => void;
+}
+
+export const DatabaseAccordionCard: React.FC<DatabaseAccordionCardProps> = ({
+  database,
+  isExpanded,
+  onToggle,
+  onDetailLoaded,
+}) => {
+  const [detail, setDetail] = useState<MedicalDatabase>(database);
+  const [isLoadingDetail, setIsLoadingDetail] = useState(false);
+
+  const handleClickHeader = async () => {
+    onToggle();
+
+    if (!isExpanded && !detail.description) {
+      const targetId = detail.rawId ?? parseInt(detail.id.replace(/\D/g, ''), 10);
+      if (!isNaN(targetId)) {
+        try {
+          setIsLoadingDetail(true);
+          const fullDto = await resourceService.getResourceById(targetId);
+          const mapped = mapApiResourceToMedicalDatabase(fullDto);
+          setDetail(mapped);
+          onDetailLoaded?.(mapped);
+        } catch {
+          setDetail((prev) => ({
+            ...prev,
+            description: 'Recurso de información biomédica de la Universidad Ricardo Palma.',
+          }));
+        } finally {
+          setIsLoadingDetail(false);
+        }
+      }
+    }
+  };
+
+  const logoSrc = getDatabaseLogoUrl(detail.logoFile);
+
+  return (
+    <div
+      className={`rounded-2xl transition-all duration-300 border-2 overflow-hidden ${
+        isExpanded
+          ? 'bg-white border-slate-900 shadow-urp-brutal'
+          : 'bg-white border-slate-200 hover:border-slate-900 hover:shadow-urp-brutal-sm'
+      }`}
+    >
+      <div
+        onClick={handleClickHeader}
+        className="p-4 sm:p-4.5 flex items-center justify-between cursor-pointer select-none group"
+      >
+        <div className="min-w-0 pr-3">
+          <h4
+            className={`text-xs sm:text-sm font-bold transition-colors truncate ${
+              isExpanded ? 'text-[#008744]' : 'text-slate-900 group-hover:text-[#008744]'
+            }`}
+          >
+            {detail.title}
+          </h4>
+          <span className="text-[11px] text-slate-500 font-medium block truncate mt-0.5">
+            {detail.tags && detail.tags.length > 0
+              ? detail.tags.slice(0, 2).join(' • ')
+              : detail.accessType}
+          </span>
+        </div>
+
+        <div className="flex items-center gap-2 shrink-0">
+          <div
+            className={`w-7 h-7 rounded-lg border flex items-center justify-center transition-transform duration-300 ${
+              isExpanded
+                ? 'rotate-180 bg-[#008744] text-white border-[#008744]'
+                : 'bg-slate-50 text-slate-400 border-slate-200 group-hover:border-slate-900 group-hover:text-slate-900'
+            }`}
+          >
+            <ChevronDown className="w-3.5 h-3.5" />
+          </div>
+        </div>
+      </div>
+
+      {isExpanded && (
+        <div className="px-4 pb-5 sm:px-6 sm:pb-6 pt-3 border-t-2 border-slate-100 flex flex-col gap-4">
+          <div className="flex justify-center items-center h-24 p-3 bg-slate-50/80 border-2 border-slate-200 rounded-2xl shadow-inner">
+            {logoSrc ? (
+              <img
+                src={logoSrc}
+                alt={detail.title}
+                className="max-h-14 max-w-full object-contain"
+              />
+            ) : (
+              <div className="flex items-center gap-2 text-slate-400 font-bold text-sm">
+                <Database className="w-5 h-5 text-[#008744]" />
+                <span>{detail.title}</span>
+              </div>
+            )}
+          </div>
+
+          <div>
+            <div className="flex gap-1.5 flex-wrap mb-2.5">
+              {detail.tags.map((tag, idx) => (
+                <span
+                  key={idx}
+                  className="bg-slate-100 text-slate-700 border border-slate-200 px-2 py-0.5 rounded-md text-[10px] font-bold"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+
+            {isLoadingDetail ? (
+              <div className="space-y-2 py-2 animate-pulse">
+                <div className="h-3.5 bg-slate-200 rounded w-full" />
+                <div className="h-3.5 bg-slate-200 rounded w-5/6" />
+                <div className="h-3.5 bg-slate-100 rounded w-3/4" />
+                <div className="flex items-center gap-2 pt-1 text-xs text-emerald-700 font-semibold">
+                  <Loader2 className="w-3.5 h-3.5 animate-spin text-[#008744]" />
+                  <span>Cargando descripción clínica y tutorial...</span>
+                </div>
+              </div>
+            ) : (
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                {detail.description ||
+                  'Recurso de información biomédica suscrito o seleccionado por la Facultad de Medicina Humana URP.'}
+              </p>
+            )}
+          </div>
+
+          <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 text-xs text-slate-700">
+            <div
+              className={`flex items-center justify-between ${
+                detail.hasMobileApp ? 'pb-1.5 border-b border-slate-200/80' : ''
+              }`}
+            >
+              <span className="font-bold text-slate-500">Modalidad de Acceso:</span>
+              <span className="font-black text-slate-900 flex items-center gap-1">
+                {detail.accessType === 'Suscripción URP' ? (
+                  <Lock className="w-3 h-3 text-[#008744]" />
+                ) : (
+                  <Globe className="w-3 h-3 text-sky-600" />
+                )}
+                {detail.accessType}
+              </span>
+            </div>
+            {detail.hasMobileApp && (
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-slate-500">App Móvil:</span>
+                <span className="font-black text-emerald-700">Disponible (iOS / Android)</span>
+              </div>
+            )}
+          </div>
+
+          <a
+            href={detail.accessUrl}
+            target="_blank"
+            rel="noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="w-full py-3 px-5 rounded-xl bg-[#008744] hover:bg-[#006b35] text-white font-bold text-xs sm:text-sm shadow-urp-brutal-green tactile-btn-green transition-all flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <span>
+              {detail.accessType === 'Suscripción URP'
+                ? 'Acceder vía Intranet URP'
+                : 'Ir a la Base de Datos'}
+            </span>
+            <ExternalLink className="w-4 h-4" />
+          </a>
+
+          {!isLoadingDetail && Boolean(detail.tutorialUrl) && (
+            <div className="bg-white rounded-2xl border-2 border-slate-900 shadow-urp-brutal-sm overflow-hidden mt-1">
+              <a
+                href={detail.tutorialUrl}
+                target="_blank"
+                rel="noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="p-3 bg-slate-900 hover:bg-slate-800 text-white flex items-center justify-between transition-colors group/tut cursor-pointer"
+              >
+                <div className="flex items-center gap-2.5 min-w-0 pr-2">
+                  <div className="w-8 h-8 rounded-lg bg-[#008744] flex items-center justify-center text-white shrink-0 group-hover/tut:scale-105 transition-transform">
+                    <PlayCircle className="w-4.5 h-4.5" />
+                  </div>
+                  <div className="min-w-0">
+                    <span className="text-[10px] uppercase font-mono tracking-wider text-emerald-400 block font-bold">
+                      Tutorial Oficial
+                    </span>
+                    <h5 className="font-bold text-xs truncate">Video Guía de Acceso</h5>
+                  </div>
+                </div>
+                <ExternalLink className="w-4 h-4 text-emerald-400 shrink-0 group-hover/tut:translate-x-0.5 transition-transform" />
+              </a>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
