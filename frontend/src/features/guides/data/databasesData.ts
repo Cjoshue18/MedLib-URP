@@ -11,6 +11,7 @@ export interface MedicalDatabase {
   isFeatured?: boolean;
   hasMobileApp?: boolean;
   tutorialUrl?: string;
+  mostrarEnHexagonos?: boolean;
   tags: string[];
 }
 

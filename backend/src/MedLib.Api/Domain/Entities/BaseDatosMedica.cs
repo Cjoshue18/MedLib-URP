@@ -10,6 +10,7 @@ public class BaseDatosMedica
     public bool TieneAppMovil { get; set; } = false;
     public string? UrlExterno { get; set; }
     public bool EstadoActivo { get; set; } = true;
+    public bool MostrarEnHexagonos { get; set; } = false;
 
     public ICollection<BaseRelacionMateria> RelacionesMateria { get; set; } = new List<BaseRelacionMateria>();
     public TutorialRecurso? Tutorial { get; set; }

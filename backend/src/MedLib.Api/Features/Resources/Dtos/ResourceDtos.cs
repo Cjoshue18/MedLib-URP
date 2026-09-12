@@ -13,6 +13,7 @@ public record ResourceSummaryDto(
     bool HasMobileApp,
     string? ExternalUrl,
     bool IsActive,
+    bool MostrarEnHexagonos,
     List<string> Subjects,
     TutorialDto? Tutorial
 );
@@ -24,6 +25,7 @@ public record CreateResourceRequest(
     bool IsSubscription,
     bool HasMobileApp,
     string? ExternalUrl,
+    bool MostrarEnHexagonos,
     List<string> Subjects,
     string? YoutubeVideoId,
     string? VideoTitle,
@@ -38,6 +40,7 @@ public record UpdateResourceRequest(
     bool HasMobileApp,
     string? ExternalUrl,
     bool IsActive,
+    bool MostrarEnHexagonos,
     List<string> Subjects,
     string? YoutubeVideoId,
     string? VideoTitle,
@@ -45,3 +48,5 @@ public record UpdateResourceRequest(
 );
 
 public record UploadLogoResponse(string LogoUrl);
+
+public record UpdateHexagonMatrixRequest(List<int> ResourceIds);

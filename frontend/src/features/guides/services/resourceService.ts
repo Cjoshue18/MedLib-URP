@@ -146,4 +146,45 @@ export const resourceService = {
     const data = await response.json();
     return data.logoUrl;
   },
+
+  async toggleHexagonDisplay(id: number): Promise<ResourceApiDto> {
+    const token = authService.getToken();
+    const response = await fetch(`${getApiBase()}/api/v1/admin/resources/${id}/toggle-hexagonos`, {
+      method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const err = await response.json().catch(() => ({ message: 'Error al cambiar visibilidad en hexágonos' }));
+      throw new Error(err.message || 'Error al cambiar visibilidad en hexágonos');
+    }
+
+    this.clearDetailCache(id);
+    return await response.json();
+  },
+
+  async setHexagonMatrix(resourceIds: number[]): Promise<ResourceApiDto[]> {
+    const token = authService.getToken();
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+    const response = await fetch(`${getApiBase()}/api/v1/admin/resources/hexagon-matrix`, {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({ resourceIds }),
+    });
+
+    if (!response.ok) {
+      const err = await response.json().catch(() => ({ message: 'Error al actualizar matriz de hexágonos' }));
+      throw new Error(err.message || 'Error al actualizar matriz de hexágonos');
+    }
+
+    this.clearDetailCache();
+    return await response.json();
+  },
 };

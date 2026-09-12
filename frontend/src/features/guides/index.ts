@@ -3,6 +3,7 @@ export { DatabaseSkeletonGrid, DatabaseAccordionCard } from './components/direct
 export { AdminMetricsGrid } from './components/admin/AdminMetricsGrid';
 export { AdminResourceTable } from './components/admin/AdminResourceTable';
 export { AdminResourceModal } from './components/admin/AdminResourceModal';
+export { HexagonMatrixModal } from './components/admin/HexagonMatrixModal';
 export type { ResourceFormData } from './components/admin/AdminResourceModal';
 
 export { resourceService } from './services/resourceService';

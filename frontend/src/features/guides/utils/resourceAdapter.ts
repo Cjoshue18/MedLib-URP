@@ -15,6 +15,7 @@ export const mapApiResourceToMedicalDatabase = (dto: ResourceApiDto): MedicalDat
     tutorialUrl: dto.tutorial?.youtubeVideoId
       ? `https://www.youtube.com/watch?v=${dto.tutorial.youtubeVideoId}`
       : undefined,
+    mostrarEnHexagonos: dto.mostrarEnHexagonos ?? false,
     tags: dto.subjects && dto.subjects.length > 0 ? dto.subjects : ['Medicina Humana'],
   };
 };

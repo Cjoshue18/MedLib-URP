@@ -46,6 +46,7 @@ public class AdminResourcesController : ControllerBase
                 r.TieneAppMovil,
                 r.UrlExterno,
                 r.EstadoActivo,
+                r.MostrarEnHexagonos,
                 r.RelacionesMateria.Select(rm => rm.Materia.NombreMateria).OrderBy(m => m).ToList(),
                 r.Tutorial != null ? new TutorialDto(r.Tutorial.IdTutorial, r.Tutorial.TituloVideo, r.Tutorial.YoutubeVideoId, r.Tutorial.GuiaPdfUrl) : null
             ))
@@ -64,6 +65,16 @@ public class AdminResourcesController : ControllerBase
             return BadRequest(new { message = "El nombre del recurso es obligatorio." });
         }
 
+        if (request.MostrarEnHexagonos)
+        {
+            var hexagonCount = await _context.BasesDatosMedicas
+                .CountAsync(r => r.MostrarEnHexagonos && r.EstadoActivo, cancellationToken);
+            if (hexagonCount >= 15)
+            {
+                return BadRequest(new { message = "Límite alcanzado: Ya existen 15 bases de datos asignadas a los hexágonos de inicio. Desactive otra antes de habilitar esta." });
+            }
+        }
+
         var database = new BaseDatosMedica
         {
             NombreRecurso = request.Name.Trim(),
@@ -72,7 +83,8 @@ public class AdminResourcesController : ControllerBase
             EsSuscripcion = request.IsSubscription,
             TieneAppMovil = request.HasMobileApp,
             UrlExterno = request.IsSubscription ? null : request.ExternalUrl?.Trim(),
-            EstadoActivo = true
+            EstadoActivo = true,
+            MostrarEnHexagonos = request.MostrarEnHexagonos
         };
 
         _context.BasesDatosMedicas.Add(database);
@@ -117,6 +129,31 @@ public class AdminResourcesController : ControllerBase
             return NotFound(new { message = $"Recurso con ID {id} no encontrado." });
         }
 
+        if (!request.IsActive && database.EstadoActivo)
+        {
+            if (database.MostrarEnHexagonos)
+            {
+                return BadRequest(new { message = "No se puede inactivar esta base de datos porque actualmente forma parte de la matriz hexagonal de inicio. Primero reemplácela en la matriz." });
+            }
+
+            var activeCount = await _context.BasesDatosMedicas
+                .CountAsync(r => r.EstadoActivo, cancellationToken);
+            if (activeCount <= 15)
+            {
+                return BadRequest(new { message = "No se puede inactivar: el sistema requiere al menos 15 bases de datos activas para sustentar la portada." });
+            }
+        }
+
+        if (request.MostrarEnHexagonos && !database.MostrarEnHexagonos)
+        {
+            var hexagonCount = await _context.BasesDatosMedicas
+                .CountAsync(r => r.MostrarEnHexagonos && r.EstadoActivo && r.IdBaseDatos != id, cancellationToken);
+            if (hexagonCount >= 15)
+            {
+                return BadRequest(new { message = "Límite alcanzado: Ya existen 15 bases de datos asignadas a los hexágonos de inicio. Desactive otra antes de habilitar esta." });
+            }
+        }
+
         database.NombreRecurso = request.Name.Trim();
         if (!string.IsNullOrWhiteSpace(request.LogoUrl) && !request.LogoUrl.StartsWith("/api/v1/resources/"))
         {
@@ -127,6 +164,7 @@ public class AdminResourcesController : ControllerBase
         database.TieneAppMovil = request.HasMobileApp;
         database.UrlExterno = request.IsSubscription ? null : request.ExternalUrl?.Trim();
         database.EstadoActivo = request.IsActive;
+        database.MostrarEnHexagonos = request.MostrarEnHexagonos;
 
         await SyncSubjectsAsync(database.IdBaseDatos, request.Subjects, cancellationToken);
 
@@ -175,6 +213,18 @@ public class AdminResourcesController : ControllerBase
             return NotFound(new { message = $"Recurso con ID {id} no encontrado." });
         }
 
+        if (database.MostrarEnHexagonos)
+        {
+            return BadRequest(new { message = "No se puede eliminar esta base de datos porque actualmente forma parte de la matriz hexagonal de inicio. Primero reemplácela en la matriz." });
+        }
+
+        var activeCount = await _context.BasesDatosMedicas
+            .CountAsync(r => r.EstadoActivo, cancellationToken);
+        if (activeCount <= 15)
+        {
+            return BadRequest(new { message = "No se puede eliminar: el sistema requiere al menos 15 bases de datos registradas." });
+        }
+
         database.EstadoActivo = false;
         await _context.SaveChangesAsync(cancellationToken);
 
@@ -182,6 +232,71 @@ public class AdminResourcesController : ControllerBase
         _cache.Remove($"logo_resource_{id}");
 
         return NoContent();
+    }
+
+    [HttpPut("hexagon-matrix")]
+    public async Task<ActionResult<List<ResourceSummaryDto>>> SetHexagonMatrix(
+        [FromBody] UpdateHexagonMatrixRequest request,
+        CancellationToken cancellationToken)
+    {
+        if (request == null || request.ResourceIds == null || request.ResourceIds.Count != 15)
+        {
+            return BadRequest(new { message = "Se deben seleccionar exactamente 15 bases de datos para la matriz hexagonal de inicio." });
+        }
+
+        var distinctIds = request.ResourceIds.Distinct().ToList();
+        if (distinctIds.Count != 15)
+        {
+            return BadRequest(new { message = "No se permiten identificadores duplicados en la selección de 15 bases de datos." });
+        }
+
+        var activeDatabases = await _context.BasesDatosMedicas
+            .Where(r => distinctIds.Contains(r.IdBaseDatos) && r.EstadoActivo)
+            .Select(r => r.IdBaseDatos)
+            .ToListAsync(cancellationToken);
+
+        if (activeDatabases.Count != 15)
+        {
+            return BadRequest(new { message = "Todas las 15 bases de datos seleccionadas deben existir y estar en estado activo." });
+        }
+
+        var allDatabases = await _context.BasesDatosMedicas.ToListAsync(cancellationToken);
+        foreach (var db in allDatabases)
+        {
+            db.MostrarEnHexagonos = distinctIds.Contains(db.IdBaseDatos);
+        }
+
+        await _context.SaveChangesAsync(cancellationToken);
+        _cache.Remove("resources_lite_catalog");
+
+        return await GetAll(cancellationToken);
+    }
+
+    [HttpPatch("{id:int}/toggle-hexagonos")]
+    public async Task<ActionResult<ResourceSummaryDto>> ToggleHexagonDisplay(int id, CancellationToken cancellationToken)
+    {
+        var database = await _context.BasesDatosMedicas.FindAsync(new object[] { id }, cancellationToken);
+        if (database == null)
+        {
+            return NotFound(new { message = $"Recurso con ID {id} no encontrado." });
+        }
+
+        if (!database.MostrarEnHexagonos)
+        {
+            var hexagonCount = await _context.BasesDatosMedicas
+                .CountAsync(r => r.MostrarEnHexagonos && r.EstadoActivo, cancellationToken);
+            if (hexagonCount >= 15)
+            {
+                return BadRequest(new { message = "Límite alcanzado: Ya existen 15 bases de datos asignadas a los hexágonos de inicio. Desactive otra antes de habilitar esta." });
+            }
+        }
+
+        database.MostrarEnHexagonos = !database.MostrarEnHexagonos;
+        await _context.SaveChangesAsync(cancellationToken);
+
+        _cache.Remove("resources_lite_catalog");
+
+        return await GetResourceByIdInternal(database.IdBaseDatos, cancellationToken);
     }
 
     [HttpPost("upload-logo")]
@@ -267,6 +382,7 @@ public class AdminResourcesController : ControllerBase
                 r.TieneAppMovil,
                 r.UrlExterno,
                 r.EstadoActivo,
+                r.MostrarEnHexagonos,
                 r.RelacionesMateria.Select(rm => rm.Materia.NombreMateria).OrderBy(m => m).ToList(),
                 r.Tutorial != null ? new TutorialDto(r.Tutorial.IdTutorial, r.Tutorial.TituloVideo, r.Tutorial.YoutubeVideoId, r.Tutorial.GuiaPdfUrl) : null
             ))

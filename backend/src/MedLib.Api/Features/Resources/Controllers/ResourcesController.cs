@@ -29,10 +29,11 @@ public class ResourcesController : ControllerBase
         [FromQuery] string? q,
         [FromQuery] string? materia,
         [FromQuery] bool? suscripcion,
+        [FromQuery] bool? hexagonos,
         [FromQuery] bool? lite,
         CancellationToken cancellationToken)
     {
-        var isPlainLite = lite == true && string.IsNullOrWhiteSpace(q) && string.IsNullOrWhiteSpace(materia) && !suscripcion.HasValue;
+        var isPlainLite = lite == true && string.IsNullOrWhiteSpace(q) && string.IsNullOrWhiteSpace(materia) && !suscripcion.HasValue && !hexagonos.HasValue;
         const string catalogCacheKey = "resources_lite_catalog";
 
         if (isPlainLite && _cache.TryGetValue(catalogCacheKey, out List<ResourceSummaryDto>? cachedCatalog) && cachedCatalog != null)
@@ -71,6 +72,11 @@ public class ResourcesController : ControllerBase
             query = query.Where(r => r.EsSuscripcion == suscripcion.Value);
         }
 
+        if (hexagonos.HasValue)
+        {
+            query = query.Where(r => r.MostrarEnHexagonos == hexagonos.Value);
+        }
+
         var list = await query
             .OrderBy(r => r.NombreRecurso)
             .Select(r => new ResourceSummaryDto(
@@ -82,6 +88,7 @@ public class ResourcesController : ControllerBase
                 r.TieneAppMovil,
                 lite == true ? null : r.UrlExterno,
                 r.EstadoActivo,
+                r.MostrarEnHexagonos,
                 r.RelacionesMateria.Select(rm => rm.Materia.NombreMateria).OrderBy(m => m).ToList(),
                 lite == true || r.Tutorial == null ? null : new TutorialDto(r.Tutorial.IdTutorial, r.Tutorial.TituloVideo, r.Tutorial.YoutubeVideoId, r.Tutorial.GuiaPdfUrl)
             ))
@@ -113,6 +120,7 @@ public class ResourcesController : ControllerBase
                 r.TieneAppMovil,
                 r.UrlExterno,
                 r.EstadoActivo,
+                r.MostrarEnHexagonos,
                 r.RelacionesMateria.Select(rm => rm.Materia.NombreMateria).OrderBy(m => m).ToList(),
                 r.Tutorial != null ? new TutorialDto(r.Tutorial.IdTutorial, r.Tutorial.TituloVideo, r.Tutorial.YoutubeVideoId, r.Tutorial.GuiaPdfUrl) : null
             ))

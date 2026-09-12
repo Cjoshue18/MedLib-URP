@@ -14,6 +14,7 @@ export interface ResourceApiDto {
   hasMobileApp: boolean;
   externalUrl?: string | null;
   isActive: boolean;
+  mostrarEnHexagonos: boolean;
   subjects: string[];
   tutorial?: TutorialApiDto | null;
 }
@@ -30,6 +31,7 @@ export interface CreateResourceApiRequest {
   isSubscription: boolean;
   hasMobileApp: boolean;
   externalUrl?: string | null;
+  mostrarEnHexagonos?: boolean;
   subjects: string[];
   youtubeVideoId?: string | null;
   videoTitle?: string | null;
@@ -44,6 +46,7 @@ export interface UpdateResourceApiRequest {
   hasMobileApp: boolean;
   externalUrl?: string | null;
   isActive: boolean;
+  mostrarEnHexagonos?: boolean;
   subjects: string[];
   youtubeVideoId?: string | null;
   videoTitle?: string | null;
