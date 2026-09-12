@@ -31,7 +31,7 @@ const HEX_POSITIONS: HexPosition[] = [
 ];
 
 export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
-  const [resources, setResources] = useState<ResourceApiDto[]>([]);
+  const [resources, setResources] = useState<ResourceApiDto[]>(() => resourceService.getCachedLiteResources());
   const [flippedHexIds, setFlippedHexIds] = useState<Set<number>>(new Set());
   const [isAllFlipped, setIsAllFlipped] = useState(false);
   const hexTimersRef = useRef<Map<number, NodeJS.Timeout>>(new Map());
@@ -39,6 +39,19 @@ export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
 
   useEffect(() => {
     let isMounted = true;
+
+    if (resources.length > 0) {
+      resources
+        .filter((r) => r.mostrarEnHexagonos)
+        .forEach((r) => {
+          const url = getDatabaseLogoUrl(r.logoUrl);
+          if (url) {
+            const img = new Image();
+            img.src = url;
+          }
+        });
+    }
+
     resourceService
       .getResources(true)
       .then((data) => {

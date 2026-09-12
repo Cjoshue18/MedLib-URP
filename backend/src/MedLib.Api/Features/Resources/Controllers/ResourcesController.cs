@@ -82,7 +82,7 @@ public class ResourcesController : ControllerBase
             .Select(r => new ResourceSummaryDto(
                 r.IdBaseDatos,
                 r.NombreRecurso,
-                string.IsNullOrWhiteSpace(r.LogotipoUrl) ? "" : $"/api/v1/resources/{r.IdBaseDatos}/logo",
+                r.LogotipoUrl,
                 lite == true ? "" : r.DescripcionClinica,
                 r.EsSuscripcion,
                 r.TieneAppMovil,
@@ -114,7 +114,7 @@ public class ResourcesController : ControllerBase
             .Select(r => new ResourceSummaryDto(
                 r.IdBaseDatos,
                 r.NombreRecurso,
-                string.IsNullOrWhiteSpace(r.LogotipoUrl) ? "" : $"/api/v1/resources/{r.IdBaseDatos}/logo",
+                r.LogotipoUrl,
                 r.DescripcionClinica,
                 r.EsSuscripcion,
                 r.TieneAppMovil,

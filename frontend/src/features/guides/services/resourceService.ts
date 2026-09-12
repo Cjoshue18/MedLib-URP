@@ -13,13 +13,32 @@ const getApiBase = (): string => {
 const resourceDetailCache = new Map<number, ResourceApiDto>();
 
 export const resourceService = {
+  getCachedLiteResources(): ResourceApiDto[] {
+    try {
+      const cached = localStorage.getItem('medlib_cached_lite_resources');
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      }
+    } catch {}
+    return [];
+  },
+
   async getResources(lite: boolean = false): Promise<ResourceApiDto[]> {
     const url = lite ? `${getApiBase()}/api/v1/resources?lite=true` : `${getApiBase()}/api/v1/resources`;
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`Error al obtener recursos: ${response.statusText}`);
     }
-    return await response.json();
+    const data = await response.json();
+    if (lite && Array.isArray(data) && data.length > 0) {
+      try {
+        localStorage.setItem('medlib_cached_lite_resources', JSON.stringify(data));
+      } catch {}
+    }
+    return data;
   },
 
   async getAdminResources(): Promise<ResourceApiDto[]> {
