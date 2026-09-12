@@ -37,6 +37,7 @@ export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
   const [isAllFlipped, setIsAllFlipped] = useState(false);
   const hexTimersRef = useRef<Map<number, NodeJS.Timeout>>(new Map());
   const allFlipTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const lastTouchRef = useRef<number>(0);
 
   useEffect(() => {
     let isMounted = true;
@@ -86,6 +87,10 @@ export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
   }, []);
 
   const handleHexHover = (id: number) => {
+    if (Date.now() - lastTouchRef.current < 800) {
+      return;
+    }
+
     const existingTimer = hexTimersRef.current.get(id);
     if (existingTimer) {
       clearTimeout(existingTimer);
@@ -199,14 +204,18 @@ export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
       <div className="relative w-full py-6 overflow-visible flex items-center justify-center">
         <div className="relative w-full max-w-[530px] aspect-[510/360] select-none">
           <div
-            className="absolute cursor-pointer group z-20"
+            className="absolute cursor-pointer group z-20 select-none touch-manipulation"
             style={{
               left: `${(17 / 510) * 100}%`,
               top: `${(174.707 / 360) * 100}%`,
               width: `${(96 / 510) * 100}%`,
               height: `${(83.138 / 360) * 100}%`,
+              clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)',
             }}
             onClick={handleFlipAll}
+            onTouchStart={() => {
+              lastTouchRef.current = Date.now();
+            }}
             title="Girar todos los recursos"
             aria-label="Girar todos los recursos"
           >
@@ -317,7 +326,7 @@ export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
             return (
               <div
                 key={slot.id}
-                className="absolute cursor-pointer transition-all duration-200"
+                className="absolute cursor-pointer select-none touch-manipulation transition-all duration-200"
                 style={{
                   left: `${leftPct}%`,
                   top: `${topPct}%`,
@@ -325,8 +334,12 @@ export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
                   height: `${heightPct}%`,
                   perspective: '800px',
                   zIndex: isFlipped ? 30 : 10,
+                  clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)',
                 }}
                 onClick={() => handleHexClick(slot.id)}
+                onTouchStart={() => {
+                  lastTouchRef.current = Date.now();
+                }}
                 onMouseEnter={() => handleHexHover(slot.id)}
                 title={title}
               >
