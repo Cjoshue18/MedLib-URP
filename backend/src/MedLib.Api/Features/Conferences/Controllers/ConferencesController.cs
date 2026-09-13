@@ -18,10 +18,26 @@ public class ConferencesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<ConferenceSummaryDto>>> GetAll(CancellationToken cancellationToken)
+    public async Task<ActionResult<List<ConferenceSummaryDto>>> GetAll(
+        [FromQuery] DateTime? desde,
+        [FromQuery] DateTime? hasta,
+        CancellationToken cancellationToken)
     {
-        var conferences = await _context.ConferenciasMedicas
-            .AsNoTracking()
+        var query = _context.ConferenciasMedicas.AsNoTracking();
+
+        if (desde.HasValue)
+        {
+            var desdeUtc = DateTime.SpecifyKind(desde.Value, DateTimeKind.Utc);
+            query = query.Where(c => c.FechaHoraFin >= desdeUtc);
+        }
+
+        if (hasta.HasValue)
+        {
+            var hastaUtc = DateTime.SpecifyKind(hasta.Value, DateTimeKind.Utc);
+            query = query.Where(c => c.FechaHoraInicio <= hastaUtc);
+        }
+
+        var conferences = await query
             .OrderBy(c => c.FechaHoraInicio)
             .Select(c => new ConferenceSummaryDto(
                 c.IdConferencia,
