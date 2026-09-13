@@ -29,30 +29,8 @@ export const AdminResourceTable: React.FC<AdminResourceTableProps> = ({
           <h2 className="text-sm font-bold font-display text-slate-900">
             Catálogo de Bases de Datos Biomédicas
           </h2>
-          <p className="text-xs text-slate-500 mt-0.5 flex items-center gap-2 flex-wrap">
-            <span>Mostrando {resources.length} de {totalResourcesCount} recursos administrados</span>
-            <span
-              className={`inline-flex items-center gap-1 font-semibold px-2.5 py-0.5 rounded-full border text-[11px] ${
-                totalHexagonCount === 15
-                  ? 'text-emerald-900 bg-emerald-50 border-emerald-300'
-                  : totalHexagonCount < 15
-                  ? 'text-amber-900 bg-amber-50 border-amber-300'
-                  : 'text-rose-900 bg-rose-50 border-rose-300'
-              }`}
-            >
-              <Hexagon
-                className={`w-3 h-3 ${
-                  totalHexagonCount === 15 ? 'fill-emerald-500 text-emerald-700' : 'fill-amber-400 text-amber-600'
-                }`}
-              />
-              {totalHexagonCount === 15 ? (
-                <span>15 / 15 en hexágonos de inicio (Completo)</span>
-              ) : totalHexagonCount < 15 ? (
-                <span>{totalHexagonCount} / 15 en hexágonos (Faltan {15 - totalHexagonCount} para completar)</span>
-              ) : (
-                <span>{totalHexagonCount} / 15 en hexágonos (Excedido en {totalHexagonCount - 15})</span>
-              )}
-            </span>
+          <p className="text-xs text-slate-500 mt-0.5">
+            Mostrando {resources.length} de {totalResourcesCount} recursos administrados
           </p>
         </div>
       </div>
@@ -80,7 +58,7 @@ export const AdminResourceTable: React.FC<AdminResourceTableProps> = ({
       {isLoading ? (
         <div className="p-12 text-center space-y-3">
           <RefreshCw className="w-8 h-8 animate-spin text-[#008744] mx-auto" />
-          <p className="text-sm font-semibold text-slate-700">Cargando registros desde Neon PostgreSQL...</p>
+          <p className="text-sm font-semibold text-slate-700">Cargando catálogo de recursos...</p>
         </div>
       ) : resources.length === 0 ? (
         <div className="p-12 text-center text-slate-500 space-y-2">
