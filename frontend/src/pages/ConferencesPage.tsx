@@ -7,7 +7,6 @@ import {
   ShieldCheck, 
   ChevronLeft, 
   ChevronRight, 
-  GraduationCap,
   CalendarDays,
   CheckCircle2,
   Radio, 
@@ -18,8 +17,8 @@ import {
 import { 
   conferenceService, 
   ConferenceSummary, 
-  ConferenceRegistrationModal, 
-  AttendanceLiveModal 
+  ConferenceRegistrationView, 
+  AttendanceLiveView 
 } from '../features/conferences';
 
 export const ConferencesPage: React.FC = () => {
@@ -31,75 +30,17 @@ export const ConferencesPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const [selectedConferenceForReg, setSelectedConferenceForReg] = useState<ConferenceSummary | null>(null);
-  const [isRegModalOpen, setIsRegModalOpen] = useState(false);
-
   const [selectedConferenceForAttendance, setSelectedConferenceForAttendance] = useState<ConferenceSummary | null>(null);
-  const [isAttendanceModalOpen, setIsAttendanceModalOpen] = useState(false);
 
   const [copiedId, setCopiedId] = useState<number | null>(null);
-
-  const fallbackConferences: ConferenceSummary[] = [
-    {
-      idConferencia: 1,
-      tituloEvento: 'Búsqueda Sistémica Avanzada en PubMed & Scopus',
-      expositorPonente: 'Dra. Patricia Valenzuela (Elsevier Training)',
-      entidadEditorial: 'Elsevier Clinical Solutions',
-      fechaHoraInicio: new Date(Date.now() + 86400000 * 2).toISOString(),
-      fechaHoraFin: new Date(Date.now() + 86400000 * 2 + 7200000).toISOString(),
-      modalidad: 'Virtual',
-      enlaceVirtual: 'https://teams.microsoft.com/l/meetup-join/famurp-alfin',
-      asistenciaAbierta: true,
-      estadoEvento: 'En Curso',
-      autoPurgar30Dias: true,
-      fechaCaducidadPurge: null,
-      totalInscritos: 42,
-      totalAsistentes: 38
-    },
-    {
-      idConferencia: 2,
-      tituloEvento: 'Gestores Bibliográficos: Mendeley & Zotero para Tesis Médica',
-      expositorPonente: 'Lic. Francisca Valero',
-      entidadEditorial: 'Biblioteca Central URP',
-      fechaHoraInicio: new Date(Date.now() + 86400000 * 7).toISOString(),
-      fechaHoraFin: new Date(Date.now() + 86400000 * 7 + 7200000).toISOString(),
-      modalidad: 'Virtual',
-      enlaceVirtual: 'https://teams.microsoft.com/l/meetup-join/famurp-alfin',
-      asistenciaAbierta: false,
-      estadoEvento: 'Programada',
-      autoPurgar30Dias: true,
-      fechaCaducidadPurge: null,
-      totalInscritos: 29,
-      totalAsistentes: 0
-    },
-    {
-      idConferencia: 3,
-      tituloEvento: 'Uso Clínico de DynaMedex y AccessMedicina en el Residentado',
-      expositorPonente: 'Dr. Alberto Guzmán',
-      entidadEditorial: 'McGraw-Hill Medical & EBSCO',
-      fechaHoraInicio: new Date(Date.now() + 86400000 * 14).toISOString(),
-      fechaHoraFin: new Date(Date.now() + 86400000 * 14 + 5400000).toISOString(),
-      modalidad: 'Presencial',
-      enlaceVirtual: null,
-      asistenciaAbierta: false,
-      estadoEvento: 'Programada',
-      autoPurgar30Dias: true,
-      fechaCaducidadPurge: null,
-      totalInscritos: 18,
-      totalAsistentes: 0
-    }
-  ];
 
   const loadConferences = async () => {
     setIsLoading(true);
     try {
       const data = await conferenceService.getConferences();
-      if (data && data.length > 0) {
-        setConferences(data);
-      } else {
-        setConferences(fallbackConferences);
-      }
+      setConferences(data || []);
     } catch {
-      setConferences(fallbackConferences);
+      setConferences([]);
     } finally {
       setIsLoading(false);
     }
@@ -109,35 +50,43 @@ export const ConferencesPage: React.FC = () => {
     loadConferences();
   }, []);
 
-  useEffect(() => {
-    const handleUrlHash = () => {
-      const hash = window.location.hash;
-      if (hash.includes('asistencia=')) {
-        const idStr = hash.split('asistencia=')[1]?.split('&')[0];
-        const id = parseInt(idStr, 10);
-        if (id && conferences.length > 0) {
-          const match = conferences.find(c => c.idConferencia === id);
-          if (match) {
-            setSelectedConferenceForAttendance(match);
-            setIsAttendanceModalOpen(true);
-          }
-        }
-      } else if (hash.includes('inscripcion=')) {
-        const idStr = hash.split('inscripcion=')[1]?.split('&')[0];
-        const id = parseInt(idStr, 10);
-        if (id && conferences.length > 0) {
-          const match = conferences.find(c => c.idConferencia === id);
-          if (match) {
-            setSelectedConferenceForReg(match);
-            setIsRegModalOpen(true);
-          }
+  const handleUrlHash = () => {
+    const hash = window.location.hash;
+    if (hash.includes('asistencia=')) {
+      const idStr = hash.split('asistencia=')[1]?.split('&')[0];
+      const id = parseInt(idStr, 10);
+      if (id && conferences.length > 0) {
+        const match = conferences.find(c => c.idConferencia === id);
+        if (match) {
+          setSelectedConferenceForReg(null);
+          setSelectedConferenceForAttendance(match);
         }
       }
-    };
+    } else if (hash.includes('inscripcion=')) {
+      const idStr = hash.split('inscripcion=')[1]?.split('&')[0];
+      const id = parseInt(idStr, 10);
+      if (id && conferences.length > 0) {
+        const match = conferences.find(c => c.idConferencia === id);
+        if (match) {
+          setSelectedConferenceForAttendance(null);
+          setSelectedConferenceForReg(match);
+        }
+      }
+    } else {
+      setSelectedConferenceForReg(null);
+      setSelectedConferenceForAttendance(null);
+    }
+  };
 
+  useEffect(() => {
     if (conferences.length > 0) {
       handleUrlHash();
     }
+  }, [conferences]);
+
+  useEffect(() => {
+    window.addEventListener('hashchange', handleUrlHash);
+    return () => window.removeEventListener('hashchange', handleUrlHash);
   }, [conferences]);
 
   const handleSubscribe = (e: React.FormEvent) => {
@@ -149,13 +98,25 @@ export const ConferencesPage: React.FC = () => {
   };
 
   const handleOpenRegistration = (conf: ConferenceSummary) => {
+    setSelectedConferenceForAttendance(null);
     setSelectedConferenceForReg(conf);
-    setIsRegModalOpen(true);
+    window.location.hash = `#conferencias?inscripcion=${conf.idConferencia}`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleBackToCalendar = () => {
+    setSelectedConferenceForReg(null);
+    setSelectedConferenceForAttendance(null);
+    window.location.hash = '#conferencias';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    loadConferences();
   };
 
   const handleOpenAttendance = (conf: ConferenceSummary) => {
+    setSelectedConferenceForReg(null);
     setSelectedConferenceForAttendance(conf);
-    setIsAttendanceModalOpen(true);
+    window.location.hash = `#conferencias?asistencia=${conf.idConferencia}`;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleCopyShareLink = (conf: ConferenceSummary) => {
@@ -166,24 +127,31 @@ export const ConferencesPage: React.FC = () => {
     });
   };
 
+  if (selectedConferenceForAttendance) {
+    return (
+      <div className="w-full pb-20 pt-6">
+        <AttendanceLiveView
+          conference={selectedConferenceForAttendance}
+          onBackToCalendar={handleBackToCalendar}
+        />
+      </div>
+    );
+  }
+
+  if (selectedConferenceForReg) {
+    return (
+      <div className="w-full pb-20 pt-6">
+        <ConferenceRegistrationView
+          conference={selectedConferenceForReg}
+          onBackToCalendar={handleBackToCalendar}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="w-full pb-20">
-      <section className="bg-slate-50 border-b-2 border-slate-900 py-10 sm:py-12">
-        <div className="max-w-[1280px] mx-auto px-6">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-[#008744] text-white text-xs font-extrabold uppercase tracking-wider shadow-sm mb-3">
-            <GraduationCap className="w-3.5 h-3.5 text-white" />
-            <span>Colección y Formación Médica ALFIN</span>
-          </div>
-          <h1 className="text-2xl sm:text-4xl font-display font-extrabold text-slate-900 tracking-tight">
-            Programa ALFIN &amp; Conferencias
-          </h1>
-          <p className="text-sm sm:text-base text-slate-600 max-w-3xl mt-2 leading-relaxed">
-            Alfabetización Informacional: Talleres presenciales y virtuales diseñados para fortalecer las competencias de investigación clínica y bibliográfica de la Facultad de Medicina Humana.
-          </p>
-        </div>
-      </section>
-
-      <main className="max-w-[1280px] mx-auto px-6 pt-10">
+      <main className="max-w-[1280px] mx-auto px-6 pt-6 sm:pt-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           <div className="lg:col-span-8 flex flex-col gap-6">
             <div className="flex items-center justify-between border-b border-slate-200 pb-3">
@@ -198,9 +166,17 @@ export const ConferencesPage: React.FC = () => {
             </div>
 
             {isLoading ? (
-              <div className="p-12 flex flex-col items-center justify-center bg-white rounded-2xl border-2 border-slate-900 shadow-urp-brutal-sm gap-3">
+              <div className="p-12 flex flex-col items-center justify-center bg-white rounded-2xl border border-slate-200 shadow-xs gap-3">
                 <Loader2 className="w-8 h-8 text-[#008744] animate-spin" />
                 <p className="text-xs font-bold text-slate-600">Cargando agenda oficial ALFIN...</p>
+              </div>
+            ) : conferences.length === 0 ? (
+              <div className="p-12 text-center bg-white rounded-2xl border border-slate-200 shadow-xs space-y-2">
+                <CalendarDays className="w-10 h-10 text-slate-400 mx-auto" />
+                <h3 className="text-base font-bold text-slate-800">No hay conferencias programadas</h3>
+                <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                  En este momento no hay capacitaciones en cartelera. Revisa periódicamente o suscríbete al boletín para recibir avisos de nuevas fechas.
+                </p>
               </div>
             ) : (
               <div className="flex flex-col gap-5">
@@ -216,7 +192,7 @@ export const ConferencesPage: React.FC = () => {
                   return (
                     <div 
                       key={conf.idConferencia}
-                      className="bg-white rounded-2xl border-2 border-slate-900 shadow-urp-brutal-sm hover:translate-x-0.5 hover:-translate-y-0.5 transition-all overflow-hidden flex flex-col sm:flex-row group"
+                      className="bg-white rounded-2xl border border-slate-200 shadow-xs hover:border-slate-300 hover:shadow-sm transition-all overflow-hidden flex flex-col sm:flex-row group"
                     >
                       <div className="bg-[#008744] text-white flex flex-col items-center justify-center p-6 min-w-[120px] shrink-0 font-display font-black shadow-inner">
                         <span className="text-3xl sm:text-4xl leading-none">{dayStr}</span>
@@ -264,19 +240,22 @@ export const ConferencesPage: React.FC = () => {
 
                         <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-100">
                           <div className="flex items-center gap-2">
-                            <span className="text-xs px-3 py-1 rounded-full font-bold border bg-emerald-50 text-[#008744] border-emerald-200">
-                              {conf.totalInscritos} {conf.totalInscritos === 1 ? 'Inscrito' : 'Inscritos'}
-                            </span>
                             <button
                               type="button"
                               onClick={() => handleCopyShareLink(conf)}
-                              className="p-1.5 rounded-lg border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer"
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer text-xs font-semibold"
                               title="Copiar enlace de invitación"
                             >
                               {copiedId === conf.idConferencia ? (
-                                <Check className="w-3.5 h-3.5 text-emerald-600" />
+                                <>
+                                  <Check className="w-3.5 h-3.5 text-emerald-600" />
+                                  <span className="text-emerald-700 font-bold">Enlace copiado</span>
+                                </>
                               ) : (
-                                <Share2 className="w-3.5 h-3.5" />
+                                <>
+                                  <Share2 className="w-3.5 h-3.5" />
+                                  <span>Compartir</span>
+                                </>
                               )}
                             </button>
                           </div>
@@ -308,7 +287,7 @@ export const ConferencesPage: React.FC = () => {
           </div>
 
           <aside className="lg:col-span-4 flex flex-col gap-6">
-            <div className="bg-white rounded-3xl border-2 border-slate-900 shadow-urp-brutal p-6">
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-xs p-6">
               <div className="flex items-center justify-between mb-4 border-b border-slate-200 pb-3">
                 <div className="flex items-center gap-2">
                   <CalendarDays className="w-4 h-4 text-[#008744]" />
@@ -373,7 +352,7 @@ export const ConferencesPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-3xl border-2 border-slate-900 shadow-urp-brutal p-6">
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-xs p-6">
               <div className="border-b border-slate-200 pb-3 mb-4">
                 <span className="text-[10px] font-bold text-[#008744] uppercase tracking-wider block">
                   COMUNIDAD FAMURP
@@ -471,20 +450,6 @@ export const ConferencesPage: React.FC = () => {
           </aside>
         </div>
       </main>
-
-      <ConferenceRegistrationModal
-        conference={selectedConferenceForReg}
-        isOpen={isRegModalOpen}
-        onClose={() => setIsRegModalOpen(false)}
-        onSuccess={() => loadConferences()}
-      />
-
-      <AttendanceLiveModal
-        conference={selectedConferenceForAttendance}
-        isOpen={isAttendanceModalOpen}
-        onClose={() => setIsAttendanceModalOpen(false)}
-        onSuccess={() => loadConferences()}
-      />
     </div>
   );
 };

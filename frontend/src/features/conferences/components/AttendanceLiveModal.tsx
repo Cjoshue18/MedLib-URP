@@ -163,8 +163,8 @@ export const AttendanceLiveModal: React.FC<AttendanceLiveModalProps> = ({
         onClick={onClose}
       />
 
-      <div className="relative w-full max-w-xl bg-white rounded-3xl border-2 border-slate-900 shadow-urp-brutal overflow-hidden flex flex-col z-10 max-h-[92vh]">
-        <div className="bg-slate-900 text-white px-6 py-5 flex items-center justify-between border-b-2 border-slate-900">
+      <div className="relative w-full max-w-xl bg-white rounded-2xl border border-slate-200 shadow-xl overflow-hidden flex flex-col z-10 max-h-[92vh]">
+        <div className="bg-slate-900 text-white px-6 py-5 flex items-center justify-between border-b border-slate-800">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/40">
               <Radio className="w-4 h-4 animate-pulse" />

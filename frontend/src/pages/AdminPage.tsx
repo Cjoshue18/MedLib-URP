@@ -12,7 +12,8 @@ import {
   Video, 
   Trash2, 
   Link as LinkIcon, 
-  AlertCircle 
+  AlertCircle,
+  BarChart3 
 } from 'lucide-react';
 import { InstagramIcon } from '../components/common/InstagramIcon';
 import { authService, AdminLoginForm } from '../features/auth';
@@ -33,6 +34,10 @@ import {
   LostItemPost, 
   InstagramPostEmbed 
 } from '../features/community';
+import { 
+  AdminConferencesTab, 
+  AdminStatisticsTab 
+} from '../features/conferences';
 
 interface AdminPageProps {
   onNavigate: (view: 'home' | 'directory' | 'conferences' | 'lost-found' | 'admin') => void;
@@ -40,7 +45,8 @@ interface AdminPageProps {
 
 export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(authService.isAuthenticated());
-  const [activeAdminTab, setActiveAdminTab] = useState<'databases' | 'lost-found'>('databases');
+  const [activeAdminTab, setActiveAdminTab] = useState<'databases' | 'lost-found' | 'conferences' | 'statistics'>('databases');
+  const [selectedConferenceIdForStats, setSelectedConferenceIdForStats] = useState<number | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const [resources, setResources] = useState<ResourceApiDto[]>([]);
@@ -453,18 +459,37 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
                 </div>
               </button>
 
-              <div className="w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-bold opacity-60 bg-slate-50 border border-slate-200 cursor-not-allowed">
-                <Video className="w-4 h-4 text-slate-400" />
+              <button
+                type="button"
+                onClick={() => { setActiveAdminTab('conferences'); setIsDrawerOpen(false); }}
+                className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  activeAdminTab === 'conferences'
+                    ? 'bg-emerald-50 text-[#00572B] border-2 border-emerald-600 shadow-xs'
+                    : 'text-slate-700 hover:bg-slate-50 border border-slate-100'
+                }`}
+              >
+                <Video className="w-4 h-4 text-emerald-700" />
                 <div className="text-left flex-1">
-                  <div className="flex items-center justify-between">
-                    <p className="leading-tight text-slate-600 font-bold">Conferencias &amp; ALFIN</p>
-                    <span className="px-1.5 py-0.5 rounded bg-slate-200 text-slate-600 text-[9px] font-bold">
-                      Próximamente
-                    </span>
-                  </div>
-                  <p className="text-[10px] font-normal text-slate-400 mt-0.5">Talleres y capacitaciones médicas</p>
+                  <p className="leading-tight font-bold">Conferencias &amp; ALFIN</p>
+                  <p className="text-[10px] font-normal text-slate-500 mt-0.5">Talleres, Teams y control de asistencia</p>
                 </div>
-              </div>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => { setActiveAdminTab('statistics'); setIsDrawerOpen(false); }}
+                className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  activeAdminTab === 'statistics'
+                    ? 'bg-emerald-50 text-[#00572B] border-2 border-emerald-600 shadow-xs'
+                    : 'text-slate-700 hover:bg-slate-50 border border-slate-100'
+                }`}
+              >
+                <BarChart3 className="w-4 h-4 text-emerald-700" />
+                <div className="text-left flex-1">
+                  <p className="leading-tight font-bold">Estadísticas y Reportes</p>
+                  <p className="text-[10px] font-normal text-slate-500 mt-0.5">Cruce de asistencias y exportación Excel</p>
+                </div>
+              </button>
             </nav>
           </div>
         </div>
@@ -529,7 +554,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
               onOpenMatrixModal={() => setIsMatrixModalOpen(true)}
             />
           </>
-        ) : (
+        ) : activeAdminTab === 'lost-found' ? (
           <div className="space-y-6">
             <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
@@ -638,6 +663,25 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
               </div>
             )}
           </div>
+        ) : activeAdminTab === 'conferences' ? (
+          <AdminConferencesTab
+            onNavigateToStats={(confId) => {
+              setSelectedConferenceIdForStats(confId);
+              setActiveAdminTab('statistics');
+            }}
+            onShowFeedback={(msg) => {
+              setStatusFeedback(msg);
+              setTimeout(() => setStatusFeedback(null), 4000);
+            }}
+          />
+        ) : (
+          <AdminStatisticsTab
+            initialConferenceId={selectedConferenceIdForStats}
+            onShowFeedback={(msg) => {
+              setStatusFeedback(msg);
+              setTimeout(() => setStatusFeedback(null), 4000);
+            }}
+          />
         )}
       </main>
 
