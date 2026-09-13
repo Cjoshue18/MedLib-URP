@@ -178,3 +178,13 @@ BEGIN
         ('Salud Pública y Epidemiología');
 END
 GO
+
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 't_objeto_perdido_post')
+BEGIN
+    CREATE TABLE t_objeto_perdido_post (
+        id_post INT IDENTITY(1,1) PRIMARY KEY,
+        url_instagram NVARCHAR(255) NOT NULL,
+        fecha_creacion DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET()
+    );
+END
+GO

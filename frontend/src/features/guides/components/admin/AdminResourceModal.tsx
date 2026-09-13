@@ -92,7 +92,7 @@ export const AdminResourceModal: React.FC<AdminResourceModalProps> = ({
               {formData.id ? 'Editar Base de Datos Biomédica' : 'Registrar Nueva Base de Datos'}
             </h3>
             <p className="text-xs text-slate-500 mt-0.5">
-              Los cambios se sincronizarán directamente con Neon PostgreSQL
+              Los cambios se sincronizarán directamente con el catálogo de biblioteca
             </p>
           </div>
           <button
