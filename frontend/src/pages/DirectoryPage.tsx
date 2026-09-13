@@ -155,7 +155,7 @@ export const DirectoryPage: React.FC<DirectoryPageProps> = ({ initialSearchQuery
                 {isLoading && (
                   <span className="inline-flex items-center gap-1 text-xs text-slate-400 font-medium">
                     <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#008744]" />
-                    Sincronizando con base de datos...
+                    Sincronizando...
                   </span>
                 )}
               </div>
