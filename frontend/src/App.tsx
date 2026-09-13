@@ -74,7 +74,8 @@ export const App: React.FC = () => {
       setDirectorySearchQuery(trimmed);
       window.location.hash = trimmed ? `#directorio?q=${encodeURIComponent(trimmed)}` : '#directorio';
     } else if (view === 'conferences') {
-      window.location.hash = '#conferencias';
+      const q = query ? (query.startsWith('?') ? query : `?${query}`) : '';
+      window.location.hash = `#conferencias${q}`;
     } else if (view === 'lost-found') {
       window.location.hash = '#objetos-perdidos';
     } else if (view === 'admin') {
