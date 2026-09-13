@@ -33,8 +33,12 @@ const authenticatedFetch = async (input: string, init: RequestInit = {}): Promis
 };
 
 export const conferenceService = {
-  async getConferences(): Promise<ConferenceSummary[]> {
-    const response = await fetch(`${getApiBase()}/api/v1/conferences`);
+  async getConferences(desde?: string, hasta?: string): Promise<ConferenceSummary[]> {
+    const params = new URLSearchParams();
+    if (desde) params.append('desde', desde);
+    if (hasta) params.append('hasta', hasta);
+    const qs = params.toString() ? `?${params.toString()}` : '';
+    const response = await fetch(`${getApiBase()}/api/v1/conferences${qs}`);
     if (!response.ok) {
       throw new Error('Error al cargar la agenda de conferencias.');
     }

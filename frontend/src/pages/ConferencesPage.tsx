@@ -34,10 +34,35 @@ export const ConferencesPage: React.FC = () => {
 
   const [copiedId, setCopiedId] = useState<number | null>(null);
 
-  const loadConferences = async () => {
+  const today = new Date();
+  const [viewDate, setViewDate] = useState<Date>(() => new Date(today.getFullYear(), today.getMonth(), 1));
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 3;
+
+  const minDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+  const canGoPrev = viewDate.getFullYear() > minDate.getFullYear() || 
+    (viewDate.getFullYear() === minDate.getFullYear() && viewDate.getMonth() > minDate.getMonth());
+
+  const handlePrevMonth = () => {
+    if (!canGoPrev) return;
+    setViewDate(prev => new Date(prev.getFullYear(), prev.getMonth() - 1, 1));
+    setCurrentPage(1);
+  };
+
+  const handleNextMonth = () => {
+    setViewDate(prev => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
+    setCurrentPage(1);
+  };
+
+  const loadConferencesForMonth = async (date: Date) => {
     setIsLoading(true);
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const startOfMonth = new Date(Date.UTC(year, month, 1, 0, 0, 0, 0)).toISOString();
+    const endOfMonth = new Date(Date.UTC(year, month + 1, 0, 23, 59, 59, 999)).toISOString();
+
     try {
-      const data = await conferenceService.getConferences();
+      const data = await conferenceService.getConferences(startOfMonth, endOfMonth);
       setConferences(data || []);
     } catch {
       setConferences([]);
@@ -47,29 +72,39 @@ export const ConferencesPage: React.FC = () => {
   };
 
   useEffect(() => {
-    loadConferences();
-  }, []);
+    loadConferencesForMonth(viewDate);
+  }, [viewDate]);
 
   const handleUrlHash = () => {
     const hash = window.location.hash;
     if (hash.includes('asistencia=')) {
       const idStr = hash.split('asistencia=')[1]?.split('&')[0];
       const id = parseInt(idStr, 10);
-      if (id && conferences.length > 0) {
+      if (id) {
         const match = conferences.find(c => c.idConferencia === id);
         if (match) {
           setSelectedConferenceForReg(null);
           setSelectedConferenceForAttendance(match);
+        } else {
+          conferenceService.getConferenceById(id).then(c => {
+            setSelectedConferenceForReg(null);
+            setSelectedConferenceForAttendance(c);
+          }).catch(() => {});
         }
       }
     } else if (hash.includes('inscripcion=')) {
       const idStr = hash.split('inscripcion=')[1]?.split('&')[0];
       const id = parseInt(idStr, 10);
-      if (id && conferences.length > 0) {
+      if (id) {
         const match = conferences.find(c => c.idConferencia === id);
         if (match) {
           setSelectedConferenceForAttendance(null);
           setSelectedConferenceForReg(match);
+        } else {
+          conferenceService.getConferenceById(id).then(c => {
+            setSelectedConferenceForAttendance(null);
+            setSelectedConferenceForReg(c);
+          }).catch(() => {});
         }
       }
     } else {
@@ -109,7 +144,7 @@ export const ConferencesPage: React.FC = () => {
     setSelectedConferenceForAttendance(null);
     window.location.hash = '#conferencias';
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    loadConferences();
+    loadConferencesForMonth(viewDate);
   };
 
   const handleOpenAttendance = (conf: ConferenceSummary) => {
@@ -149,6 +184,44 @@ export const ConferencesPage: React.FC = () => {
     );
   }
 
+  const totalPages = Math.ceil(conferences.length / ITEMS_PER_PAGE) || 1;
+  const paginatedConferences = conferences.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  const calYear = viewDate.getFullYear();
+  const calMonth = viewDate.getMonth();
+  const calMonthName = viewDate.toLocaleDateString('es-PE', { month: 'long' }).toUpperCase();
+  const calendarTitle = `${calMonthName} ${calYear}`;
+
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  const firstDayOfWeek = new Date(calYear, calMonth, 1).getDay();
+  const firstDayOffset = (firstDayOfWeek + 6) % 7;
+
+  const prevMonthDaysCount = new Date(calYear, calMonth, 0).getDate();
+  const prevDays: number[] = [];
+  for (let i = firstDayOffset - 1; i >= 0; i--) {
+    prevDays.push(prevMonthDaysCount - i);
+  }
+
+  const currentMonthDays: number[] = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+
+  const totalCells = prevDays.length + currentMonthDays.length;
+  const nextDaysCount = (7 - (totalCells % 7)) % 7;
+  const nextDays: number[] = Array.from({ length: nextDaysCount }, (_, i) => i + 1);
+
+  const daysWithConferences = new Set<number>();
+  conferences.forEach((c) => {
+    const confDate = new Date(c.fechaHoraInicio);
+    if (confDate.getFullYear() === calYear && confDate.getMonth() === calMonth) {
+      daysWithConferences.add(confDate.getDate());
+    }
+  });
+
+  const isCurrentCalendarMonth = today.getFullYear() === calYear && today.getMonth() === calMonth;
+  const todayDayNumber = isCurrentCalendarMonth ? today.getDate() : -1;
+
   return (
     <div className="w-full pb-20">
       <main className="max-w-[1280px] mx-auto px-6 pt-6 sm:pt-8">
@@ -160,7 +233,7 @@ export const ConferencesPage: React.FC = () => {
                   Próximas Actividades
                 </h2>
                 <p className="text-xs text-slate-500 mt-0.5">
-                  Capacitaciones programadas con certificación y horas académicas
+                  Capacitaciones programadas para {viewDate.toLocaleDateString('es-PE', { month: 'long', year: 'numeric' })}
                 </p>
               </div>
             </div>
@@ -168,19 +241,21 @@ export const ConferencesPage: React.FC = () => {
             {isLoading ? (
               <div className="p-12 flex flex-col items-center justify-center bg-white rounded-2xl border border-slate-200 shadow-xs gap-3">
                 <Loader2 className="w-8 h-8 text-[#008744] animate-spin" />
-                <p className="text-xs font-bold text-slate-600">Cargando agenda oficial ALFIN...</p>
+                <p className="text-xs font-bold text-slate-600">Cargando actividades de {viewDate.toLocaleDateString('es-PE', { month: 'long', year: 'numeric' })}...</p>
               </div>
             ) : conferences.length === 0 ? (
               <div className="p-12 text-center bg-white rounded-2xl border border-slate-200 shadow-xs space-y-2">
                 <CalendarDays className="w-10 h-10 text-slate-400 mx-auto" />
-                <h3 className="text-base font-bold text-slate-800">No hay conferencias programadas</h3>
+                <h3 className="text-base font-bold text-slate-800">
+                  No hay conferencias programadas para {viewDate.toLocaleDateString('es-PE', { month: 'long', year: 'numeric' })}
+                </h3>
                 <p className="text-xs text-slate-500 max-w-sm mx-auto">
-                  En este momento no hay capacitaciones en cartelera. Revisa periódicamente o suscríbete al boletín para recibir avisos de nuevas fechas.
+                  En este mes no se registran actividades ALFIN. Puedes revisar los meses siguientes usando el calendario o registrarte al boletín para recibir avisos.
                 </p>
               </div>
             ) : (
               <div className="flex flex-col gap-5">
-                {conferences.map((conf) => {
+                {paginatedConferences.map((conf) => {
                   const startDate = new Date(conf.fechaHoraInicio);
                   const endDate = new Date(conf.fechaHoraFin);
                   const dayStr = isNaN(startDate.getTime()) ? '15' : startDate.getDate().toString().padStart(2, '0');
@@ -282,6 +357,35 @@ export const ConferencesPage: React.FC = () => {
                     </div>
                   );
                 })}
+
+                {totalPages > 1 && (
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-slate-200">
+                    <span className="text-xs font-semibold text-slate-500">
+                      Mostrando {((currentPage - 1) * ITEMS_PER_PAGE) + 1} - {Math.min(currentPage * ITEMS_PER_PAGE, conferences.length)} de {conferences.length} actividades
+                    </span>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                        disabled={currentPage === 1}
+                        className="px-3.5 py-1.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-700 hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-colors"
+                      >
+                        Anterior
+                      </button>
+                      <span className="text-xs font-bold text-slate-800 px-1">
+                        {currentPage} / {totalPages}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                        disabled={currentPage === totalPages}
+                        className="px-3.5 py-1.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-700 hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-colors"
+                      >
+                        Siguiente
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -292,14 +396,25 @@ export const ConferencesPage: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <CalendarDays className="w-4 h-4 text-[#008744]" />
                   <h3 className="text-sm font-extrabold text-slate-900 uppercase tracking-wide">
-                    Noviembre 2026
+                    {calendarTitle}
                   </h3>
                 </div>
                 <div className="flex gap-1">
-                  <button className="w-7 h-7 rounded-lg border border-slate-200 flex items-center justify-center hover:bg-slate-100 text-slate-700 cursor-pointer transition-colors">
+                  <button 
+                    type="button"
+                    onClick={handlePrevMonth}
+                    disabled={!canGoPrev}
+                    className="w-7 h-7 rounded-lg border border-slate-200 flex items-center justify-center hover:bg-slate-100 text-slate-700 cursor-pointer transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                    title={canGoPrev ? "Mes anterior" : "Límite: máximo 1 mes atrás"}
+                  >
                     <ChevronLeft className="w-4 h-4" />
                   </button>
-                  <button className="w-7 h-7 rounded-lg border border-slate-200 flex items-center justify-center hover:bg-slate-100 text-slate-700 cursor-pointer transition-colors">
+                  <button 
+                    type="button"
+                    onClick={handleNextMonth}
+                    className="w-7 h-7 rounded-lg border border-slate-200 flex items-center justify-center hover:bg-slate-100 text-slate-700 cursor-pointer transition-colors"
+                    title="Mes siguiente"
+                  >
                     <ChevronRight className="w-4 h-4" />
                   </button>
                 </div>
@@ -314,43 +429,38 @@ export const ConferencesPage: React.FC = () => {
               </div>
 
               <div className="grid grid-cols-7 gap-1 text-center text-xs font-semibold">
-                <div className="py-2 text-slate-300">28</div>
-                <div className="py-2 text-slate-300">29</div>
-                <div className="py-2 text-slate-300">30</div>
-                <div className="py-2 text-slate-300">31</div>
-                <div className="py-2 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors">1</div>
-                <div className="py-2 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors">2</div>
-                <div className="py-2 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors">3</div>
-                <div className="py-2 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors">4</div>
-                <div className="py-2 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors">5</div>
-                <div className="py-2 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors">6</div>
-                <div className="py-2 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors">7</div>
-                <div className="py-2 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors">8</div>
-                <div className="py-2 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors">9</div>
-                <div className="py-2 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors">10</div>
-                <div className="py-2 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors">11</div>
-                <div className="py-2 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors">12</div>
-                <div className="py-2 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors">13</div>
-                <div className="py-2 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors">14</div>
-                <div className="py-2 bg-[#008744] text-white rounded-lg font-black shadow-sm cursor-pointer hover:bg-[#006b35] transition-colors">15</div>
-                <div className="py-2 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors">16</div>
-                <div className="py-2 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors">17</div>
-                <div className="py-2 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors">18</div>
-                <div className="py-2 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors">19</div>
-                <div className="py-2 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors">20</div>
-                <div className="py-2 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors border border-[#008744] text-[#008744] font-bold">21</div>
-                <div className="py-2 bg-[#008744] text-white rounded-lg font-black shadow-sm cursor-pointer hover:bg-[#006b35] transition-colors">22</div>
-                <div className="py-2 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors">23</div>
-                <div className="py-2 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors">24</div>
-                <div className="py-2 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors">25</div>
-                <div className="py-2 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors">26</div>
-                <div className="py-2 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors">27</div>
-                <div className="py-2 bg-[#008744] text-white rounded-lg font-black shadow-sm cursor-pointer hover:bg-[#006b35] transition-colors">28</div>
-                <div className="py-2 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors">29</div>
-                <div className="py-2 hover:bg-slate-100 rounded-lg cursor-pointer transition-colors">30</div>
-                <div className="py-2 text-slate-300">1</div>
+                {prevDays.map((d) => (
+                  <div key={`prev-${d}`} className="py-2 text-slate-300 select-none flex items-center justify-center">
+                    {d}
+                  </div>
+                ))}
+                {currentMonthDays.map((d) => {
+                  const hasConf = daysWithConferences.has(d);
+                  const isToday = d === todayDayNumber;
+
+                  let styleClasses = "py-2 rounded-lg text-xs font-semibold flex items-center justify-center cursor-default transition-colors";
+                  if (hasConf) {
+                    styleClasses += " bg-[#008744] text-white font-black shadow-sm";
+                  } else if (isToday) {
+                    styleClasses += " border border-[#008744] text-[#008744] font-bold";
+                  } else {
+                    styleClasses += " text-slate-700 hover:bg-slate-100/60";
+                  }
+
+                  return (
+                    <div key={`cur-${d}`} className={styleClasses}>
+                      {d}
+                    </div>
+                  );
+                })}
+                {nextDays.map((d) => (
+                  <div key={`next-${d}`} className="py-2 text-slate-300 select-none flex items-center justify-center">
+                    {d}
+                  </div>
+                ))}
               </div>
             </div>
+
 
             <div className="bg-white rounded-2xl border border-slate-200 shadow-xs p-6">
               <div className="border-b border-slate-200 pb-3 mb-4">
