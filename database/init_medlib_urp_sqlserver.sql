@@ -188,3 +188,79 @@ BEGIN
     );
 END
 GO
+
+-- =============================================================================
+-- 6. TABLA: t_conferencia_medica (Conferencias y Capacitaciones ALFIN)
+-- =============================================================================
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = N't_conferencia_medica')
+BEGIN
+    CREATE TABLE [dbo].[t_conferencia_medica] (
+        [id_conferencia]        INT IDENTITY(1,1) NOT NULL,
+        [titulo_evento]         NVARCHAR(150)     NOT NULL,
+        [expositor_ponente]     NVARCHAR(100)     NOT NULL,
+        [entidad_editorial]     NVARCHAR(100)     NOT NULL,
+        [fecha_hora_inicio]     DATETIME2         NOT NULL,
+        [fecha_hora_fin]        DATETIME2         NOT NULL,
+        [modalidad]             NVARCHAR(20)      NOT NULL CONSTRAINT [DF_conferencia_modalidad] DEFAULT ('Virtual'),
+        [enlace_virtual]        NVARCHAR(255)     NULL,
+        [asistencia_abierta]    BIT               NOT NULL CONSTRAINT [DF_conferencia_asistencia] DEFAULT (0),
+        [estado_evento]         NVARCHAR(20)      NOT NULL CONSTRAINT [DF_conferencia_estado] DEFAULT ('Programada'),
+        [auto_purgar_30_dias]   BIT               NOT NULL CONSTRAINT [DF_conferencia_auto_purge] DEFAULT (1),
+        [fecha_caducidad_purge] DATETIME2         NULL,
+        [fecha_creacion]        DATETIMEOFFSET    NOT NULL CONSTRAINT [DF_conferencia_fecha_creacion] DEFAULT (SYSDATETIMEOFFSET()),
+        CONSTRAINT [PK_t_conferencia_medica] PRIMARY KEY CLUSTERED ([id_conferencia] ASC)
+    );
+END
+GO
+
+-- =============================================================================
+-- 7. TABLA: t_inscripcion (Pre-inscripciones Web a Conferencias)
+-- =============================================================================
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = N't_inscripcion')
+BEGIN
+    CREATE TABLE [dbo].[t_inscripcion] (
+        [id_inscripcion]      INT IDENTITY(1,1) NOT NULL,
+        [id_conferencia]      INT               NOT NULL,
+        [tipo_participante]   NVARCHAR(20)      NOT NULL,
+        [tipo_documento]      NVARCHAR(20)      NOT NULL,
+        [numero_documento]    NVARCHAR(20)      NOT NULL,
+        [nombres]             NVARCHAR(100)     NOT NULL,
+        [apellidos]           NVARCHAR(100)     NOT NULL,
+        [correo]              NVARCHAR(100)     NOT NULL,
+        [ciclo_academico]     INT               NULL,
+        [fecha_hora_registro] DATETIMEOFFSET    NOT NULL CONSTRAINT [DF_inscripcion_fecha] DEFAULT (SYSDATETIMEOFFSET()),
+        CONSTRAINT [PK_t_inscripcion] PRIMARY KEY CLUSTERED ([id_inscripcion] ASC),
+        CONSTRAINT [FK_t_inscripcion_conferencia] FOREIGN KEY ([id_conferencia])
+            REFERENCES [dbo].[t_conferencia_medica] ([id_conferencia])
+            ON DELETE CASCADE,
+        CONSTRAINT [UQ_inscripcion_conferencia_doc] UNIQUE NONCLUSTERED ([id_conferencia] ASC, [numero_documento] ASC)
+    );
+END
+GO
+
+-- =============================================================================
+-- 8. TABLA: t_asistencia (Marcación de Asistencia en Sesión Activa Teams)
+-- =============================================================================
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = N't_asistencia')
+BEGIN
+    CREATE TABLE [dbo].[t_asistencia] (
+        [id_asistencia]        INT IDENTITY(1,1) NOT NULL,
+        [id_conferencia]       INT               NOT NULL,
+        [tipo_participante]    NVARCHAR(20)      NOT NULL,
+        [tipo_documento]       NVARCHAR(20)      NOT NULL,
+        [numero_documento]     NVARCHAR(20)      NOT NULL,
+        [nombres]              NVARCHAR(100)     NOT NULL,
+        [apellidos]            NVARCHAR(100)     NOT NULL,
+        [correo]               NVARCHAR(100)     NOT NULL,
+        [ciclo_academico]      INT               NULL,
+        [fecha_hora_marcacion] DATETIMEOFFSET    NOT NULL CONSTRAINT [DF_asistencia_fecha] DEFAULT (SYSDATETIMEOFFSET()),
+        [es_asistencia_valida] BIT               NOT NULL CONSTRAINT [DF_asistencia_valida] DEFAULT (1),
+        CONSTRAINT [PK_t_asistencia] PRIMARY KEY CLUSTERED ([id_asistencia] ASC),
+        CONSTRAINT [FK_t_asistencia_conferencia] FOREIGN KEY ([id_conferencia])
+            REFERENCES [dbo].[t_conferencia_medica] ([id_conferencia])
+            ON DELETE CASCADE,
+        CONSTRAINT [UQ_asistencia_conferencia_doc] UNIQUE NONCLUSTERED ([id_conferencia] ASC, [numero_documento] ASC)
+    );
+END
+GO
+

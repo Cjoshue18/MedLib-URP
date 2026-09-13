@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Clock, 
   MapPin, 
@@ -9,52 +9,136 @@ import {
   ChevronRight, 
   GraduationCap,
   CalendarDays,
-  CheckCircle2
+  CheckCircle2,
+  Radio, 
+  Share2, 
+  Check,
+  Loader2 
 } from 'lucide-react';
+import { 
+  conferenceService, 
+  ConferenceSummary, 
+  ConferenceRegistrationModal, 
+  AttendanceLiveModal 
+} from '../features/conferences';
 
 export const ConferencesPage: React.FC = () => {
   const [admissionsTab, setAdmissionsTab] = useState<'pregrado' | 'posgrado' | 'residentado'>('pregrado');
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
-  const conferences = [
+  const [conferences, setConferences] = useState<ConferenceSummary[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const [selectedConferenceForReg, setSelectedConferenceForReg] = useState<ConferenceSummary | null>(null);
+  const [isRegModalOpen, setIsRegModalOpen] = useState(false);
+
+  const [selectedConferenceForAttendance, setSelectedConferenceForAttendance] = useState<ConferenceSummary | null>(null);
+  const [isAttendanceModalOpen, setIsAttendanceModalOpen] = useState(false);
+
+  const [copiedId, setCopiedId] = useState<number | null>(null);
+
+  const fallbackConferences: ConferenceSummary[] = [
     {
-      id: 'conf-01',
-      day: '15',
-      month: 'NOV',
-      time: '10:00 AM - 12:00 PM',
-      location: 'Auditorio Principal FAMURP',
-      locationType: 'onsite',
-      title: 'Búsqueda Sistémica Avanzada',
-      description: 'Estrategias de búsqueda estructurada en bases de datos médicas (PubMed, Scopus, Web of Science) para revisiones sistemáticas y metaanálisis.',
-      tag: 'Investigación Médica',
-      tagColor: 'bg-emerald-50 text-[#008744] border-emerald-200',
+      idConferencia: 1,
+      tituloEvento: 'Búsqueda Sistémica Avanzada en PubMed & Scopus',
+      expositorPonente: 'Dra. Patricia Valenzuela (Elsevier Training)',
+      entidadEditorial: 'Elsevier Clinical Solutions',
+      fechaHoraInicio: new Date(Date.now() + 86400000 * 2).toISOString(),
+      fechaHoraFin: new Date(Date.now() + 86400000 * 2 + 7200000).toISOString(),
+      modalidad: 'Virtual',
+      enlaceVirtual: 'https://teams.microsoft.com/l/meetup-join/famurp-alfin',
+      asistenciaAbierta: true,
+      estadoEvento: 'En Curso',
+      autoPurgar30Dias: true,
+      fechaCaducidadPurge: null,
+      totalInscritos: 42,
+      totalAsistentes: 38
     },
     {
-      id: 'conf-02',
-      day: '22',
-      month: 'NOV',
-      time: '03:00 PM - 05:00 PM',
-      location: 'Sala Virtual (Microsoft Teams)',
-      locationType: 'virtual',
-      title: 'Gestores Bibliográficos: Mendeley & Zotero',
-      description: 'Taller práctico sobre la organización, citación y creación automatizada de referencias bibliográficas utilizando normas Vancouver y APA 7ma edición.',
-      tag: 'Herramientas Digitales',
-      tagColor: 'bg-sky-50 text-sky-700 border-sky-200',
+      idConferencia: 2,
+      tituloEvento: 'Gestores Bibliográficos: Mendeley & Zotero para Tesis Médica',
+      expositorPonente: 'Lic. Francisca Valero',
+      entidadEditorial: 'Biblioteca Central URP',
+      fechaHoraInicio: new Date(Date.now() + 86400000 * 7).toISOString(),
+      fechaHoraFin: new Date(Date.now() + 86400000 * 7 + 7200000).toISOString(),
+      modalidad: 'Virtual',
+      enlaceVirtual: 'https://teams.microsoft.com/l/meetup-join/famurp-alfin',
+      asistenciaAbierta: false,
+      estadoEvento: 'Programada',
+      autoPurgar30Dias: true,
+      fechaCaducidadPurge: null,
+      totalInscritos: 29,
+      totalAsistentes: 0
     },
     {
-      id: 'conf-03',
-      day: '28',
-      month: 'NOV',
-      time: '11:00 AM - 12:30 PM',
-      location: 'Laboratorio de Cómputo B',
-      locationType: 'onsite',
-      title: 'Uso Avanzado de Scopus & Métricas Científicas',
-      description: 'Análisis de cuartiles Scimago, métricas CiteScore, perfiles de autor Orcid/Scopus y seguimiento de citas para potenciar la visibilidad académica institucional.',
-      tag: 'Bases de Datos',
-      tagColor: 'bg-purple-50 text-purple-700 border-purple-200',
+      idConferencia: 3,
+      tituloEvento: 'Uso Clínico de DynaMedex y AccessMedicina en el Residentado',
+      expositorPonente: 'Dr. Alberto Guzmán',
+      entidadEditorial: 'McGraw-Hill Medical & EBSCO',
+      fechaHoraInicio: new Date(Date.now() + 86400000 * 14).toISOString(),
+      fechaHoraFin: new Date(Date.now() + 86400000 * 14 + 5400000).toISOString(),
+      modalidad: 'Presencial',
+      enlaceVirtual: null,
+      asistenciaAbierta: false,
+      estadoEvento: 'Programada',
+      autoPurgar30Dias: true,
+      fechaCaducidadPurge: null,
+      totalInscritos: 18,
+      totalAsistentes: 0
     }
   ];
+
+  const loadConferences = async () => {
+    setIsLoading(true);
+    try {
+      const data = await conferenceService.getConferences();
+      if (data && data.length > 0) {
+        setConferences(data);
+      } else {
+        setConferences(fallbackConferences);
+      }
+    } catch {
+      setConferences(fallbackConferences);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadConferences();
+  }, []);
+
+  useEffect(() => {
+    const handleUrlHash = () => {
+      const hash = window.location.hash;
+      if (hash.includes('asistencia=')) {
+        const idStr = hash.split('asistencia=')[1]?.split('&')[0];
+        const id = parseInt(idStr, 10);
+        if (id && conferences.length > 0) {
+          const match = conferences.find(c => c.idConferencia === id);
+          if (match) {
+            setSelectedConferenceForAttendance(match);
+            setIsAttendanceModalOpen(true);
+          }
+        }
+      } else if (hash.includes('inscripcion=')) {
+        const idStr = hash.split('inscripcion=')[1]?.split('&')[0];
+        const id = parseInt(idStr, 10);
+        if (id && conferences.length > 0) {
+          const match = conferences.find(c => c.idConferencia === id);
+          if (match) {
+            setSelectedConferenceForReg(match);
+            setIsRegModalOpen(true);
+          }
+        }
+      }
+    };
+
+    if (conferences.length > 0) {
+      handleUrlHash();
+    }
+  }, [conferences]);
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,6 +146,24 @@ export const ConferencesPage: React.FC = () => {
     setSubscribed(true);
     setTimeout(() => setSubscribed(false), 4000);
     setEmail('');
+  };
+
+  const handleOpenRegistration = (conf: ConferenceSummary) => {
+    setSelectedConferenceForReg(conf);
+    setIsRegModalOpen(true);
+  };
+
+  const handleOpenAttendance = (conf: ConferenceSummary) => {
+    setSelectedConferenceForAttendance(conf);
+    setIsAttendanceModalOpen(true);
+  };
+
+  const handleCopyShareLink = (conf: ConferenceSummary) => {
+    const url = `${window.location.origin}${window.location.pathname}#conferencias?inscripcion=${conf.idConferencia}`;
+    navigator.clipboard.writeText(url).then(() => {
+      setCopiedId(conf.idConferencia);
+      setTimeout(() => setCopiedId(null), 2500);
+    });
   };
 
   return (
@@ -95,59 +197,114 @@ export const ConferencesPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex flex-col gap-5">
-              {conferences.map((conf) => (
-                <div 
-                  key={conf.id}
-                  className="bg-white rounded-2xl border-2 border-slate-900 shadow-urp-brutal-sm hover:translate-x-0.5 hover:-translate-y-0.5 transition-all overflow-hidden flex flex-col sm:flex-row group"
-                >
-                  <div className="bg-[#008744] text-white flex flex-col items-center justify-center p-6 min-w-[120px] shrink-0 font-display font-black shadow-inner">
-                    <span className="text-3xl sm:text-4xl leading-none">{conf.day}</span>
-                    <span className="text-xs uppercase tracking-widest font-extrabold mt-1">{conf.month}</span>
-                  </div>
+            {isLoading ? (
+              <div className="p-12 flex flex-col items-center justify-center bg-white rounded-2xl border-2 border-slate-900 shadow-urp-brutal-sm gap-3">
+                <Loader2 className="w-8 h-8 text-[#008744] animate-spin" />
+                <p className="text-xs font-bold text-slate-600">Cargando agenda oficial ALFIN...</p>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-5">
+                {conferences.map((conf) => {
+                  const startDate = new Date(conf.fechaHoraInicio);
+                  const endDate = new Date(conf.fechaHoraFin);
+                  const dayStr = isNaN(startDate.getTime()) ? '15' : startDate.getDate().toString().padStart(2, '0');
+                  const monthStr = isNaN(startDate.getTime()) 
+                    ? 'NOV' 
+                    : startDate.toLocaleDateString('es-PE', { month: 'short' }).toUpperCase();
+                  const timeStr = `${startDate.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' })} - ${endDate.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' })}`;
 
-                  <div className="p-6 flex-1 flex flex-col justify-between">
-                    <div>
-                      <div className="flex flex-wrap items-center gap-3 text-xs text-slate-600 font-semibold mb-2">
-                        <span className="flex items-center gap-1.5">
-                          <Clock className="w-3.5 h-3.5 text-[#008744]" />
-                          {conf.time}
-                        </span>
-                        <span className="text-slate-300">•</span>
-                        <span className="flex items-center gap-1.5">
-                          {conf.locationType === 'virtual' ? (
-                            <Video className="w-3.5 h-3.5 text-[#008744]" />
-                          ) : (
-                            <MapPin className="w-3.5 h-3.5 text-[#008744]" />
-                          )}
-                          {conf.location}
+                  return (
+                    <div 
+                      key={conf.idConferencia}
+                      className="bg-white rounded-2xl border-2 border-slate-900 shadow-urp-brutal-sm hover:translate-x-0.5 hover:-translate-y-0.5 transition-all overflow-hidden flex flex-col sm:flex-row group"
+                    >
+                      <div className="bg-[#008744] text-white flex flex-col items-center justify-center p-6 min-w-[120px] shrink-0 font-display font-black shadow-inner">
+                        <span className="text-3xl sm:text-4xl leading-none">{dayStr}</span>
+                        <span className="text-xs uppercase tracking-widest font-extrabold mt-1">{monthStr}</span>
+                        <span className="text-[10px] font-medium text-emerald-200 mt-1">
+                          {conf.modalidad}
                         </span>
                       </div>
 
-                      <h3 className="text-base sm:text-lg font-display font-extrabold text-slate-900 mb-2 group-hover:text-[#008744] transition-colors">
-                        {conf.title}
-                      </h3>
+                      <div className="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                          <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+                            <div className="flex flex-wrap items-center gap-3 text-xs text-slate-600 font-semibold">
+                              <span className="flex items-center gap-1.5">
+                                <Clock className="w-3.5 h-3.5 text-[#008744]" />
+                                {timeStr}
+                              </span>
+                              <span className="text-slate-300">•</span>
+                              <span className="flex items-center gap-1.5">
+                                {conf.modalidad === 'Virtual' ? (
+                                  <Video className="w-3.5 h-3.5 text-[#008744]" />
+                                ) : (
+                                  <MapPin className="w-3.5 h-3.5 text-[#008744]" />
+                                )}
+                                {conf.modalidad === 'Virtual' ? 'Microsoft Teams URP' : 'Auditorio Principal FAMURP'}
+                              </span>
+                            </div>
 
-                      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
-                        {conf.description}
-                      </p>
-                    </div>
+                            {conf.asistenciaAbierta && (
+                              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black border border-emerald-300 animate-pulse">
+                                <Radio className="w-3 h-3 text-emerald-600" />
+                                Asistencia Abierta
+                              </span>
+                            )}
+                          </div>
 
-                    <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-100">
-                      <span className={`text-xs px-3 py-1 rounded-full font-bold border ${conf.tagColor}`}>
-                        {conf.tag}
-                      </span>
-                      <button 
-                        onClick={() => alert(`Pre-inscripción confirmada para "${conf.title}". Se enviará enlace y recordatorio a tu correo institucional.`)}
-                        className="py-2 px-5 rounded-full border-2 border-slate-900 font-bold text-xs text-slate-900 hover:bg-slate-900 hover:text-white transition-all shadow-urp-brutal-sm tactile-btn cursor-pointer"
-                      >
-                        Inscribirme
-                      </button>
+                          <h3 className="text-base sm:text-lg font-display font-extrabold text-slate-900 mb-2 group-hover:text-[#008744] transition-colors">
+                            {conf.tituloEvento}
+                          </h3>
+
+                          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+                            Ponente: <strong>{conf.expositorPonente}</strong> | Patrocinado por: <em>{conf.entidadEditorial}</em>
+                          </p>
+                        </div>
+
+                        <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-100">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs px-3 py-1 rounded-full font-bold border bg-emerald-50 text-[#008744] border-emerald-200">
+                              {conf.totalInscritos} {conf.totalInscritos === 1 ? 'Inscrito' : 'Inscritos'}
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => handleCopyShareLink(conf)}
+                              className="p-1.5 rounded-lg border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer"
+                              title="Copiar enlace de invitación"
+                            >
+                              {copiedId === conf.idConferencia ? (
+                                <Check className="w-3.5 h-3.5 text-emerald-600" />
+                              ) : (
+                                <Share2 className="w-3.5 h-3.5" />
+                              )}
+                            </button>
+                          </div>
+
+                          <div className="flex items-center gap-2">
+                            {conf.asistenciaAbierta && (
+                              <button 
+                                onClick={() => handleOpenAttendance(conf)}
+                                className="py-2 px-4 rounded-full border-2 border-emerald-700 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-all shadow-urp-brutal-sm tactile-btn cursor-pointer flex items-center gap-1.5"
+                              >
+                                <Radio className="w-3.5 h-3.5" />
+                                <span>Marcar Asistencia</span>
+                              </button>
+                            )}
+                            <button 
+                              onClick={() => handleOpenRegistration(conf)}
+                              className="py-2 px-5 rounded-full border-2 border-slate-900 font-bold text-xs text-slate-900 hover:bg-slate-900 hover:text-white transition-all shadow-urp-brutal-sm tactile-btn cursor-pointer"
+                            >
+                              Inscribirme
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
           <aside className="lg:col-span-4 flex flex-col gap-6">
@@ -314,6 +471,20 @@ export const ConferencesPage: React.FC = () => {
           </aside>
         </div>
       </main>
+
+      <ConferenceRegistrationModal
+        conference={selectedConferenceForReg}
+        isOpen={isRegModalOpen}
+        onClose={() => setIsRegModalOpen(false)}
+        onSuccess={() => loadConferences()}
+      />
+
+      <AttendanceLiveModal
+        conference={selectedConferenceForAttendance}
+        isOpen={isAttendanceModalOpen}
+        onClose={() => setIsAttendanceModalOpen(false)}
+        onSuccess={() => loadConferences()}
+      />
     </div>
   );
 };
