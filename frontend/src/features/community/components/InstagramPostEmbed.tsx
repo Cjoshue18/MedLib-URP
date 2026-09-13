@@ -55,7 +55,7 @@ export const InstagramPostEmbed: React.FC<InstagramPostEmbedProps> = ({
   }
 
   return (
-    <div ref={containerRef} className={`flex justify-center w-full max-w-[360px] mx-auto overflow-hidden ${className}`}>
+    <div ref={containerRef} className={`flex justify-center w-full max-w-[360px] mx-auto ${className}`}>
       <blockquote
         key={`${cleanPermalink}-${captioned ? 'cap' : 'nocap'}`}
         className="instagram-media"
