@@ -13,10 +13,8 @@ export { ConferenceCard } from './components/calendar/ConferenceCard';
 
 export { ConferenceParticipantFormFields } from './components/attendance/ConferenceParticipantFormFields';
 export { ConferenceRegistrationView } from './components/attendance/ConferenceRegistrationView';
-export { ConferenceRegistrationModal } from './components/attendance/ConferenceRegistrationModal';
 export { ConferenceRegistrationSuccessCard } from './components/attendance/ConferenceRegistrationSuccessCard';
 export { AttendanceLiveView } from './components/attendance/AttendanceLiveView';
-export { AttendanceLiveModal } from './components/attendance/AttendanceLiveModal';
 export { AttendanceLiveSuccessCard } from './components/attendance/AttendanceLiveSuccessCard';
 
 
