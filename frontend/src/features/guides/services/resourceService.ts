@@ -12,25 +12,6 @@ const getApiBase = (): string => {
 
 const resourceDetailCache = new Map<number, ResourceApiDto>();
 
-const authenticatedFetch = async (input: string, init: RequestInit = {}): Promise<Response> => {
-  const token = await authService.getValidToken();
-  const headers = new Headers(init.headers || {});
-  if (token) {
-    headers.set('Authorization', `Bearer ${token}`);
-  }
-
-  let response = await fetch(input, { ...init, headers });
-
-  if (response.status === 401) {
-    const refreshedToken = await authService.refreshToken();
-    if (refreshedToken) {
-      headers.set('Authorization', `Bearer ${refreshedToken}`);
-      response = await fetch(input, { ...init, headers });
-    }
-  }
-
-  return response;
-};
 
 export const resourceService = {
   getCachedLiteResources(): ResourceApiDto[] {
@@ -63,7 +44,7 @@ export const resourceService = {
 
   async getAdminResources(): Promise<ResourceApiDto[]> {
     try {
-      const response = await authenticatedFetch(`${getApiBase()}/api/v1/admin/resources`);
+      const response = await authService.authenticatedFetch(`${getApiBase()}/api/v1/admin/resources`);
       if (!response.ok) {
         return await this.getResources();
       }
@@ -104,7 +85,7 @@ export const resourceService = {
   },
 
   async createResource(request: CreateResourceApiRequest): Promise<ResourceApiDto> {
-    const response = await authenticatedFetch(`${getApiBase()}/api/v1/admin/resources`, {
+    const response = await authService.authenticatedFetch(`${getApiBase()}/api/v1/admin/resources`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -121,7 +102,7 @@ export const resourceService = {
   },
 
   async updateResource(id: number, request: UpdateResourceApiRequest): Promise<ResourceApiDto> {
-    const response = await authenticatedFetch(`${getApiBase()}/api/v1/admin/resources/${id}`, {
+    const response = await authService.authenticatedFetch(`${getApiBase()}/api/v1/admin/resources/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -139,7 +120,7 @@ export const resourceService = {
   },
 
   async deleteResource(id: number): Promise<void> {
-    const response = await authenticatedFetch(`${getApiBase()}/api/v1/admin/resources/${id}`, {
+    const response = await authService.authenticatedFetch(`${getApiBase()}/api/v1/admin/resources/${id}`, {
       method: 'DELETE',
     });
 
@@ -155,7 +136,7 @@ export const resourceService = {
     const formData = new FormData();
     formData.append('file', file);
 
-    const response = await authenticatedFetch(`${getApiBase()}/api/v1/admin/resources/upload-logo`, {
+    const response = await authService.authenticatedFetch(`${getApiBase()}/api/v1/admin/resources/upload-logo`, {
       method: 'POST',
       body: formData,
     });
@@ -170,7 +151,7 @@ export const resourceService = {
   },
 
   async toggleHexagonDisplay(id: number): Promise<ResourceApiDto> {
-    const response = await authenticatedFetch(`${getApiBase()}/api/v1/admin/resources/${id}/toggle-hexagonos`, {
+    const response = await authService.authenticatedFetch(`${getApiBase()}/api/v1/admin/resources/${id}/toggle-hexagonos`, {
       method: 'PATCH',
     });
 
@@ -184,7 +165,7 @@ export const resourceService = {
   },
 
   async setHexagonMatrix(resourceIds: number[]): Promise<ResourceApiDto[]> {
-    const response = await authenticatedFetch(`${getApiBase()}/api/v1/admin/resources/hexagon-matrix`, {
+    const response = await authService.authenticatedFetch(`${getApiBase()}/api/v1/admin/resources/hexagon-matrix`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

@@ -122,45 +122,35 @@ export const authService = {
     return await this.refreshToken();
   },
 
-  async verifyProfile(): Promise<AdminUserProfile | null> {
+  async authenticatedFetch(input: string, init: RequestInit = {}): Promise<Response> {
     const token = await this.getValidToken();
-    if (!token) {
-      this.logout();
-      return null;
+    const headers = new Headers(init.headers || {});
+    if (token) {
+      headers.set('Authorization', `Bearer ${token}`);
     }
 
-    try {
-      const response = await fetch(`${getApiBase()}/api/v1/auth/me`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    let response = await fetch(input, { ...init, headers });
 
-      if (response.status === 401) {
-        const newToken = await this.refreshToken();
-        if (!newToken) {
-          this.logout();
-          return null;
-        }
-
-        const retryResponse = await fetch(`${getApiBase()}/api/v1/auth/me`, {
-          headers: {
-            Authorization: `Bearer ${newToken}`,
-          },
-        });
-
-        if (!retryResponse.ok) {
-          this.logout();
-          return null;
-        }
-
-        return await retryResponse.json();
+    if (response.status === 401) {
+      const refreshedToken = await this.refreshToken();
+      if (refreshedToken) {
+        headers.set('Authorization', `Bearer ${refreshedToken}`);
+        response = await fetch(input, { ...init, headers });
       }
+    }
 
+    return response;
+  },
+
+  async verifyProfile(): Promise<AdminUserProfile | null> {
+    try {
+      const response = await this.authenticatedFetch(`${getApiBase()}/api/v1/auth/me`);
       if (!response.ok) {
+        if (response.status === 401) {
+          this.logout();
+        }
         return null;
       }
-
       return await response.json();
     } catch {
       return null;
