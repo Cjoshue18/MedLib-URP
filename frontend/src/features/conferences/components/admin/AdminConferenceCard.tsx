@@ -14,7 +14,8 @@ import {
   Edit3,
   Trash2,
 } from 'lucide-react';
-import { ConferenceSummary } from '../types';
+import { ConferenceSummary } from '../../types';
+
 
 interface AdminConferenceCardProps {
   conf: ConferenceSummary;

@@ -10,8 +10,9 @@ import {
   Loader2, 
   Send 
 } from 'lucide-react';
-import { ConferenceSummary, TipoParticipante, TipoDocumento, RegisterParticipantRequest } from '../types';
-import { conferenceService } from '../services/conferenceService';
+import { ConferenceSummary, TipoParticipante, TipoDocumento, RegisterParticipantRequest } from '../../types';
+import { conferenceService } from '../../services/conferenceService';
+
 
 interface ConferenceRegistrationModalProps {
   conference: ConferenceSummary | null;

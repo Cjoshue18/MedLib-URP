@@ -7,7 +7,7 @@ import {
   ExternalLink,
   Calendar,
 } from 'lucide-react';
-import { ConferenceSummary } from '../types';
+import { ConferenceSummary } from '../../types';
 
 interface AttendanceLiveSuccessCardProps {
   conference: ConferenceSummary;

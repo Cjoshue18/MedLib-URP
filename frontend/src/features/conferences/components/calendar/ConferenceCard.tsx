@@ -1,6 +1,7 @@
 import React from 'react';
 import { Clock, MapPin, Video, Radio, Share2, Check } from 'lucide-react';
-import { ConferenceSummary } from '../types';
+import { ConferenceSummary } from '../../types';
+
 
 interface ConferenceCardProps {
   conf: ConferenceSummary;

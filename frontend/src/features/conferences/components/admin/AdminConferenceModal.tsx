@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, X, ShieldAlert, Loader2, Save } from 'lucide-react';
-import { ConferenceSummary, CreateConferenceRequest, UpdateConferenceRequest } from '../types';
-import { conferenceService } from '../services/conferenceService';
+import { ConferenceSummary, CreateConferenceRequest, UpdateConferenceRequest } from '../../types';
+import { conferenceService } from '../../services/conferenceService';
+
 
 interface AdminConferenceModalProps {
   isOpen: boolean;

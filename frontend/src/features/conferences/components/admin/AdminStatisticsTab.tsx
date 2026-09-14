@@ -8,9 +8,10 @@ import {
   Loader2,
   FileSpreadsheet,
 } from 'lucide-react';
-import { ConferenceSummary, ConferenceReport, ParticipantRecord } from '../types';
-import { conferenceService } from '../services/conferenceService';
-import { excelExportService } from '../../attendance/services/excelExportService';
+import { ConferenceSummary, ConferenceReport, ParticipantRecord } from '../../types';
+import { conferenceService } from '../../services/conferenceService';
+import { excelExportService } from '../../../attendance/services/excelExportService';
+
 import { ConferenceReportSummaryCards } from './ConferenceReportSummaryCards';
 import { ConferenceReportParticipantsTable } from './ConferenceReportParticipantsTable';
 
