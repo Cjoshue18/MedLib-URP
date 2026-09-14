@@ -46,11 +46,11 @@ END
 GO
 
 -- =============================================================================
--- 3. TABLA: t_base_datos_biomedica (Catálogo de Recursos Científicos y Bases de Datos)
+-- 3. TABLA: t_base_datos_medica (Catálogo de Recursos Científicos y Bases de Datos)
 -- =============================================================================
-IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = N't_base_datos_biomedica')
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = N't_base_datos_medica')
 BEGIN
-    CREATE TABLE [dbo].[t_base_datos_biomedica] (
+    CREATE TABLE [dbo].[t_base_datos_medica] (
         [id_base_datos]         INT IDENTITY(1,1) NOT NULL,
         [nombre_recurso]        NVARCHAR(100)     NOT NULL,
         [logotipo_url]          NVARCHAR(255)     NOT NULL,
@@ -60,11 +60,11 @@ BEGIN
         [url_externo]           NVARCHAR(255)     NULL,
         [estado_activo]         BIT               NOT NULL CONSTRAINT [DF_base_datos_estado] DEFAULT (1),
         [mostrar_en_hexagonos]  BIT               NOT NULL CONSTRAINT [DF_base_datos_hexagonos] DEFAULT (0),
-        CONSTRAINT [PK_t_base_datos_biomedica] PRIMARY KEY CLUSTERED ([id_base_datos] ASC)
+        CONSTRAINT [PK_t_base_datos_medica] PRIMARY KEY CLUSTERED ([id_base_datos] ASC)
     );
 
-    CREATE NONCLUSTERED INDEX [IX_t_base_datos_biomedica_activo]
-        ON [dbo].[t_base_datos_biomedica] ([estado_activo] ASC)
+    CREATE NONCLUSTERED INDEX [IX_t_base_datos_medica_activo]
+        ON [dbo].[t_base_datos_medica] ([estado_activo] ASC)
         INCLUDE ([nombre_recurso], [logotipo_url], [mostrar_en_hexagonos]);
 END
 GO
@@ -79,7 +79,7 @@ BEGIN
         [id_materia]    INT NOT NULL,
         CONSTRAINT [PK_t_base_relacion_materia] PRIMARY KEY CLUSTERED ([id_base_datos] ASC, [id_materia] ASC),
         CONSTRAINT [FK_relacion_base_datos] FOREIGN KEY ([id_base_datos]) 
-            REFERENCES [dbo].[t_base_datos_biomedica] ([id_base_datos]) ON DELETE CASCADE,
+            REFERENCES [dbo].[t_base_datos_medica] ([id_base_datos]) ON DELETE CASCADE,
         CONSTRAINT [FK_relacion_materia] FOREIGN KEY ([id_materia]) 
             REFERENCES [dbo].[t_materia] ([id_materia]) ON DELETE CASCADE
     );
@@ -103,7 +103,7 @@ BEGIN
         CONSTRAINT [PK_t_tutorial_recurso] PRIMARY KEY CLUSTERED ([id_tutorial] ASC),
         CONSTRAINT [UQ_t_tutorial_base_datos] UNIQUE NONCLUSTERED ([id_base_datos] ASC),
         CONSTRAINT [FK_tutorial_base_datos] FOREIGN KEY ([id_base_datos]) 
-            REFERENCES [dbo].[t_base_datos_biomedica] ([id_base_datos]) ON DELETE CASCADE
+            REFERENCES [dbo].[t_base_datos_medica] ([id_base_datos]) ON DELETE CASCADE
     );
 END
 GO

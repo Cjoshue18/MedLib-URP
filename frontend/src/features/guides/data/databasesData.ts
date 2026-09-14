@@ -15,8 +15,6 @@ export interface MedicalDatabase {
   tags: string[];
 }
 
-export type BiomedicalDatabase = MedicalDatabase;
-
 export const getDatabaseLogoUrl = (logoFile?: string | null): string => {
   if (!logoFile) return '';
   if (logoFile.startsWith('http://') || logoFile.startsWith('https://')) {

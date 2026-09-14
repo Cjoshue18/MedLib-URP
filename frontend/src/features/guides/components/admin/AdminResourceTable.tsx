@@ -27,7 +27,7 @@ export const AdminResourceTable: React.FC<AdminResourceTableProps> = ({
       <div className="px-5 py-4 border-b border-slate-200 flex items-center justify-between">
         <div>
           <h2 className="text-sm font-bold font-display text-slate-900">
-            Catálogo de Bases de Datos Biomédicas
+            Catálogo de Bases de Datos Médicas
           </h2>
           <p className="text-xs text-slate-500 mt-0.5">
             Mostrando {resources.length} de {totalResourcesCount} recursos administrados

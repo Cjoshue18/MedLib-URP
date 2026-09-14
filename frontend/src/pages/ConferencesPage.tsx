@@ -184,7 +184,7 @@ export const ConferencesPage: React.FC = () => {
                   Próximas Actividades
                 </h2>
                 <p className="text-xs sm:text-sm text-slate-500">
-                  Capacitaciones, talleres de investigación y conferencias biomédicas del mes
+                  Capacitaciones, talleres de investigación y conferencias médicas del mes
                 </p>
               </div>
             </div>

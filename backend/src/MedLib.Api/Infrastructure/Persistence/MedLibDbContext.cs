@@ -26,7 +26,7 @@ public class MedLibDbContext : DbContext
 
         modelBuilder.Entity<BaseDatosMedica>(entidad =>
         {
-            entidad.ToTable("t_base_datos_biomedica");
+            entidad.ToTable("t_base_datos_medica");
             entidad.HasKey(e => e.IdBaseDatos);
             entidad.Property(e => e.IdBaseDatos).HasColumnName("id_base_datos").ValueGeneratedOnAdd();
             entidad.Property(e => e.NombreRecurso).HasColumnName("nombre_recurso").HasMaxLength(100).IsRequired();
