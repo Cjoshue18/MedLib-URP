@@ -1,5 +1,4 @@
-import React from 'react';
-import { Search, X, Sparkles } from 'lucide-react';
+import { Search, X, Sparkles, ChevronDown } from 'lucide-react';
 
 interface DatabaseSearchBarProps {
   searchTerm: string;
@@ -57,15 +56,18 @@ export const DatabaseSearchBar: React.FC<DatabaseSearchBarProps> = ({
           </div>
 
           {onLicenseFilterChange && (
-            <select
-              value={licenseFilter || 'all'}
-              onChange={(e) => onLicenseFilterChange(e.target.value as 'all' | 'subscription' | 'open')}
-              className="py-3 px-3.5 rounded-2xl border-2 border-slate-900 bg-white text-xs font-bold text-slate-800 shadow-urp-brutal-sm outline-none cursor-pointer"
-            >
-              <option value="all">Todas las licencias</option>
-              <option value="subscription">Suscripción URP</option>
-              <option value="open">Acceso Abierto</option>
-            </select>
+            <div className="relative shrink-0 w-full sm:w-auto">
+              <select
+                value={licenseFilter || 'all'}
+                onChange={(e) => onLicenseFilterChange(e.target.value as 'all' | 'subscription' | 'open')}
+                className="w-full sm:w-auto appearance-none py-3 pl-4 pr-10 rounded-2xl border-2 border-slate-900 bg-white text-xs font-bold text-slate-800 shadow-urp-brutal-sm outline-none cursor-pointer hover:bg-slate-50 transition-colors"
+              >
+                <option value="all">Todas las licencias</option>
+                <option value="subscription">Suscripción URP</option>
+                <option value="open">Acceso Abierto</option>
+              </select>
+              <ChevronDown className="w-4 h-4 text-slate-700 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none stroke-[2.5]" />
+            </div>
           )}
 
           {actionsRight}
@@ -132,27 +134,33 @@ export const DatabaseSearchBar: React.FC<DatabaseSearchBarProps> = ({
         {(onLicenseFilterChange || onStatusFilterChange) && (
           <div className="flex items-center gap-2">
             {onLicenseFilterChange && (
-              <select
-                value={licenseFilter || 'all'}
-                onChange={(e) => onLicenseFilterChange(e.target.value as 'all' | 'subscription' | 'open')}
-                className="py-2 px-3 rounded-xl border border-slate-300 text-xs font-semibold text-slate-700 bg-white focus:border-[#008744] outline-none cursor-pointer"
-              >
-                <option value="all">Todas las licencias</option>
-                <option value="subscription">Suscripción URP</option>
-                <option value="open">Acceso Abierto</option>
-              </select>
+              <div className="relative">
+                <select
+                  value={licenseFilter || 'all'}
+                  onChange={(e) => onLicenseFilterChange(e.target.value as 'all' | 'subscription' | 'open')}
+                  className="appearance-none py-2 pl-3 pr-8 rounded-xl border border-slate-300 text-xs font-semibold text-slate-700 bg-white focus:border-[#008744] outline-none cursor-pointer hover:bg-slate-50 transition-colors"
+                >
+                  <option value="all">Todas las licencias</option>
+                  <option value="subscription">Suscripción URP</option>
+                  <option value="open">Acceso Abierto</option>
+                </select>
+                <ChevronDown className="w-3.5 h-3.5 text-slate-500 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+              </div>
             )}
 
             {onStatusFilterChange && (
-              <select
-                value={statusFilter || 'all'}
-                onChange={(e) => onStatusFilterChange(e.target.value as 'all' | 'active' | 'inactive')}
-                className="py-2 px-3 rounded-xl border border-slate-300 text-xs font-semibold text-slate-700 bg-white focus:border-[#008744] outline-none cursor-pointer"
-              >
-                <option value="all">Todos los estados</option>
-                <option value="active">Solo Activos</option>
-                <option value="inactive">Solo Inactivos</option>
-              </select>
+              <div className="relative">
+                <select
+                  value={statusFilter || 'all'}
+                  onChange={(e) => onStatusFilterChange(e.target.value as 'all' | 'active' | 'inactive')}
+                  className="appearance-none py-2 pl-3 pr-8 rounded-xl border border-slate-300 text-xs font-semibold text-slate-700 bg-white focus:border-[#008744] outline-none cursor-pointer hover:bg-slate-50 transition-colors"
+                >
+                  <option value="all">Todos los estados</option>
+                  <option value="active">Solo Activos</option>
+                  <option value="inactive">Solo Inactivos</option>
+                </select>
+                <ChevronDown className="w-3.5 h-3.5 text-slate-500 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+              </div>
             )}
           </div>
         )}
