@@ -14,26 +14,6 @@ const getApiBase = (): string => {
   return (import.meta.env.VITE_API_URL as string)?.replace(/\/$/, '') || '';
 };
 
-const authenticatedFetch = async (input: string, init: RequestInit = {}): Promise<Response> => {
-  const token = await authService.getValidToken();
-  const headers = new Headers(init.headers || {});
-  if (token) {
-    headers.set('Authorization', `Bearer ${token}`);
-  }
-
-  let response = await fetch(input, { ...init, headers });
-
-  if (response.status === 401) {
-    const refreshedToken = await authService.refreshToken();
-    if (refreshedToken) {
-      headers.set('Authorization', `Bearer ${refreshedToken}`);
-      response = await fetch(input, { ...init, headers });
-    }
-  }
-
-  return response;
-};
-
 export const lostFoundService = {
   async getPosts(): Promise<LostItemPost[]> {
     const response = await fetch(`${getApiBase()}/api/lost-items`);
@@ -44,7 +24,7 @@ export const lostFoundService = {
   },
 
   async createPost(urlInstagram: string): Promise<LostItemPost> {
-    const response = await authenticatedFetch(`${getApiBase()}/api/lost-items`, {
+    const response = await authService.authenticatedFetch(`${getApiBase()}/api/lost-items`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -61,7 +41,7 @@ export const lostFoundService = {
   },
 
   async deletePost(id: number): Promise<void> {
-    const response = await authenticatedFetch(`${getApiBase()}/api/lost-items/${id}`, {
+    const response = await authService.authenticatedFetch(`${getApiBase()}/api/lost-items/${id}`, {
       method: 'DELETE',
     });
 

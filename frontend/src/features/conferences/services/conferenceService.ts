@@ -12,26 +12,6 @@ const getApiBase = (): string => {
   return (import.meta.env.VITE_API_URL as string)?.replace(/\/$/, '') || '';
 };
 
-const authenticatedFetch = async (input: string, init: RequestInit = {}): Promise<Response> => {
-  const token = await authService.getValidToken();
-  const headers = new Headers(init.headers || {});
-  if (token) {
-    headers.set('Authorization', `Bearer ${token}`);
-  }
-
-  let response = await fetch(input, { ...init, headers });
-
-  if (response.status === 401) {
-    const refreshedToken = await authService.refreshToken();
-    if (refreshedToken) {
-      headers.set('Authorization', `Bearer ${refreshedToken}`);
-      response = await fetch(input, { ...init, headers });
-    }
-  }
-
-  return response;
-};
-
 export const conferenceService = {
   async getConferences(desde?: string, hasta?: string): Promise<ConferenceSummary[]> {
     const params = new URLSearchParams();
@@ -86,7 +66,7 @@ export const conferenceService = {
   },
 
   async getAdminConferences(): Promise<ConferenceSummary[]> {
-    const response = await authenticatedFetch(`${getApiBase()}/api/v1/admin/conferences`);
+    const response = await authService.authenticatedFetch(`${getApiBase()}/api/v1/admin/conferences`);
     if (!response.ok) {
       throw new Error('Error al cargar conferencias en el panel de administración.');
     }
@@ -94,7 +74,7 @@ export const conferenceService = {
   },
 
   async createConference(data: CreateConferenceRequest): Promise<ConferenceSummary> {
-    const response = await authenticatedFetch(`${getApiBase()}/api/v1/admin/conferences`, {
+    const response = await authService.authenticatedFetch(`${getApiBase()}/api/v1/admin/conferences`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -110,7 +90,7 @@ export const conferenceService = {
   },
 
   async updateConference(id: number, data: UpdateConferenceRequest): Promise<ConferenceSummary> {
-    const response = await authenticatedFetch(`${getApiBase()}/api/v1/admin/conferences/${id}`, {
+    const response = await authService.authenticatedFetch(`${getApiBase()}/api/v1/admin/conferences/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -126,7 +106,7 @@ export const conferenceService = {
   },
 
   async toggleAttendance(id: number): Promise<{ idConferencia: number; asistenciaAbierta: boolean; message: string }> {
-    const response = await authenticatedFetch(`${getApiBase()}/api/v1/admin/conferences/${id}/toggle-attendance`, {
+    const response = await authService.authenticatedFetch(`${getApiBase()}/api/v1/admin/conferences/${id}/toggle-attendance`, {
       method: 'PATCH'
     });
 
@@ -138,7 +118,7 @@ export const conferenceService = {
   },
 
   async togglePurge(id: number): Promise<{ idConferencia: number; autoPurgar30Dias: boolean; message: string }> {
-    const response = await authenticatedFetch(`${getApiBase()}/api/v1/admin/conferences/${id}/toggle-purge`, {
+    const response = await authService.authenticatedFetch(`${getApiBase()}/api/v1/admin/conferences/${id}/toggle-purge`, {
       method: 'PATCH'
     });
 
@@ -150,7 +130,7 @@ export const conferenceService = {
   },
 
   async getConferenceReport(id: number): Promise<ConferenceReport> {
-    const response = await authenticatedFetch(`${getApiBase()}/api/v1/admin/conferences/${id}/report`);
+    const response = await authService.authenticatedFetch(`${getApiBase()}/api/v1/admin/conferences/${id}/report`);
     if (!response.ok) {
       throw new Error('Error al obtener el reporte cruzado de asistencias.');
     }
@@ -158,7 +138,7 @@ export const conferenceService = {
   },
 
   async deleteConference(id: number): Promise<void> {
-    const response = await authenticatedFetch(`${getApiBase()}/api/v1/admin/conferences/${id}`, {
+    const response = await authService.authenticatedFetch(`${getApiBase()}/api/v1/admin/conferences/${id}`, {
       method: 'DELETE'
     });
 
