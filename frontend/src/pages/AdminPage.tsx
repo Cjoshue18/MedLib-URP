@@ -794,6 +794,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
         onSave={handleSaveResource}
         initialData={editingResourceData}
         activeResourcesCount={activeCount}
+        existingSubjects={Array.from(new Set(resources.flatMap((r) => r.subjects || [])))}
       />
 
       <HexagonMatrixModal
