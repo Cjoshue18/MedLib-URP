@@ -58,7 +58,7 @@ export const AdminResourceTable: React.FC<AdminResourceTableProps> = ({
       {isLoading ? (
         <div className="p-12 text-center space-y-3">
           <RefreshCw className="w-8 h-8 animate-spin text-[#008744] mx-auto" />
-          <p className="text-sm font-semibold text-slate-700">Cargando catálogo de recursos...</p>
+          <p className="text-sm font-semibold text-slate-700">Cargando...</p>
         </div>
       ) : resources.length === 0 ? (
         <div className="p-12 text-center text-slate-500 space-y-2">

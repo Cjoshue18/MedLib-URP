@@ -147,17 +147,16 @@ export const DirectoryPage: React.FC<DirectoryPageProps> = ({ initialSearchQuery
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">
             <div>
               <div className="flex items-center gap-2.5 flex-wrap">
-                <h3 className="font-display font-extrabold text-lg sm:text-2xl text-slate-900">
-                  {isLoading
-                    ? 'Consultando catálogo activo...'
-                    : `Mostrando recursos (${filteredDbs.length}${searchQuery ? ` de ${databases.length}` : ''})`}
+                <h3 className="font-display font-extrabold text-lg sm:text-2xl text-slate-900 flex items-center gap-2">
+                  {isLoading ? (
+                    <>
+                      <span>Cargando...</span>
+                      <RefreshCw className="w-4 h-4 animate-spin text-[#008744]" />
+                    </>
+                  ) : (
+                    `Mostrando recursos (${filteredDbs.length}${searchQuery ? ` de ${databases.length}` : ''})`
+                  )}
                 </h3>
-                {isLoading && (
-                  <span className="inline-flex items-center gap-1 text-xs text-slate-400 font-medium">
-                    <RefreshCw className="w-3.5 h-3.5 animate-spin text-[#008744]" />
-                    Sincronizando...
-                  </span>
-                )}
               </div>
               <p className="text-xs sm:text-sm text-slate-500 mt-1">
                 Haz clic en cualquier plataforma para desplegar su ficha técnica completa, tutorial de acceso remoto y enlace directo.
