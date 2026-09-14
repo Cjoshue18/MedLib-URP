@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace MedLib.Api.Features.LostFound.Controllers;
 
 [ApiController]
-[Route("api/lost-items")]
+[Route("api/v1/lost-items")]
 public class LostFoundController : ControllerBase
 {
     private readonly MedLibDbContext _context;

@@ -16,7 +16,7 @@ const getApiBase = (): string => {
 
 export const lostFoundService = {
   async getPosts(): Promise<LostItemPost[]> {
-    const response = await fetch(`${getApiBase()}/api/lost-items`);
+    const response = await fetch(`${getApiBase()}/api/v1/lost-items`);
     if (!response.ok) {
       throw new Error('Error al cargar publicaciones de objetos perdidos.');
     }
@@ -24,7 +24,7 @@ export const lostFoundService = {
   },
 
   async createPost(urlInstagram: string): Promise<LostItemPost> {
-    const response = await authService.authenticatedFetch(`${getApiBase()}/api/lost-items`, {
+    const response = await authService.authenticatedFetch(`${getApiBase()}/api/v1/lost-items`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ export const lostFoundService = {
   },
 
   async deletePost(id: number): Promise<void> {
-    const response = await authService.authenticatedFetch(`${getApiBase()}/api/lost-items/${id}`, {
+    const response = await authService.authenticatedFetch(`${getApiBase()}/api/v1/lost-items/${id}`, {
       method: 'DELETE',
     });
 
