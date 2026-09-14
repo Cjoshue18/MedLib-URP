@@ -61,10 +61,12 @@ export const ConferenceParticipantFormFields: React.FC<ConferenceParticipantForm
 
       <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
         <div className="sm:col-span-5">
-          <label className="text-xs font-extrabold text-slate-800 block mb-1">
+          <label htmlFor="participant-doc-type" className="text-xs font-extrabold text-slate-800 block mb-1">
             Tipo de Documento:
           </label>
           <select
+            id="participant-doc-type"
+            name="document-type"
             value={tipoDocumento}
             onChange={(e) => setTipoDocumento(e.target.value as TipoDocumento)}
             className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#008744]"
@@ -76,10 +78,13 @@ export const ConferenceParticipantFormFields: React.FC<ConferenceParticipantForm
         </div>
 
         <div className="sm:col-span-7">
-          <label className="text-xs font-extrabold text-slate-800 block mb-1">
+          <label htmlFor="participant-doc-number" className="text-xs font-extrabold text-slate-800 block mb-1">
             N° de Documento / Código:
           </label>
           <input
+            id="participant-doc-number"
+            name="username"
+            autoComplete="username"
             type="text"
             value={numeroDocumento}
             onChange={onDocumentChange}
@@ -99,10 +104,13 @@ export const ConferenceParticipantFormFields: React.FC<ConferenceParticipantForm
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
-          <label className="text-xs font-extrabold text-slate-800 block mb-1">
+          <label htmlFor="participant-given-name" className="text-xs font-extrabold text-slate-800 block mb-1">
             Nombres Completos:
           </label>
           <input
+            id="participant-given-name"
+            name="given-name"
+            autoComplete="given-name"
             type="text"
             value={nombres}
             onChange={(e) => setNombres(e.target.value)}
@@ -112,10 +120,13 @@ export const ConferenceParticipantFormFields: React.FC<ConferenceParticipantForm
           />
         </div>
         <div>
-          <label className="text-xs font-extrabold text-slate-800 block mb-1">
+          <label htmlFor="participant-family-name" className="text-xs font-extrabold text-slate-800 block mb-1">
             Apellidos Completos:
           </label>
           <input
+            id="participant-family-name"
+            name="family-name"
+            autoComplete="family-name"
             type="text"
             value={apellidos}
             onChange={(e) => setApellidos(e.target.value)}
@@ -128,10 +139,13 @@ export const ConferenceParticipantFormFields: React.FC<ConferenceParticipantForm
 
       <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
         <div className={tipoParticipante === 'Estudiante' ? 'sm:col-span-8' : 'sm:col-span-12'}>
-          <label className="text-xs font-extrabold text-slate-800 block mb-1">
+          <label htmlFor="participant-email" className="text-xs font-extrabold text-slate-800 block mb-1">
             Correo Institucional o de Contacto:
           </label>
           <input
+            id="participant-email"
+            name="email"
+            autoComplete="email"
             type="email"
             value={correo}
             onChange={(e) => setCorreo(e.target.value)}
@@ -143,10 +157,12 @@ export const ConferenceParticipantFormFields: React.FC<ConferenceParticipantForm
 
         {tipoParticipante === 'Estudiante' && (
           <div className="sm:col-span-4">
-            <label className="text-xs font-extrabold text-slate-800 block mb-1">
+            <label htmlFor="participant-academic-cycle" className="text-xs font-extrabold text-slate-800 block mb-1">
               Ciclo Académico:
             </label>
             <select
+              id="participant-academic-cycle"
+              name="academic-cycle"
               value={cicloAcademico || 1}
               onChange={(e) => setCicloAcademico(parseInt(e.target.value, 10))}
               required

@@ -82,7 +82,7 @@ export const AdminLoginForm: React.FC<AdminLoginFormProps> = ({
             )}
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label htmlFor="admin-username" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
                 Usuario Institucional
               </label>
               <div className="relative">
@@ -90,6 +90,9 @@ export const AdminLoginForm: React.FC<AdminLoginFormProps> = ({
                   <User className="w-4 h-4" />
                 </div>
                 <input
+                  id="admin-username"
+                  name="username"
+                  autoComplete="username"
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
@@ -101,7 +104,7 @@ export const AdminLoginForm: React.FC<AdminLoginFormProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+              <label htmlFor="admin-password" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
                 Contraseña de Seguridad
               </label>
               <div className="relative">
@@ -109,6 +112,9 @@ export const AdminLoginForm: React.FC<AdminLoginFormProps> = ({
                   <Lock className="w-4 h-4" />
                 </div>
                 <input
+                  id="admin-password"
+                  name="password"
+                  autoComplete="current-password"
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
