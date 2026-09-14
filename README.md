@@ -163,9 +163,6 @@ pnpm typecheck
 
 ## Políticas y Estándares de Calidad
 
-* **Límite de modularidad:** Ningún archivo de código fuente supera las 400 líneas, garantizando mantenibilidad y legibilidad.
-* **Código limpio:** Cero comentarios incrustados en archivos fuente de frontend y backend.
-* **Especificidad CSS:** Cero uso de directivas `!important` en hojas de estilo o clases utilitarias.
 * **SUNEDU e IAC-CINDA:** Registro y trazabilidad de acceso a recursos de investigación para soporte en acreditaciones institucionales.
 * **Ley N° 29733 (Protección de Datos Personales):** Almacenamiento seguro mediante hashes criptográficos, tokens efímeros y minimización de datos en memoria.
 
