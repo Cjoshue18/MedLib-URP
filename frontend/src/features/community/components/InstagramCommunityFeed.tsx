@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 interface InstagramCommunityFeedProps {
   subtitle?: string;
@@ -9,16 +9,6 @@ export const InstagramCommunityFeed: React.FC<InstagramCommunityFeedProps> = ({
   subtitle,
   footerNote = 'Síguenos para avisos de horarios especiales en sala, nuevas adquisiciones bibliográficas y convocatorias ALFIN.',
 }) => {
-  useEffect(() => {
-    const existingScript = document.querySelector('script[src="https://elfsightcdn.com/platform.js"]');
-    if (!existingScript) {
-      const script = document.createElement('script');
-      script.src = 'https://elfsightcdn.com/platform.js';
-      script.async = true;
-      document.body.appendChild(script);
-    }
-  }, []);
-
   return (
     <section className="max-w-[1280px] mx-auto px-6 pb-20">
       <div className="bg-white rounded-3xl border-2 border-slate-900 shadow-urp-brutal p-6 sm:p-8">
