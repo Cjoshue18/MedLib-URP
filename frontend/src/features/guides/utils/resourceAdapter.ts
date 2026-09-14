@@ -9,7 +9,7 @@ export const mapApiResourceToMedicalDatabase = (dto: ResourceApiDto): MedicalDat
     description: dto.clinicalDescription || '',
     accessType: dto.isSubscription ? 'Suscripción URP' : 'Acceso Abierto',
     logoFile: dto.logoUrl || '',
-    accessUrl: dto.externalUrl || 'https://intranet.urp.edu.pe',
+    accessUrl: dto.externalUrl || 'https://test.urp.edu.pe/Intranet/',
     isFeatured: dto.isSubscription,
     hasMobileApp: dto.hasMobileApp,
     tutorialUrl: dto.tutorial?.youtubeVideoId

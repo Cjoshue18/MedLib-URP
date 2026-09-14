@@ -134,7 +134,7 @@ export const AdminConferenceCard: React.FC<AdminConferenceCardProps> = ({
               type="button"
               onClick={() => onCopyLink(conf.idConferencia, 'att')}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-bold transition-colors cursor-pointer"
-              title="Copiar enlace directo de asistencia para Teams"
+              title="Copiar enlace directo de asistencia"
             >
               {isCopiedAtt ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Link className="w-3.5 h-3.5 text-slate-500" />}
               <span>{isCopiedAtt ? 'Enlace Copiado' : 'Link Asistencia'}</span>

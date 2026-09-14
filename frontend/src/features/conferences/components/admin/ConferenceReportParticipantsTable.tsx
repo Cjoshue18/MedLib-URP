@@ -159,7 +159,7 @@ export const ConferenceReportParticipantsTable: React.FC<ConferenceReportPartici
               <th className="py-3 px-4">Rol / Estamento</th>
               <th className="py-3 px-4">Ciclo</th>
               <th className="py-3 px-4">Pre-Registro</th>
-              <th className="py-3 px-4">Marcación Teams</th>
+              <th className="py-3 px-4">Hora Marcación</th>
               <th className="py-3 px-4">Estado</th>
             </tr>
           </thead>

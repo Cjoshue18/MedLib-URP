@@ -166,7 +166,7 @@ export const BoletinSubscriptionCard: React.FC<BoletinSubscriptionCardProps> = (
           </h2>
         </div>
         <div className="text-right flex flex-col items-center bg-black/20 backdrop-blur-xs px-2.5 py-1.5 rounded-xl border border-white/20 shrink-0">
-          <span className="text-2xl font-black leading-none text-white">57</span>
+          <span className="text-2xl font-black leading-none text-white">{new Date().getFullYear() - 1969}</span>
           <span className="text-[9px] font-bold uppercase tracking-wider text-[#8cf9a9]">Años URP</span>
         </div>
       </div>

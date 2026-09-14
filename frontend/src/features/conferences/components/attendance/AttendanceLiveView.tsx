@@ -211,7 +211,7 @@ export const AttendanceLiveView: React.FC<AttendanceLiveViewProps> = ({
             </div>
             <div>
               <span className="text-[10px] font-black tracking-wider uppercase text-emerald-400 block">
-                Sesión en Vivo &bull; Microsoft Teams URP
+                Sesión en Vivo &bull; Sala Virtual URP
               </span>
               <h1 className="text-xl sm:text-2xl font-display font-black leading-tight text-white">
                 Marcación de Asistencia en Tiempo Real

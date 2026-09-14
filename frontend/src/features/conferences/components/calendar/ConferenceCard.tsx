@@ -51,7 +51,7 @@ export const ConferenceCard: React.FC<ConferenceCardProps> = ({
                 ) : (
                   <MapPin className="w-3.5 h-3.5 text-[#008744]" />
                 )}
-                {conf.modalidad === 'Virtual' ? 'Microsoft Teams URP' : 'Auditorio Principal FAMURP'}
+                {conf.modalidad === 'Virtual' ? 'Sala Virtual URP' : 'Auditorio Principal FAMURP'}
               </span>
             </div>
 

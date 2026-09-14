@@ -22,7 +22,7 @@ export const ConferenceReportSummaryCards: React.FC<ConferenceReportSummaryCards
       <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
         <span className="text-[10px] font-black uppercase text-slate-500 block">Total Asistentes</span>
         <p className="text-2xl font-display font-black text-slate-900 mt-1">{report.totalAsistentes}</p>
-        <span className="text-[10px] font-semibold text-emerald-600 block mt-0.5">Marcaciones Teams</span>
+        <span className="text-[10px] font-semibold text-emerald-600 block mt-0.5">Marcaciones Registradas</span>
       </div>
 
       <div className="bg-emerald-50/70 p-4 rounded-2xl border border-emerald-200 shadow-xs">

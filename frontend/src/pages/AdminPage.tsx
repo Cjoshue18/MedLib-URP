@@ -213,7 +213,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
                 <Video className="w-4 h-4 text-emerald-700" />
                 <div className="text-left flex-1">
                   <p className="leading-tight font-bold">Conferencias &amp; ALFIN</p>
-                  <p className="text-[10px] font-normal text-slate-500 mt-0.5">Talleres, Teams y control de asistencia</p>
+                  <p className="text-[10px] font-normal text-slate-500 mt-0.5">Talleres, eventos y control de asistencia</p>
                 </div>
               </button>
 
