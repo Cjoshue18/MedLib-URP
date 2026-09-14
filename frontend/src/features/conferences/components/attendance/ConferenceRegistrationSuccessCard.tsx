@@ -11,7 +11,8 @@ import {
   Link as LinkIcon,
   Check,
 } from 'lucide-react';
-import { ConferenceSummary } from '../types';
+import { ConferenceSummary } from '../../types';
+
 
 interface ConferenceRegistrationSuccessCardProps {
   conference: ConferenceSummary;

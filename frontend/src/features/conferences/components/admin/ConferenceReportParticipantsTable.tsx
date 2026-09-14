@@ -1,6 +1,7 @@
 import React from 'react';
 import { Search, CheckCircle2, AlertCircle, UserX } from 'lucide-react';
-import { ParticipantRecord } from '../types';
+import { ParticipantRecord } from '../../types';
+
 
 interface ConferenceReportParticipantsTableProps {
   participants: ParticipantRecord[];

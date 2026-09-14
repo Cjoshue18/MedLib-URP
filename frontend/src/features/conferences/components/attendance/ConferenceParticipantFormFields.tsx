@@ -1,5 +1,6 @@
 import React from 'react';
-import { TipoParticipante, TipoDocumento } from '../types';
+import { TipoParticipante, TipoDocumento } from '../../types';
+
 
 interface ConferenceParticipantFormFieldsProps {
   tipoParticipante: TipoParticipante;

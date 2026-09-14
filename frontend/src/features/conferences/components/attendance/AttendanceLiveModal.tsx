@@ -11,8 +11,8 @@ import {
   Clock,
   ShieldCheck,
 } from 'lucide-react';
-import { ConferenceSummary, TipoParticipante, TipoDocumento, MarkAttendanceRequest } from '../types';
-import { conferenceService } from '../services/conferenceService';
+import { ConferenceSummary, TipoParticipante, TipoDocumento, MarkAttendanceRequest } from '../../types';
+import { conferenceService } from '../../services/conferenceService';
 import { ConferenceParticipantFormFields } from './ConferenceParticipantFormFields';
 
 interface AttendanceLiveModalProps {

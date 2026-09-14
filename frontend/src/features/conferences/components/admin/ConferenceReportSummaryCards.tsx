@@ -1,5 +1,6 @@
 import React from 'react';
-import { ConferenceReport } from '../types';
+import { ConferenceReport } from '../../types';
+
 
 interface ConferenceReportSummaryCardsProps {
   report: ConferenceReport;

@@ -1,6 +1,7 @@
 import React from 'react';
 import { ChevronLeft, ChevronRight, CalendarDays } from 'lucide-react';
-import { ConferenceSummary } from '../types';
+import { ConferenceSummary } from '../../types';
+
 
 interface ConferenceMonthlyCalendarProps {
   viewDate: Date;

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Calendar, Loader2 } from 'lucide-react';
-import { ConferenceSummary } from '../types';
-import { conferenceService } from '../services/conferenceService';
+import { ConferenceSummary } from '../../types';
+import { conferenceService } from '../../services/conferenceService';
+
 import { AdminConferenceModal } from './AdminConferenceModal';
 import { AdminConferenceCard } from './AdminConferenceCard';
 
