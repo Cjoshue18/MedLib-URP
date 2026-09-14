@@ -30,6 +30,22 @@ export const DatabaseAccordionCard: React.FC<DatabaseAccordionCardProps> = ({
 }) => {
   const [detail, setDetail] = useState<MedicalDatabase>(database);
   const [isLoadingDetail, setIsLoadingDetail] = useState(false);
+  const [imageScaleClass, setImageScaleClass] = useState('max-h-20 sm:max-h-24');
+  const [imageError, setImageError] = useState(false);
+
+  const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const img = e.currentTarget;
+    if (img.naturalHeight > 0) {
+      const ratio = img.naturalWidth / img.naturalHeight;
+      if (ratio <= 1.3) {
+        setImageScaleClass('max-h-24 sm:max-h-28 scale-125 sm:scale-135');
+      } else if (ratio < 2.0) {
+        setImageScaleClass('max-h-22 sm:max-h-24 scale-110 sm:scale-115');
+      } else {
+        setImageScaleClass('max-h-16 sm:max-h-20 max-w-[88%]');
+      }
+    }
+  };
 
   const handleClickHeader = async () => {
     onToggle();
@@ -99,17 +115,20 @@ export const DatabaseAccordionCard: React.FC<DatabaseAccordionCardProps> = ({
 
       {isExpanded && (
         <div className="px-4 pb-5 sm:px-6 sm:pb-6 pt-3 border-t-2 border-slate-100 flex flex-col gap-4">
-          <div className="flex justify-center items-center h-24 p-3 bg-slate-50/80 border-2 border-slate-200 rounded-2xl shadow-inner">
-            {logoSrc ? (
+          <div className="flex justify-center items-center h-28 sm:h-32 p-4 bg-slate-50/90 border-2 border-slate-200 rounded-2xl shadow-inner overflow-hidden select-none">
+            {logoSrc && !imageError ? (
               <img
                 src={logoSrc}
                 alt={detail.title}
-                className="max-h-14 max-w-full object-contain"
+                loading="lazy"
+                onLoad={handleImageLoad}
+                onError={() => setImageError(true)}
+                className={`${imageScaleClass} max-w-full object-contain transition-transform duration-200`}
               />
             ) : (
               <div className="flex items-center gap-2 text-slate-400 font-bold text-sm">
                 <Database className="w-5 h-5 text-[#008744]" />
-                <span>{detail.title}</span>
+                <span className="truncate max-w-[240px]">{detail.title}</span>
               </div>
             )}
           </div>
