@@ -200,7 +200,7 @@ export const DirectoryPage: React.FC<DirectoryPageProps> = ({ initialSearchQuery
               <p className="text-xs text-slate-500 mt-1">
                 {isLiveConnected
                   ? 'Prueba con otra palabra clave o limpia el campo de búsqueda.'
-                  : 'No se pudo establecer conexión con el catálogo de bases de datos biomédicas.'}
+                  : 'No se pudo establecer conexión con el catálogo de bases de datos médicas.'}
               </p>
               {!isLiveConnected && (
                 <button

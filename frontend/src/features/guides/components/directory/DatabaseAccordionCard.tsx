@@ -62,7 +62,7 @@ export const DatabaseAccordionCard: React.FC<DatabaseAccordionCardProps> = ({
         } catch {
           setDetail((prev) => ({
             ...prev,
-            description: 'Recurso de información biomédica de la Universidad Ricardo Palma.',
+            description: 'Recurso de información médica de la Universidad Ricardo Palma.',
           }));
         } finally {
           setIsLoadingDetail(false);
@@ -158,7 +158,7 @@ export const DatabaseAccordionCard: React.FC<DatabaseAccordionCardProps> = ({
             ) : (
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                 {detail.description ||
-                  'Recurso de información biomédica suscrito o seleccionado por la Facultad de Medicina Humana URP.'}
+                  'Recurso de información médica suscrito o seleccionado por la Facultad de Medicina Humana URP.'}
               </p>
             )}
           </div>

@@ -186,7 +186,7 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
               type="text"
               value={formTitulo}
               onChange={(e) => setFormTitulo(e.target.value)}
-              placeholder="Ej. Búsqueda Avanzada en bases biomédicas para Revisiones Sistemáticas"
+              placeholder="Ej. Búsqueda Avanzada en bases médicas para Revisiones Sistemáticas"
               required
               className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-xs font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#008744]"
             />

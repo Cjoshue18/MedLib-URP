@@ -128,7 +128,7 @@ public class ResourcesController : ControllerBase
 
         if (resource == null)
         {
-            return NotFound(new { message = $"No se encontró el recurso biomédico con ID {id}." });
+            return NotFound(new { message = $"No se encontró el recurso médico con ID {id}." });
         }
 
         return Ok(resource);

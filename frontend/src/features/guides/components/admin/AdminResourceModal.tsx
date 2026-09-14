@@ -138,7 +138,7 @@ export const AdminResourceModal: React.FC<AdminResourceModalProps> = ({
         <div className="p-5 sm:p-6 border-b border-slate-200 flex items-center justify-between bg-slate-50 rounded-t-3xl">
           <div>
             <h3 className="text-base font-bold font-display text-slate-900">
-              {formData.id ? 'Editar Base de Datos Biomédica' : 'Registrar Nueva Base de Datos'}
+              {formData.id ? 'Editar Base de Datos Médica' : 'Registrar Nueva Base de Datos'}
             </h3>
             <p className="text-xs text-slate-500 mt-0.5">
               Los cambios se sincronizarán directamente con el catálogo de biblioteca

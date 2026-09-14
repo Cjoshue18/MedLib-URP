@@ -7,7 +7,7 @@
 
 ## Descripción Institucional
 
-MedLib URP es la plataforma digital de la Biblioteca Virtual y Especializada de la Facultad de Medicina Humana de la Universidad Ricardo Palma. Centraliza el acceso a recursos electrónicos biomédicos, soporte de decisiones clínicas, revistas médicas internacionales y la gestión de capacitaciones y acreditaciones de Alfabetización Informacional (ALFIN) para pregrado, internado y residentado médico.
+MedLib URP es la plataforma digital de la Biblioteca Virtual y Especializada de la Facultad de Medicina Humana de la Universidad Ricardo Palma. Centraliza el acceso a recursos electrónicos médicos, soporte de decisiones clínicas, revistas médicas internacionales y la gestión de capacitaciones y acreditaciones de Alfabetización Informacional (ALFIN) para pregrado, internado y residentado médico.
 
 ---
 
@@ -95,7 +95,7 @@ El modelo relacional está compuesto por 10 tablas optimizadas con índices dedi
 | :--- | :--- | :--- | :--- |
 | **`t_usuario_admin`** | Seguridad | Cuentas de personal de biblioteca con acceso administrativo. | PK: `id_usuario_admin`. Unique: `username`. |
 | **`t_refresh_token`** | Seguridad | Sesiones persistentes con rotación de tokens (RTR) y control de familias. | FK: `id_usuario_admin`. Índices: `token_hash`, `family_id`. |
-| **`t_base_datos_biomedica`** | Recursos | Catálogo oficial de bases de datos médicas, suscripciones y enlaces. | PK: `id_base_datos`. Índice: `estado_activo`. |
+| **`t_base_datos_medica`** | Recursos | Catálogo oficial de bases de datos médicas, suscripciones y enlaces. | PK: `id_base_datos`. Índice: `estado_activo`. |
 | **`t_materia`** | Recursos | Catálogo de asignaturas y especialidades clínicas de FAMURP. | PK: `id_materia`. Unique: `nombre_materia`. |
 | **`t_base_relacion_materia`** | Recursos | Tabla asociativa N:M entre recursos y materias médicas. | PK compuesta: (`id_base_datos`, `id_materia`). Cascading delete. |
 | **`t_tutorial_recurso`** | Recursos | Enlace 1:1 de videos tutoriales oficiales de YouTube y guías PDF. | PK: `id_tutorial`. Unique y FK: `id_base_datos`. |

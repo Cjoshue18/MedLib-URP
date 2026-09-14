@@ -174,7 +174,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
               >
                 <Database className="w-4 h-4 text-emerald-700" />
                 <div className="text-left flex-1">
-                  <p className="leading-tight font-bold">Bases de Datos Biomédicas</p>
+                  <p className="leading-tight font-bold">Bases de Datos Médicas</p>
                   <p className="text-[10px] font-normal text-slate-500 mt-0.5">Catálogo general y matriz hexagonal</p>
                 </div>
               </button>
