@@ -65,7 +65,7 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
         const twoHoursLater = new Date(now.getTime() + 7200000);
         setFormFin(formatForDatetimeLocal(twoHoursLater.toISOString()));
         setFormModalidad('Virtual');
-        setFormEnlace('https://teams.microsoft.com/l/meetup-join/famurp-alfin');
+        setFormEnlace('');
         setFormAutoPurge(true);
         setFormEstado('Programada');
       }
@@ -258,7 +258,7 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
                 onChange={(e) => setFormModalidad(e.target.value as 'Virtual' | 'Presencial')}
                 className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#008744]"
               >
-                <option value="Virtual">Virtual (Microsoft Teams / Zoom)</option>
+                <option value="Virtual">Virtual (En línea / Sala Virtual)</option>
                 <option value="Presencial">Presencial (Campus URP)</option>
               </select>
             </div>
@@ -284,13 +284,13 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
           {formModalidad === 'Virtual' && (
             <div>
               <label className="text-xs font-extrabold text-slate-700 block mb-1">
-                Enlace de la Sala Virtual (Teams / Zoom):
+                Enlace de la Sala Virtual:
               </label>
               <input
                 type="url"
                 value={formEnlace}
                 onChange={(e) => setFormEnlace(e.target.value)}
-                placeholder="https://teams.microsoft.com/..."
+                placeholder="https://..."
                 className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-xs font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#008744]"
               />
             </div>

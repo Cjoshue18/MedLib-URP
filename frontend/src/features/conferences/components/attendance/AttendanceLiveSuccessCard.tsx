@@ -94,7 +94,7 @@ export const AttendanceLiveSuccessCard: React.FC<AttendanceLiveSuccessCardProps>
             <div className="p-5 rounded-2xl bg-blue-50 border border-blue-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <h3 className="text-xs font-black uppercase tracking-wider text-blue-900">
-                  Transmisión en Vivo (Microsoft Teams)
+                  Transmisión en Vivo (Sala Virtual)
                 </h3>
                 <p className="text-[11px] text-blue-700 mt-0.5">
                   Puedes regresar a la sala de videoconferencia para continuar la capacitación.
@@ -107,7 +107,7 @@ export const AttendanceLiveSuccessCard: React.FC<AttendanceLiveSuccessCardProps>
                 className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold transition-colors cursor-pointer shrink-0"
               >
                 <ExternalLink className="w-3.5 h-3.5" />
-                <span>Volver a la Sala Teams</span>
+                <span>Volver a la Sala Virtual</span>
               </a>
             </div>
           )}

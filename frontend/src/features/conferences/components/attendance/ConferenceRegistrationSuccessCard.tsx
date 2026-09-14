@@ -155,7 +155,7 @@ export const ConferenceRegistrationSuccessCard: React.FC<ConferenceRegistrationS
             <div className="p-5 rounded-2xl bg-blue-50 border border-blue-200 space-y-2">
               <div className="flex items-center gap-2 text-blue-900 font-bold text-xs">
                 <Video className="w-4 h-4 text-blue-700" />
-                <span>Acceso a la Sala Virtual (Teams / Zoom)</span>
+                <span>Acceso a la Sala Virtual</span>
               </div>
               <p className="text-[11px] text-blue-800 leading-relaxed">
                 Podrás conectarte el día de la sesión usando el siguiente enlace institucional:

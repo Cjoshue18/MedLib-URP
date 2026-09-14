@@ -55,7 +55,7 @@ export const AdminConferencesTab: React.FC<AdminConferencesTabProps> = ({
       if (res.asistenciaAbierta) {
         const directAttendanceLink = `${window.location.origin}${window.location.pathname}#conferencias?asistencia=${conf.idConferencia}`;
         navigator.clipboard.writeText(directAttendanceLink);
-        onShowFeedback('Asistencia Habilitada y Enlace Copiado al Portapapeles para Teams.');
+        onShowFeedback('Asistencia Habilitada y Enlace Copiado al Portapapeles.');
       }
       await loadConferences();
     } catch (err: unknown) {
@@ -140,7 +140,7 @@ export const AdminConferencesTab: React.FC<AdminConferencesTabProps> = ({
           </div>
           <h3 className="text-base font-bold text-slate-900">No hay conferencias registradas</h3>
           <p className="text-xs text-slate-500 max-w-md mx-auto">
-            Comienza publicando la primera capacitación ALFIN para habilitar pre-inscripciones y marcación de asistencia en Teams.
+            Comienza publicando la primera capacitación ALFIN para habilitar pre-inscripciones y marcación de asistencia.
           </p>
           <button
             type="button"

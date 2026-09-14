@@ -47,7 +47,7 @@ export const excelExportService = {
         'Ciclo': r.cicloAcademico ? `${r.cicloAcademico}°` : 'N/A',
         'Correo Institucional': r.correo,
         'Fecha Registro': r.fechaHoraRegistro ? new Date(r.fechaHoraRegistro).toLocaleString() : 'No Aplica',
-        'Hora Marcación Teams': r.fechaHoraMarcacion ? new Date(r.fechaHoraMarcacion).toLocaleTimeString() : 'Sin Registro',
+        'Hora Marcación': r.fechaHoraMarcacion ? new Date(r.fechaHoraMarcacion).toLocaleTimeString() : 'Sin Registro',
         'Estado': r.estado
       }));
     };

@@ -71,9 +71,9 @@ export const HomeUpcomingActivities: React.FC<HomeUpcomingActivitiesProps> = ({ 
             {displayedActivities.map((act, idx) => {
               const startDate = new Date(act.fechaHoraInicio);
               const endDate = new Date(act.fechaHoraFin);
-              const dayStr = isNaN(startDate.getTime()) ? '15' : startDate.getDate().toString().padStart(2, '0');
+              const dayStr = isNaN(startDate.getTime()) ? '--' : startDate.getDate().toString().padStart(2, '0');
               const monthStr = isNaN(startDate.getTime()) 
-                ? 'NOV' 
+                ? '--' 
                 : startDate.toLocaleDateString('es-PE', { month: 'short' }).toUpperCase().replace('.', '');
               const timeStr = `${startDate.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' })} - ${endDate.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' })}`;
 
