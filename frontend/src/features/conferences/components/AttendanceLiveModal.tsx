@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  X, 
-  CheckCircle2, 
-  AlertCircle, 
-  Loader2, 
-  Radio, 
-  Send, 
-  User, 
-  Calendar, 
-  Clock, 
-  ShieldCheck 
+import {
+  X,
+  CheckCircle2,
+  AlertCircle,
+  Loader2,
+  Radio,
+  Send,
+  User,
+  Calendar,
+  Clock,
+  ShieldCheck,
 } from 'lucide-react';
 import { ConferenceSummary, TipoParticipante, TipoDocumento, MarkAttendanceRequest } from '../types';
 import { conferenceService } from '../services/conferenceService';
+import { ConferenceParticipantFormFields } from './ConferenceParticipantFormFields';
 
 interface AttendanceLiveModalProps {
   conference: ConferenceSummary | null;
@@ -25,7 +26,7 @@ export const AttendanceLiveModal: React.FC<AttendanceLiveModalProps> = ({
   conference,
   isOpen,
   onClose,
-  onSuccess
+  onSuccess,
 }) => {
   const [tipoParticipante, setTipoParticipante] = useState<TipoParticipante>('Estudiante');
   const [tipoDocumento, setTipoDocumento] = useState<TipoDocumento>('CODIGO_URP');
@@ -59,6 +60,8 @@ export const AttendanceLiveModal: React.FC<AttendanceLiveModalProps> = ({
 
   useEffect(() => {
     if (isOpen) {
+      setIsSuccess(false);
+      setErrorMessage(null);
       setNumeroDocumento('');
       setNombres('');
       setApellidos('');
@@ -66,11 +69,8 @@ export const AttendanceLiveModal: React.FC<AttendanceLiveModalProps> = ({
       setTipoParticipante('Estudiante');
       setTipoDocumento('CODIGO_URP');
       setCicloAcademico(1);
-      setErrorMessage(null);
-      setIsSuccess(false);
-      setTimestampRegistrado(null);
     }
-  }, [isOpen, conference]);
+  }, [isOpen]);
 
   if (!isOpen || !conference) return null;
 
@@ -134,14 +134,16 @@ export const AttendanceLiveModal: React.FC<AttendanceLiveModalProps> = ({
       nombres: nombres.trim(),
       apellidos: apellidos.trim(),
       correo: correo.trim().toLowerCase(),
-      cicloAcademico: tipoParticipante === 'Estudiante' ? cicloAcademico : null
+      cicloAcademico: tipoParticipante === 'Estudiante' ? cicloAcademico : null,
     };
 
     setIsSubmitting(true);
     try {
       await conferenceService.markAttendance(conference.idConferencia, payload);
       setIsSuccess(true);
-      setTimestampRegistrado(new Date().toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
+      setTimestampRegistrado(
+        new Date().toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+      );
       if (onSuccess) {
         onSuccess();
       }
@@ -158,10 +160,7 @@ export const AttendanceLiveModal: React.FC<AttendanceLiveModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
-      <div 
-        className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity"
-        onClick={onClose}
-      />
+      <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity" onClick={onClose} />
 
       <div className="relative w-full max-w-xl bg-white rounded-2xl border border-slate-200 shadow-xl overflow-hidden flex flex-col z-10 max-h-[92vh]">
         <div className="bg-slate-900 text-white px-6 py-5 flex items-center justify-between border-b border-slate-800">
@@ -217,11 +216,18 @@ export const AttendanceLiveModal: React.FC<AttendanceLiveModalProps> = ({
               </span>
               <span className="flex items-center gap-1.5">
                 <Calendar className="w-3.5 h-3.5 text-[#008744]" />
-                {new Date(conference.fechaHoraInicio).toLocaleDateString('es-PE', { day: '2-digit', month: 'short', year: 'numeric' })}
+                {new Date(conference.fechaHoraInicio).toLocaleDateString('es-PE', {
+                  day: '2-digit',
+                  month: 'short',
+                  year: 'numeric',
+                })}
               </span>
               <span className="flex items-center gap-1.5">
                 <Clock className="w-3.5 h-3.5 text-[#008744]" />
-                {new Date(conference.fechaHoraInicio).toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' })}
+                {new Date(conference.fechaHoraInicio).toLocaleTimeString('es-PE', {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
               </span>
             </div>
           </div>
@@ -233,7 +239,8 @@ export const AttendanceLiveModal: React.FC<AttendanceLiveModalProps> = ({
                 La marcación de asistencia no está disponible en este momento
               </p>
               <p className="text-amber-800 leading-relaxed text-xs">
-                La biblioteca abre el registro durante la transmisión en vivo de la conferencia en Microsoft Teams. Si estás en la reunión, espera a que el moderador indique que el formulario está habilitado.
+                La biblioteca abre el registro durante la transmisión en vivo de la conferencia en Microsoft Teams. Si
+                estás en la reunión, espera a que el moderador indique que el formulario está habilitado.
               </p>
             </div>
           )}
@@ -248,7 +255,8 @@ export const AttendanceLiveModal: React.FC<AttendanceLiveModalProps> = ({
                   ¡Asistencia Acreditada con Éxito!
                 </h4>
                 <p className="text-xs sm:text-sm text-slate-600 max-w-sm mx-auto mt-1 leading-relaxed">
-                  Participante: <strong>{nombres} {apellidos}</strong><br />
+                  Participante: <strong>{nombres} {apellidos}</strong>
+                  <br />
                   Hora registrada: <strong className="text-[#008744]">{timestampRegistrado}</strong>
                 </p>
                 <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-50 border border-emerald-200 text-[#008744] text-xs font-bold">
@@ -276,136 +284,28 @@ export const AttendanceLiveModal: React.FC<AttendanceLiveModalProps> = ({
                   </div>
                 )}
 
-                <div>
-                  <label className="text-xs font-extrabold text-slate-700 block mb-1.5">
-                    Tipo de Participante:
-                  </label>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                    {(['Estudiante', 'Docente', 'Residentado', 'Otro'] as TipoParticipante[]).map((rol) => (
-                      <button
-                        key={rol}
-                        type="button"
-                        onClick={() => setTipoParticipante(rol)}
-                        className={`py-2 px-3 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
-                          tipoParticipante === rol
-                            ? 'bg-[#008744] text-white border-slate-900 shadow-urp-brutal-sm'
-                            : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
-                        }`}
-                      >
-                        {rol}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
-                  <div className="sm:col-span-5">
-                    <label className="text-xs font-extrabold text-slate-700 block mb-1">
-                      Tipo de Documento:
-                    </label>
-                    <select
-                      value={tipoDocumento}
-                      onChange={(e) => setTipoDocumento(e.target.value as TipoDocumento)}
-                      className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#008744]"
-                    >
-                      <option value="CODIGO_URP">Código Universitario (9 dígitos)</option>
-                      <option value="DNI">DNI (8 dígitos)</option>
-                      <option value="CE">Carné de Extranjería (CE)</option>
-                    </select>
-                  </div>
-
-                  <div className="sm:col-span-7">
-                    <label className="text-xs font-extrabold text-slate-700 block mb-1">
-                      N° de Documento / Código:
-                    </label>
-                    <input
-                      type="text"
-                      value={numeroDocumento}
-                      onChange={handleDocumentChange}
-                      placeholder={
-                        tipoDocumento === 'DNI' 
-                          ? 'Ej. 74829103' 
-                          : tipoDocumento === 'CODIGO_URP' 
-                            ? 'Ej. 202210452' 
-                            : 'Ej. 001234567'
-                      }
-                      maxLength={tipoDocumento === 'DNI' ? 8 : 9}
-                      required
-                      className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-slate-50 text-xs font-mono font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#008744]"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div>
-                    <label className="text-xs font-extrabold text-slate-700 block mb-1">
-                      Nombres:
-                    </label>
-                    <input
-                      type="text"
-                      value={nombres}
-                      onChange={(e) => setNombres(e.target.value)}
-                      placeholder="Ej. Carlos Eduardo"
-                      required
-                      className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-slate-50 text-xs font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#008744]"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-xs font-extrabold text-slate-700 block mb-1">
-                      Apellidos:
-                    </label>
-                    <input
-                      type="text"
-                      value={apellidos}
-                      onChange={(e) => setApellidos(e.target.value)}
-                      placeholder="Ej. Mendoza Morales"
-                      required
-                      className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-slate-50 text-xs font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#008744]"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
-                  <div className={tipoParticipante === 'Estudiante' ? 'sm:col-span-8' : 'sm:col-span-12'}>
-                    <label className="text-xs font-extrabold text-slate-700 block mb-1">
-                      Correo Institucional o de Contacto:
-                    </label>
-                    <input
-                      type="email"
-                      value={correo}
-                      onChange={(e) => setCorreo(e.target.value)}
-                      placeholder="ejemplo@urp.edu.pe"
-                      required
-                      className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-slate-50 text-xs font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#008744]"
-                    />
-                  </div>
-
-                  {tipoParticipante === 'Estudiante' && (
-                    <div className="sm:col-span-4">
-                      <label className="text-xs font-extrabold text-slate-700 block mb-1">
-                        Ciclo Académico:
-                      </label>
-                      <select
-                        value={cicloAcademico || 1}
-                        onChange={(e) => setCicloAcademico(parseInt(e.target.value, 10))}
-                        required
-                        className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#008744]"
-                      >
-                        {Array.from({ length: 14 }, (_, i) => i + 1).map((c) => (
-                          <option key={c} value={c}>
-                            {c}° Ciclo {c >= 13 ? '(Internado)' : ''}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  )}
-                </div>
+                <ConferenceParticipantFormFields
+                  tipoParticipante={tipoParticipante}
+                  setTipoParticipante={setTipoParticipante}
+                  tipoDocumento={tipoDocumento}
+                  setTipoDocumento={setTipoDocumento}
+                  numeroDocumento={numeroDocumento}
+                  onDocumentChange={handleDocumentChange}
+                  nombres={nombres}
+                  setNombres={setNombres}
+                  apellidos={apellidos}
+                  setApellidos={setApellidos}
+                  correo={correo}
+                  setCorreo={setCorreo}
+                  cicloAcademico={cicloAcademico}
+                  setCicloAcademico={setCicloAcademico}
+                />
 
                 <div className="pt-3 border-t border-slate-200 flex items-center justify-end gap-3">
                   <button
                     type="button"
                     onClick={onClose}
-                    className="py-2.5 px-4 rounded-xl border border-slate-300 text-xs font-bold text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+                    className="py-2 px-4 rounded-xl border border-slate-300 text-xs font-bold text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
                   >
                     Cancelar
                   </button>
@@ -422,7 +322,7 @@ export const AttendanceLiveModal: React.FC<AttendanceLiveModalProps> = ({
                     ) : (
                       <>
                         <Send className="w-3.5 h-3.5" />
-                        <span>Marcar Mi Asistencia Ahora</span>
+                        <span>Confirmar Asistencia</span>
                       </>
                     )}
                   </button>

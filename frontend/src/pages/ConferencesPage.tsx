@@ -1,21 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Clock, 
-  MapPin, 
-  Video, 
-  ChevronLeft, 
-  ChevronRight, 
-  CalendarDays,
-  Radio, 
-  Share2, 
-  Check,
-  Loader2 
-} from 'lucide-react';
-import { 
-  conferenceService, 
-  ConferenceSummary, 
-  ConferenceRegistrationView, 
-  AttendanceLiveView 
+import { CalendarDays, Loader2 } from 'lucide-react';
+import {
+  conferenceService,
+  ConferenceSummary,
+  ConferenceRegistrationView,
+  AttendanceLiveView,
+  ConferenceMonthlyCalendar,
+  ConferenceCard,
 } from '../features/conferences';
 import { BoletinSubscriptionCard } from '../features/home';
 
@@ -25,7 +16,6 @@ export const ConferencesPage: React.FC = () => {
 
   const [selectedConferenceForReg, setSelectedConferenceForReg] = useState<ConferenceSummary | null>(null);
   const [selectedConferenceForAttendance, setSelectedConferenceForAttendance] = useState<ConferenceSummary | null>(null);
-
   const [copiedId, setCopiedId] = useState<number | null>(null);
 
   const today = new Date();
@@ -34,17 +24,18 @@ export const ConferencesPage: React.FC = () => {
   const ITEMS_PER_PAGE = 3;
 
   const minDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
-  const canGoPrev = viewDate.getFullYear() > minDate.getFullYear() || 
+  const canGoPrev =
+    viewDate.getFullYear() > minDate.getFullYear() ||
     (viewDate.getFullYear() === minDate.getFullYear() && viewDate.getMonth() > minDate.getMonth());
 
   const handlePrevMonth = () => {
     if (!canGoPrev) return;
-    setViewDate(prev => new Date(prev.getFullYear(), prev.getMonth() - 1, 1));
+    setViewDate((prev) => new Date(prev.getFullYear(), prev.getMonth() - 1, 1));
     setCurrentPage(1);
   };
 
   const handleNextMonth = () => {
-    setViewDate(prev => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
+    setViewDate((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
     setCurrentPage(1);
   };
 
@@ -75,30 +66,36 @@ export const ConferencesPage: React.FC = () => {
       const idStr = hash.split('asistencia=')[1]?.split('&')[0];
       const id = parseInt(idStr, 10);
       if (id) {
-        const match = conferences.find(c => c.idConferencia === id);
+        const match = conferences.find((c) => c.idConferencia === id);
         if (match) {
           setSelectedConferenceForReg(null);
           setSelectedConferenceForAttendance(match);
         } else {
-          conferenceService.getConferenceById(id).then(c => {
-            setSelectedConferenceForReg(null);
-            setSelectedConferenceForAttendance(c);
-          }).catch(() => {});
+          conferenceService
+            .getConferenceById(id)
+            .then((c) => {
+              setSelectedConferenceForReg(null);
+              setSelectedConferenceForAttendance(c);
+            })
+            .catch(() => {});
         }
       }
     } else if (hash.includes('inscripcion=')) {
       const idStr = hash.split('inscripcion=')[1]?.split('&')[0];
       const id = parseInt(idStr, 10);
       if (id) {
-        const match = conferences.find(c => c.idConferencia === id);
+        const match = conferences.find((c) => c.idConferencia === id);
         if (match) {
           setSelectedConferenceForAttendance(null);
           setSelectedConferenceForReg(match);
         } else {
-          conferenceService.getConferenceById(id).then(c => {
-            setSelectedConferenceForAttendance(null);
-            setSelectedConferenceForReg(c);
-          }).catch(() => {});
+          conferenceService
+            .getConferenceById(id)
+            .then((c) => {
+              setSelectedConferenceForAttendance(null);
+              setSelectedConferenceForReg(c);
+            })
+            .catch(() => {});
         }
       }
     } else {
@@ -117,7 +114,6 @@ export const ConferencesPage: React.FC = () => {
     window.addEventListener('hashchange', handleUrlHash);
     return () => window.removeEventListener('hashchange', handleUrlHash);
   }, [conferences]);
-
 
   const handleOpenRegistration = (conf: ConferenceSummary) => {
     setSelectedConferenceForAttendance(null);
@@ -177,38 +173,6 @@ export const ConferencesPage: React.FC = () => {
     currentPage * ITEMS_PER_PAGE
   );
 
-  const calYear = viewDate.getFullYear();
-  const calMonth = viewDate.getMonth();
-  const calMonthName = viewDate.toLocaleDateString('es-PE', { month: 'long' }).toUpperCase();
-  const calendarTitle = `${calMonthName} ${calYear}`;
-
-  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
-  const firstDayOfWeek = new Date(calYear, calMonth, 1).getDay();
-  const firstDayOffset = (firstDayOfWeek + 6) % 7;
-
-  const prevMonthDaysCount = new Date(calYear, calMonth, 0).getDate();
-  const prevDays: number[] = [];
-  for (let i = firstDayOffset - 1; i >= 0; i--) {
-    prevDays.push(prevMonthDaysCount - i);
-  }
-
-  const currentMonthDays: number[] = Array.from({ length: daysInMonth }, (_, i) => i + 1);
-
-  const totalCells = prevDays.length + currentMonthDays.length;
-  const nextDaysCount = (7 - (totalCells % 7)) % 7;
-  const nextDays: number[] = Array.from({ length: nextDaysCount }, (_, i) => i + 1);
-
-  const daysWithConferences = new Set<number>();
-  conferences.forEach((c) => {
-    const confDate = new Date(c.fechaHoraInicio);
-    if (confDate.getFullYear() === calYear && confDate.getMonth() === calMonth) {
-      daysWithConferences.add(confDate.getDate());
-    }
-  });
-
-  const isCurrentCalendarMonth = today.getFullYear() === calYear && today.getMonth() === calMonth;
-  const todayDayNumber = isCurrentCalendarMonth ? today.getDate() : -1;
-
   return (
     <div className="w-full pb-20">
       <main className="max-w-[1280px] mx-auto px-6 pt-6 sm:pt-8">
@@ -219,131 +183,41 @@ export const ConferencesPage: React.FC = () => {
                 <h2 className="text-xl sm:text-2xl font-display font-extrabold text-slate-900">
                   Próximas Actividades
                 </h2>
-                <p className="text-xs text-slate-500 mt-0.5">
-                  Capacitaciones programadas para {viewDate.toLocaleDateString('es-PE', { month: 'long', year: 'numeric' })}
+                <p className="text-xs sm:text-sm text-slate-500">
+                  Capacitaciones, talleres de investigación y conferencias biomédicas del mes
                 </p>
               </div>
             </div>
 
             {isLoading ? (
-              <div className="p-12 flex flex-col items-center justify-center bg-white rounded-2xl border border-slate-200 shadow-xs gap-3">
+              <div className="bg-white rounded-2xl border border-slate-200 shadow-xs p-12 flex flex-col items-center justify-center gap-3">
                 <Loader2 className="w-8 h-8 text-[#008744] animate-spin" />
-                <p className="text-xs font-bold text-slate-600">Cargando actividades de {viewDate.toLocaleDateString('es-PE', { month: 'long', year: 'numeric' })}...</p>
+                <p className="text-xs font-bold text-slate-600">Cargando actividades del mes...</p>
               </div>
             ) : conferences.length === 0 ? (
-              <div className="p-12 text-center bg-white rounded-2xl border border-slate-200 shadow-xs space-y-2">
-                <CalendarDays className="w-10 h-10 text-slate-400 mx-auto" />
-                <h3 className="text-base font-bold text-slate-800">
-                  No hay conferencias programadas para {viewDate.toLocaleDateString('es-PE', { month: 'long', year: 'numeric' })}
+              <div className="bg-white rounded-2xl border border-slate-200 shadow-xs p-12 text-center">
+                <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-[#008744] flex items-center justify-center mx-auto mb-3 border border-emerald-200">
+                  <CalendarDays className="w-7 h-7" />
+                </div>
+                <h3 className="font-display font-black text-lg text-slate-900 mb-1">
+                  Sin conferencias programadas
                 </h3>
-                <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                <p className="text-xs text-slate-500 max-w-md mx-auto leading-relaxed">
                   En este mes no se registran actividades ALFIN. Puedes revisar los meses siguientes usando el calendario o registrarte al boletín para recibir avisos.
                 </p>
               </div>
             ) : (
               <div className="flex flex-col gap-5">
-                {paginatedConferences.map((conf) => {
-                  const startDate = new Date(conf.fechaHoraInicio);
-                  const endDate = new Date(conf.fechaHoraFin);
-                  const dayStr = isNaN(startDate.getTime()) ? '15' : startDate.getDate().toString().padStart(2, '0');
-                  const monthStr = isNaN(startDate.getTime()) 
-                    ? 'NOV' 
-                    : startDate.toLocaleDateString('es-PE', { month: 'short' }).toUpperCase();
-                  const timeStr = `${startDate.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' })} - ${endDate.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' })}`;
-
-                  return (
-                    <div 
-                      key={conf.idConferencia}
-                      className="bg-white rounded-2xl border border-slate-200 shadow-xs hover:border-slate-300 hover:shadow-sm transition-all overflow-hidden flex flex-col sm:flex-row group"
-                    >
-                      <div className="bg-[#008744] text-white flex flex-col items-center justify-center p-6 min-w-[120px] shrink-0 font-display font-black shadow-inner">
-                        <span className="text-3xl sm:text-4xl leading-none">{dayStr}</span>
-                        <span className="text-xs uppercase tracking-widest font-extrabold mt-1">{monthStr}</span>
-                        <span className="text-[10px] font-medium text-emerald-200 mt-1">
-                          {conf.modalidad}
-                        </span>
-                      </div>
-
-                      <div className="p-6 flex-1 flex flex-col justify-between">
-                        <div>
-                          <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-                            <div className="flex flex-wrap items-center gap-3 text-xs text-slate-600 font-semibold">
-                              <span className="flex items-center gap-1.5">
-                                <Clock className="w-3.5 h-3.5 text-[#008744]" />
-                                {timeStr}
-                              </span>
-                              <span className="text-slate-300">•</span>
-                              <span className="flex items-center gap-1.5">
-                                {conf.modalidad === 'Virtual' ? (
-                                  <Video className="w-3.5 h-3.5 text-[#008744]" />
-                                ) : (
-                                  <MapPin className="w-3.5 h-3.5 text-[#008744]" />
-                                )}
-                                {conf.modalidad === 'Virtual' ? 'Microsoft Teams URP' : 'Auditorio Principal FAMURP'}
-                              </span>
-                            </div>
-
-                            {conf.asistenciaAbierta && (
-                              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black border border-emerald-300 animate-pulse">
-                                <Radio className="w-3 h-3 text-emerald-600" />
-                                Asistencia Abierta
-                              </span>
-                            )}
-                          </div>
-
-                          <h3 className="text-base sm:text-lg font-display font-extrabold text-slate-900 mb-2 group-hover:text-[#008744] transition-colors">
-                            {conf.tituloEvento}
-                          </h3>
-
-                          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
-                            Ponente: <strong>{conf.expositorPonente}</strong> | Patrocinado por: <em>{conf.entidadEditorial}</em>
-                          </p>
-                        </div>
-
-                        <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-100">
-                          <div className="flex items-center gap-2">
-                            <button
-                              type="button"
-                              onClick={() => handleCopyShareLink(conf)}
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer text-xs font-semibold"
-                              title="Copiar enlace de invitación"
-                            >
-                              {copiedId === conf.idConferencia ? (
-                                <>
-                                  <Check className="w-3.5 h-3.5 text-emerald-600" />
-                                  <span className="text-emerald-700 font-bold">Enlace copiado</span>
-                                </>
-                              ) : (
-                                <>
-                                  <Share2 className="w-3.5 h-3.5" />
-                                  <span>Compartir</span>
-                                </>
-                              )}
-                            </button>
-                          </div>
-
-                          <div className="flex items-center gap-2">
-                            {conf.asistenciaAbierta && (
-                              <button 
-                                onClick={() => handleOpenAttendance(conf)}
-                                className="py-2 px-4 rounded-full border-2 border-emerald-700 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-all shadow-urp-brutal-sm tactile-btn cursor-pointer flex items-center gap-1.5"
-                              >
-                                <Radio className="w-3.5 h-3.5" />
-                                <span>Marcar Asistencia</span>
-                              </button>
-                            )}
-                            <button 
-                              onClick={() => handleOpenRegistration(conf)}
-                              className="py-2 px-5 rounded-full border-2 border-slate-900 font-bold text-xs text-slate-900 hover:bg-slate-900 hover:text-white transition-all shadow-urp-brutal-sm tactile-btn cursor-pointer"
-                            >
-                              Inscribirme
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
+                {paginatedConferences.map((conf) => (
+                  <ConferenceCard
+                    key={conf.idConferencia}
+                    conf={conf}
+                    isCopied={copiedId === conf.idConferencia}
+                    onCopyShareLink={handleCopyShareLink}
+                    onOpenAttendance={handleOpenAttendance}
+                    onOpenRegistration={handleOpenRegistration}
+                  />
+                ))}
 
                 {totalPages > 1 && (
                   <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-slate-200">
@@ -378,76 +252,13 @@ export const ConferencesPage: React.FC = () => {
           </div>
 
           <aside className="lg:col-span-4 flex flex-col gap-6">
-            <div className="bg-white rounded-2xl border border-slate-200 shadow-xs p-6">
-              <div className="flex items-center justify-between mb-4 border-b border-slate-200 pb-3">
-                <div className="flex items-center gap-2">
-                  <CalendarDays className="w-4 h-4 text-[#008744]" />
-                  <h3 className="text-sm font-extrabold text-slate-900 uppercase tracking-wide">
-                    {calendarTitle}
-                  </h3>
-                </div>
-                <div className="flex gap-1">
-                  <button 
-                    type="button"
-                    onClick={handlePrevMonth}
-                    disabled={!canGoPrev}
-                    className="w-7 h-7 rounded-lg border border-slate-200 flex items-center justify-center hover:bg-slate-100 text-slate-700 cursor-pointer transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                    title={canGoPrev ? "Mes anterior" : "Límite: máximo 1 mes atrás"}
-                  >
-                    <ChevronLeft className="w-4 h-4" />
-                  </button>
-                  <button 
-                    type="button"
-                    onClick={handleNextMonth}
-                    className="w-7 h-7 rounded-lg border border-slate-200 flex items-center justify-center hover:bg-slate-100 text-slate-700 cursor-pointer transition-colors"
-                    title="Mes siguiente"
-                  >
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-7 gap-1 text-center mb-2">
-                {['L', 'M', 'X', 'J', 'V', 'S', 'D'].map((d, i) => (
-                  <div key={i} className="text-[11px] font-bold text-slate-500 py-1">
-                    {d}
-                  </div>
-                ))}
-              </div>
-
-              <div className="grid grid-cols-7 gap-1 text-center text-xs font-semibold">
-                {prevDays.map((d) => (
-                  <div key={`prev-${d}`} className="py-2 text-slate-300 select-none flex items-center justify-center">
-                    {d}
-                  </div>
-                ))}
-                {currentMonthDays.map((d) => {
-                  const hasConf = daysWithConferences.has(d);
-                  const isToday = d === todayDayNumber;
-
-                  let styleClasses = "py-2 rounded-lg text-xs font-semibold flex items-center justify-center cursor-default transition-colors";
-                  if (hasConf) {
-                    styleClasses += " bg-[#008744] text-white font-black shadow-sm";
-                  } else if (isToday) {
-                    styleClasses += " border border-[#008744] text-[#008744] font-bold";
-                  } else {
-                    styleClasses += " text-slate-700 hover:bg-slate-100/60";
-                  }
-
-                  return (
-                    <div key={`cur-${d}`} className={styleClasses}>
-                      {d}
-                    </div>
-                  );
-                })}
-                {nextDays.map((d) => (
-                  <div key={`next-${d}`} className="py-2 text-slate-300 select-none flex items-center justify-center">
-                    {d}
-                  </div>
-                ))}
-              </div>
-            </div>
-
+            <ConferenceMonthlyCalendar
+              viewDate={viewDate}
+              conferences={conferences}
+              canGoPrev={canGoPrev}
+              onPrevMonth={handlePrevMonth}
+              onNextMonth={handleNextMonth}
+            />
 
             <BoletinSubscriptionCard variant="conferences" />
           </aside>

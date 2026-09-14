@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  ArrowLeft, 
-  CheckCircle2, 
-  AlertCircle, 
-  Loader2, 
-  Radio, 
-  Send, 
-  User, 
-  Calendar, 
-  Clock, 
-  Building2, 
-  Video, 
-  MapPin, 
-  ExternalLink 
+import {
+  ArrowLeft,
+  AlertCircle,
+  Loader2,
+  Radio,
+  Send,
+  User,
+  Calendar,
+  Clock,
+  Building2,
 } from 'lucide-react';
 import { ConferenceSummary, TipoParticipante, TipoDocumento, MarkAttendanceRequest } from '../types';
 import { conferenceService } from '../services/conferenceService';
+import { ConferenceParticipantFormFields } from './ConferenceParticipantFormFields';
+import { AttendanceLiveSuccessCard } from './AttendanceLiveSuccessCard';
 
 interface AttendanceLiveViewProps {
   conference: ConferenceSummary;
@@ -24,7 +22,7 @@ interface AttendanceLiveViewProps {
 
 export const AttendanceLiveView: React.FC<AttendanceLiveViewProps> = ({
   conference,
-  onBackToCalendar
+  onBackToCalendar,
 }) => {
   const [tipoParticipante, setTipoParticipante] = useState<TipoParticipante>('Estudiante');
   const [tipoDocumento, setTipoDocumento] = useState<TipoDocumento>('CODIGO_URP');
@@ -116,14 +114,16 @@ export const AttendanceLiveView: React.FC<AttendanceLiveViewProps> = ({
       nombres: nombres.trim(),
       apellidos: apellidos.trim(),
       correo: correo.trim().toLowerCase(),
-      cicloAcademico: tipoParticipante === 'Estudiante' ? cicloAcademico : null
+      cicloAcademico: tipoParticipante === 'Estudiante' ? cicloAcademico : null,
     };
 
     setIsSubmitting(true);
     try {
       await conferenceService.markAttendance(conference.idConferencia, payload);
       setIsSuccess(true);
-      setTimestampRegistrado(new Date().toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
+      setTimestampRegistrado(
+        new Date().toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+      );
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -148,28 +148,26 @@ export const AttendanceLiveView: React.FC<AttendanceLiveViewProps> = ({
           className="inline-flex items-center gap-2 text-xs font-bold text-slate-700 hover:text-[#008744] px-3.5 py-2 rounded-xl bg-white border border-slate-200 shadow-xs hover:border-slate-300 transition-colors cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Volver al Calendario de Conferencias</span>
+          <span>Volver al Calendario</span>
         </button>
 
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden p-8 text-center space-y-4">
-          <div className="w-16 h-16 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center mx-auto border border-amber-300">
-            <AlertCircle className="w-8 h-8" />
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-xs p-8 sm:p-12 text-center space-y-4">
+          <div className="w-16 h-16 rounded-full bg-red-50 text-red-600 flex items-center justify-center mx-auto border border-red-200">
+            <Radio className="w-8 h-8" />
           </div>
-          <div>
-            <h1 className="text-xl font-display font-black text-slate-900">
-              Marcación de Asistencia Cerrada
-            </h1>
-            <p className="text-xs sm:text-sm text-slate-600 max-w-md mx-auto mt-1 leading-relaxed">
-              La asistencia para la conferencia <strong>"{conference.tituloEvento}"</strong> no se encuentra habilitada en este momento. La administración abrirá la lista durante el transcurso de la sesión.
-            </p>
-          </div>
+          <h2 className="text-xl sm:text-2xl font-display font-black text-slate-900">
+            Marcación de Asistencia Cerrada
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
+            El control de asistencia en tiempo real para la conferencia <strong>"{conference.tituloEvento}"</strong> no está habilitado actualmente.
+          </p>
           <div className="pt-2">
             <button
               type="button"
               onClick={onBackToCalendar}
-              className="py-2.5 px-6 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition-colors cursor-pointer"
+              className="py-3 px-6 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-urp-brutal-sm tactile-btn cursor-pointer"
             >
-              Volver al Calendario
+              Regresar al Calendario
             </button>
           </div>
         </div>
@@ -179,96 +177,18 @@ export const AttendanceLiveView: React.FC<AttendanceLiveViewProps> = ({
 
   if (isSuccess) {
     return (
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10 animate-fadeIn">
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
-          <div className="bg-slate-900 text-white p-8 text-center border-b border-slate-800">
-            <div className="w-16 h-16 rounded-full bg-emerald-500 text-white flex items-center justify-center mx-auto mb-4 border-2 border-emerald-400 shadow-sm">
-              <CheckCircle2 className="w-9 h-9" />
-            </div>
-            <span className="text-[11px] font-black uppercase tracking-widest text-emerald-400 block mb-1">
-              Asistencia Registrada &bull; BVE-FAMURP
-            </span>
-            <h1 className="text-2xl sm:text-3xl font-display font-black leading-tight text-white">
-              ¡Asistencia Marcada con Éxito!
-            </h1>
-            <p className="text-xs sm:text-sm text-slate-300 max-w-lg mx-auto mt-2 leading-relaxed">
-              Tu participación en la capacitación en vivo ha sido validada y registrada con marca temporal en el sistema de acreditación académica.
-            </p>
-          </div>
-
-          <div className="p-6 sm:p-8 space-y-6">
-            <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
-              <h2 className="text-xs font-black uppercase tracking-wider text-slate-500">
-                Actividad Académica
-              </h2>
-              <p className="text-base font-display font-black text-slate-900">
-                {conference.tituloEvento}
-              </p>
-              <div className="flex flex-wrap items-center gap-y-2 gap-x-4 text-xs font-semibold text-slate-600 pt-1">
-                <span className="flex items-center gap-1.5">
-                  <User className="w-3.5 h-3.5 text-[#008744]" />
-                  {conference.expositorPonente}
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <Building2 className="w-3.5 h-3.5 text-[#008744]" />
-                  {conference.entidadEditorial}
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5 text-[#008744]" />
-                  Hora de marcación: <strong>{timestampRegistrado}</strong>
-                </span>
-              </div>
-            </div>
-
-            <div className="bg-emerald-50/50 p-5 rounded-2xl border border-emerald-200 space-y-2">
-              <h2 className="text-xs font-black uppercase tracking-wider text-emerald-900">
-                Constancia de Marcación en Vivo
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-medium text-slate-700">
-                <p><strong>Participante:</strong> {nombres} {apellidos}</p>
-                <p><strong>{tipoDocumento}:</strong> {numeroDocumento}</p>
-                <p><strong>Rol / Estamento:</strong> {tipoParticipante}</p>
-                <p><strong>Correo:</strong> {correo}</p>
-                {cicloAcademico && <p><strong>Ciclo Académico:</strong> {cicloAcademico}° Ciclo</p>}
-                <p><strong>Estado:</strong> <span className="text-emerald-700 font-bold">Presente (En Sesión)</span></p>
-              </div>
-            </div>
-
-            {conference.enlaceVirtual && (
-              <div className="p-5 rounded-2xl bg-blue-50 border border-blue-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                  <h3 className="text-xs font-black uppercase tracking-wider text-blue-900">
-                    Transmisión en Vivo (Microsoft Teams)
-                  </h3>
-                  <p className="text-[11px] text-blue-700 mt-0.5">
-                    Puedes regresar a la sala de videoconferencia para continuar la capacitación.
-                  </p>
-                </div>
-                <a
-                  href={conference.enlaceVirtual}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold transition-colors cursor-pointer shrink-0"
-                >
-                  <ExternalLink className="w-3.5 h-3.5" />
-                  <span>Volver a la Sala Teams</span>
-                </a>
-              </div>
-            )}
-
-            <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-center gap-3">
-              <button
-                type="button"
-                onClick={onBackToCalendar}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl bg-[#008744] hover:bg-[#006b35] text-white font-display font-black text-sm shadow-urp-brutal-green tactile-btn-green transition-all cursor-pointer"
-              >
-                <Calendar className="w-4 h-4" />
-                <span>Ver Calendario de Conferencias</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <AttendanceLiveSuccessCard
+        conference={conference}
+        nombres={nombres}
+        apellidos={apellidos}
+        tipoDocumento={tipoDocumento}
+        numeroDocumento={numeroDocumento}
+        tipoParticipante={tipoParticipante}
+        correo={correo}
+        cicloAcademico={cicloAcademico}
+        timestampRegistrado={timestampRegistrado}
+        onBackToCalendar={onBackToCalendar}
+      />
     );
   }
 
@@ -290,13 +210,11 @@ export const AttendanceLiveView: React.FC<AttendanceLiveViewProps> = ({
               <Radio className="w-5 h-5 animate-pulse" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] font-black uppercase tracking-wider text-emerald-400 block">
-                  Marcación en Vivo &bull; Microsoft Teams / Presencial
-                </span>
-              </div>
+              <span className="text-[10px] font-black tracking-wider uppercase text-emerald-400 block">
+                Sesión en Vivo &bull; Microsoft Teams URP
+              </span>
               <h1 className="text-xl sm:text-2xl font-display font-black leading-tight text-white">
-                Registro de Asistencia a Conferencia
+                Marcación de Asistencia en Tiempo Real
               </h1>
             </div>
           </div>
@@ -304,11 +222,11 @@ export const AttendanceLiveView: React.FC<AttendanceLiveViewProps> = ({
 
         <div className="p-6 sm:p-8 space-y-6">
           <div className="bg-slate-50 rounded-2xl border border-slate-200 p-5 space-y-2">
-            <div className="flex flex-wrap items-center gap-2">
+            <div className="flex items-center gap-2">
               <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-600 text-white animate-pulse">
-                Asistencia Habilitada
+                Asistencia Abierta
               </span>
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-slate-800 text-white">
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-slate-900 text-white">
                 {conference.modalidad}
               </span>
             </div>
@@ -325,14 +243,6 @@ export const AttendanceLiveView: React.FC<AttendanceLiveViewProps> = ({
               <span className="flex items-center gap-1.5">
                 <Building2 className="w-3.5 h-3.5 text-[#008744]" />
                 {conference.entidadEditorial}
-              </span>
-              <span className="flex items-center gap-1.5">
-                {conference.modalidad === 'Virtual' ? (
-                  <Video className="w-3.5 h-3.5 text-[#008744]" />
-                ) : (
-                  <MapPin className="w-3.5 h-3.5 text-[#008744]" />
-                )}
-                {conference.modalidad}
               </span>
               <span className="flex items-center gap-1.5">
                 <Calendar className="w-3.5 h-3.5 text-[#008744]" />
@@ -353,143 +263,28 @@ export const AttendanceLiveView: React.FC<AttendanceLiveViewProps> = ({
               </div>
             )}
 
-            <div>
-              <label className="text-xs font-extrabold text-slate-800 block mb-2">
-                Tipo de Participante:
-              </label>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                {(['Estudiante', 'Docente', 'Residentado', 'Otro'] as TipoParticipante[]).map((rol) => (
-                  <button
-                    key={rol}
-                    type="button"
-                    onClick={() => setTipoParticipante(rol)}
-                    className={`py-2.5 px-3 rounded-xl text-xs font-extrabold border transition-all cursor-pointer ${
-                      tipoParticipante === rol
-                        ? 'bg-[#008744] text-white border-slate-900 shadow-urp-brutal-sm'
-                        : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
-                    }`}
-                  >
-                    {rol}
-                  </button>
-                ))}
-              </div>
-            </div>
+            <ConferenceParticipantFormFields
+              tipoParticipante={tipoParticipante}
+              setTipoParticipante={setTipoParticipante}
+              tipoDocumento={tipoDocumento}
+              setTipoDocumento={setTipoDocumento}
+              numeroDocumento={numeroDocumento}
+              onDocumentChange={handleDocumentChange}
+              nombres={nombres}
+              setNombres={setNombres}
+              apellidos={apellidos}
+              setApellidos={setApellidos}
+              correo={correo}
+              setCorreo={setCorreo}
+              cicloAcademico={cicloAcademico}
+              setCicloAcademico={setCicloAcademico}
+            />
 
-            <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
-              <div className="sm:col-span-5">
-                <label className="text-xs font-extrabold text-slate-800 block mb-1">
-                  Tipo de Documento:
-                </label>
-                <select
-                  value={tipoDocumento}
-                  onChange={(e) => setTipoDocumento(e.target.value as TipoDocumento)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#008744]"
-                >
-                  <option value="CODIGO_URP">Código Universitario (9 dígitos)</option>
-                  <option value="DNI">DNI (8 dígitos)</option>
-                  <option value="CE">Carné de Extranjería (CE)</option>
-                </select>
-              </div>
-
-              <div className="sm:col-span-7">
-                <label className="text-xs font-extrabold text-slate-800 block mb-1">
-                  N° de Documento / Código:
-                </label>
-                <input
-                  type="text"
-                  value={numeroDocumento}
-                  onChange={handleDocumentChange}
-                  placeholder={
-                    tipoDocumento === 'DNI' 
-                      ? 'Ej. 74829103' 
-                      : tipoDocumento === 'CODIGO_URP' 
-                        ? 'Ej. 202210452' 
-                        : 'Ej. 001234567'
-                  }
-                  maxLength={tipoDocumento === 'DNI' ? 8 : 9}
-                  required
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-xs font-mono font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#008744]"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label className="text-xs font-extrabold text-slate-800 block mb-1">
-                  Nombres Completos:
-                </label>
-                <input
-                  type="text"
-                  value={nombres}
-                  onChange={(e) => setNombres(e.target.value)}
-                  placeholder="Ej. Carlos Eduardo"
-                  required
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-xs font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#008744]"
-                />
-              </div>
-              <div>
-                <label className="text-xs font-extrabold text-slate-800 block mb-1">
-                  Apellidos Completos:
-                </label>
-                <input
-                  type="text"
-                  value={apellidos}
-                  onChange={(e) => setApellidos(e.target.value)}
-                  placeholder="Ej. Mendoza Morales"
-                  required
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-xs font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#008744]"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
-              <div className={tipoParticipante === 'Estudiante' ? 'sm:col-span-8' : 'sm:col-span-12'}>
-                <label className="text-xs font-extrabold text-slate-800 block mb-1">
-                  Correo Institucional o de Contacto:
-                </label>
-                <input
-                  type="email"
-                  value={correo}
-                  onChange={(e) => setCorreo(e.target.value)}
-                  placeholder="ejemplo@urp.edu.pe"
-                  required
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-xs font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#008744]"
-                />
-              </div>
-
-              {tipoParticipante === 'Estudiante' && (
-                <div className="sm:col-span-4">
-                  <label className="text-xs font-extrabold text-slate-800 block mb-1">
-                    Ciclo Académico:
-                  </label>
-                  <select
-                    value={cicloAcademico || 1}
-                    onChange={(e) => setCicloAcademico(parseInt(e.target.value, 10))}
-                    required
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#008744]"
-                  >
-                    {Array.from({ length: 14 }, (_, i) => i + 1).map((c) => (
-                      <option key={c} value={c}>
-                        {c}° Ciclo {c >= 13 ? '(Internado)' : ''}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              )}
-            </div>
-
-            <div className="pt-4 border-t border-slate-200 flex items-center justify-end gap-3">
-              <button
-                type="button"
-                onClick={onBackToCalendar}
-                className="py-2.5 px-5 rounded-xl border border-slate-300 text-xs font-bold text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
-              >
-                Cancelar
-              </button>
+            <div className="pt-2">
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="py-3 px-7 rounded-xl bg-[#008744] hover:bg-[#006b35] text-white font-display font-black text-xs sm:text-sm shadow-urp-brutal-green tactile-btn-green transition-all flex items-center gap-2 cursor-pointer disabled:opacity-60"
+                className="w-full py-3.5 px-6 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-display font-black text-sm shadow-urp-brutal-green tactile-btn-green transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
               >
                 {isSubmitting ? (
                   <>
@@ -499,7 +294,7 @@ export const AttendanceLiveView: React.FC<AttendanceLiveViewProps> = ({
                 ) : (
                   <>
                     <Send className="w-4 h-4" />
-                    <span>Registrar mi Asistencia</span>
+                    <span>Marcar Asistencia Oficial Ahora</span>
                   </>
                 )}
               </button>
