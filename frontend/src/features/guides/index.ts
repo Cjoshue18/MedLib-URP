@@ -3,8 +3,11 @@ export { DatabaseSkeletonGrid, DatabaseAccordionCard } from './components/direct
 export { AdminMetricsGrid } from './components/admin/AdminMetricsGrid';
 export { AdminResourceTable } from './components/admin/AdminResourceTable';
 export { AdminResourceModal } from './components/admin/AdminResourceModal';
+export { AdminResourceSubjectConfirmDialog } from './components/admin/AdminResourceSubjectConfirmDialog';
+export { AdminDatabasesTab } from './components/admin/AdminDatabasesTab';
 export { HexagonMatrixModal } from './components/admin/HexagonMatrixModal';
 export type { ResourceFormData } from './components/admin/AdminResourceModal';
+
 
 export { resourceService } from './services/resourceService';
 export { getDatabaseLogoUrl } from './data/databasesData';
