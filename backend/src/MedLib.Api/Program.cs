@@ -180,6 +180,12 @@ static void EnsureTablesCreated(WebApplication app)
                 es_asistencia_valida BOOLEAN NOT NULL DEFAULT TRUE,
                 CONSTRAINT uq_asistencia_conferencia_doc UNIQUE (id_conferencia, numero_documento)
             );
+
+            CREATE TABLE IF NOT EXISTS t_objeto_perdido_post (
+                id_post SERIAL PRIMARY KEY,
+                url_instagram VARCHAR(255) NOT NULL,
+                fecha_creacion TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+            );
             """;
 
         context.Database.ExecuteSqlRaw(createTablesSql);
