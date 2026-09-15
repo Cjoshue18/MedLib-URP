@@ -129,34 +129,38 @@ export const AdminConferenceCard: React.FC<AdminConferenceCardProps> = ({
             <button
               type="button"
               onClick={() => onCopyLink(conf.idConferencia, 'reg')}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-bold transition-colors cursor-pointer"
+              className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-white text-xs font-bold shadow-urp-brutal-sm tactile-btn cursor-pointer transition-all ${
+                isCopiedReg ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-[#0284c7] hover:bg-[#0369a1]'
+              }`}
               title="Copiar enlace de pre-inscripción para alumnos"
             >
-              {isCopiedReg ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Link className="w-3.5 h-3.5 text-slate-500" />}
+              {isCopiedReg ? <Check className="w-3.5 h-3.5 text-white" /> : <Link className="w-3.5 h-3.5 text-white/90" />}
               <span>{isCopiedReg ? 'Enlace Copiado' : 'Link Inscripción'}</span>
             </button>
 
             <button
               type="button"
               onClick={() => onCopyLink(conf.idConferencia, 'att')}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-bold transition-colors cursor-pointer"
+              className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-white text-xs font-bold shadow-urp-brutal-sm tactile-btn cursor-pointer transition-all ${
+                isCopiedAtt ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-[#0d9488] hover:bg-[#0f766e]'
+              }`}
               title="Copiar enlace directo de asistencia"
             >
-              {isCopiedAtt ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Link className="w-3.5 h-3.5 text-slate-500" />}
+              {isCopiedAtt ? <Check className="w-3.5 h-3.5 text-white" /> : <Link className="w-3.5 h-3.5 text-white/90" />}
               <span>{isCopiedAtt ? 'Enlace Copiado' : 'Link Asistencia'}</span>
             </button>
 
             <button
               type="button"
               onClick={() => onTogglePurge(conf)}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-colors cursor-pointer border ${
+              className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-white text-xs font-bold shadow-urp-brutal-sm tactile-btn cursor-pointer transition-all ${
                 conf.autoPurgar30Dias
-                  ? 'bg-amber-50 text-amber-900 border-amber-200 hover:bg-amber-100'
-                  : 'bg-indigo-50 text-indigo-900 border-indigo-200 hover:bg-indigo-100'
+                  ? 'bg-[#d97706] hover:bg-[#b45309]'
+                  : 'bg-[#4f46e5] hover:bg-[#4338ca]'
               }`}
               title="Configurar ciclo de purga a 30 días"
             >
-              <ShieldAlert className="w-3.5 h-3.5" />
+              <ShieldAlert className="w-3.5 h-3.5 text-white" />
               <span>{conf.autoPurgar30Dias ? 'Auto-Purga: 30 Días (On)' : 'Conservación Indefinida'}</span>
             </button>
           </div>
@@ -171,7 +175,7 @@ export const AdminConferenceCard: React.FC<AdminConferenceCardProps> = ({
               <button
                 type="button"
                 onClick={() => onToggleAttendance(conf)}
-                className={`py-2 px-3.5 rounded-xl text-xs font-extrabold flex items-center gap-1.5 transition-all shadow-xs cursor-pointer ${
+                className={`py-2 px-3.5 rounded-xl text-xs font-extrabold flex items-center gap-1.5 shadow-urp-brutal-sm tactile-btn transition-all cursor-pointer ${
                   conf.asistenciaAbierta
                     ? 'bg-red-600 hover:bg-red-700 text-white'
                     : 'bg-[#008744] hover:bg-[#006b35] text-white'
@@ -194,7 +198,7 @@ export const AdminConferenceCard: React.FC<AdminConferenceCardProps> = ({
             <button
               type="button"
               onClick={() => onEdit(conf)}
-              className="p-2 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+              className="p-2 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-100 shadow-urp-brutal-sm tactile-btn transition-all cursor-pointer"
               title="Editar conferencia"
             >
               <Edit3 className="w-4 h-4" />
@@ -203,7 +207,7 @@ export const AdminConferenceCard: React.FC<AdminConferenceCardProps> = ({
             <button
               type="button"
               onClick={() => onDelete(conf)}
-              className="p-2 rounded-xl border border-red-200 text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
+              className="p-2 rounded-xl border border-red-300 text-red-600 hover:bg-red-50 shadow-urp-brutal-sm tactile-btn transition-all cursor-pointer"
               title="Eliminar conferencia"
             >
               <Trash2 className="w-4 h-4" />
