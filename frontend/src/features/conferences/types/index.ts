@@ -1,4 +1,4 @@
-export type TipoParticipante = 'Estudiante' | 'Docente' | 'Residentado' | 'Otro';
+export type TipoParticipante = 'Pregrado' | 'Posgrado' | 'Docente' | 'Residentado' | 'Otro' | 'Estudiante';
 
 export type TipoDocumento = 'DNI' | 'CODIGO_URP' | 'CE';
 

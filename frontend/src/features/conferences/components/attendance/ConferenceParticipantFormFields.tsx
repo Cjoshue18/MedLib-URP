@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { ChevronDown, Check } from 'lucide-react';
 import { TipoParticipante, TipoDocumento } from '../../types';
-
 
 interface ConferenceParticipantFormFieldsProps {
   tipoParticipante: TipoParticipante;
@@ -35,6 +35,24 @@ export const ConferenceParticipantFormFields: React.FC<ConferenceParticipantForm
   cicloAcademico,
   setCicloAcademico,
 }) => {
+  const [isEstudianteDropdownOpen, setIsEstudianteDropdownOpen] = useState(false);
+  const estudianteDropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (estudianteDropdownRef.current && !estudianteDropdownRef.current.contains(event.target as Node)) {
+        setIsEstudianteDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const isEstudianteActive = tipoParticipante === 'Pregrado' || tipoParticipante === 'Posgrado' || tipoParticipante === 'Estudiante';
+  const isPregrado = tipoParticipante === 'Pregrado' || tipoParticipante === 'Estudiante';
+
   return (
     <>
       <div>
@@ -42,11 +60,74 @@ export const ConferenceParticipantFormFields: React.FC<ConferenceParticipantForm
           Tipo de Participante:
         </label>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-          {(['Estudiante', 'Docente', 'Residentado', 'Otro'] as TipoParticipante[]).map((rol) => (
+          <div className="relative" ref={estudianteDropdownRef}>
+            <button
+              type="button"
+              onClick={() => setIsEstudianteDropdownOpen((prev) => !prev)}
+              className={`w-full py-2.5 px-3 rounded-xl text-xs font-extrabold border transition-all cursor-pointer flex items-center justify-center gap-1 ${
+                isEstudianteActive
+                  ? 'bg-[#008744] text-white border-slate-900 shadow-urp-brutal-sm'
+                  : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+              }`}
+            >
+              <span>
+                {tipoParticipante === 'Posgrado'
+                  ? 'Est. Posgrado'
+                  : tipoParticipante === 'Pregrado'
+                    ? 'Est. Pregrado'
+                    : 'Estudiante'}
+              </span>
+              <ChevronDown className="w-3.5 h-3.5 opacity-80" />
+            </button>
+
+            {isEstudianteDropdownOpen && (
+              <div className="absolute top-full mt-1.5 left-0 w-full min-w-[140px] bg-white rounded-xl shadow-lg border border-slate-200 py-1 z-30 animate-in fade-in zoom-in-95 duration-100">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setTipoParticipante('Pregrado');
+                    setIsEstudianteDropdownOpen(false);
+                  }}
+                  className={`w-full text-left px-3 py-2 text-xs font-bold transition-colors cursor-pointer flex items-center justify-between ${
+                    tipoParticipante === 'Pregrado' || tipoParticipante === 'Estudiante'
+                      ? 'bg-emerald-50 text-[#008744]'
+                      : 'text-slate-700 hover:bg-slate-50'
+                  }`}
+                >
+                  <span>Pregrado</span>
+                  {(tipoParticipante === 'Pregrado' || tipoParticipante === 'Estudiante') && (
+                    <Check className="w-3.5 h-3.5 text-[#008744]" />
+                  )}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setTipoParticipante('Posgrado');
+                    setIsEstudianteDropdownOpen(false);
+                  }}
+                  className={`w-full text-left px-3 py-2 text-xs font-bold transition-colors cursor-pointer flex items-center justify-between ${
+                    tipoParticipante === 'Posgrado'
+                      ? 'bg-emerald-50 text-[#008744]'
+                      : 'text-slate-700 hover:bg-slate-50'
+                  }`}
+                >
+                  <span>Posgrado</span>
+                  {tipoParticipante === 'Posgrado' && (
+                    <Check className="w-3.5 h-3.5 text-[#008744]" />
+                  )}
+                </button>
+              </div>
+            )}
+          </div>
+
+          {(['Docente', 'Residentado', 'Otro'] as TipoParticipante[]).map((rol) => (
             <button
               key={rol}
               type="button"
-              onClick={() => setTipoParticipante(rol)}
+              onClick={() => {
+                setTipoParticipante(rol);
+                setIsEstudianteDropdownOpen(false);
+              }}
               className={`py-2.5 px-3 rounded-xl text-xs font-extrabold border transition-all cursor-pointer ${
                 tipoParticipante === rol
                   ? 'bg-[#008744] text-white border-slate-900 shadow-urp-brutal-sm'
@@ -138,7 +219,7 @@ export const ConferenceParticipantFormFields: React.FC<ConferenceParticipantForm
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
-        <div className={tipoParticipante === 'Estudiante' ? 'sm:col-span-8' : 'sm:col-span-12'}>
+        <div className={isPregrado ? 'sm:col-span-8' : 'sm:col-span-12'}>
           <label htmlFor="participant-email" className="text-xs font-extrabold text-slate-800 block mb-1">
             Correo Institucional o de Contacto:
           </label>
@@ -155,7 +236,7 @@ export const ConferenceParticipantFormFields: React.FC<ConferenceParticipantForm
           />
         </div>
 
-        {tipoParticipante === 'Estudiante' && (
+        {isPregrado && (
           <div className="sm:col-span-4">
             <label htmlFor="participant-academic-cycle" className="text-xs font-extrabold text-slate-800 block mb-1">
               Ciclo Académico:

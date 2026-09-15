@@ -24,6 +24,9 @@ MedLib-URP/
 │   ├── src/
 │   │   ├── assets/                           # Identidad visual institucional y logos
 │   │   ├── components/                       # Componentes globales de interfaz (Header, Footer, Navbar)
+│   │   ├── core/                             # Núcleo compartido transversal
+│   │   │   ├── apiConfig.ts                  # Centralización de baseUrl y resolución de endpoints
+│   │   │   └── types/navigation.ts           # Definición canónica de vistas de navegación (AppView)
 │   │   ├── features/                         # Vertical Feature Slices
 │   │   │   ├── attendance/                   # Exportación determinística de reportes a Excel
 │   │   │   │   └── services/                 # excelExportService
@@ -45,8 +48,9 @@ MedLib-URP/
 │   │   │   │   │   ├── admin/                # Gestión de recursos, matrices y modales CRUD
 │   │   │   │   │   └── directory/            # Acordeones y fichas técnicas por materia
 │   │   │   │   └── services/                 # resourceService
-│   │   │   └── home/                         # Portada institucional y red molecular
-│   │   │       └── components/               # HomeBentoGrid, BentoHexCard, HomeBentoMolecularBonds, HomeHero
+│   │   │   └── home/                         # Portada institucional, red molecular y boletín ALFIN
+│   │   │       ├── components/               # HomeBentoGrid, BentoHexCard, BoletinSubscriptionCard, AdminNewsletterTab
+│   │   │       └── services/                 # newsletterService
 │   │   ├── pages/                            # Vistas principales orquestadoras
 │   │   │   ├── HomePage.tsx                  # Portada institucional
 │   │   │   ├── DirectoryPage.tsx             # Catálogo de recursos con filtrado por especialidad
@@ -65,11 +69,12 @@ MedLib-URP/
 │       │   ├── Interfaces/                   # ITokenService, IRefreshTokenService, IPasswordHasher
 │       │   └── Security/                     # JwtTokenService, RefreshTokenService, BCryptPasswordHasher
 │       ├── Domain/                           # Entidades del modelo relacional
-│       │   └── Entities/                     # BaseDatosMedica, Materia, ConferenciaMedica, etc.
+│       │   └── Entities/                     # BaseDatosMedica, Materia, ConferenciaMedica, SuscriptorBoletin, etc.
 │       ├── Features/                         # Controladores y DTOs agrupados por dominio
 │       │   ├── Auth/                         # AuthController y AuthDtos
 │       │   ├── Conferences/                  # ConferencesController, AdminConferencesController y DTOs
 │       │   ├── LostFound/                    # LostFoundController y DTOs
+│       │   ├── Newsletter/                   # NewsletterController y DTOs (Suscripción y métricas)
 │       │   └── Resources/                    # ResourcesController, AdminResourcesController y DTOs
 │       ├── Infrastructure/                   # Acceso a datos y persistencia
 │       │   └── Persistence/                  # MedLibDbContext (EF Core con Npgsql o SqlServer)
@@ -87,7 +92,7 @@ MedLib-URP/
 
 ## Modelo Relacional de la Base de Datos
 
-El modelo relacional está compuesto por 10 tablas optimizadas con índices dedicados y borrado en cascada en las relaciones dependientes:
+El modelo relacional está compuesto por 11 tablas optimizadas con índices dedicados y borrado en cascada en las relaciones dependientes:
 
 ### Catálogo de Tablas
 
@@ -103,6 +108,7 @@ El modelo relacional está compuesto por 10 tablas optimizadas con índices dedi
 | **`t_inscripcion`** | Conferencias | Registro de participantes inscritos previamente a un evento. | PK: `id_inscripcion`. Unique: (`id_conferencia`, `numero_documento`). |
 | **`t_asistencia`** | Conferencias | Marcación de asistencia en tiempo real durante la conferencia. | PK: `id_asistencia`. Unique: (`id_conferencia`, `numero_documento`). |
 | **`t_objeto_perdido_post`** | Comunidad | Publicaciones sincronizadas de objetos encontrados en biblioteca. | PK: `id_post`. |
+| **`t_suscriptor_boletin`** | Boletín | Registro de suscripciones al boletín informativo ALFIN (pregrado, posgrado, residentado). | PK: `id_suscriptor`. Unique: `correo_institucional`. |
 
 ---
 
@@ -115,6 +121,17 @@ La plataforma implementa las recomendaciones del perfil OAuth 2.0 BCP (RFC 6819)
 * **Ventana de Gracia (Grace Period):** Margen de 30 segundos en la rotación para prevenir bloqueos por concurrencia o microcortes de red.
 * **Detección de Reúso (Token Families):** Invalida la cadena de tokens del cliente si se detecta un intento de repetición.
 * **Purga Oportunista:** Eliminación automática de tokens caducados durante operaciones de autenticación.
+
+---
+
+## Módulo de Suscripción al Boletín ALFIN
+
+El sistema incorpora un canal de comunicación directa para la difusión de novedades bibliográficas y actividades de capacitación:
+
+* **Suscripción Pública y Autocompletado:** Formulario interactivo en la portada (`BoletinSubscriptionCard`) con soporte semántico HTML5 para detección automática de navegador, normalización de correos electrónicos y categorización por nivel académico (Pregrado, Posgrado, Residentado).
+* **Métricas en Tiempo Real:** Visualización de métricas de suscriptores desagregadas por nivel académico vía endpoint `/api/v1/newsletter/stats`.
+* **Panel de Administración Dedicado:** Pestaña de gestión en `AdminPage` (`AdminNewsletterTab`) con filtrado en tiempo real, búsqueda por correo y opción de desuscripción/eliminación segura bajo autorización JWT.
+* **Desacoplamiento y Core API:** Servicios integrados mediante `core/apiConfig` para resolución homogénea de URLs y soporte de proxy local en desarrollo.
 
 ---
 

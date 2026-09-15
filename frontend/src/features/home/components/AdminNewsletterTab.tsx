@@ -10,6 +10,7 @@ import {
   GraduationCap,
   BookOpen,
   Stethoscope,
+  Award,
   Check,
   AlertCircle,
 } from 'lucide-react';
@@ -40,8 +41,9 @@ export const AdminNewsletterTab: React.FC<AdminNewsletterTabProps> = ({ onShowFe
   const [subscribers, setSubscribers] = useState<SubscriberItem[]>([]);
   const [stats, setStats] = useState<NewsletterStats | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isSyncing, setIsSyncing] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedLevel, setSelectedLevel] = useState<'todos' | 'Pregrado' | 'Posgrado' | 'Residentado'>('todos');
+  const [selectedLevel, setSelectedLevel] = useState<'todos' | 'Pregrado' | 'Posgrado' | 'Residentado' | 'Docente' | 'Otro'>('todos');
   const [copiedEmail, setCopiedEmail] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState<number | null>(null);
 
@@ -64,6 +66,20 @@ export const AdminNewsletterTab: React.FC<AdminNewsletterTabProps> = ({ onShowFe
   useEffect(() => {
     loadData();
   }, []);
+
+  const handleSyncConferences = async () => {
+    setIsSyncing(true);
+    try {
+      const res = await newsletterService.syncFromConferences();
+      onShowFeedback(res.message);
+      await loadData();
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Error al sincronizar correos de conferencias.';
+      onShowFeedback(msg);
+    } finally {
+      setIsSyncing(false);
+    }
+  };
 
   const filteredSubscribers = useMemo(() => {
     return subscribers.filter((sub) => {
@@ -145,6 +161,8 @@ export const AdminNewsletterTab: React.FC<AdminNewsletterTabProps> = ({ onShowFe
         return 'bg-blue-50 text-blue-800 border-blue-300';
       case 'Residentado':
         return 'bg-amber-50 text-amber-800 border-amber-300';
+      case 'Docente':
+        return 'bg-purple-50 text-purple-800 border-purple-300';
       default:
         return 'bg-slate-50 text-slate-700 border-slate-300';
     }
@@ -170,6 +188,17 @@ export const AdminNewsletterTab: React.FC<AdminNewsletterTabProps> = ({ onShowFe
         </div>
 
         <div className="flex items-center gap-2 flex-wrap">
+          <button
+            type="button"
+            onClick={handleSyncConferences}
+            disabled={isLoading || isSyncing}
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-bold transition-all cursor-pointer shadow-xs disabled:opacity-50"
+            title="Importar y sincronizar correos de inscripciones y asistencias de conferencias"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin' : ''}`} />
+            <span>{isSyncing ? 'Sincronizando...' : 'Sincronizar Conferencias'}</span>
+          </button>
+
           <button
             type="button"
             onClick={loadData}
@@ -205,7 +234,7 @@ export const AdminNewsletterTab: React.FC<AdminNewsletterTabProps> = ({ onShowFe
         </div>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
         <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Total</span>
@@ -214,7 +243,7 @@ export const AdminNewsletterTab: React.FC<AdminNewsletterTabProps> = ({ onShowFe
           <p className="text-2xl font-display font-black text-slate-900 mt-2">
             {stats ? stats.totalSuscriptores : subscribers.length}
           </p>
-          <span className="text-[10px] text-slate-400 font-medium">Correos únicos activos</span>
+          <span className="text-[10px] text-slate-400 font-medium">Correos activos</span>
         </div>
 
         <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs">
@@ -225,7 +254,7 @@ export const AdminNewsletterTab: React.FC<AdminNewsletterTabProps> = ({ onShowFe
           <p className="text-2xl font-display font-black text-emerald-800 mt-2">
             {stats ? stats.pregrado : subscribers.filter((s) => s.nivelAcademico === 'Pregrado').length}
           </p>
-          <span className="text-[10px] text-slate-400 font-medium">Estudiantes preclínica/clínica</span>
+          <span className="text-[10px] text-slate-400 font-medium">Estudiantes pregrado</span>
         </div>
 
         <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs">
@@ -236,7 +265,7 @@ export const AdminNewsletterTab: React.FC<AdminNewsletterTabProps> = ({ onShowFe
           <p className="text-2xl font-display font-black text-blue-800 mt-2">
             {stats ? stats.posgrado : subscribers.filter((s) => s.nivelAcademico === 'Posgrado').length}
           </p>
-          <span className="text-[10px] text-slate-400 font-medium">Maestrías y doctorados</span>
+          <span className="text-[10px] text-slate-400 font-medium">Maestrías/Doctorados</span>
         </div>
 
         <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs">
@@ -247,7 +276,29 @@ export const AdminNewsletterTab: React.FC<AdminNewsletterTabProps> = ({ onShowFe
           <p className="text-2xl font-display font-black text-amber-800 mt-2">
             {stats ? stats.residentado : subscribers.filter((s) => s.nivelAcademico === 'Residentado').length}
           </p>
-          <span className="text-[10px] text-slate-400 font-medium">Especialidades médicas</span>
+          <span className="text-[10px] text-slate-400 font-medium">Especialidades</span>
+        </div>
+
+        <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold text-purple-700 uppercase tracking-wider">Docentes</span>
+            <Award className="w-4 h-4 text-purple-600" />
+          </div>
+          <p className="text-2xl font-display font-black text-purple-800 mt-2">
+            {stats ? stats.docente : subscribers.filter((s) => s.nivelAcademico === 'Docente').length}
+          </p>
+          <span className="text-[10px] text-slate-400 font-medium">Cuerpo docente</span>
+        </div>
+
+        <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">Otros</span>
+            <Users className="w-4 h-4 text-slate-500" />
+          </div>
+          <p className="text-2xl font-display font-black text-slate-800 mt-2">
+            {stats ? stats.otro : subscribers.filter((s) => s.nivelAcademico === 'Otro').length}
+          </p>
+          <span className="text-[10px] text-slate-400 font-medium">Otros estamentos</span>
         </div>
       </div>
 
@@ -265,7 +316,7 @@ export const AdminNewsletterTab: React.FC<AdminNewsletterTabProps> = ({ onShowFe
           </div>
 
           <div className="flex items-center gap-1.5 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
-            {(['todos', 'Pregrado', 'Posgrado', 'Residentado'] as const).map((level) => (
+            {(['todos', 'Pregrado', 'Posgrado', 'Residentado', 'Docente', 'Otro'] as const).map((level) => (
               <button
                 key={level}
                 type="button"
