@@ -75,7 +75,6 @@ export const AdminDatabasesTab: React.FC<AdminDatabasesTabProps> = ({
       mostrarEnHexagonos: res.mostrarEnHexagonos,
       subjectsStr: (res.subjects || []).join(', '),
       youtubeVideoId: res.tutorial?.youtubeVideoId || '',
-      videoTitle: res.tutorial?.videoTitle || '',
       guidePdfUrl: res.tutorial?.guidePdfUrl || '',
     });
     setIsModalOpen(true);
@@ -119,7 +118,6 @@ export const AdminDatabasesTab: React.FC<AdminDatabasesTabProps> = ({
         mostrarEnHexagonos: existing ? existing.mostrarEnHexagonos : false,
         subjects: parsedSubjects,
         youtubeVideoId: formData.youtubeVideoId.trim() || null,
-        videoTitle: formData.videoTitle.trim() || null,
         guidePdfUrl: formData.guidePdfUrl.trim() || null,
       };
       await resourceService.updateResource(formData.id, updateReq);
@@ -135,7 +133,6 @@ export const AdminDatabasesTab: React.FC<AdminDatabasesTabProps> = ({
         mostrarEnHexagonos: false,
         subjects: parsedSubjects,
         youtubeVideoId: formData.youtubeVideoId.trim() || null,
-        videoTitle: formData.videoTitle.trim() || null,
         guidePdfUrl: formData.guidePdfUrl.trim() || null,
       };
       await resourceService.createResource(createReq);

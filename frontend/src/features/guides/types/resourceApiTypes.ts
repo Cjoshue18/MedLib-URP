@@ -1,6 +1,5 @@
 export interface TutorialApiDto {
   id: number;
-  videoTitle: string;
   youtubeVideoId: string;
   guidePdfUrl?: string | null;
 }
@@ -34,7 +33,6 @@ export interface CreateResourceApiRequest {
   mostrarEnHexagonos?: boolean;
   subjects: string[];
   youtubeVideoId?: string | null;
-  videoTitle?: string | null;
   guidePdfUrl?: string | null;
 }
 
@@ -49,6 +47,5 @@ export interface UpdateResourceApiRequest {
   mostrarEnHexagonos?: boolean;
   subjects: string[];
   youtubeVideoId?: string | null;
-  videoTitle?: string | null;
   guidePdfUrl?: string | null;
 }

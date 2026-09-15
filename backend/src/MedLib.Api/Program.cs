@@ -191,6 +191,7 @@ static void EnsureTablesCreated(WebApplication app)
             """;
 
         context.Database.ExecuteSqlRaw(createTablesSql);
+        context.Database.ExecuteSqlRaw("ALTER TABLE t_tutorial_recurso DROP COLUMN IF EXISTS titulo_video;");
 
         var dirtyTutorials = context.TutorialesRecursos.ToList();
         var hasChanges = false;

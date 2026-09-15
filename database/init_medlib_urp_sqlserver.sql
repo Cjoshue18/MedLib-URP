@@ -97,7 +97,6 @@ BEGIN
     CREATE TABLE [dbo].[t_tutorial_recurso] (
         [id_tutorial]       INT IDENTITY(1,1) NOT NULL,
         [id_base_datos]     INT               NOT NULL,
-        [titulo_video]      NVARCHAR(150)     NOT NULL,
         [youtube_video_id]  NVARCHAR(20)      NOT NULL,
         [guia_pdf_url]      NVARCHAR(255)     NULL,
         CONSTRAINT [PK_t_tutorial_recurso] PRIMARY KEY CLUSTERED ([id_tutorial] ASC),

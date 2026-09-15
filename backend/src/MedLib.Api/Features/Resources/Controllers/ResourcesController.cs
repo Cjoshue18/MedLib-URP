@@ -90,7 +90,7 @@ public class ResourcesController : ControllerBase
                 r.EstadoActivo,
                 r.MostrarEnHexagonos,
                 r.RelacionesMateria.Select(rm => rm.Materia.NombreMateria).OrderBy(m => m).ToList(),
-                lite == true || r.Tutorial == null ? null : new TutorialDto(r.Tutorial.IdTutorial, r.Tutorial.TituloVideo, r.Tutorial.YoutubeVideoId, r.Tutorial.GuiaPdfUrl)
+                lite == true || r.Tutorial == null ? null : new TutorialDto(r.Tutorial.IdTutorial, r.Tutorial.YoutubeVideoId, r.Tutorial.GuiaPdfUrl)
             ))
             .ToListAsync(cancellationToken);
 
@@ -122,7 +122,7 @@ public class ResourcesController : ControllerBase
                 r.EstadoActivo,
                 r.MostrarEnHexagonos,
                 r.RelacionesMateria.Select(rm => rm.Materia.NombreMateria).OrderBy(m => m).ToList(),
-                r.Tutorial != null ? new TutorialDto(r.Tutorial.IdTutorial, r.Tutorial.TituloVideo, r.Tutorial.YoutubeVideoId, r.Tutorial.GuiaPdfUrl) : null
+                r.Tutorial != null ? new TutorialDto(r.Tutorial.IdTutorial, r.Tutorial.YoutubeVideoId, r.Tutorial.GuiaPdfUrl) : null
             ))
             .FirstOrDefaultAsync(cancellationToken);
 

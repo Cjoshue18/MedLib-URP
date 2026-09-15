@@ -2,7 +2,7 @@ namespace MedLib.Api.Features.Resources.Dtos;
 
 public record SubjectDto(int Id, string Name);
 
-public record TutorialDto(int Id, string VideoTitle, string YoutubeVideoId, string? GuidePdfUrl);
+public record TutorialDto(int Id, string YoutubeVideoId, string? GuidePdfUrl);
 
 public record ResourceSummaryDto(
     int Id,
@@ -28,7 +28,6 @@ public record CreateResourceRequest(
     bool MostrarEnHexagonos,
     List<string> Subjects,
     string? YoutubeVideoId,
-    string? VideoTitle,
     string? GuidePdfUrl
 );
 
@@ -43,7 +42,6 @@ public record UpdateResourceRequest(
     bool MostrarEnHexagonos,
     List<string> Subjects,
     string? YoutubeVideoId,
-    string? VideoTitle,
     string? GuidePdfUrl
 );
 
