@@ -9,6 +9,7 @@ import {
   ConferenceCard,
 } from '../features/conferences';
 import { BoletinSubscriptionCard } from '../features/home';
+import { Pagination } from '../components/common/Pagination';
 
 export const ConferencesPage: React.FC = () => {
   const [conferences, setConferences] = useState<ConferenceSummary[]>([]);
@@ -219,34 +220,14 @@ export const ConferencesPage: React.FC = () => {
                   />
                 ))}
 
-                {totalPages > 1 && (
-                  <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-slate-200">
-                    <span className="text-xs font-semibold text-slate-500">
-                      Mostrando {((currentPage - 1) * ITEMS_PER_PAGE) + 1} - {Math.min(currentPage * ITEMS_PER_PAGE, conferences.length)} de {conferences.length} actividades
-                    </span>
-                    <div className="flex items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                        disabled={currentPage === 1}
-                        className="px-3.5 py-1.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-700 hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-colors"
-                      >
-                        Anterior
-                      </button>
-                      <span className="text-xs font-bold text-slate-800 px-1">
-                        {currentPage} / {totalPages}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-                        disabled={currentPage === totalPages}
-                        className="px-3.5 py-1.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-700 hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-colors"
-                      >
-                        Siguiente
-                      </button>
-                    </div>
-                  </div>
-                )}
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  totalItems={conferences.length}
+                  itemsPerPage={ITEMS_PER_PAGE}
+                  itemName="actividades"
+                  onPageChange={setCurrentPage}
+                />
               </div>
             )}
           </div>

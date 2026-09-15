@@ -19,6 +19,7 @@ import {
   SubscriberItem,
   NewsletterStats,
 } from '../services/newsletterService';
+import { Pagination } from '../../../components/common/Pagination';
 
 interface AdminNewsletterTabProps {
   onShowFeedback: (message: string) => void;
@@ -88,6 +89,26 @@ export const AdminNewsletterTab: React.FC<AdminNewsletterTabProps> = ({ onShowFe
       return matchesSearch && matchesLevel;
     });
   }, [subscribers, searchTerm, selectedLevel]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 20;
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, selectedLevel]);
+
+  const totalPages = Math.ceil(filteredSubscribers.length / ITEMS_PER_PAGE);
+
+  useEffect(() => {
+    if (currentPage > totalPages && totalPages > 0) {
+      setCurrentPage(totalPages);
+    }
+  }, [filteredSubscribers.length, totalPages, currentPage]);
+
+  const paginatedSubscribers = useMemo(() => {
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredSubscribers.slice(start, start + ITEMS_PER_PAGE);
+  }, [filteredSubscribers, currentPage, ITEMS_PER_PAGE]);
 
   const handleCopySingleEmail = async (email: string) => {
     try {
@@ -373,10 +394,10 @@ export const AdminNewsletterTab: React.FC<AdminNewsletterTabProps> = ({ onShowFe
                   </td>
                 </tr>
               ) : (
-                filteredSubscribers.map((sub, index) => (
+                paginatedSubscribers.map((sub, index) => (
                   <tr key={sub.idSuscriptor} className="hover:bg-slate-50/80 transition-colors">
                     <td className="py-3 px-4 text-center font-bold text-slate-400">
-                      {index + 1}
+                      {(currentPage - 1) * ITEMS_PER_PAGE + index + 1}
                     </td>
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-2">
@@ -437,6 +458,20 @@ export const AdminNewsletterTab: React.FC<AdminNewsletterTabProps> = ({ onShowFe
             </tbody>
           </table>
         </div>
+
+        {totalPages > 1 && (
+          <div className="p-4 border-t border-slate-200 bg-slate-50/40">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              totalItems={filteredSubscribers.length}
+              itemsPerPage={ITEMS_PER_PAGE}
+              itemName="correos"
+              className="flex flex-col sm:flex-row items-center justify-between gap-3"
+              onPageChange={setCurrentPage}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { RefreshCw, Database, ShieldCheck, Globe, Smartphone, Video, Edit, Hexagon, Trash2 } from 'lucide-react';
 import { ResourceApiDto } from '../../types/resourceApiTypes';
 import { getDatabaseLogoUrl } from '../../data/databasesData';
+import { Pagination } from '../../../../components/common/Pagination';
 
 interface AdminResourceTableProps {
   resources: ResourceApiDto[];
@@ -22,6 +23,26 @@ export const AdminResourceTable: React.FC<AdminResourceTableProps> = ({
   onDelete,
   onOpenMatrixModal,
 }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 10;
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [resources.length]);
+
+  const totalPages = Math.ceil(resources.length / ITEMS_PER_PAGE);
+
+  useEffect(() => {
+    if (currentPage > totalPages && totalPages > 0) {
+      setCurrentPage(totalPages);
+    }
+  }, [resources.length, totalPages, currentPage]);
+
+  const paginatedResources = resources.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
   return (
     <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
       <div className="px-5 py-4 border-b border-slate-200 flex items-center justify-between">
@@ -30,7 +51,7 @@ export const AdminResourceTable: React.FC<AdminResourceTableProps> = ({
             Catálogo de Bases de Datos Médicas
           </h2>
           <p className="text-xs text-slate-500 mt-0.5">
-            Mostrando {resources.length} de {totalResourcesCount} recursos administrados
+            Mostrando {resources.length === 0 ? 0 : (currentPage - 1) * ITEMS_PER_PAGE + 1} - {Math.min(currentPage * ITEMS_PER_PAGE, resources.length)} de {resources.length} recursos filtrados ({totalResourcesCount} en total)
           </p>
         </div>
       </div>
@@ -67,7 +88,8 @@ export const AdminResourceTable: React.FC<AdminResourceTableProps> = ({
           <p className="text-xs text-slate-500">Pruebe ajustando los filtros de búsqueda o registre una nueva base.</p>
         </div>
       ) : (
-        <div className="overflow-x-auto">
+        <>
+          <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
               <tr className="bg-slate-50 text-slate-600 font-bold border-b border-slate-200">
@@ -83,7 +105,7 @@ export const AdminResourceTable: React.FC<AdminResourceTableProps> = ({
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 text-slate-700">
-              {resources.map((res) => {
+              {paginatedResources.map((res) => {
                 const logoSrc = getDatabaseLogoUrl(res.logoUrl || undefined);
                 return (
                   <tr key={res.id} className="hover:bg-slate-50/80 transition-colors">
@@ -241,7 +263,22 @@ export const AdminResourceTable: React.FC<AdminResourceTableProps> = ({
             </tbody>
           </table>
         </div>
-      )}
+
+        {totalPages > 1 && (
+          <div className="p-4 border-t border-slate-200 bg-slate-50/40">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              totalItems={resources.length}
+              itemsPerPage={ITEMS_PER_PAGE}
+              itemName="bases de datos"
+              className="flex flex-col sm:flex-row items-center justify-between gap-3"
+              onPageChange={setCurrentPage}
+            />
+          </div>
+        )}
+      </>
+    )}
     </div>
   );
 };
