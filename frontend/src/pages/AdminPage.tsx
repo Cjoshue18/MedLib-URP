@@ -9,11 +9,13 @@ import {
   Database,
   Video,
   BarChart3,
+  Mail,
 } from 'lucide-react';
 import { InstagramIcon } from '../components/common/InstagramIcon';
 import { authService, AdminLoginForm } from '../features/auth';
 import { AdminDatabasesTab } from '../features/guides';
 import { AdminLostFoundTab } from '../features/community';
+import { AdminNewsletterTab } from '../features/home';
 import {
   AdminConferencesTab,
   AdminStatisticsTab,
@@ -25,7 +27,7 @@ interface AdminPageProps {
 
 export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(authService.isAuthenticated());
-  const [activeAdminTab, setActiveAdminTab] = useState<'databases' | 'lost-found' | 'conferences' | 'statistics'>('databases');
+  const [activeAdminTab, setActiveAdminTab] = useState<'databases' | 'lost-found' | 'conferences' | 'statistics' | 'newsletter'>('databases');
   const [selectedConferenceIdForStats, setSelectedConferenceIdForStats] = useState<number | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isMatrixModalOpen, setIsMatrixModalOpen] = useState(false);
@@ -87,6 +89,64 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
                 Biblioteca Virtual y Especializada de Medicina Humana
               </p>
             </div>
+
+            <nav className="hidden xl:flex items-center gap-1 ml-4 pl-4 border-l border-slate-200 text-xs font-bold">
+              <button
+                type="button"
+                onClick={() => setActiveAdminTab('databases')}
+                className={`px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
+                  activeAdminTab === 'databases'
+                    ? 'bg-emerald-50 text-[#00572B] border border-emerald-300'
+                    : 'text-slate-600 hover:bg-slate-100'
+                }`}
+              >
+                Bases de Datos
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveAdminTab('lost-found')}
+                className={`px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
+                  activeAdminTab === 'lost-found'
+                    ? 'bg-emerald-50 text-[#00572B] border border-emerald-300'
+                    : 'text-slate-600 hover:bg-slate-100'
+                }`}
+              >
+                Instagram
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveAdminTab('conferences')}
+                className={`px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
+                  activeAdminTab === 'conferences'
+                    ? 'bg-emerald-50 text-[#00572B] border border-emerald-300'
+                    : 'text-slate-600 hover:bg-slate-100'
+                }`}
+              >
+                Conferencias
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveAdminTab('newsletter')}
+                className={`px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
+                  activeAdminTab === 'newsletter'
+                    ? 'bg-emerald-50 text-[#00572B] border border-emerald-300'
+                    : 'text-slate-600 hover:bg-slate-100'
+                }`}
+              >
+                Boletín
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveAdminTab('statistics')}
+                className={`px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
+                  activeAdminTab === 'statistics'
+                    ? 'bg-emerald-50 text-[#00572B] border border-emerald-300'
+                    : 'text-slate-600 hover:bg-slate-100'
+                }`}
+              >
+                Estadísticas
+              </button>
+            </nav>
           </div>
 
           <div className="flex items-center gap-3">
@@ -220,6 +280,25 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
               <button
                 type="button"
                 onClick={() => {
+                  setActiveAdminTab('newsletter');
+                  setIsDrawerOpen(false);
+                }}
+                className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                  activeAdminTab === 'newsletter'
+                    ? 'bg-emerald-50 text-[#00572B] border-2 border-emerald-600 shadow-xs'
+                    : 'text-slate-700 hover:bg-slate-50 border border-slate-100'
+                }`}
+              >
+                <Mail className="w-4 h-4 text-emerald-700" />
+                <div className="text-left flex-1">
+                  <p className="leading-tight font-bold">Boletín</p>
+                  <p className="text-[10px] font-normal text-slate-500 mt-0.5">Suscriptores y audiencia por nivel académico</p>
+                </div>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
                   setActiveAdminTab('statistics');
                   setIsDrawerOpen(false);
                 }}
@@ -266,6 +345,8 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
             }}
             onShowFeedback={triggerFeedback}
           />
+        ) : activeAdminTab === 'newsletter' ? (
+          <AdminNewsletterTab onShowFeedback={triggerFeedback} />
         ) : (
           <AdminStatisticsTab
             initialConferenceId={selectedConferenceIdForStats}

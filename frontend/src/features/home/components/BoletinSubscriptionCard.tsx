@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
-import { Send, ShieldCheck, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Send, ShieldCheck, CheckCircle2, ArrowRight, Loader2, AlertCircle } from 'lucide-react';
+import { newsletterService } from '../services/newsletterService';
 
 export interface BoletinSubscriptionCardProps {
   variant?: 'home' | 'conferences';
   onNavigateToDirectory?: () => void;
   className?: string;
 }
+
+const LEVEL_MAP: Record<'pregrado' | 'posgrado' | 'residentado', string> = {
+  pregrado: 'Pregrado',
+  posgrado: 'Posgrado',
+  residentado: 'Residentado',
+};
 
 export const BoletinSubscriptionCard: React.FC<BoletinSubscriptionCardProps> = ({
   variant = 'home',
@@ -14,14 +21,35 @@ export const BoletinSubscriptionCard: React.FC<BoletinSubscriptionCardProps> = (
 }) => {
   const [admissionsTab, setAdmissionsTab] = useState<'pregrado' | 'posgrado' | 'residentado'>('pregrado');
   const [email, setEmail] = useState('');
-  const [subscribed, setSubscribed] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email.trim()) return;
-    setSubscribed(true);
-    setTimeout(() => setSubscribed(false), 4000);
-    setEmail('');
+    const cleanEmail = email.trim();
+    if (!cleanEmail || isSubmitting) return;
+
+    setIsSubmitting(true);
+    setFeedback(null);
+
+    try {
+      const response = await newsletterService.subscribe(cleanEmail, LEVEL_MAP[admissionsTab]);
+      setFeedback({
+        type: 'success',
+        message: response.message,
+      });
+      setEmail('');
+      setTimeout(() => {
+        setFeedback(null);
+      }, 5000);
+    } catch (err: any) {
+      setFeedback({
+        type: 'error',
+        message: err.message || 'Error al procesar la suscripción.',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const isConferences = variant === 'conferences';
@@ -71,30 +99,50 @@ export const BoletinSubscriptionCard: React.FC<BoletinSubscriptionCardProps> = (
 
       <form onSubmit={handleFormSubmit} className="space-y-3 pt-0.5">
         <div>
-          <label className="text-xs font-bold text-slate-700 block mb-1">
+          <label
+            htmlFor={isConferences ? 'newsletter-email-conferences' : 'newsletter-email-home'}
+            className="text-xs font-bold text-slate-700 block mb-1"
+          >
             {isConferences ? 'Correo institucional:' : 'Recibe alertas bibliográficas y novedades:'}
           </label>
           <input
+            id={isConferences ? 'newsletter-email-conferences' : 'newsletter-email-home'}
+            name="email"
             type="email"
+            autoComplete="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              if (feedback?.type === 'error') setFeedback(null);
+            }}
             placeholder="tu.correo@urp.edu.pe"
             required
-            className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#008744]"
+            disabled={isSubmitting}
+            className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#008744] disabled:opacity-60"
           />
         </div>
+
+        {feedback?.type === 'error' && (
+          <div className="flex items-center gap-2 p-2.5 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700 animate-fadeIn">
+            <AlertCircle className="w-4 h-4 shrink-0 text-red-600" />
+            <span>{feedback.message}</span>
+          </div>
+        )}
+
         <button
           type="submit"
-          className="w-full py-2.5 px-4 rounded-xl bg-[#008744] hover:bg-[#006b35] text-white font-bold text-xs sm:text-sm shadow-urp-brutal-green tactile-btn-green transition-all cursor-pointer flex items-center justify-center gap-2"
+          disabled={isSubmitting}
+          className="w-full py-2.5 px-4 rounded-xl bg-[#008744] hover:bg-[#006b35] disabled:opacity-70 text-white font-bold text-xs sm:text-sm shadow-urp-brutal-green tactile-btn-green transition-all cursor-pointer flex items-center justify-center gap-2"
         >
-          {subscribed ? (
+          {isSubmitting ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" />
+              <span>Registrando...</span>
+            </>
+          ) : feedback?.type === 'success' ? (
             <>
               <CheckCircle2 className="w-4 h-4" />
-              <span>
-                {isConferences
-                  ? `¡Suscrito como ${admissionsTab.toUpperCase()}!`
-                  : `¡Registrado como ${admissionsTab.toUpperCase()}!`}
-              </span>
+              <span>{feedback.message}</span>
             </>
           ) : (
             <>
@@ -143,7 +191,7 @@ export const BoletinSubscriptionCard: React.FC<BoletinSubscriptionCardProps> = (
             COMUNIDAD FAMURP
           </span>
           <h3 className="text-base sm:text-lg font-display font-extrabold text-slate-900">
-            Suscríbete al Boletín ALFIN
+            Suscríbete al Boletín
           </h3>
           <p className="text-xs text-slate-500 mt-1 leading-relaxed">
             Recibe notificaciones sobre nuevas capacitaciones y recursos bibliográficos.

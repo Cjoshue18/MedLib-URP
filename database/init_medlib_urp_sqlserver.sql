@@ -264,3 +264,21 @@ BEGIN
 END
 GO
 
+-- =============================================================================
+-- 9. TABLA: t_suscriptor_boletin (Suscripciones al Boletín y Novedades ALFIN)
+-- =============================================================================
+IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = N't_suscriptor_boletin')
+BEGIN
+    CREATE TABLE [dbo].[t_suscriptor_boletin] (
+        [id_suscriptor]         INT IDENTITY(1,1) NOT NULL,
+        [correo_institucional]  NVARCHAR(120)     NOT NULL,
+        [nivel_academico]       NVARCHAR(20)      NOT NULL,
+        [fecha_suscripcion]     DATETIMEOFFSET    NOT NULL CONSTRAINT [DF_suscriptor_fecha] DEFAULT (SYSDATETIMEOFFSET()),
+        [estado_activo]         BIT               NOT NULL CONSTRAINT [DF_suscriptor_activo] DEFAULT (1),
+        CONSTRAINT [PK_t_suscriptor_boletin] PRIMARY KEY CLUSTERED ([id_suscriptor] ASC),
+        CONSTRAINT [UQ_suscriptor_correo] UNIQUE NONCLUSTERED ([correo_institucional] ASC)
+    );
+END
+GO
+
+
