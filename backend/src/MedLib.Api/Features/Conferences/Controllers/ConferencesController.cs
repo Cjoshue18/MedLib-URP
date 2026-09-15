@@ -123,6 +123,9 @@ public class ConferencesController : ControllerBase
             return Conflict(new { message = $"El participante con documento {normalizedDoc} ya se encuentra pre-inscrito en esta conferencia." });
         }
 
+        var isPregrado = request.TipoParticipante.Equals("Pregrado", StringComparison.OrdinalIgnoreCase) ||
+                         request.TipoParticipante.Equals("Estudiante", StringComparison.OrdinalIgnoreCase);
+
         var inscripcion = new Inscripcion
         {
             IdConferencia = id,
@@ -132,11 +135,12 @@ public class ConferencesController : ControllerBase
             Nombres = request.Nombres.Trim(),
             Apellidos = request.Apellidos.Trim(),
             Correo = request.Correo.Trim().ToLowerInvariant(),
-            CicloAcademico = request.TipoParticipante.Equals("Estudiante", StringComparison.OrdinalIgnoreCase) ? request.CicloAcademico : null,
+            CicloAcademico = isPregrado ? request.CicloAcademico : null,
             FechaHoraRegistro = DateTime.UtcNow
         };
 
         _context.Inscripciones.Add(inscripcion);
+        await SyncParticipantToNewsletterAsync(inscripcion.Correo, inscripcion.TipoParticipante, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
 
         return StatusCode(201, new 
@@ -179,6 +183,9 @@ public class ConferencesController : ControllerBase
             return Conflict(new { message = $"La asistencia para el documento {normalizedDoc} ya fue registrada previamente." });
         }
 
+        var isPregrado = request.TipoParticipante.Equals("Pregrado", StringComparison.OrdinalIgnoreCase) ||
+                         request.TipoParticipante.Equals("Estudiante", StringComparison.OrdinalIgnoreCase);
+
         var asistencia = new Asistencia
         {
             IdConferencia = id,
@@ -188,12 +195,13 @@ public class ConferencesController : ControllerBase
             Nombres = request.Nombres.Trim(),
             Apellidos = request.Apellidos.Trim(),
             Correo = request.Correo.Trim().ToLowerInvariant(),
-            CicloAcademico = request.TipoParticipante.Equals("Estudiante", StringComparison.OrdinalIgnoreCase) ? request.CicloAcademico : null,
+            CicloAcademico = isPregrado ? request.CicloAcademico : null,
             FechaHoraMarcacion = DateTime.UtcNow,
             EsAsistenciaValida = true
         };
 
         _context.Asistencias.Add(asistencia);
+        await SyncParticipantToNewsletterAsync(asistencia.Correo, asistencia.TipoParticipante, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
 
         return Ok(new 
@@ -204,6 +212,33 @@ public class ConferencesController : ControllerBase
             participante = $"{asistencia.Nombres} {asistencia.Apellidos}",
             hora = asistencia.FechaHoraMarcacion
         });
+    }
+
+    private async Task SyncParticipantToNewsletterAsync(string email, string tipoParticipante, CancellationToken cancellationToken)
+    {
+        var cleanEmail = email.Trim().ToLowerInvariant();
+        if (string.IsNullOrWhiteSpace(cleanEmail) || !cleanEmail.Contains('@')) return;
+
+        var existing = await _context.SuscriptoresBoletin
+            .FirstOrDefaultAsync(s => s.CorreoInstitucional == cleanEmail, cancellationToken);
+
+        var level = MedLib.Api.Features.Newsletter.Controllers.NewsletterController.MapParticipantTypeToAcademicLevel(tipoParticipante);
+
+        if (existing == null)
+        {
+            _context.SuscriptoresBoletin.Add(new SuscriptorBoletin
+            {
+                CorreoInstitucional = cleanEmail,
+                NivelAcademico = level,
+                FechaSuscripcion = DateTime.UtcNow,
+                EstadoActivo = true
+            });
+        }
+        else if (!existing.EstadoActivo)
+        {
+            existing.EstadoActivo = true;
+            existing.NivelAcademico = level;
+        }
     }
 
     private static string? ValidateParticipantData(
@@ -257,11 +292,14 @@ public class ConferencesController : ControllerBase
             }
         }
 
-        if (tipoParticipante.Equals("Estudiante", StringComparison.OrdinalIgnoreCase))
+        var isPregrado = tipoParticipante.Equals("Pregrado", StringComparison.OrdinalIgnoreCase) ||
+                         tipoParticipante.Equals("Estudiante", StringComparison.OrdinalIgnoreCase);
+
+        if (isPregrado)
         {
             if (!cicloAcademico.HasValue || cicloAcademico.Value < 1 || cicloAcademico.Value > 14)
             {
-                return "Para estudiantes, el ciclo académico debe ser un número entre 1 y 14.";
+                return "Para estudiantes de pregrado, el ciclo académico debe ser un número entre 1 y 14.";
             }
         }
 

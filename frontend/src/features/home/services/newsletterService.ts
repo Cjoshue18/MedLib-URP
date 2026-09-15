@@ -17,6 +17,8 @@ export interface NewsletterStats {
   pregrado: number;
   posgrado: number;
   residentado: number;
+  docente: number;
+  otro: number;
 }
 
 export interface SubscriberItem {
@@ -83,5 +85,21 @@ export const newsletterService = {
       const errorData = await response.json().catch(() => null);
       throw new Error(errorData?.message || 'Error al eliminar suscriptor.');
     }
+  },
+
+  async syncFromConferences(): Promise<{ message: string; nuevosSuscriptores: number; totalAnalizados: number }> {
+    const response = await authService.authenticatedFetch(
+      `${getApiBase()}/api/v1/admin/newsletter/sync-conferences`,
+      {
+        method: 'POST',
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => null);
+      throw new Error(errorData?.message || 'Error al sincronizar correos de conferencias.');
+    }
+
+    return await response.json();
   },
 };

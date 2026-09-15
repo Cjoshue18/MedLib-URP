@@ -4,5 +4,7 @@ public record NewsletterStatsDto(
     int TotalSuscriptores,
     int Pregrado,
     int Posgrado,
-    int Residentado
+    int Residentado,
+    int Docente,
+    int Otro
 );

@@ -43,12 +43,15 @@ public class NewsletterController : ControllerBase
             "posgrado" => "Posgrado",
             "postgrado" => "Posgrado",
             "residentado" => "Residentado",
+            "docente" => "Docente",
+            "profesor" => "Docente",
+            "otro" => "Otro",
             _ => string.Empty
         };
 
         if (string.IsNullOrEmpty(normalizedLevel))
         {
-            return BadRequest(new { message = "El nivel académico debe ser 'Pregrado', 'Posgrado' o 'Residentado'." });
+            return BadRequest(new { message = "El nivel académico debe ser 'Pregrado', 'Posgrado', 'Residentado', 'Docente' u 'Otro'." });
         }
 
         var existing = await _context.SuscriptoresBoletin
@@ -98,9 +101,11 @@ public class NewsletterController : ControllerBase
         var pregrado = subscribers.FirstOrDefault(s => s.Nivel == "Pregrado")?.Count ?? 0;
         var posgrado = subscribers.FirstOrDefault(s => s.Nivel == "Posgrado")?.Count ?? 0;
         var residentado = subscribers.FirstOrDefault(s => s.Nivel == "Residentado")?.Count ?? 0;
-        var total = pregrado + posgrado + residentado;
+        var docente = subscribers.FirstOrDefault(s => s.Nivel == "Docente")?.Count ?? 0;
+        var otro = subscribers.FirstOrDefault(s => s.Nivel == "Otro")?.Count ?? 0;
+        var total = pregrado + posgrado + residentado + docente + otro;
 
-        return Ok(new NewsletterStatsDto(total, pregrado, posgrado, residentado));
+        return Ok(new NewsletterStatsDto(total, pregrado, posgrado, residentado, docente, otro));
     }
 
     [HttpGet("admin/subscribers")]
@@ -154,5 +159,85 @@ public class NewsletterController : ControllerBase
         await _context.SaveChangesAsync(cancellationToken);
 
         return Ok(new { message = "Suscriptor eliminado correctamente." });
+    }
+
+    [HttpPost("admin/sync-conferences")]
+    [HttpPost("/api/v1/admin/newsletter/sync-conferences")]
+    [Authorize]
+    public async Task<IActionResult> SyncFromConferences(CancellationToken cancellationToken)
+    {
+        var existingSubs = await _context.SuscriptoresBoletin
+            .ToDictionaryAsync(s => s.CorreoInstitucional.ToLower(), s => s, cancellationToken);
+
+        var inscripciones = await _context.Inscripciones
+            .AsNoTracking()
+            .Select(i => new { i.Correo, i.TipoParticipante, i.FechaHoraRegistro })
+            .ToListAsync(cancellationToken);
+
+        var asistencias = await _context.Asistencias
+            .AsNoTracking()
+            .Select(a => new { a.Correo, a.TipoParticipante, a.FechaHoraMarcacion })
+            .ToListAsync(cancellationToken);
+
+        var candidates = inscripciones
+            .Select(i => new { Correo = i.Correo.Trim().ToLowerInvariant(), i.TipoParticipante, Fecha = i.FechaHoraRegistro })
+            .Concat(asistencias.Select(a => new { Correo = a.Correo.Trim().ToLowerInvariant(), a.TipoParticipante, Fecha = a.FechaHoraMarcacion }))
+            .Where(c => !string.IsNullOrWhiteSpace(c.Correo) && EmailRegex.IsMatch(c.Correo))
+            .GroupBy(c => c.Correo)
+            .Select(g => g.OrderByDescending(x => x.Fecha).First())
+            .ToList();
+
+        var nuevos = 0;
+        foreach (var item in candidates)
+        {
+            var level = MapParticipantTypeToAcademicLevel(item.TipoParticipante);
+
+            if (existingSubs.TryGetValue(item.Correo, out var existing))
+            {
+                if (!existing.EstadoActivo)
+                {
+                    existing.EstadoActivo = true;
+                    existing.NivelAcademico = level;
+                }
+            }
+            else
+            {
+                var newSub = new SuscriptorBoletin
+                {
+                    CorreoInstitucional = item.Correo,
+                    NivelAcademico = level,
+                    FechaSuscripcion = item.Fecha,
+                    EstadoActivo = true
+                };
+                _context.SuscriptoresBoletin.Add(newSub);
+                existingSubs[item.Correo] = newSub;
+                nuevos++;
+            }
+        }
+
+        if (nuevos > 0 || _context.ChangeTracker.HasChanges())
+        {
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        return Ok(new
+        {
+            message = $"Sincronización completada. Se incorporaron {nuevos} nuevos suscriptores desde conferencias.",
+            nuevosSuscriptores = nuevos,
+            totalAnalizados = candidates.Count
+        });
+    }
+
+    public static string MapParticipantTypeToAcademicLevel(string? participantType)
+    {
+        var raw = participantType?.Trim().ToLowerInvariant() ?? string.Empty;
+        return raw switch
+        {
+            "pregrado" or "estudiante" => "Pregrado",
+            "posgrado" or "postgrado" => "Posgrado",
+            "residentado" => "Residentado",
+            "docente" or "profesor" => "Docente",
+            _ => "Otro"
+        };
     }
 }

@@ -24,7 +24,7 @@ export const AttendanceLiveView: React.FC<AttendanceLiveViewProps> = ({
   conference,
   onBackToCalendar,
 }) => {
-  const [tipoParticipante, setTipoParticipante] = useState<TipoParticipante>('Estudiante');
+  const [tipoParticipante, setTipoParticipante] = useState<TipoParticipante>('Pregrado');
   const [tipoDocumento, setTipoDocumento] = useState<TipoDocumento>('CODIGO_URP');
   const [numeroDocumento, setNumeroDocumento] = useState('');
   const [nombres, setNombres] = useState('');
@@ -38,7 +38,7 @@ export const AttendanceLiveView: React.FC<AttendanceLiveViewProps> = ({
   const [timestampRegistrado, setTimestampRegistrado] = useState<string | null>(null);
 
   useEffect(() => {
-    if (tipoParticipante === 'Estudiante') {
+    if (tipoParticipante === 'Pregrado' || tipoParticipante === 'Estudiante') {
       setTipoDocumento('CODIGO_URP');
       if (cicloAcademico === null) setCicloAcademico(1);
     } else {
@@ -102,7 +102,9 @@ export const AttendanceLiveView: React.FC<AttendanceLiveViewProps> = ({
       return;
     }
 
-    if (tipoParticipante === 'Estudiante' && (!cicloAcademico || cicloAcademico < 1 || cicloAcademico > 14)) {
+    const isPregrado = tipoParticipante === 'Pregrado' || tipoParticipante === 'Estudiante';
+
+    if (isPregrado && (!cicloAcademico || cicloAcademico < 1 || cicloAcademico > 14)) {
       setErrorMessage('Por favor seleccione un ciclo académico válido (1 al 14).');
       return;
     }
@@ -114,7 +116,7 @@ export const AttendanceLiveView: React.FC<AttendanceLiveViewProps> = ({
       nombres: nombres.trim(),
       apellidos: apellidos.trim(),
       correo: correo.trim().toLowerCase(),
-      cicloAcademico: tipoParticipante === 'Estudiante' ? cicloAcademico : null,
+      cicloAcademico: isPregrado ? cicloAcademico : null,
     };
 
     setIsSubmitting(true);
