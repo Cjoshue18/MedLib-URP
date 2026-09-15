@@ -15,7 +15,6 @@ export interface ResourceFormData {
   mostrarEnHexagonos: boolean;
   subjectsStr: string;
   youtubeVideoId: string;
-  videoTitle: string;
   guidePdfUrl: string;
 }
 
@@ -30,7 +29,6 @@ const initialResourceFormData: ResourceFormData = {
   mostrarEnHexagonos: false,
   subjectsStr: '',
   youtubeVideoId: '',
-  videoTitle: '',
   guidePdfUrl: '',
 };
 
@@ -245,31 +243,17 @@ export const AdminResourceModal: React.FC<AdminResourceModalProps> = ({
 
           <div className="border-t border-slate-200 pt-3">
             <p className="text-xs font-bold font-display text-slate-900 mb-2">Video Tutorial Oficial (Opcional)</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label className="block text-[11px] font-medium text-slate-600 mb-1">
-                  YouTube Video ID o URL
-                </label>
-                <input
-                  type="text"
-                  value={formData.youtubeVideoId}
-                  onChange={(e) => setFormData({ ...formData, youtubeVideoId: e.target.value })}
-                  placeholder="dQw4w9WgXcQ"
-                  className="w-full px-3 py-1.5 rounded-lg border border-slate-300 text-xs focus:border-[#008744] outline-none"
-                />
-              </div>
-              <div>
-                <label className="block text-[11px] font-medium text-slate-600 mb-1">
-                  Título del Tutorial
-                </label>
-                <input
-                  type="text"
-                  value={formData.videoTitle}
-                  onChange={(e) => setFormData({ ...formData, videoTitle: e.target.value })}
-                  placeholder="Guía de búsqueda clínica..."
-                  className="w-full px-3 py-1.5 rounded-lg border border-slate-300 text-xs focus:border-[#008744] outline-none"
-                />
-              </div>
+            <div>
+              <label className="block text-[11px] font-medium text-slate-600 mb-1">
+                YouTube Video ID o URL
+              </label>
+              <input
+                type="text"
+                value={formData.youtubeVideoId}
+                onChange={(e) => setFormData({ ...formData, youtubeVideoId: e.target.value })}
+                placeholder="https://www.youtube.com/watch?v=... o ID de 11 caracteres"
+                className="w-full px-3 py-1.5 rounded-lg border border-slate-300 text-xs focus:border-[#008744] outline-none"
+              />
             </div>
           </div>
 

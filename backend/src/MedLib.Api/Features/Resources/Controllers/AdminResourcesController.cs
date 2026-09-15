@@ -48,7 +48,7 @@ public class AdminResourcesController : ControllerBase
                 r.EstadoActivo,
                 r.MostrarEnHexagonos,
                 r.RelacionesMateria.Select(rm => rm.Materia.NombreMateria).OrderBy(m => m).ToList(),
-                r.Tutorial != null ? new TutorialDto(r.Tutorial.IdTutorial, r.Tutorial.TituloVideo, r.Tutorial.YoutubeVideoId, r.Tutorial.GuiaPdfUrl) : null
+                r.Tutorial != null ? new TutorialDto(r.Tutorial.IdTutorial, r.Tutorial.YoutubeVideoId, r.Tutorial.GuiaPdfUrl) : null
             ))
             .ToListAsync(cancellationToken);
 
@@ -100,9 +100,6 @@ public class AdminResourcesController : ControllerBase
             var tutorial = new TutorialRecurso
             {
                 IdBaseDatos = database.IdBaseDatos,
-                TituloVideo = string.IsNullOrWhiteSpace(request.VideoTitle)
-                    ? $"Tutorial y Búsqueda: {database.NombreRecurso}"
-                    : request.VideoTitle.Trim(),
                 YoutubeVideoId = ExtractYouTubeVideoId(request.YoutubeVideoId),
                 GuiaPdfUrl = request.GuidePdfUrl?.Trim()
             };
@@ -176,9 +173,6 @@ public class AdminResourcesController : ControllerBase
                 database.Tutorial = new TutorialRecurso
                 {
                     IdBaseDatos = database.IdBaseDatos,
-                    TituloVideo = string.IsNullOrWhiteSpace(request.VideoTitle)
-                        ? $"Tutorial y Búsqueda: {database.NombreRecurso}"
-                        : request.VideoTitle.Trim(),
                     YoutubeVideoId = cleanVideoId,
                     GuiaPdfUrl = request.GuidePdfUrl?.Trim()
                 };
@@ -186,9 +180,6 @@ public class AdminResourcesController : ControllerBase
             else
             {
                 database.Tutorial.YoutubeVideoId = cleanVideoId;
-                database.Tutorial.TituloVideo = string.IsNullOrWhiteSpace(request.VideoTitle)
-                    ? $"Tutorial y Búsqueda: {database.NombreRecurso}"
-                    : request.VideoTitle.Trim();
                 database.Tutorial.GuiaPdfUrl = request.GuidePdfUrl?.Trim();
             }
         }
@@ -385,7 +376,7 @@ public class AdminResourcesController : ControllerBase
                 r.EstadoActivo,
                 r.MostrarEnHexagonos,
                 r.RelacionesMateria.Select(rm => rm.Materia.NombreMateria).OrderBy(m => m).ToList(),
-                r.Tutorial != null ? new TutorialDto(r.Tutorial.IdTutorial, r.Tutorial.TituloVideo, r.Tutorial.YoutubeVideoId, r.Tutorial.GuiaPdfUrl) : null
+                r.Tutorial != null ? new TutorialDto(r.Tutorial.IdTutorial, r.Tutorial.YoutubeVideoId, r.Tutorial.GuiaPdfUrl) : null
             ))
             .FirstOrDefaultAsync(cancellationToken);
 

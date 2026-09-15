@@ -78,7 +78,6 @@ public class MedLibDbContext : DbContext
             entidad.HasKey(e => e.IdTutorial);
             entidad.Property(e => e.IdTutorial).HasColumnName("id_tutorial").ValueGeneratedOnAdd();
             entidad.Property(e => e.IdBaseDatos).HasColumnName("id_base_datos").IsRequired();
-            entidad.Property(e => e.TituloVideo).HasColumnName("titulo_video").HasMaxLength(150).IsRequired();
             entidad.Property(e => e.YoutubeVideoId).HasColumnName("youtube_video_id").HasMaxLength(20).IsRequired();
             entidad.Property(e => e.GuiaPdfUrl).HasColumnName("guia_pdf_url").HasMaxLength(255);
         });
