@@ -1,4 +1,14 @@
-export * from './types';
+export type {
+  TipoParticipante,
+  TipoDocumento,
+  ConferenceSummary,
+  CreateConferenceRequest,
+  UpdateConferenceRequest,
+  RegisterParticipantRequest,
+  MarkAttendanceRequest,
+  ParticipantRecord,
+  ConferenceReport,
+} from './types';
 export { conferenceService } from './services/conferenceService';
 
 export { AdminConferencesTab } from './components/admin/AdminConferencesTab';

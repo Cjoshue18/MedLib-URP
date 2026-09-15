@@ -1,4 +1,5 @@
-import { authService } from '../../auth/services/authService';
+import { authService } from '../../auth';
+import { getApiBase } from '../../../core/apiConfig';
 
 export interface SubscribeNewsletterRequest {
   correoInstitucional: string;
@@ -25,10 +26,6 @@ export interface SubscriberItem {
   fechaSuscripcion: string;
   estadoActivo: boolean;
 }
-
-const getApiBase = (): string => {
-  return (import.meta.env.VITE_API_URL as string)?.replace(/\/$/, '') || '';
-};
 
 export const newsletterService = {
   async subscribe(correoInstitucional: string, nivelAcademico: string): Promise<SubscribeNewsletterResponse> {

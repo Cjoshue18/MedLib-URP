@@ -1,14 +1,11 @@
-import { authService } from '../../auth/services/authService';
+import { authService } from '../../auth';
+import { getApiBase } from '../../../core/apiConfig';
 import {
   ResourceApiDto,
   SubjectApiDto,
   CreateResourceApiRequest,
   UpdateResourceApiRequest,
 } from '../types/resourceApiTypes';
-
-const getApiBase = (): string => {
-  return (import.meta.env.VITE_API_URL as string)?.replace(/\/$/, '') || '';
-};
 
 const resourceDetailCache = new Map<number, ResourceApiDto>();
 

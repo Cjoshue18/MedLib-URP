@@ -1,4 +1,5 @@
-import { authService } from '../../auth/services/authService';
+import { authService } from '../../auth';
+import { getApiBase } from '../../../core/apiConfig';
 
 export interface LostItemPost {
   id: number;
@@ -9,10 +10,6 @@ export interface LostItemPost {
 export interface CreateLostItemPostRequest {
   urlInstagram: string;
 }
-
-const getApiBase = (): string => {
-  return (import.meta.env.VITE_API_URL as string)?.replace(/\/$/, '') || '';
-};
 
 export const lostFoundService = {
   async getPosts(): Promise<LostItemPost[]> {

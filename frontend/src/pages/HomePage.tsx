@@ -3,8 +3,8 @@ import {
   HomeHero,
   HomeBentoGrid,
   HomeUpcomingActivities,
-  HomeCommunityFeed,
 } from '../features/home';
+import { InstagramCommunityFeed } from '../features/community';
 
 interface HomePageProps {
   onNavigate: (view: 'home' | 'directory' | 'conferences' | 'lost-found', query?: string) => void;
@@ -27,7 +27,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
         </div>
       </section>
 
-      <HomeCommunityFeed />
+      <InstagramCommunityFeed />
     </main>
   );
 };

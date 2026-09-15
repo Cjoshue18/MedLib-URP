@@ -1,4 +1,5 @@
 import { LoginRequest, LoginResponse, TokenRefreshResponse, AdminUserProfile } from '../types';
+import { getApiBase } from '../../../core/apiConfig';
 
 const TOKEN_KEY = 'medlib_urp_admin_token';
 const REFRESH_TOKEN_KEY = 'medlib_urp_admin_refresh_token';
@@ -6,9 +7,6 @@ const USER_KEY = 'medlib_urp_admin_user';
 
 let refreshPromise: Promise<string | null> | null = null;
 
-const getApiBase = (): string => {
-  return (import.meta.env.VITE_API_URL as string)?.replace(/\/$/, '') || '';
-};
 
 export const authService = {
   async login(credentials: LoginRequest): Promise<LoginResponse> {

@@ -8,7 +8,8 @@ import { ConferencesPage } from './pages/ConferencesPage';
 import { LostFoundPage } from './pages/LostFoundPage';
 import { AdminPage } from './pages/AdminPage';
 
-export type AppView = 'home' | 'directory' | 'conferences' | 'lost-found' | 'admin';
+export type { AppView } from './core/types/navigation';
+import type { AppView } from './core/types/navigation';
 
 export const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<AppView>('home');
