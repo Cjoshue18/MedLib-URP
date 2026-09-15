@@ -5,6 +5,7 @@ import { conferenceService } from '../../services/conferenceService';
 
 import { AdminConferenceModal } from './AdminConferenceModal';
 import { AdminConferenceCard } from './AdminConferenceCard';
+import { Pagination } from '../../../../components/common/Pagination';
 
 interface AdminConferencesTabProps {
   onNavigateToStats: (conferenceId: number) => void;
@@ -20,6 +21,20 @@ export const AdminConferencesTab: React.FC<AdminConferencesTabProps> = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingConference, setEditingConference] = useState<ConferenceSummary | null>(null);
   const [copiedLink, setCopiedLink] = useState<{ id: number; type: 'reg' | 'att' } | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 5;
+
+  const totalPages = Math.ceil(conferences.length / ITEMS_PER_PAGE);
+  const paginatedConferences = conferences.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  useEffect(() => {
+    if (currentPage > totalPages && totalPages > 0) {
+      setCurrentPage(totalPages);
+    }
+  }, [conferences.length, totalPages, currentPage]);
 
   const loadConferences = async () => {
     setIsLoading(true);
@@ -157,20 +172,31 @@ export const AdminConferencesTab: React.FC<AdminConferencesTabProps> = ({
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-5">
-          {conferences.map((conf) => (
-            <AdminConferenceCard
-              key={conf.idConferencia}
-              conf={conf}
-              copiedLink={copiedLink}
-              onCopyLink={handleCopyLink}
-              onTogglePurge={handleTogglePurge}
-              onToggleAttendance={handleToggleAttendance}
-              onNavigateToStats={onNavigateToStats}
-              onEdit={handleOpenEditModal}
-              onDelete={handleDelete}
-            />
-          ))}
+        <div className="space-y-6">
+          <div className="grid grid-cols-1 gap-5">
+            {paginatedConferences.map((conf) => (
+              <AdminConferenceCard
+                key={conf.idConferencia}
+                conf={conf}
+                copiedLink={copiedLink}
+                onCopyLink={handleCopyLink}
+                onTogglePurge={handleTogglePurge}
+                onToggleAttendance={handleToggleAttendance}
+                onNavigateToStats={onNavigateToStats}
+                onEdit={handleOpenEditModal}
+                onDelete={handleDelete}
+              />
+            ))}
+          </div>
+
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={conferences.length}
+            itemsPerPage={ITEMS_PER_PAGE}
+            itemName="conferencias"
+            onPageChange={setCurrentPage}
+          />
         </div>
       )}
 
