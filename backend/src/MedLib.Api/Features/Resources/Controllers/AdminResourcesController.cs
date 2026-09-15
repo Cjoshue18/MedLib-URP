@@ -103,7 +103,7 @@ public class AdminResourcesController : ControllerBase
                 TituloVideo = string.IsNullOrWhiteSpace(request.VideoTitle)
                     ? $"Tutorial y Búsqueda: {database.NombreRecurso}"
                     : request.VideoTitle.Trim(),
-                YoutubeVideoId = request.YoutubeVideoId.Trim(),
+                YoutubeVideoId = ExtractYouTubeVideoId(request.YoutubeVideoId),
                 GuiaPdfUrl = request.GuidePdfUrl?.Trim()
             };
             _context.TutorialesRecursos.Add(tutorial);
@@ -170,6 +170,7 @@ public class AdminResourcesController : ControllerBase
 
         if (!string.IsNullOrWhiteSpace(request.YoutubeVideoId))
         {
+            var cleanVideoId = ExtractYouTubeVideoId(request.YoutubeVideoId);
             if (database.Tutorial == null)
             {
                 database.Tutorial = new TutorialRecurso
@@ -178,13 +179,13 @@ public class AdminResourcesController : ControllerBase
                     TituloVideo = string.IsNullOrWhiteSpace(request.VideoTitle)
                         ? $"Tutorial y Búsqueda: {database.NombreRecurso}"
                         : request.VideoTitle.Trim(),
-                    YoutubeVideoId = request.YoutubeVideoId.Trim(),
+                    YoutubeVideoId = cleanVideoId,
                     GuiaPdfUrl = request.GuidePdfUrl?.Trim()
                 };
             }
             else
             {
-                database.Tutorial.YoutubeVideoId = request.YoutubeVideoId.Trim();
+                database.Tutorial.YoutubeVideoId = cleanVideoId;
                 database.Tutorial.TituloVideo = string.IsNullOrWhiteSpace(request.VideoTitle)
                     ? $"Tutorial y Búsqueda: {database.NombreRecurso}"
                     : request.VideoTitle.Trim();
@@ -394,5 +395,16 @@ public class AdminResourcesController : ControllerBase
         }
 
         return Ok(resource);
+    }
+
+    public static string ExtractYouTubeVideoId(string? input)
+    {
+        if (string.IsNullOrWhiteSpace(input)) return string.Empty;
+        var trimmed = input.Trim();
+        var match = System.Text.RegularExpressions.Regex.Match(
+            trimmed,
+            @"(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|shorts\/))([\w-]{11})",
+            System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+        return match.Success ? match.Groups[1].Value : trimmed;
     }
 }

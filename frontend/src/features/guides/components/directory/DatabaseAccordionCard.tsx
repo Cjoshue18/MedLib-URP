@@ -202,28 +202,42 @@ export const DatabaseAccordionCard: React.FC<DatabaseAccordionCardProps> = ({
             <ExternalLink className="w-4 h-4" />
           </a>
 
-          {!isLoadingDetail && Boolean(detail.tutorialUrl) && (
-            <div className="bg-white rounded-2xl border-2 border-slate-900 shadow-urp-brutal-sm overflow-hidden mt-1">
-              <a
-                href={detail.tutorialUrl}
-                target="_blank"
-                rel="noreferrer"
-                onClick={(e) => e.stopPropagation()}
-                className="p-3 bg-slate-900 hover:bg-slate-800 text-white flex items-center justify-between transition-colors group/tut cursor-pointer"
-              >
-                <div className="flex items-center gap-2.5 min-w-0 pr-2">
-                  <div className="w-8 h-8 rounded-lg bg-[#008744] flex items-center justify-center text-white shrink-0 group-hover/tut:scale-105 transition-transform">
-                    <PlayCircle className="w-4.5 h-4.5" />
+          {!isLoadingDetail && Boolean(detail.tutorialVideoId) && (
+            <div className="mt-3 space-y-2">
+              <div className="flex items-center justify-between px-1">
+                <div className="flex items-center gap-2">
+                  <div className="w-6 h-6 rounded-md bg-[#008744] flex items-center justify-center text-white shrink-0">
+                    <PlayCircle className="w-3.5 h-3.5" />
                   </div>
-                  <div className="min-w-0">
-                    <span className="text-[10px] uppercase font-mono tracking-wider text-emerald-400 block font-bold">
-                      Tutorial Oficial
-                    </span>
-                    <h5 className="font-bold text-xs truncate">Video Guía de Acceso</h5>
-                  </div>
+                  <span className="text-[11px] font-black tracking-wider uppercase text-slate-800">
+                    Tutorial Oficial
+                  </span>
                 </div>
-                <ExternalLink className="w-4 h-4 text-emerald-400 shrink-0 group-hover/tut:translate-x-0.5 transition-transform" />
-              </a>
+                {detail.tutorialUrl && (
+                  <a
+                    href={detail.tutorialUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-[10px] font-bold text-slate-500 hover:text-[#008744] inline-flex items-center gap-1 transition-colors cursor-pointer"
+                    title="Ver en YouTube"
+                  >
+                    <span>YouTube</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                )}
+              </div>
+
+              <div className="w-full aspect-video rounded-2xl border-2 border-slate-900 shadow-urp-brutal-sm overflow-hidden bg-black">
+                <iframe
+                  src={`https://www.youtube-nocookie.com/embed/${detail.tutorialVideoId}?rel=0`}
+                  title={`Tutorial Oficial - ${detail.title}`}
+                  className="w-full h-full border-0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  loading="lazy"
+                />
+              </div>
             </div>
           )}
         </div>
