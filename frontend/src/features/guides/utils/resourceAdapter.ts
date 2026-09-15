@@ -12,6 +12,7 @@ export const mapApiResourceToMedicalDatabase = (dto: ResourceApiDto): MedicalDat
     accessUrl: dto.externalUrl || 'https://test.urp.edu.pe/Intranet/',
     isFeatured: dto.isSubscription,
     hasMobileApp: dto.hasMobileApp,
+    tutorialVideoId: dto.tutorial?.youtubeVideoId || undefined,
     tutorialUrl: dto.tutorial?.youtubeVideoId
       ? `https://www.youtube.com/watch?v=${dto.tutorial.youtubeVideoId}`
       : undefined,

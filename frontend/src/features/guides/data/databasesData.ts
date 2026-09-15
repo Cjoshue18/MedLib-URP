@@ -13,6 +13,7 @@ export interface MedicalDatabase {
   isFeatured?: boolean;
   hasMobileApp?: boolean;
   tutorialUrl?: string;
+  tutorialVideoId?: string;
   mostrarEnHexagonos?: boolean;
   tags: string[];
 }

@@ -191,6 +191,22 @@ static void EnsureTablesCreated(WebApplication app)
             """;
 
         context.Database.ExecuteSqlRaw(createTablesSql);
+
+        var dirtyTutorials = context.TutorialesRecursos.ToList();
+        var hasChanges = false;
+        foreach (var t in dirtyTutorials)
+        {
+            var clean = MedLib.Api.Features.Resources.Controllers.AdminResourcesController.ExtractYouTubeVideoId(t.YoutubeVideoId);
+            if (!string.IsNullOrEmpty(clean) && clean != t.YoutubeVideoId)
+            {
+                t.YoutubeVideoId = clean;
+                hasChanges = true;
+            }
+        }
+        if (hasChanges)
+        {
+            context.SaveChanges();
+        }
     }
     catch
     {
