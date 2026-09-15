@@ -22,6 +22,8 @@ public class AdminConferencesController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<ConferenceSummaryDto>>> GetAll(CancellationToken cancellationToken)
     {
+        await ConferencesController.AutoFinalizeExpiredConferencesAsync(_context, cancellationToken);
+
         var list = await _context.ConferenciasMedicas
             .AsNoTracking()
             .OrderByDescending(c => c.FechaHoraInicio)
@@ -197,6 +199,8 @@ public class AdminConferencesController : ControllerBase
     [HttpGet("{id:int}/report")]
     public async Task<ActionResult<ConferenceReportDto>> GetReport(int id, CancellationToken cancellationToken)
     {
+        await ConferencesController.AutoFinalizeExpiredConferencesAsync(_context, cancellationToken);
+
         var conference = await _context.ConferenciasMedicas
             .AsNoTracking()
             .Include(c => c.Inscripciones)
