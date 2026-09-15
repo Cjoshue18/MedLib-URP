@@ -30,7 +30,19 @@ export const conferenceService = {
     return await response.json();
   },
 
-  async registerParticipant(id: number, data: RegisterParticipantRequest): Promise<{ message: string }> {
+  async registerParticipant(id: number, data: RegisterParticipantRequest): Promise<{
+    message: string;
+    alreadyRegistered?: boolean;
+    participant?: {
+      nombres: string;
+      apellidos: string;
+      tipoDocumento: string;
+      numeroDocumento: string;
+      tipoParticipante: string;
+      correo: string;
+      cicloAcademico: number | null;
+    };
+  }> {
     const response = await fetch(`${getApiBase()}/api/v1/conferences/${id}/register`, {
       method: 'POST',
       headers: {
@@ -40,6 +52,9 @@ export const conferenceService = {
     });
 
     const body = await response.json();
+    if (response.status === 409 && body.alreadyRegistered) {
+      return body;
+    }
     if (!response.ok) {
       throw new Error(body.message || 'Error al procesar la pre-inscripción.');
     }

@@ -36,6 +36,7 @@ export const ConferenceRegistrationView: React.FC<ConferenceRegistrationViewProp
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isAlreadyRegistered, setIsAlreadyRegistered] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
 
   useEffect(() => {
@@ -117,7 +118,19 @@ export const ConferenceRegistrationView: React.FC<ConferenceRegistrationViewProp
 
     setIsSubmitting(true);
     try {
-      await conferenceService.registerParticipant(conference.idConferencia, payload);
+      const result = await conferenceService.registerParticipant(conference.idConferencia, payload);
+      if (result.alreadyRegistered && result.participant) {
+        setNombres(result.participant.nombres);
+        setApellidos(result.participant.apellidos);
+        setTipoDocumento(result.participant.tipoDocumento as TipoDocumento);
+        setNumeroDocumento(result.participant.numeroDocumento);
+        setTipoParticipante(result.participant.tipoParticipante as TipoParticipante);
+        setCorreo(result.participant.correo);
+        setCicloAcademico(result.participant.cicloAcademico);
+        setIsAlreadyRegistered(true);
+      } else {
+        setIsAlreadyRegistered(false);
+      }
       setIsSuccess(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err: unknown) {
@@ -156,6 +169,7 @@ export const ConferenceRegistrationView: React.FC<ConferenceRegistrationViewProp
         cicloAcademico={cicloAcademico}
         registrationLink={registrationLink}
         copiedLink={copiedLink}
+        isAlreadyRegistered={isAlreadyRegistered}
         onCopyRegistrationLink={handleCopyRegistrationLink}
         onBackToCalendar={onBackToCalendar}
       />

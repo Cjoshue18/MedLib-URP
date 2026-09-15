@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   CheckCircle2,
+  AlertTriangle,
   User,
   Building2,
   Video,
@@ -26,6 +27,7 @@ interface ConferenceRegistrationSuccessCardProps {
   cicloAcademico: number | null;
   registrationLink: string;
   copiedLink: boolean;
+  isAlreadyRegistered?: boolean;
   onCopyRegistrationLink: () => void;
   onBackToCalendar: () => void;
 }
@@ -41,6 +43,7 @@ export const ConferenceRegistrationSuccessCard: React.FC<ConferenceRegistrationS
   cicloAcademico,
   registrationLink,
   copiedLink,
+  isAlreadyRegistered = false,
   onCopyRegistrationLink,
   onBackToCalendar,
 }) => {
@@ -50,18 +53,38 @@ export const ConferenceRegistrationSuccessCard: React.FC<ConferenceRegistrationS
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10 animate-fadeIn">
       <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
-        <div className="bg-[#008744] text-white p-8 text-center border-b border-emerald-700">
-          <div className="w-16 h-16 rounded-full bg-white text-[#008744] flex items-center justify-center mx-auto mb-4 border border-emerald-200 shadow-sm">
-            <CheckCircle2 className="w-9 h-9" />
+        <div className={`p-8 text-center border-b ${
+          isAlreadyRegistered
+            ? 'bg-amber-500 text-slate-900 border-amber-600'
+            : 'bg-[#008744] text-white border-emerald-700'
+        }`}>
+          <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 border shadow-sm ${
+            isAlreadyRegistered
+              ? 'bg-white text-amber-600 border-amber-300'
+              : 'bg-white text-[#008744] border-emerald-200'
+          }`}>
+            {isAlreadyRegistered ? (
+              <AlertTriangle className="w-9 h-9" />
+            ) : (
+              <CheckCircle2 className="w-9 h-9" />
+            )}
           </div>
-          <span className="text-[11px] font-black uppercase tracking-widest text-emerald-100 block mb-1">
-            Registro Confirmado &bull; BVE-FAMURP
+          <span className={`text-[11px] font-black uppercase tracking-widest block mb-1 ${
+            isAlreadyRegistered ? 'text-amber-950' : 'text-emerald-100'
+          }`}>
+            {isAlreadyRegistered ? 'Pre-inscripción Existente • BVE-FAMURP' : 'Registro Confirmado • BVE-FAMURP'}
           </span>
-          <h1 className="text-2xl sm:text-3xl font-display font-black leading-tight text-white">
-            ¡Muchas Gracias por tu Pre-inscripción!
+          <h1 className={`text-2xl sm:text-3xl font-display font-black leading-tight ${
+            isAlreadyRegistered ? 'text-slate-950' : 'text-white'
+          }`}>
+            {isAlreadyRegistered ? 'Usted ya se había registrado' : '¡Muchas Gracias por tu Pre-inscripción!'}
           </h1>
-          <p className="text-xs sm:text-sm text-emerald-100 max-w-lg mx-auto mt-2 leading-relaxed">
-            Tu participación en la capacitación ha sido registrada exitosamente en la nómina oficial de la Biblioteca Virtual y Especializada de Medicina Humana.
+          <p className={`text-xs sm:text-sm max-w-lg mx-auto mt-2 leading-relaxed ${
+            isAlreadyRegistered ? 'text-amber-950 font-medium' : 'text-emerald-100'
+          }`}>
+            {isAlreadyRegistered
+              ? 'Tu documento ya se encuentra registrado en la nómina oficial de esta capacitación. A continuación tienes los detalles y el enlace a la sala virtual para tu acceso.'
+              : 'Tu participación en la capacitación ha sido registrada exitosamente en la nómina oficial de la Biblioteca Virtual y Especializada de Medicina Humana.'}
           </p>
         </div>
 
