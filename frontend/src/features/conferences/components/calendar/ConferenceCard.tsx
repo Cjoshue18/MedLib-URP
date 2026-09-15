@@ -26,12 +26,14 @@ export const ConferenceCard: React.FC<ConferenceCardProps> = ({
     : startDate.toLocaleDateString('es-PE', { month: 'short' }).toUpperCase();
   const timeStr = `${startDate.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' })} - ${endDate.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' })}`;
 
+  const isFinalizada = conf.estadoEvento === 'Finalizada';
+
   return (
     <div className="bg-white rounded-2xl border border-slate-200 shadow-xs hover:border-slate-300 hover:shadow-sm transition-all overflow-hidden flex flex-col sm:flex-row group">
-      <div className="bg-[#008744] text-white flex flex-col items-center justify-center p-6 min-w-[120px] shrink-0 font-display font-black shadow-inner">
+      <div className={`${isFinalizada ? 'bg-slate-950 text-slate-300' : 'bg-[#008744] text-white'} flex flex-col items-center justify-center p-6 min-w-[120px] shrink-0 font-display font-black shadow-inner transition-colors`}>
         <span className="text-3xl sm:4xl leading-none">{dayStr}</span>
-        <span className="text-xs uppercase tracking-widest font-extrabold mt-1">{monthStr}</span>
-        <span className="text-[10px] font-medium text-emerald-200 mt-1">
+        <span className={`text-xs uppercase tracking-widest font-extrabold mt-1 ${isFinalizada ? 'text-slate-400' : 'text-emerald-100'}`}>{monthStr}</span>
+        <span className={`text-[10px] font-medium mt-1 ${isFinalizada ? 'text-slate-500' : 'text-emerald-200'}`}>
           {conf.modalidad}
         </span>
       </div>
@@ -55,12 +57,19 @@ export const ConferenceCard: React.FC<ConferenceCardProps> = ({
               </span>
             </div>
 
-            {conf.asistenciaAbierta && (
-              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black border border-emerald-300 animate-pulse">
-                <Radio className="w-3 h-3 text-emerald-600" />
-                Asistencia Abierta
-              </span>
-            )}
+            <div className="flex items-center gap-1.5">
+              {conf.asistenciaAbierta && (
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black border border-emerald-300 animate-pulse">
+                  <Radio className="w-3 h-3 text-emerald-600" />
+                  Asistencia Abierta
+                </span>
+              )}
+              {isFinalizada && (
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-slate-950 text-slate-300 text-[10px] font-black border border-slate-700">
+                  Finalizada
+                </span>
+              )}
+            </div>
           </div>
 
           <h3 className="text-base sm:text-lg font-display font-extrabold text-slate-900 mb-2 group-hover:text-[#008744] transition-colors">
@@ -97,6 +106,7 @@ export const ConferenceCard: React.FC<ConferenceCardProps> = ({
           <div className="flex items-center gap-2">
             {conf.asistenciaAbierta && (
               <button
+                type="button"
                 onClick={() => onOpenAttendance(conf)}
                 className="py-2 px-4 rounded-full border-2 border-emerald-700 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-all shadow-urp-brutal-sm tactile-btn cursor-pointer flex items-center gap-1.5"
               >
@@ -104,12 +114,23 @@ export const ConferenceCard: React.FC<ConferenceCardProps> = ({
                 <span>Marcar Asistencia</span>
               </button>
             )}
-            <button
-              onClick={() => onOpenRegistration(conf)}
-              className="py-2 px-5 rounded-full border-2 border-slate-900 font-bold text-xs text-slate-900 hover:bg-slate-900 hover:text-white transition-all shadow-urp-brutal-sm tactile-btn cursor-pointer"
-            >
-              Inscribirme
-            </button>
+            {isFinalizada ? (
+              <button
+                type="button"
+                disabled
+                className="py-2 px-5 rounded-full border-2 border-slate-300 bg-slate-100 font-bold text-xs text-slate-400 cursor-not-allowed"
+              >
+                Evento Concluido
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => onOpenRegistration(conf)}
+                className="py-2 px-5 rounded-full border-2 border-slate-900 font-bold text-xs text-slate-900 hover:bg-slate-900 hover:text-white transition-all shadow-urp-brutal-sm tactile-btn cursor-pointer"
+              >
+                Inscribirme
+              </button>
+            )}
           </div>
         </div>
       </div>

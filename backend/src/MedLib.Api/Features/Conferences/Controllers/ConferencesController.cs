@@ -23,6 +23,8 @@ public class ConferencesController : ControllerBase
         [FromQuery] DateTime? hasta,
         CancellationToken cancellationToken)
     {
+        await AutoFinalizeExpiredConferencesAsync(_context, cancellationToken);
+
         var query = _context.ConferenciasMedicas.AsNoTracking();
 
         if (desde.HasValue)
@@ -63,6 +65,8 @@ public class ConferencesController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<ConferenceSummaryDto>> GetById(int id, CancellationToken cancellationToken)
     {
+        await AutoFinalizeExpiredConferencesAsync(_context, cancellationToken);
+
         var conference = await _context.ConferenciasMedicas
             .AsNoTracking()
             .Where(c => c.IdConferencia == id)
@@ -90,6 +94,24 @@ public class ConferencesController : ControllerBase
         }
 
         return Ok(conference);
+    }
+
+    public static async Task AutoFinalizeExpiredConferencesAsync(MedLibDbContext context, CancellationToken cancellationToken)
+    {
+        var now = DateTime.UtcNow;
+        var expiredConferences = await context.ConferenciasMedicas
+            .Where(c => c.FechaHoraFin <= now && c.EstadoEvento != "Finalizada" && c.EstadoEvento != "Cancelada")
+            .ToListAsync(cancellationToken);
+
+        if (expiredConferences.Count > 0)
+        {
+            foreach (var c in expiredConferences)
+            {
+                c.EstadoEvento = "Finalizada";
+                c.AsistenciaAbierta = false;
+            }
+            await context.SaveChangesAsync(cancellationToken);
+        }
     }
 
     [HttpPost("{id:int}/register")]

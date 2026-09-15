@@ -16,6 +16,7 @@ export const excelExportService = {
       ['Expositor / Ponente:', report.conferencia.expositorPonente],
       ['Entidad / Editorial:', report.conferencia.entidadEditorial],
       ['Modalidad:', report.conferencia.modalidad],
+      ['Estado del Evento:', report.conferencia.estadoEvento],
       ['Fecha y Hora de Inicio:', new Date(report.conferencia.fechaHoraInicio).toLocaleString()],
       ['Fecha y Hora de Fin:', new Date(report.conferencia.fechaHoraFin).toLocaleString()],
       [''],

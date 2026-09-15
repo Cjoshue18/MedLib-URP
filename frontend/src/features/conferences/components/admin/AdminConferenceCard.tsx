@@ -51,7 +51,9 @@ export const AdminConferenceCard: React.FC<AdminConferenceCardProps> = ({
             ? 'bg-emerald-600 text-white'
             : conf.estadoEvento === 'Cancelada'
               ? 'bg-red-700 text-white'
-              : 'bg-slate-900 text-white'
+              : conf.estadoEvento === 'Finalizada'
+                ? 'bg-slate-950 text-slate-300'
+                : 'bg-slate-900 text-white'
         }`}
       >
         <div className="space-y-1">
@@ -67,7 +69,11 @@ export const AdminConferenceCard: React.FC<AdminConferenceCardProps> = ({
         </div>
 
         <div className="mt-3">
-          <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-white/20">
+          <span className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider ${
+            conf.estadoEvento === 'Finalizada'
+              ? 'bg-black text-slate-300 border border-slate-700'
+              : 'bg-white/20'
+          }`}>
             {conf.estadoEvento}
           </span>
         </div>
@@ -156,18 +162,25 @@ export const AdminConferenceCard: React.FC<AdminConferenceCardProps> = ({
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
-            <button
-              type="button"
-              onClick={() => onToggleAttendance(conf)}
-              className={`py-2 px-3.5 rounded-xl text-xs font-extrabold flex items-center gap-1.5 transition-all shadow-xs cursor-pointer ${
-                conf.asistenciaAbierta
-                  ? 'bg-red-600 hover:bg-red-700 text-white'
-                  : 'bg-[#008744] hover:bg-[#006b35] text-white'
-              }`}
-            >
-              <Radio className={`w-3.5 h-3.5 ${conf.asistenciaAbierta ? 'animate-pulse' : ''}`} />
-              <span>{conf.asistenciaAbierta ? 'Cerrar Asistencia' : 'Habilitar Asistencia'}</span>
-            </button>
+            {conf.estadoEvento === 'Finalizada' ? (
+              <span className="py-2 px-3.5 rounded-xl text-xs font-extrabold flex items-center gap-1.5 bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed">
+                <Radio className="w-3.5 h-3.5 opacity-40" />
+                <span>Evento Concluido</span>
+              </span>
+            ) : (
+              <button
+                type="button"
+                onClick={() => onToggleAttendance(conf)}
+                className={`py-2 px-3.5 rounded-xl text-xs font-extrabold flex items-center gap-1.5 transition-all shadow-xs cursor-pointer ${
+                  conf.asistenciaAbierta
+                    ? 'bg-red-600 hover:bg-red-700 text-white'
+                    : 'bg-[#008744] hover:bg-[#006b35] text-white'
+                }`}
+              >
+                <Radio className={`w-3.5 h-3.5 ${conf.asistenciaAbierta ? 'animate-pulse' : ''}`} />
+                <span>{conf.asistenciaAbierta ? 'Cerrar Asistencia' : 'Habilitar Asistencia'}</span>
+              </button>
+            )}
 
             <button
               type="button"
