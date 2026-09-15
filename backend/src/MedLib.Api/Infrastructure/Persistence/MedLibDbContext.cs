@@ -19,6 +19,7 @@ public class MedLibDbContext : DbContext
     public DbSet<ConferenciaMedica> ConferenciasMedicas => Set<ConferenciaMedica>();
     public DbSet<Inscripcion> Inscripciones => Set<Inscripcion>();
     public DbSet<Asistencia> Asistencias => Set<Asistencia>();
+    public DbSet<SuscriptorBoletin> SuscriptoresBoletin => Set<SuscriptorBoletin>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -196,6 +197,19 @@ public class MedLibDbContext : DbContext
             entidad.Property(e => e.EsAsistenciaValida).HasColumnName("es_asistencia_valida").HasDefaultValue(true);
 
             entidad.HasIndex(e => new { e.IdConferencia, e.NumeroDocumento }).IsUnique();
+        });
+
+        modelBuilder.Entity<SuscriptorBoletin>(entidad =>
+        {
+            entidad.ToTable("t_suscriptor_boletin");
+            entidad.HasKey(e => e.IdSuscriptor);
+            entidad.Property(e => e.IdSuscriptor).HasColumnName("id_suscriptor").ValueGeneratedOnAdd();
+            entidad.Property(e => e.CorreoInstitucional).HasColumnName("correo_institucional").HasMaxLength(120).IsRequired();
+            entidad.Property(e => e.NivelAcademico).HasColumnName("nivel_academico").HasMaxLength(20).IsRequired();
+            entidad.Property(e => e.FechaSuscripcion).HasColumnName("fecha_suscripcion").HasDefaultValueSql("CURRENT_TIMESTAMP");
+            entidad.Property(e => e.EstadoActivo).HasColumnName("estado_activo").HasDefaultValue(true);
+
+            entidad.HasIndex(e => e.CorreoInstitucional).IsUnique();
         });
     }
 }
