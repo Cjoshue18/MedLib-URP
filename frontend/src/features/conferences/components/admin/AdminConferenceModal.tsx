@@ -26,7 +26,7 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
   const [formFin, setFormFin] = useState('');
   const [formModalidad, setFormModalidad] = useState<'Virtual' | 'Presencial'>('Virtual');
   const [formEnlace, setFormEnlace] = useState('');
-  const [formAutoPurge, setFormAutoPurge] = useState(true);
+  const [formAutoPurge, setFormAutoPurge] = useState(false);
   const [formEstado, setFormEstado] = useState('Programada');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [modalError, setModalError] = useState<string | null>(null);
@@ -66,7 +66,7 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
         setFormFin(formatForDatetimeLocal(twoHoursLater.toISOString()));
         setFormModalidad('Virtual');
         setFormEnlace('');
-        setFormAutoPurge(true);
+        setFormAutoPurge(false);
         setFormEstado('Programada');
       }
     }
@@ -93,6 +93,15 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
     if (endDate <= startDate) {
       setModalError('La fecha de fin debe ser posterior a la fecha de inicio.');
       return;
+    }
+
+    if (formAutoPurge && (!editingConference || !editingConference.autoPurgar30Dias)) {
+      const confirmPurge = window.confirm(
+        'Aviso de Retención de Datos:\n\nHa seleccionado "Purga Automática a 30 días". Las listas de pre-inscripción y asistencia se eliminarán permanentemente transcurridos 30 días del evento.\n\n¿Desea continuar con esta configuración?'
+      );
+      if (!confirmPurge) {
+        return;
+      }
     }
 
     setIsSubmitting(true);
@@ -296,21 +305,33 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
             </div>
           )}
 
-          <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between">
-            <div>
-              <span className="text-xs font-bold text-slate-900 block">
-                Purga Automática de Participantes a 30 días
-              </span>
-              <span className="text-[11px] text-slate-500 block leading-tight mt-0.5">
-                Elimina datos de pre-inscripción y asistencia 30 días después del evento según Ley 29733. Desactivar para retención permanente.
-              </span>
+          <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col gap-2.5">
+            <div className="flex items-center justify-between">
+              <div>
+                <span className="text-xs font-bold text-slate-900 block">
+                  Purga Automática de Participantes a 30 días
+                </span>
+                <span className="text-[11px] text-slate-500 block leading-tight mt-0.5">
+                  Elimina datos de pre-inscripción y asistencia 30 días después del evento según Ley 29733. Desactivado por defecto para retención indefinida.
+                </span>
+              </div>
+              <input
+                type="checkbox"
+                checked={formAutoPurge}
+                onChange={(e) => setFormAutoPurge(e.target.checked)}
+                className="w-5 h-5 rounded text-[#008744] focus:ring-[#008744] cursor-pointer shrink-0 ml-3"
+              />
             </div>
-            <input
-              type="checkbox"
-              checked={formAutoPurge}
-              onChange={(e) => setFormAutoPurge(e.target.checked)}
-              className="w-5 h-5 rounded text-[#008744] focus:ring-[#008744] cursor-pointer"
-            />
+
+            {formAutoPurge && (
+              <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 flex items-start gap-2.5 text-amber-900">
+                <ShieldAlert className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                <div className="text-[11px] leading-relaxed">
+                  <span className="font-bold block">Aviso de Purga Permanente:</span>
+                  Los registros de pre-inscripción y marcaciones de asistencia se eliminarán irrevocablemente transcurridos 30 días del evento. Para conservar el historial indefinidamente, desmarque esta casilla.
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="pt-3 border-t border-slate-200 flex items-center justify-end gap-3">

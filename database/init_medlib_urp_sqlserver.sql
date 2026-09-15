@@ -204,7 +204,7 @@ BEGIN
         [enlace_virtual]        NVARCHAR(255)     NULL,
         [asistencia_abierta]    BIT               NOT NULL CONSTRAINT [DF_conferencia_asistencia] DEFAULT (0),
         [estado_evento]         NVARCHAR(20)      NOT NULL CONSTRAINT [DF_conferencia_estado] DEFAULT ('Programada'),
-        [auto_purgar_30_dias]   BIT               NOT NULL CONSTRAINT [DF_conferencia_auto_purge] DEFAULT (1),
+        [auto_purgar_30_dias]   BIT               NOT NULL CONSTRAINT [DF_conferencia_auto_purge] DEFAULT (0),
         [fecha_caducidad_purge] DATETIME2         NULL,
         [fecha_creacion]        DATETIMEOFFSET    NOT NULL CONSTRAINT [DF_conferencia_fecha_creacion] DEFAULT (SYSDATETIMEOFFSET()),
         CONSTRAINT [PK_t_conferencia_medica] PRIMARY KEY CLUSTERED ([id_conferencia] ASC)

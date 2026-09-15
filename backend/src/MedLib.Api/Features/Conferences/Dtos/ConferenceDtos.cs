@@ -25,7 +25,7 @@ public record CreateConferenceRequest(
     DateTime FechaHoraFin,
     string Modalidad,
     string? EnlaceVirtual,
-    bool AutoPurgar30Dias = true
+    bool AutoPurgar30Dias = false
 );
 
 public record UpdateConferenceRequest(

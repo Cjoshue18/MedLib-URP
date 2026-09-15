@@ -146,7 +146,7 @@ public class MedLibDbContext : DbContext
             entidad.Property(e => e.EnlaceVirtual).HasColumnName("enlace_virtual").HasMaxLength(255);
             entidad.Property(e => e.AsistenciaAbierta).HasColumnName("asistencia_abierta").HasDefaultValue(false);
             entidad.Property(e => e.EstadoEvento).HasColumnName("estado_evento").HasMaxLength(20).HasDefaultValue("Programada");
-            entidad.Property(e => e.AutoPurgar30Dias).HasColumnName("auto_purgar_30_dias").HasDefaultValue(true);
+            entidad.Property(e => e.AutoPurgar30Dias).HasColumnName("auto_purgar_30_dias").HasDefaultValue(false);
             entidad.Property(e => e.FechaCaducidadPurge).HasColumnName("fecha_caducidad_purge");
             entidad.Property(e => e.FechaCreacion).HasColumnName("fecha_creacion").HasDefaultValueSql("CURRENT_TIMESTAMP");
 

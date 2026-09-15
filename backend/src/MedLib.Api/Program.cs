@@ -149,7 +149,7 @@ static void EnsureTablesCreated(WebApplication app)
                 enlace_virtual VARCHAR(255) NULL,
                 asistencia_abierta BOOLEAN NOT NULL DEFAULT FALSE,
                 estado_evento VARCHAR(20) NOT NULL DEFAULT 'Programada',
-                auto_purgar_30_dias BOOLEAN NOT NULL DEFAULT TRUE,
+                auto_purgar_30_dias BOOLEAN NOT NULL DEFAULT FALSE,
                 fecha_caducidad_purge TIMESTAMPTZ NULL,
                 fecha_creacion TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
             );
