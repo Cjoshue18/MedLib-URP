@@ -10,6 +10,7 @@ import {
   Share2,
   Link as LinkIcon,
   Check,
+  ExternalLink,
 } from 'lucide-react';
 import { ConferenceSummary } from '../../types';
 
@@ -65,11 +66,11 @@ export const ConferenceRegistrationSuccessCard: React.FC<ConferenceRegistrationS
         </div>
 
         <div className="p-6 sm:p-8 space-y-6">
-          <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+          <div className="bg-slate-50 p-6 rounded-2xl space-y-3">
             <h2 className="text-xs font-black uppercase tracking-wider text-slate-500">
               Resumen de la Conferencia
             </h2>
-            <p className="text-base font-display font-black text-slate-900">
+            <p className="text-base sm:text-lg font-display font-black text-slate-900">
               {conference.tituloEvento}
             </p>
             <div className="flex flex-wrap items-center gap-y-2 gap-x-4 text-xs font-semibold text-slate-600 pt-1">
@@ -100,11 +101,42 @@ export const ConferenceRegistrationSuccessCard: React.FC<ConferenceRegistrationS
             </div>
           </div>
 
-          <div className="bg-emerald-50/50 p-5 rounded-2xl border border-emerald-200 space-y-2">
-            <h2 className="text-xs font-black uppercase tracking-wider text-emerald-900">
+          {conference.enlaceVirtual && (
+            <div className="p-6 rounded-2xl bg-sky-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="space-y-1.5">
+                <div className="flex items-center gap-2 text-sky-950 font-black text-xs uppercase tracking-wider">
+                  <Video className="w-4 h-4 text-sky-600" />
+                  <span>Acceso a la Sala Virtual</span>
+                </div>
+                <p className="text-xs text-sky-900 leading-relaxed font-medium">
+                  Podrás conectarte el día de la sesión usando el siguiente enlace institucional:
+                </p>
+                <a
+                  href={conference.enlaceVirtual}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-xs font-mono font-bold text-sky-700 hover:underline break-all block pt-0.5"
+                >
+                  {conference.enlaceVirtual}
+                </a>
+              </div>
+              <a
+                href={conference.enlaceVirtual}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#0284c7] hover:bg-[#0369a1] text-white text-xs font-bold shadow-urp-brutal-sm tactile-btn transition-all cursor-pointer shrink-0 self-start sm:self-center"
+              >
+                <ExternalLink className="w-3.5 h-3.5" />
+                <span>Ingresar a la Sala</span>
+              </a>
+            </div>
+          )}
+
+          <div className="bg-[#E8F8F0] p-6 rounded-2xl space-y-2.5">
+            <h2 className="text-xs font-black uppercase tracking-wider text-[#00572B]">
               Datos del Participante Registrado
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-medium text-slate-700">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs font-medium text-slate-800">
               <p><strong>Nombres:</strong> {nombres} {apellidos}</p>
               <p><strong>{tipoDocumento}:</strong> {numeroDocumento}</p>
               <p><strong>Estamento:</strong> {tipoParticipante}</p>
@@ -113,7 +145,7 @@ export const ConferenceRegistrationSuccessCard: React.FC<ConferenceRegistrationS
             </div>
           </div>
 
-          <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-3">
+          <div className="p-6 rounded-2xl bg-slate-50 space-y-3">
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-xs font-black uppercase tracking-wider text-slate-900">
@@ -126,8 +158,8 @@ export const ConferenceRegistrationSuccessCard: React.FC<ConferenceRegistrationS
               <Share2 className="w-4 h-4 text-[#008744] shrink-0" />
             </div>
 
-            <div className="flex items-center gap-2 bg-slate-50 p-2.5 rounded-xl border border-slate-300">
-              <LinkIcon className="w-4 h-4 text-slate-400 shrink-0" />
+            <div className="flex items-center gap-2 bg-white p-2 rounded-xl border border-slate-200 shadow-2xs">
+              <LinkIcon className="w-4 h-4 text-slate-400 shrink-0 ml-1" />
               <input
                 type="text"
                 readOnly
@@ -137,7 +169,7 @@ export const ConferenceRegistrationSuccessCard: React.FC<ConferenceRegistrationS
               <button
                 type="button"
                 onClick={onCopyRegistrationLink}
-                className="px-3 py-1.5 rounded-lg bg-[#008744] text-white text-xs font-bold hover:bg-[#006b35] transition-colors cursor-pointer flex items-center gap-1.5 shrink-0"
+                className="px-4 py-2 rounded-xl bg-[#008744] hover:bg-[#006b35] text-white text-xs font-bold shadow-urp-brutal-sm tactile-btn transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
               >
                 {copiedLink ? (
                   <>
@@ -150,26 +182,6 @@ export const ConferenceRegistrationSuccessCard: React.FC<ConferenceRegistrationS
               </button>
             </div>
           </div>
-
-          {conference.enlaceVirtual && (
-            <div className="p-5 rounded-2xl bg-blue-50 border border-blue-200 space-y-2">
-              <div className="flex items-center gap-2 text-blue-900 font-bold text-xs">
-                <Video className="w-4 h-4 text-blue-700" />
-                <span>Acceso a la Sala Virtual</span>
-              </div>
-              <p className="text-[11px] text-blue-800 leading-relaxed">
-                Podrás conectarte el día de la sesión usando el siguiente enlace institucional:
-              </p>
-              <a
-                href={conference.enlaceVirtual}
-                target="_blank"
-                rel="noreferrer"
-                className="text-xs font-mono font-bold text-blue-700 hover:underline break-all block"
-              >
-                {conference.enlaceVirtual}
-              </a>
-            </div>
-          )}
 
           <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-center gap-3">
             <button

@@ -53,7 +53,7 @@ export const AttendanceLiveSuccessCard: React.FC<AttendanceLiveSuccessCardProps>
         </div>
 
         <div className="p-6 sm:p-8 space-y-6">
-          <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+          <div className="bg-slate-50 p-6 rounded-2xl space-y-3">
             <h2 className="text-xs font-black uppercase tracking-wider text-slate-500">
               Actividad Académica
             </h2>
@@ -76,27 +76,27 @@ export const AttendanceLiveSuccessCard: React.FC<AttendanceLiveSuccessCardProps>
             </div>
           </div>
 
-          <div className="bg-emerald-50/50 p-5 rounded-2xl border border-emerald-200 space-y-2">
-            <h2 className="text-xs font-black uppercase tracking-wider text-emerald-900">
+          <div className="bg-[#E8F8F0] p-6 rounded-2xl space-y-2.5">
+            <h2 className="text-xs font-black uppercase tracking-wider text-[#00572B]">
               Constancia de Marcación en Vivo
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-medium text-slate-700">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-medium text-slate-800">
               <p><strong>Participante:</strong> {nombres} {apellidos}</p>
               <p><strong>{tipoDocumento}:</strong> {numeroDocumento}</p>
               <p><strong>Rol / Estamento:</strong> {tipoParticipante}</p>
               <p><strong>Correo:</strong> {correo}</p>
               {cicloAcademico && <p><strong>Ciclo Académico:</strong> {cicloAcademico}° Ciclo</p>}
-              <p><strong>Estado:</strong> <span className="text-emerald-700 font-bold">Presente (En Sesión)</span></p>
+              <p><strong>Estado:</strong> <span className="text-[#00572B] font-black">Presente (En Sesión)</span></p>
             </div>
           </div>
 
           {conference.enlaceVirtual && (
-            <div className="p-5 rounded-2xl bg-blue-50 border border-blue-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="p-6 rounded-2xl bg-sky-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h3 className="text-xs font-black uppercase tracking-wider text-blue-900">
+                <h3 className="text-xs font-black uppercase tracking-wider text-sky-950">
                   Transmisión en Vivo (Sala Virtual)
                 </h3>
-                <p className="text-[11px] text-blue-700 mt-0.5">
+                <p className="text-[11px] text-sky-800 mt-0.5">
                   Puedes regresar a la sala de videoconferencia para continuar la capacitación.
                 </p>
               </div>
@@ -104,7 +104,7 @@ export const AttendanceLiveSuccessCard: React.FC<AttendanceLiveSuccessCardProps>
                 href={conference.enlaceVirtual}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold transition-colors cursor-pointer shrink-0"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#0284c7] hover:bg-[#0369a1] text-white text-xs font-bold shadow-urp-brutal-sm tactile-btn transition-all cursor-pointer shrink-0"
               >
                 <ExternalLink className="w-3.5 h-3.5" />
                 <span>Volver a la Sala Virtual</span>
