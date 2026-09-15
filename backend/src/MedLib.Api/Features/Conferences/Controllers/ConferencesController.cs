@@ -137,12 +137,26 @@ public class ConferencesController : ControllerBase
         }
 
         var normalizedDoc = request.NumeroDocumento.Trim().ToUpperInvariant();
-        var alreadyRegistered = await _context.Inscripciones
-            .AnyAsync(i => i.IdConferencia == id && i.NumeroDocumento == normalizedDoc, cancellationToken);
+        var existingInscripcion = await _context.Inscripciones
+            .FirstOrDefaultAsync(i => i.IdConferencia == id && i.NumeroDocumento == normalizedDoc, cancellationToken);
 
-        if (alreadyRegistered)
+        if (existingInscripcion != null)
         {
-            return Conflict(new { message = $"El participante con documento {normalizedDoc} ya se encuentra pre-inscrito en esta conferencia." });
+            return Conflict(new 
+            { 
+                alreadyRegistered = true,
+                message = $"El participante con documento {normalizedDoc} ya se encuentra pre-inscrito en esta conferencia.",
+                participant = new 
+                {
+                    nombres = existingInscripcion.Nombres,
+                    apellidos = existingInscripcion.Apellidos,
+                    tipoDocumento = existingInscripcion.TipoDocumento,
+                    numeroDocumento = existingInscripcion.NumeroDocumento,
+                    tipoParticipante = existingInscripcion.TipoParticipante,
+                    correo = existingInscripcion.Correo,
+                    cicloAcademico = existingInscripcion.CicloAcademico
+                }
+            });
         }
 
         var isPregrado = request.TipoParticipante.Equals("Pregrado", StringComparison.OrdinalIgnoreCase) ||
