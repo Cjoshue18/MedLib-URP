@@ -1,3 +1,5 @@
+import { getApiBase } from '../../../core/apiConfig';
+
 export type AccessType = 'Suscripción URP' | 'Acceso Abierto';
 
 export interface MedicalDatabase {
@@ -21,8 +23,7 @@ export const getDatabaseLogoUrl = (logoFile?: string | null): string => {
     return logoFile;
   }
   if (logoFile.startsWith('/api/v1/')) {
-    const apiBase = (import.meta.env.VITE_API_URL as string)?.replace(/\/$/, '') || '';
-    return `${apiBase}${logoFile}`;
+    return `${getApiBase()}${logoFile}`;
   }
   return `/logos/${logoFile}`;
 };

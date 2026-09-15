@@ -1,16 +1,13 @@
-import { authService } from '../../auth/services/authService';
-import { 
-  ConferenceSummary, 
-  CreateConferenceRequest, 
-  UpdateConferenceRequest, 
-  RegisterParticipantRequest, 
-  MarkAttendanceRequest, 
-  ConferenceReport 
+import { authService } from '../../auth';
+import { getApiBase } from '../../../core/apiConfig';
+import {
+  ConferenceSummary,
+  CreateConferenceRequest,
+  UpdateConferenceRequest,
+  RegisterParticipantRequest,
+  MarkAttendanceRequest,
+  ConferenceReport,
 } from '../types';
-
-const getApiBase = (): string => {
-  return (import.meta.env.VITE_API_URL as string)?.replace(/\/$/, '') || '';
-};
 
 export const conferenceService = {
   async getConferences(desde?: string, hasta?: string): Promise<ConferenceSummary[]> {

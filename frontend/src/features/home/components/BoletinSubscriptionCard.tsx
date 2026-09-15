@@ -42,10 +42,10 @@ export const BoletinSubscriptionCard: React.FC<BoletinSubscriptionCardProps> = (
       setTimeout(() => {
         setFeedback(null);
       }, 5000);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setFeedback({
         type: 'error',
-        message: err.message || 'Error al procesar la suscripción.',
+        message: err instanceof Error ? err.message : 'Error al procesar la suscripción.',
       });
     } finally {
       setIsSubmitting(false);
