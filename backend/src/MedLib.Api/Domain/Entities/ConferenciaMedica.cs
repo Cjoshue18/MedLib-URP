@@ -12,7 +12,7 @@ public class ConferenciaMedica
     public string? EnlaceVirtual { get; set; }
     public bool AsistenciaAbierta { get; set; } = false;
     public string EstadoEvento { get; set; } = "Programada";
-    public bool AutoPurgar30Dias { get; set; } = true;
+    public bool AutoPurgar30Dias { get; set; } = false;
     public DateTime? FechaCaducidadPurge { get; set; }
     public DateTime FechaCreacion { get; set; } = DateTime.UtcNow;
 

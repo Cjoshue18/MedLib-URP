@@ -66,6 +66,12 @@ export const AdminConferencesTab: React.FC<AdminConferencesTabProps> = ({
   };
 
   const handleTogglePurge = async (conf: ConferenceSummary) => {
+    if (!conf.autoPurgar30Dias) {
+      const confirmPurge = window.confirm(
+        `Aviso de Retención de Datos:\n\n¿Desea activar la purga automática a 30 días para "${conf.tituloEvento}"?\n\nTranscurridos 30 días tras finalizar la conferencia, las listas de inscritos y asistentes se eliminarán definitivamente.`
+      );
+      if (!confirmPurge) return;
+    }
     try {
       const res = await conferenceService.togglePurge(conf.idConferencia);
       onShowFeedback(res.message);
