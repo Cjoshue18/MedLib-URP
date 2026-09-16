@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, RefreshCw, XCircle } from 'lucide-react';
 import { resourceService } from '../../services/resourceService';
+import { MIN_ACTIVE_RESOURCES } from '../../constants/resourceConstants';
 import { AdminResourceSubjectConfirmDialog } from './AdminResourceSubjectConfirmDialog';
 
 export interface ResourceFormData {
@@ -303,7 +304,7 @@ export const AdminResourceModal: React.FC<AdminResourceModalProps> = ({
 
               <label
                 className={`flex items-center gap-2 text-xs font-bold ${
-                  initialData?.mostrarEnHexagonos || ((activeResourcesCount ?? 99) <= 15 && initialData?.isActive)
+                  initialData?.mostrarEnHexagonos || ((activeResourcesCount ?? 99) <= MIN_ACTIVE_RESOURCES && initialData?.isActive)
                     ? 'cursor-not-allowed text-slate-400'
                     : 'cursor-pointer text-slate-700'
                 }`}
@@ -311,12 +312,12 @@ export const AdminResourceModal: React.FC<AdminResourceModalProps> = ({
                 <input
                   type="checkbox"
                   disabled={
-                    initialData?.mostrarEnHexagonos || ((activeResourcesCount ?? 99) <= 15 && initialData?.isActive)
+                    initialData?.mostrarEnHexagonos || ((activeResourcesCount ?? 99) <= MIN_ACTIVE_RESOURCES && initialData?.isActive)
                   }
                   checked={formData.isActive}
                   onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
                   className={`w-4 h-4 rounded text-[#008744] focus:ring-[#008744] ${
-                    initialData?.mostrarEnHexagonos || ((activeResourcesCount ?? 99) <= 15 && initialData?.isActive)
+                    initialData?.mostrarEnHexagonos || ((activeResourcesCount ?? 99) <= MIN_ACTIVE_RESOURCES && initialData?.isActive)
                       ? 'cursor-not-allowed text-slate-400'
                       : 'cursor-pointer'
                   }`}
@@ -331,9 +332,9 @@ export const AdminResourceModal: React.FC<AdminResourceModalProps> = ({
               </p>
             )}
 
-            {!initialData?.mostrarEnHexagonos && (activeResourcesCount ?? 99) <= 15 && initialData?.isActive && (
+            {!initialData?.mostrarEnHexagonos && (activeResourcesCount ?? 99) <= MIN_ACTIVE_RESOURCES && initialData?.isActive && (
               <p className="text-[11px] text-amber-700 font-semibold bg-amber-50 border border-amber-200 p-2.5 rounded-xl">
-                No se puede inactivar: el sistema requiere tener al menos 15 bases de datos activas.
+                No se puede inactivar: el sistema requiere tener al menos {MIN_ACTIVE_RESOURCES} bases de datos activas.
               </p>
             )}
           </div>

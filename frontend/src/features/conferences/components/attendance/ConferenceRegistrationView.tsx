@@ -15,6 +15,11 @@ import { conferenceService } from '../../services/conferenceService';
 
 import { ConferenceParticipantFormFields } from './ConferenceParticipantFormFields';
 import { ConferenceRegistrationSuccessCard } from './ConferenceRegistrationSuccessCard';
+import {
+  sanitizeDocumentNumber,
+  getDefaultDocAndCycleForParticipantType,
+  validateParticipantFields,
+} from '../../utils/participantValidation';
 
 interface ConferenceRegistrationViewProps {
   conference: ConferenceSummary;
@@ -40,11 +45,11 @@ export const ConferenceRegistrationView: React.FC<ConferenceRegistrationViewProp
   const [copiedLink, setCopiedLink] = useState(false);
 
   useEffect(() => {
-    if (tipoParticipante === 'Pregrado' || tipoParticipante === 'Estudiante') {
-      setTipoDocumento('CODIGO_URP');
-      if (cicloAcademico === null) setCicloAcademico(1);
-    } else {
-      setTipoDocumento('DNI');
+    const { defaultTipoDocumento, defaultCiclo } = getDefaultDocAndCycleForParticipantType(tipoParticipante);
+    setTipoDocumento(defaultTipoDocumento);
+    if (cicloAcademico === null && defaultCiclo !== null) {
+      setCicloAcademico(defaultCiclo);
+    } else if (defaultCiclo === null) {
       setCicloAcademico(null);
     }
     setNumeroDocumento('');
@@ -57,45 +62,23 @@ export const ConferenceRegistrationView: React.FC<ConferenceRegistrationViewProp
   }, [tipoDocumento]);
 
   const handleDocumentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    if (tipoDocumento === 'DNI') {
-      const clean = val.replace(/\D/g, '').slice(0, 8);
-      setNumeroDocumento(clean);
-    } else if (tipoDocumento === 'CODIGO_URP') {
-      const clean = val.replace(/\D/g, '').slice(0, 9);
-      setNumeroDocumento(clean);
-    } else {
-      const clean = val.replace(/[^a-zA-Z0-9]/g, '').toUpperCase().slice(0, 9);
-      setNumeroDocumento(clean);
-    }
+    setNumeroDocumento(sanitizeDocumentNumber(tipoDocumento, e.target.value));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage(null);
 
-    if (tipoDocumento === 'DNI' && numeroDocumento.length !== 8) {
-      setErrorMessage('El DNI debe contener exactamente 8 dígitos numéricos.');
-      return;
-    }
+    const validation = validateParticipantFields({
+      tipoDocumento,
+      numeroDocumento,
+      nombres,
+      apellidos,
+      correo,
+    });
 
-    if (tipoDocumento === 'CODIGO_URP' && numeroDocumento.length !== 9) {
-      setErrorMessage('El código de estudiante URP debe tener exactamente 9 dígitos numéricos.');
-      return;
-    }
-
-    if (tipoDocumento === 'CE' && numeroDocumento.length !== 9) {
-      setErrorMessage('El Carné de Extranjería (CE) debe contener exactamente 9 caracteres.');
-      return;
-    }
-
-    if (!nombres.trim() || !apellidos.trim()) {
-      setErrorMessage('Debe ingresar sus nombres y apellidos completos.');
-      return;
-    }
-
-    if (!correo.trim() || !correo.includes('@')) {
-      setErrorMessage('Debe ingresar un correo electrónico institucional o de contacto válido.');
+    if (!validation.isValid) {
+      setErrorMessage(validation.errorMessage || 'Datos de participante inválidos.');
       return;
     }
 

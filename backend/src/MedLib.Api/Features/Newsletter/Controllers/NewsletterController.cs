@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using MedLib.Api.Common.Constants;
 using MedLib.Api.Domain.Entities;
 using MedLib.Api.Features.Newsletter.Dtos;
 using MedLib.Api.Infrastructure.Persistence;
@@ -35,24 +36,7 @@ public class NewsletterController : ControllerBase
         }
 
         var normalizedEmail = request.CorreoInstitucional.Trim().ToLowerInvariant();
-        var rawLevel = request.NivelAcademico?.Trim().ToLowerInvariant() ?? string.Empty;
-
-        string normalizedLevel = rawLevel switch
-        {
-            "pregrado" => "Pregrado",
-            "posgrado" => "Posgrado",
-            "postgrado" => "Posgrado",
-            "residentado" => "Residentado",
-            "docente" => "Docente",
-            "profesor" => "Docente",
-            "otro" => "Otro",
-            _ => string.Empty
-        };
-
-        if (string.IsNullOrEmpty(normalizedLevel))
-        {
-            return BadRequest(new { message = "El nivel académico debe ser 'Pregrado', 'Posgrado', 'Residentado', 'Docente' u 'Otro'." });
-        }
+        var normalizedLevel = AcademicLevels.Normalize(request.NivelAcademico);
 
         var existing = await _context.SuscriptoresBoletin
             .FirstOrDefaultAsync(s => s.CorreoInstitucional == normalizedEmail, cancellationToken);
@@ -98,11 +82,11 @@ public class NewsletterController : ControllerBase
             .Select(g => new { Nivel = g.Key, Count = g.Count() })
             .ToListAsync(cancellationToken);
 
-        var pregrado = subscribers.FirstOrDefault(s => s.Nivel == "Pregrado")?.Count ?? 0;
-        var posgrado = subscribers.FirstOrDefault(s => s.Nivel == "Posgrado")?.Count ?? 0;
-        var residentado = subscribers.FirstOrDefault(s => s.Nivel == "Residentado")?.Count ?? 0;
-        var docente = subscribers.FirstOrDefault(s => s.Nivel == "Docente")?.Count ?? 0;
-        var otro = subscribers.FirstOrDefault(s => s.Nivel == "Otro")?.Count ?? 0;
+        var pregrado = subscribers.FirstOrDefault(s => s.Nivel == AcademicLevels.Pregrado)?.Count ?? 0;
+        var posgrado = subscribers.FirstOrDefault(s => s.Nivel == AcademicLevels.Posgrado)?.Count ?? 0;
+        var residentado = subscribers.FirstOrDefault(s => s.Nivel == AcademicLevels.Residentado)?.Count ?? 0;
+        var docente = subscribers.FirstOrDefault(s => s.Nivel == AcademicLevels.Docente)?.Count ?? 0;
+        var otro = subscribers.FirstOrDefault(s => s.Nivel == AcademicLevels.Otro)?.Count ?? 0;
         var total = pregrado + posgrado + residentado + docente + otro;
 
         return Ok(new NewsletterStatsDto(total, pregrado, posgrado, residentado, docente, otro));
@@ -124,9 +108,9 @@ public class NewsletterController : ControllerBase
             query = query.Where(s => s.CorreoInstitucional.Contains(search));
         }
 
-        if (!string.IsNullOrWhiteSpace(nivel))
+        if (!string.IsNullOrWhiteSpace(nivel) && nivel != "todos")
         {
-            var cleanNivel = nivel.Trim();
+            var cleanNivel = AcademicLevels.Normalize(nivel);
             query = query.Where(s => s.NivelAcademico == cleanNivel);
         }
 
@@ -190,7 +174,7 @@ public class NewsletterController : ControllerBase
         var nuevos = 0;
         foreach (var item in candidates)
         {
-            var level = MapParticipantTypeToAcademicLevel(item.TipoParticipante);
+            var level = AcademicLevels.Normalize(item.TipoParticipante);
 
             if (existingSubs.TryGetValue(item.Correo, out var existing))
             {
@@ -230,14 +214,6 @@ public class NewsletterController : ControllerBase
 
     public static string MapParticipantTypeToAcademicLevel(string? participantType)
     {
-        var raw = participantType?.Trim().ToLowerInvariant() ?? string.Empty;
-        return raw switch
-        {
-            "pregrado" or "estudiante" => "Pregrado",
-            "posgrado" or "postgrado" => "Posgrado",
-            "residentado" => "Residentado",
-            "docente" or "profesor" => "Docente",
-            _ => "Otro"
-        };
+        return AcademicLevels.Normalize(participantType);
     }
 }

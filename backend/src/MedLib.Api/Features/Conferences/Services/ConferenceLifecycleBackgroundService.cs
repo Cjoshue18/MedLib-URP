@@ -1,5 +1,4 @@
-using MedLib.Api.Features.Conferences.Controllers;
-using MedLib.Api.Infrastructure.Persistence;
+using MedLib.Api.Features.Conferences.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -26,8 +25,8 @@ public class ConferenceLifecycleBackgroundService : BackgroundService
             try
             {
                 using var scope = _serviceProvider.CreateScope();
-                var context = scope.ServiceProvider.GetRequiredService<MedLibDbContext>();
-                await ConferencesController.AutoFinalizeExpiredConferencesAsync(context, stoppingToken);
+                var reportService = scope.ServiceProvider.GetRequiredService<IConferenceReportService>();
+                await reportService.AutoFinalizeExpiredConferencesAsync(stoppingToken);
             }
             catch (Exception ex)
             {

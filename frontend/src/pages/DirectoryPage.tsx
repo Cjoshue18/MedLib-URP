@@ -7,7 +7,10 @@ import {
   DatabaseSearchBar,
   DatabaseSkeletonGrid,
   DatabaseAccordionCard,
+  DEFAULT_KEY_PLATFORMS,
 } from '../features/guides';
+import { normalizeText } from '../utils/textUtils';
+import { splitIntoColumns } from '../utils/arrayUtils';
 
 interface DirectoryPageProps {
   initialSearchQuery?: string;
@@ -69,14 +72,6 @@ export const DirectoryPage: React.FC<DirectoryPageProps> = ({ initialSearchQuery
     });
   };
 
-  const normalizeText = (str: string): string => {
-    return str
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .toLowerCase()
-      .trim();
-  };
-
   const filteredDbs = databases.filter((db) => {
     const q = normalizeText(searchQuery);
     const matchesSearch =
@@ -94,12 +89,8 @@ export const DirectoryPage: React.FC<DirectoryPageProps> = ({ initialSearchQuery
     return matchesSearch && matchesLicense;
   });
 
-  const col1DbsLg = filteredDbs.filter((_, i) => i % 3 === 0);
-  const col2DbsLg = filteredDbs.filter((_, i) => i % 3 === 1);
-  const col3DbsLg = filteredDbs.filter((_, i) => i % 3 === 2);
-
-  const col1DbsMd = filteredDbs.filter((_, i) => i % 2 === 0);
-  const col2DbsMd = filteredDbs.filter((_, i) => i % 2 !== 0);
+  const [col1DbsLg = [], col2DbsLg = [], col3DbsLg = []] = splitIntoColumns(filteredDbs, 3);
+  const [col1DbsMd = [], col2DbsMd = []] = splitIntoColumns(filteredDbs, 2);
 
   const quickKeywords = useMemo(() => {
     if (!databases || databases.length === 0) return [];
@@ -114,8 +105,7 @@ export const DirectoryPage: React.FC<DirectoryPageProps> = ({ initialSearchQuery
       });
     });
 
-    const keyPlatforms = ['ClinicalKey', 'Elsevier', 'BMJ', 'McGraw-Hill', 'Springer', 'EBSCO', 'PubMed', 'Scopus'];
-    keyPlatforms.forEach((platform) => {
+    DEFAULT_KEY_PLATFORMS.forEach((platform) => {
       const matchCount = databases.filter((db) =>
         normalizeText(db.title).includes(normalizeText(platform)) ||
         db.tags.some((t) => normalizeText(t).includes(normalizeText(platform)))

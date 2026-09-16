@@ -1,5 +1,8 @@
+using MedLib.Api.Common.Constants;
+using MedLib.Api.Common.Validation;
 using MedLib.Api.Domain.Entities;
 using MedLib.Api.Features.Conferences.Dtos;
+using MedLib.Api.Features.Conferences.Services;
 using MedLib.Api.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,10 +14,12 @@ namespace MedLib.Api.Features.Conferences.Controllers;
 public class ConferencesController : ControllerBase
 {
     private readonly MedLibDbContext _context;
+    private readonly IConferenceReportService _reportService;
 
-    public ConferencesController(MedLibDbContext context)
+    public ConferencesController(MedLibDbContext context, IConferenceReportService reportService)
     {
         _context = context;
+        _reportService = reportService;
     }
 
     [HttpGet]
@@ -23,7 +28,7 @@ public class ConferencesController : ControllerBase
         [FromQuery] DateTime? hasta,
         CancellationToken cancellationToken)
     {
-        await AutoFinalizeExpiredConferencesAsync(_context, cancellationToken);
+        await _reportService.AutoFinalizeExpiredConferencesAsync(cancellationToken);
 
         var query = _context.ConferenciasMedicas.AsNoTracking();
 
@@ -65,7 +70,7 @@ public class ConferencesController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<ActionResult<ConferenceSummaryDto>> GetById(int id, CancellationToken cancellationToken)
     {
-        await AutoFinalizeExpiredConferencesAsync(_context, cancellationToken);
+        await _reportService.AutoFinalizeExpiredConferencesAsync(cancellationToken);
 
         var conference = await _context.ConferenciasMedicas
             .AsNoTracking()
@@ -96,24 +101,6 @@ public class ConferencesController : ControllerBase
         return Ok(conference);
     }
 
-    public static async Task AutoFinalizeExpiredConferencesAsync(MedLibDbContext context, CancellationToken cancellationToken)
-    {
-        var now = DateTime.UtcNow;
-        var expiredConferences = await context.ConferenciasMedicas
-            .Where(c => c.FechaHoraFin <= now && c.EstadoEvento != "Finalizada" && c.EstadoEvento != "Cancelada")
-            .ToListAsync(cancellationToken);
-
-        if (expiredConferences.Count > 0)
-        {
-            foreach (var c in expiredConferences)
-            {
-                c.EstadoEvento = "Finalizada";
-                c.AsistenciaAbierta = false;
-            }
-            await context.SaveChangesAsync(cancellationToken);
-        }
-    }
-
     [HttpPost("{id:int}/register")]
     public async Task<IActionResult> Register(int id, [FromBody] RegisterParticipantRequest request, CancellationToken cancellationToken)
     {
@@ -130,7 +117,15 @@ public class ConferencesController : ControllerBase
             return BadRequest(new { message = "No es posible inscribirse a una conferencia cancelada." });
         }
 
-        var validationError = ValidateParticipantData(request.TipoParticipante, request.TipoDocumento, request.NumeroDocumento, request.Nombres, request.Apellidos, request.Correo, request.CicloAcademico);
+        var validationError = ParticipantDocumentValidator.Validate(
+            request.TipoParticipante,
+            request.TipoDocumento,
+            request.NumeroDocumento,
+            request.Nombres,
+            request.Apellidos,
+            request.Correo,
+            request.CicloAcademico);
+
         if (validationError != null)
         {
             return BadRequest(new { message = validationError });
@@ -204,7 +199,15 @@ public class ConferencesController : ControllerBase
             return BadRequest(new { message = "La marcación de asistencia para esta conferencia no se encuentra habilitada en este momento." });
         }
 
-        var validationError = ValidateParticipantData(request.TipoParticipante, request.TipoDocumento, request.NumeroDocumento, request.Nombres, request.Apellidos, request.Correo, request.CicloAcademico);
+        var validationError = ParticipantDocumentValidator.Validate(
+            request.TipoParticipante,
+            request.TipoDocumento,
+            request.NumeroDocumento,
+            request.Nombres,
+            request.Apellidos,
+            request.Correo,
+            request.CicloAcademico);
+
         if (validationError != null)
         {
             return BadRequest(new { message = validationError });
@@ -258,7 +261,7 @@ public class ConferencesController : ControllerBase
         var existing = await _context.SuscriptoresBoletin
             .FirstOrDefaultAsync(s => s.CorreoInstitucional == cleanEmail, cancellationToken);
 
-        var level = MedLib.Api.Features.Newsletter.Controllers.NewsletterController.MapParticipantTypeToAcademicLevel(tipoParticipante);
+        var level = AcademicLevels.Normalize(tipoParticipante);
 
         if (existing == null)
         {
@@ -275,70 +278,5 @@ public class ConferencesController : ControllerBase
             existing.EstadoActivo = true;
             existing.NivelAcademico = level;
         }
-    }
-
-    private static string? ValidateParticipantData(
-        string tipoParticipante, 
-        string tipoDocumento, 
-        string numeroDocumento, 
-        string nombres, 
-        string apellidos, 
-        string correo, 
-        int? cicloAcademico)
-    {
-        if (string.IsNullOrWhiteSpace(nombres) || string.IsNullOrWhiteSpace(apellidos))
-        {
-            return "Los nombres y apellidos son obligatorios.";
-        }
-
-        if (string.IsNullOrWhiteSpace(correo) || !correo.Contains('@'))
-        {
-            return "Debe ingresar un correo electrónico válido.";
-        }
-
-        var doc = numeroDocumento?.Trim() ?? string.Empty;
-        var tipoDoc = tipoDocumento?.Trim().ToUpperInvariant() ?? string.Empty;
-
-        if (tipoDoc == "DNI")
-        {
-            if (doc.Length != 8 || !doc.All(char.IsDigit))
-            {
-                return "El DNI debe contener exactamente 8 dígitos numéricos.";
-            }
-        }
-        else if (tipoDoc == "CODIGO_URP")
-        {
-            if (doc.Length != 9 || !doc.All(char.IsDigit))
-            {
-                return "El Código Universitario URP debe contener exactamente 9 dígitos numéricos.";
-            }
-        }
-        else if (tipoDoc == "CE")
-        {
-            if (doc.Length != 9)
-            {
-                return "El Carné de Extranjería (CE) debe contener exactamente 9 caracteres.";
-            }
-        }
-        else
-        {
-            if (doc.Length < 8 || doc.Length > 20)
-            {
-                return "El documento debe contener entre 8 y 20 caracteres.";
-            }
-        }
-
-        var isPregrado = tipoParticipante.Equals("Pregrado", StringComparison.OrdinalIgnoreCase) ||
-                         tipoParticipante.Equals("Estudiante", StringComparison.OrdinalIgnoreCase);
-
-        if (isPregrado)
-        {
-            if (!cicloAcademico.HasValue || cicloAcademico.Value < 1 || cicloAcademico.Value > 14)
-            {
-                return "Para estudiantes de pregrado, el ciclo académico debe ser un número entre 1 y 14.";
-            }
-        }
-
-        return null;
     }
 }

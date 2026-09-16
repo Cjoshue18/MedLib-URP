@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using MedLib.Api.Common.Constants;
 using MedLib.Api.Domain.Entities;
 using MedLib.Api.Features.LostFound.Dtos;
 using MedLib.Api.Infrastructure.Persistence;
@@ -29,7 +30,7 @@ public class LostFoundController : ControllerBase
     {
         var posts = await _context.ObjetosPerdidosPosts
             .OrderByDescending(p => p.FechaCreacion)
-            .Take(6)
+            .Take(LostFoundConstants.MaxActivePosts)
             .Select(p => new LostItemPostDto(p.IdPost, p.UrlInstagram, p.FechaCreacion))
             .ToListAsync();
 
@@ -54,9 +55,9 @@ public class LostFoundController : ControllerBase
         var normalizedUrl = $"https://www.instagram.com/p/{match.Groups[1].Value}/";
 
         var count = await _context.ObjetosPerdidosPosts.CountAsync();
-        if (count >= 6)
+        if (count >= LostFoundConstants.MaxActivePosts)
         {
-            return BadRequest(new { message = "Se ha alcanzado el límite máximo de 6 publicaciones. Elimine una antes de añadir una nueva." });
+            return BadRequest(new { message = $"Se ha alcanzado el límite máximo de {LostFoundConstants.MaxActivePosts} publicaciones. Elimine una antes de añadir una nueva." });
         }
 
         var entity = new ObjetoPerdidoPost

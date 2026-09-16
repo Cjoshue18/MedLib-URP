@@ -11,6 +11,7 @@ import { DatabaseSearchBar } from '../DatabaseSearchBar';
 import { AdminResourceTable } from './AdminResourceTable';
 import { AdminResourceModal, ResourceFormData } from './AdminResourceModal';
 import { HexagonMatrixModal } from './HexagonMatrixModal';
+import { MIN_ACTIVE_RESOURCES } from '../../constants/resourceConstants';
 
 interface AdminDatabasesTabProps {
   onShowFeedback: (message: string) => void;
@@ -100,9 +101,9 @@ export const AdminDatabasesTab: React.FC<AdminDatabasesTabProps> = ({
         return;
       }
 
-      if (existing?.isActive && !formData.isActive && activeCount <= 15) {
+      if (existing?.isActive && !formData.isActive && activeCount <= MIN_ACTIVE_RESOURCES) {
         onShowFeedback(
-          'No se puede inactivar: deben mantenerse al menos 15 bases de datos activas en el catálogo.'
+          `No se puede inactivar: deben mantenerse al menos ${MIN_ACTIVE_RESOURCES} bases de datos activas en el catálogo.`
         );
         return;
       }
@@ -148,8 +149,8 @@ export const AdminDatabasesTab: React.FC<AdminDatabasesTabProps> = ({
       return;
     }
 
-    if (resources.length <= 15) {
-      onShowFeedback('No se puede eliminar: el sistema debe mantener un mínimo de 15 bases de datos registradas.');
+    if (resources.length <= MIN_ACTIVE_RESOURCES) {
+      onShowFeedback(`No se puede eliminar: el sistema debe mantener un mínimo de ${MIN_ACTIVE_RESOURCES} bases de datos registradas.`);
       return;
     }
 
