@@ -1,3 +1,4 @@
+using MedLib.Api.Common.Constants;
 using MedLib.Api.Common.Interfaces;
 using MedLib.Api.Domain.Entities;
 using MedLib.Api.Features.Resources.Dtos;
@@ -69,9 +70,9 @@ public class AdminResourcesController : ControllerBase
         {
             var hexagonCount = await _context.BasesDatosMedicas
                 .CountAsync(r => r.MostrarEnHexagonos && r.EstadoActivo, cancellationToken);
-            if (hexagonCount >= 15)
+            if (hexagonCount >= ResourceConstants.MaxHexagonMatrixCount)
             {
-                return BadRequest(new { message = "Límite alcanzado: Ya existen 15 bases de datos asignadas a los hexágonos de inicio. Desactive otra antes de habilitar esta." });
+                return BadRequest(new { message = $"Límite alcanzado: Ya existen {ResourceConstants.MaxHexagonMatrixCount} bases de datos asignadas a los hexágonos de inicio. Desactive otra antes de habilitar esta." });
             }
         }
 
@@ -135,9 +136,9 @@ public class AdminResourcesController : ControllerBase
 
             var activeCount = await _context.BasesDatosMedicas
                 .CountAsync(r => r.EstadoActivo, cancellationToken);
-            if (activeCount <= 15)
+            if (activeCount <= ResourceConstants.MinActiveResourcesRequired)
             {
-                return BadRequest(new { message = "No se puede inactivar: el sistema requiere al menos 15 bases de datos activas para sustentar la portada." });
+                return BadRequest(new { message = $"No se puede inactivar: el sistema requiere al menos {ResourceConstants.MinActiveResourcesRequired} bases de datos activas para sustentar la portada." });
             }
         }
 
@@ -145,9 +146,9 @@ public class AdminResourcesController : ControllerBase
         {
             var hexagonCount = await _context.BasesDatosMedicas
                 .CountAsync(r => r.MostrarEnHexagonos && r.EstadoActivo && r.IdBaseDatos != id, cancellationToken);
-            if (hexagonCount >= 15)
+            if (hexagonCount >= ResourceConstants.MaxHexagonMatrixCount)
             {
-                return BadRequest(new { message = "Límite alcanzado: Ya existen 15 bases de datos asignadas a los hexágonos de inicio. Desactive otra antes de habilitar esta." });
+                return BadRequest(new { message = $"Límite alcanzado: Ya existen {ResourceConstants.MaxHexagonMatrixCount} bases de datos asignadas a los hexágonos de inicio. Desactive otra antes de habilitar esta." });
             }
         }
 
@@ -212,9 +213,9 @@ public class AdminResourcesController : ControllerBase
 
         var activeCount = await _context.BasesDatosMedicas
             .CountAsync(r => r.EstadoActivo, cancellationToken);
-        if (activeCount <= 15)
+        if (activeCount <= ResourceConstants.MinActiveResourcesRequired)
         {
-            return BadRequest(new { message = "No se puede eliminar: el sistema requiere al menos 15 bases de datos registradas." });
+            return BadRequest(new { message = $"No se puede eliminar: el sistema requiere al menos {ResourceConstants.MinActiveResourcesRequired} bases de datos registradas." });
         }
 
         database.EstadoActivo = false;
@@ -231,15 +232,15 @@ public class AdminResourcesController : ControllerBase
         [FromBody] UpdateHexagonMatrixRequest request,
         CancellationToken cancellationToken)
     {
-        if (request == null || request.ResourceIds == null || request.ResourceIds.Count != 15)
+        if (request == null || request.ResourceIds == null || request.ResourceIds.Count != ResourceConstants.MaxHexagonMatrixCount)
         {
-            return BadRequest(new { message = "Se deben seleccionar exactamente 15 bases de datos para la matriz hexagonal de inicio." });
+            return BadRequest(new { message = $"Se deben seleccionar exactamente {ResourceConstants.MaxHexagonMatrixCount} bases de datos para la matriz hexagonal de inicio." });
         }
 
         var distinctIds = request.ResourceIds.Distinct().ToList();
-        if (distinctIds.Count != 15)
+        if (distinctIds.Count != ResourceConstants.MaxHexagonMatrixCount)
         {
-            return BadRequest(new { message = "No se permiten identificadores duplicados en la selección de 15 bases de datos." });
+            return BadRequest(new { message = $"No se permiten identificadores duplicados en la selección de {ResourceConstants.MaxHexagonMatrixCount} bases de datos." });
         }
 
         var activeDatabases = await _context.BasesDatosMedicas
@@ -247,9 +248,9 @@ public class AdminResourcesController : ControllerBase
             .Select(r => r.IdBaseDatos)
             .ToListAsync(cancellationToken);
 
-        if (activeDatabases.Count != 15)
+        if (activeDatabases.Count != ResourceConstants.MaxHexagonMatrixCount)
         {
-            return BadRequest(new { message = "Todas las 15 bases de datos seleccionadas deben existir y estar en estado activo." });
+            return BadRequest(new { message = $"Todas las {ResourceConstants.MaxHexagonMatrixCount} bases de datos seleccionadas deben existir y estar en estado activo." });
         }
 
         var allDatabases = await _context.BasesDatosMedicas.ToListAsync(cancellationToken);
@@ -277,9 +278,9 @@ public class AdminResourcesController : ControllerBase
         {
             var hexagonCount = await _context.BasesDatosMedicas
                 .CountAsync(r => r.MostrarEnHexagonos && r.EstadoActivo, cancellationToken);
-            if (hexagonCount >= 15)
+            if (hexagonCount >= ResourceConstants.MaxHexagonMatrixCount)
             {
-                return BadRequest(new { message = "Límite alcanzado: Ya existen 15 bases de datos asignadas a los hexágonos de inicio. Desactive otra antes de habilitar esta." });
+                return BadRequest(new { message = $"Límite alcanzado: Ya existen {ResourceConstants.MaxHexagonMatrixCount} bases de datos asignadas a los hexágonos de inicio. Desactive otra antes de habilitar esta." });
             }
         }
 

@@ -1,0 +1,1 @@
+export const MAX_ACTIVE_LOST_FOUND_POSTS = 6;

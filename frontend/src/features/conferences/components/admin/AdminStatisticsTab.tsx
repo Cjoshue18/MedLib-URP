@@ -1,24 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import {
-  RefreshCw,
-  Calendar,
-  Building2,
-  Video,
-  MapPin,
-  Loader2,
-  FileSpreadsheet,
-} from 'lucide-react';
+import { RefreshCw, Calendar, Loader2, FileSpreadsheet } from 'lucide-react';
 import { ConferenceSummary, ConferenceReport, ParticipantRecord } from '../../types';
 import { conferenceService } from '../../services/conferenceService';
 import { excelExportService } from '../../../attendance/services/excelExportService';
-
+import { MONTH_NAMES_ES } from '../../../../utils/dateFormatter';
+import { ConferenceReportFilterBar } from './ConferenceReportFilterBar';
+import { ConferenceReportHeader } from './ConferenceReportHeader';
 import { ConferenceReportSummaryCards } from './ConferenceReportSummaryCards';
 import { ConferenceReportParticipantsTable } from './ConferenceReportParticipantsTable';
-
-const MONTH_NAMES = [
-  'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-  'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre'
-];
 
 interface AdminStatisticsTabProps {
   initialConferenceId?: number | null;
@@ -192,67 +181,17 @@ export const AdminStatisticsTab: React.FC<AdminStatisticsTabProps> = ({
         </div>
       </div>
 
-      <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 flex-1">
-          <div>
-            <label className="text-xs font-extrabold text-slate-700 block mb-1.5">
-              Mes:
-            </label>
-            <select
-              value={selectedMonth}
-              onChange={(e) => setSelectedMonth(parseInt(e.target.value, 10))}
-              disabled={isLoadingConferences}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#008744] cursor-pointer"
-            >
-              {MONTH_NAMES.map((name, idx) => (
-                <option key={idx} value={idx}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="text-xs font-extrabold text-slate-700 block mb-1.5">
-              Año:
-            </label>
-            <select
-              value={selectedYear}
-              onChange={(e) => setSelectedYear(parseInt(e.target.value, 10))}
-              disabled={isLoadingConferences}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#008744] cursor-pointer"
-            >
-              {availableYears.map((year) => (
-                <option key={year} value={year}>
-                  {year}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="sm:col-span-2">
-            <label className="text-xs font-extrabold text-slate-700 block mb-1.5">
-              Seleccionar Conferencia Médica a Auditar:
-            </label>
-            <select
-              value={selectedConferenceId || ''}
-              onChange={(e) => setSelectedConferenceId(parseInt(e.target.value, 10))}
-              disabled={isLoadingConferences || filteredConferences.length === 0}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#008744] cursor-pointer disabled:opacity-50"
-            >
-              {filteredConferences.length === 0 ? (
-                <option value="">Sin conferencias en este mes ({MONTH_NAMES[selectedMonth]} {selectedYear})</option>
-              ) : (
-                filteredConferences.map((c) => (
-                  <option key={c.idConferencia} value={c.idConferencia}>
-                    {new Date(c.fechaHoraInicio).toLocaleDateString('es-PE', { day: '2-digit', month: '2-digit' })} - {c.tituloEvento} ({c.entidadEditorial})
-                  </option>
-                ))
-              )}
-            </select>
-          </div>
-        </div>
-      </div>
+      <ConferenceReportFilterBar
+        selectedMonth={selectedMonth}
+        onMonthChange={setSelectedMonth}
+        selectedYear={selectedYear}
+        onYearChange={setSelectedYear}
+        availableYears={availableYears}
+        selectedConferenceId={selectedConferenceId}
+        onConferenceIdChange={setSelectedConferenceId}
+        filteredConferences={filteredConferences}
+        isLoadingConferences={isLoadingConferences}
+      />
 
       {isLoadingReport ? (
         <div className="bg-white p-12 rounded-2xl border border-slate-200 shadow-xs flex flex-col items-center justify-center gap-3">
@@ -263,7 +202,7 @@ export const AdminStatisticsTab: React.FC<AdminStatisticsTabProps> = ({
         <div className="bg-white p-12 rounded-2xl border border-slate-200 shadow-xs text-center space-y-2">
           <Calendar className="w-8 h-8 text-slate-400 mx-auto" />
           <h3 className="font-bold text-slate-800 text-sm">
-            Sin conferencias en {MONTH_NAMES[selectedMonth]} {selectedYear}
+            Sin conferencias en {MONTH_NAMES_ES[selectedMonth]} {selectedYear}
           </h3>
           <p className="text-xs text-slate-500 max-w-sm mx-auto">
             No se registran actividades para el mes seleccionado. Selecciona otro periodo en los filtros superiores para visualizar reportes.
@@ -275,61 +214,8 @@ export const AdminStatisticsTab: React.FC<AdminStatisticsTabProps> = ({
         </div>
       ) : (
         <div className="space-y-6">
-          <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
-            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
-              <div className="flex flex-wrap items-center gap-3 text-xs font-semibold text-slate-600">
-                <span className="flex items-center gap-1.5">
-                  <Calendar className="w-3.5 h-3.5 text-[#008744]" />
-                  {new Date(report.conferencia.fechaHoraInicio).toLocaleDateString('es-PE', {
-                    day: '2-digit',
-                    month: 'long',
-                    year: 'numeric',
-                  })}
-                </span>
-                <span className="text-slate-300">•</span>
-                <span className="flex items-center gap-1.5">
-                  <Building2 className="w-3.5 h-3.5 text-[#008744]" />
-                  {report.conferencia.entidadEditorial}
-                </span>
-                <span className="text-slate-300">•</span>
-                <span className="flex items-center gap-1.5">
-                  {report.conferencia.modalidad === 'Virtual' ? (
-                    <Video className="w-3.5 h-3.5 text-[#008744]" />
-                  ) : (
-                    <MapPin className="w-3.5 h-3.5 text-[#008744]" />
-                  )}
-                  {report.conferencia.modalidad}
-                </span>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <span
-                  className={`px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider ${
-                    report.conferencia.asistenciaAbierta
-                      ? 'bg-emerald-600 text-white animate-pulse'
-                      : 'bg-slate-200 text-slate-700'
-                  }`}
-                >
-                  {report.conferencia.asistenciaAbierta ? 'Asistencia Abierta (En Vivo)' : 'Asistencia Cerrada'}
-                </span>
-                <span className="px-3 py-1 rounded-full text-xs font-black bg-slate-900 text-white">
-                  {report.conferencia.estadoEvento}
-                </span>
-              </div>
-            </div>
-
-            <div className="mt-4">
-              <h3 className="text-lg sm:text-xl font-display font-black text-slate-900">
-                {report.conferencia.tituloEvento}
-              </h3>
-              <p className="text-xs text-slate-600 mt-1">
-                Expositor / Especialista: <strong>{report.conferencia.expositorPonente}</strong>
-              </p>
-            </div>
-          </div>
-
+          <ConferenceReportHeader report={report} />
           <ConferenceReportSummaryCards report={report} pctAsistencia={pctAsistencia} />
-
           <ConferenceReportParticipantsTable
             participants={filteredParticipants}
             totalCount={report.participantes.length}

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { RefreshCw, Database, ShieldCheck, Globe, Smartphone, Video, Edit, Hexagon, Trash2 } from 'lucide-react';
 import { ResourceApiDto } from '../../types/resourceApiTypes';
-import { getDatabaseLogoUrl } from '../../data/databasesData';
+import { DatabaseLogo } from '../common/DatabaseLogo';
+import { MAX_HEXAGONS_COUNT, MIN_ACTIVE_RESOURCES } from '../../constants/resourceConstants';
 import { Pagination } from '../../../../components/common/Pagination';
 
 interface AdminResourceTableProps {
@@ -56,12 +57,12 @@ export const AdminResourceTable: React.FC<AdminResourceTableProps> = ({
         </div>
       </div>
 
-      {totalHexagonCount < 15 && (
+      {totalHexagonCount < MAX_HEXAGONS_COUNT && (
         <div className="bg-amber-50 border-b border-amber-200 px-5 py-3 text-xs text-amber-900 flex items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <Hexagon className="w-4 h-4 fill-amber-400 text-amber-600 shrink-0" />
             <span>
-              <strong>Configuración de Portada Incompleta:</strong> Se requieren exactamente <strong>15 bases de datos</strong> para la red molecular 3D de la portada. Actualmente hay <strong>{totalHexagonCount} de 15</strong> seleccionadas.
+              <strong>Configuración de Portada Incompleta:</strong> Se requieren exactamente <strong>{MAX_HEXAGONS_COUNT} bases de datos</strong> para la red molecular 3D de la portada. Actualmente hay <strong>{totalHexagonCount} de {MAX_HEXAGONS_COUNT}</strong> seleccionadas.
             </span>
           </div>
           {onOpenMatrixModal && (
@@ -105,30 +106,11 @@ export const AdminResourceTable: React.FC<AdminResourceTableProps> = ({
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 text-slate-700">
-              {paginatedResources.map((res) => {
-                const logoSrc = getDatabaseLogoUrl(res.logoUrl || undefined);
-                return (
-                  <tr key={res.id} className="hover:bg-slate-50/80 transition-colors">
-                    <td className="py-3 px-4">
-                      <div className="w-9 h-9 rounded-lg border border-slate-200 bg-white p-1 flex items-center justify-center overflow-hidden">
-                        {logoSrc ? (
-                          <img
-                            src={logoSrc}
-                            alt={res.name}
-                            className="max-w-full max-h-full object-contain"
-                            onError={(e) => {
-                              const target = e.currentTarget;
-                              target.style.display = 'none';
-                              if (target.parentElement) {
-                                target.parentElement.innerHTML = '<span class="text-[9px] font-bold text-slate-400">MED</span>';
-                              }
-                            }}
-                          />
-                        ) : (
-                          <span className="text-[9px] font-bold text-slate-400">MED</span>
-                        )}
-                      </div>
-                    </td>
+              {paginatedResources.map((res) => (
+                <tr key={res.id} className="hover:bg-slate-50/80 transition-colors">
+                  <td className="py-3 px-4">
+                    <DatabaseLogo logoUrl={res.logoUrl} name={res.name} />
+                  </td>
 
                     <td className="py-3 px-4">
                       <div className="font-bold text-slate-900 text-sm leading-snug">{res.name}</div>
@@ -237,18 +219,18 @@ export const AdminResourceTable: React.FC<AdminResourceTableProps> = ({
                         {onDelete && (
                           <button
                             type="button"
-                            disabled={res.mostrarEnHexagonos || totalResourcesCount <= 15}
+                            disabled={res.mostrarEnHexagonos || totalResourcesCount <= MIN_ACTIVE_RESOURCES}
                             onClick={() => onDelete(res)}
                             className={`p-1.5 rounded-lg border transition-colors ${
-                              res.mostrarEnHexagonos || totalResourcesCount <= 15
+                              res.mostrarEnHexagonos || totalResourcesCount <= MIN_ACTIVE_RESOURCES
                                 ? 'border-slate-200 text-slate-300 cursor-not-allowed'
                                 : 'border-slate-200 text-slate-600 hover:text-red-700 hover:border-red-300 hover:bg-red-50 cursor-pointer'
                             }`}
                             title={
                               res.mostrarEnHexagonos
                                 ? 'No se puede eliminar: esta base de datos está asignada a la matriz hexagonal de inicio'
-                                : totalResourcesCount <= 15
-                                ? 'No se puede eliminar: se requiere un mínimo de 15 bases de datos en el sistema'
+                                : totalResourcesCount <= MIN_ACTIVE_RESOURCES
+                                ? `No se puede eliminar: se requiere un mínimo de ${MIN_ACTIVE_RESOURCES} bases de datos en el sistema`
                                 : 'Eliminar base de datos'
                             }
                           >
@@ -258,8 +240,7 @@ export const AdminResourceTable: React.FC<AdminResourceTableProps> = ({
                       </div>
                     </td>
                   </tr>
-                );
-              })}
+                ))}
             </tbody>
           </table>
         </div>

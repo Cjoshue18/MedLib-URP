@@ -1,5 +1,6 @@
 using MedLib.Api.Domain.Entities;
 using MedLib.Api.Features.Conferences.Dtos;
+using MedLib.Api.Features.Conferences.Services;
 using MedLib.Api.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,16 +14,18 @@ namespace MedLib.Api.Features.Conferences.Controllers;
 public class AdminConferencesController : ControllerBase
 {
     private readonly MedLibDbContext _context;
+    private readonly IConferenceReportService _reportService;
 
-    public AdminConferencesController(MedLibDbContext context)
+    public AdminConferencesController(MedLibDbContext context, IConferenceReportService reportService)
     {
         _context = context;
+        _reportService = reportService;
     }
 
     [HttpGet]
     public async Task<ActionResult<List<ConferenceSummaryDto>>> GetAll(CancellationToken cancellationToken)
     {
-        await ConferencesController.AutoFinalizeExpiredConferencesAsync(_context, cancellationToken);
+        await _reportService.AutoFinalizeExpiredConferencesAsync(cancellationToken);
 
         var list = await _context.ConferenciasMedicas
             .AsNoTracking()
@@ -75,23 +78,7 @@ public class AdminConferencesController : ControllerBase
         _context.ConferenciasMedicas.Add(conference);
         await _context.SaveChangesAsync(cancellationToken);
 
-        var result = new ConferenceSummaryDto(
-            conference.IdConferencia,
-            conference.TituloEvento,
-            conference.ExpositorPonente,
-            conference.EntidadEditorial,
-            conference.FechaHoraInicio,
-            conference.FechaHoraFin,
-            conference.Modalidad,
-            conference.EnlaceVirtual,
-            conference.AsistenciaAbierta,
-            conference.EstadoEvento,
-            conference.AutoPurgar30Dias,
-            conference.FechaCaducidadPurge,
-            0,
-            0
-        );
-
+        var result = _reportService.MapToSummary(conference);
         return CreatedAtAction(nameof(GetAll), new { id = conference.IdConferencia }, result);
     }
 
@@ -121,23 +108,7 @@ public class AdminConferencesController : ControllerBase
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        var result = new ConferenceSummaryDto(
-            conference.IdConferencia,
-            conference.TituloEvento,
-            conference.ExpositorPonente,
-            conference.EntidadEditorial,
-            conference.FechaHoraInicio,
-            conference.FechaHoraFin,
-            conference.Modalidad,
-            conference.EnlaceVirtual,
-            conference.AsistenciaAbierta,
-            conference.EstadoEvento,
-            conference.AutoPurgar30Dias,
-            conference.FechaCaducidadPurge,
-            conference.Inscripciones.Count,
-            conference.Asistencias.Count
-        );
-
+        var result = _reportService.MapToSummary(conference);
         return Ok(result);
     }
 
@@ -199,113 +170,11 @@ public class AdminConferencesController : ControllerBase
     [HttpGet("{id:int}/report")]
     public async Task<ActionResult<ConferenceReportDto>> GetReport(int id, CancellationToken cancellationToken)
     {
-        await ConferencesController.AutoFinalizeExpiredConferencesAsync(_context, cancellationToken);
-
-        var conference = await _context.ConferenciasMedicas
-            .AsNoTracking()
-            .Include(c => c.Inscripciones)
-            .Include(c => c.Asistencias)
-            .FirstOrDefaultAsync(c => c.IdConferencia == id, cancellationToken);
-
-        if (conference == null)
+        var report = await _reportService.GenerateConferenceReportAsync(id, cancellationToken);
+        if (report == null)
         {
             return NotFound(new { message = "Conferencia médica no encontrada." });
         }
-
-        var inscripciones = conference.Inscripciones.ToList();
-        var asistencias = conference.Asistencias.ToList();
-
-        var asistenciasMap = asistencias
-            .GroupBy(a => a.NumeroDocumento.Trim().ToUpperInvariant())
-            .ToDictionary(g => g.Key, g => g.First());
-
-        var inscripcionesMap = inscripciones
-            .GroupBy(i => i.NumeroDocumento.Trim().ToUpperInvariant())
-            .ToDictionary(g => g.Key, g => g.First());
-
-        var participantes = new List<ParticipantRecordDto>();
-
-        foreach (var insc in inscripciones)
-        {
-            var docKey = insc.NumeroDocumento.Trim().ToUpperInvariant();
-            if (asistenciasMap.TryGetValue(docKey, out var asist))
-            {
-                participantes.Add(new ParticipantRecordDto(
-                    insc.NumeroDocumento,
-                    insc.TipoDocumento,
-                    insc.TipoParticipante,
-                    insc.Nombres,
-                    insc.Apellidos,
-                    insc.Correo,
-                    insc.CicloAcademico,
-                    insc.FechaHoraRegistro,
-                    asist.FechaHoraMarcacion,
-                    "Acreditado"
-                ));
-            }
-            else
-            {
-                participantes.Add(new ParticipantRecordDto(
-                    insc.NumeroDocumento,
-                    insc.TipoDocumento,
-                    insc.TipoParticipante,
-                    insc.Nombres,
-                    insc.Apellidos,
-                    insc.Correo,
-                    insc.CicloAcademico,
-                    insc.FechaHoraRegistro,
-                    null,
-                    "Inasistencia"
-                ));
-            }
-        }
-
-        foreach (var asist in asistencias)
-        {
-            var docKey = asist.NumeroDocumento.Trim().ToUpperInvariant();
-            if (!inscripcionesMap.ContainsKey(docKey))
-            {
-                participantes.Add(new ParticipantRecordDto(
-                    asist.NumeroDocumento,
-                    asist.TipoDocumento,
-                    asist.TipoParticipante,
-                    asist.Nombres,
-                    asist.Apellidos,
-                    asist.Correo,
-                    asist.CicloAcademico,
-                    null,
-                    asist.FechaHoraMarcacion,
-                    "Espontaneo"
-                ));
-            }
-        }
-
-        var confSummary = new ConferenceSummaryDto(
-            conference.IdConferencia,
-            conference.TituloEvento,
-            conference.ExpositorPonente,
-            conference.EntidadEditorial,
-            conference.FechaHoraInicio,
-            conference.FechaHoraFin,
-            conference.Modalidad,
-            conference.EnlaceVirtual,
-            conference.AsistenciaAbierta,
-            conference.EstadoEvento,
-            conference.AutoPurgar30Dias,
-            conference.FechaCaducidadPurge,
-            inscripciones.Count,
-            asistencias.Count
-        );
-
-        var report = new ConferenceReportDto(
-            confSummary,
-            inscripciones.Count,
-            asistencias.Count,
-            participantes.Count(p => p.Estado == "Acreditado"),
-            participantes.Count(p => p.Estado == "Espontaneo"),
-            participantes.Count(p => p.Estado == "Inasistencia"),
-            participantes.OrderBy(p => p.Apellidos).ThenBy(p => p.Nombres).ToList()
-        );
 
         return Ok(report);
     }

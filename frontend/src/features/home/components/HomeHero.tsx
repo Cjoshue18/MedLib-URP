@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Search, ArrowRight, ChevronRight, ChevronLeft } from 'lucide-react';
 import { HomeBoletinDrawer, BoletinPill } from './HomeBoletinDrawer';
+import { HERO_SLIDES, HERO_MARQUEE_ITEMS } from '../constants/heroConstants';
+import { INSTITUTIONAL_LINKS } from '../../../constants/institutionalLinks';
 
 interface HomeHeroProps {
   onNavigate: (view: 'home' | 'directory' | 'conferences' | 'lost-found', query?: string) => void;
 }
-
-const heroSlides = [
-  { id: 'slide-1', src: '/carousel/20260910_210323.webp', alt: 'Biblioteca FMH URP - Imagen 1' },
-  { id: 'slide-2', src: '/carousel/20260910_210341.webp', alt: 'Biblioteca FMH URP - Imagen 2' },
-  { id: 'slide-3', src: '/carousel/20260910_210422.webp', alt: 'Biblioteca FMH URP - Imagen 3' },
-];
 
 export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -18,22 +14,22 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
   const [isHeroFormOpen, setIsHeroFormOpen] = useState(false);
 
   useEffect(() => {
-    heroSlides.forEach((slide) => {
+    HERO_SLIDES.forEach((slide) => {
       const img = new Image();
       img.src = slide.src;
     });
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+      setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
     }, 6000);
     return () => clearInterval(timer);
   }, []);
 
   const handlePrevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
+    setCurrentSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
   };
 
   const handleNextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
   };
 
   const handleSearch = (e: React.FormEvent) => {
@@ -44,7 +40,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
   return (
     <section className="relative bg-[#12161a] text-white pt-10 pb-24 px-6 sm:px-8 border-b-4 border-[#008744] overflow-hidden">
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
-        {heroSlides.map((slide, idx) => (
+        {HERO_SLIDES.map((slide, idx) => (
           <img
             key={slide.id}
             src={slide.src}
@@ -87,20 +83,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
             <div className="space-y-3 max-w-xl">
               <div className="overflow-hidden w-full py-1 relative">
                 <div className="animate-marquee-scroll flex items-center gap-6 text-xs text-slate-300/90 font-semibold tracking-wide select-none">
-                  {[
-                    'Catálogo amplio',
-                    'Bases de datos médicas',
-                    'Revistas',
-                    'Conferencias',
-                    'Programa ALFIN',
-                    'Sorteo de Libros',
-                    'Catálogo amplio',
-                    'Bases de datos médicas',
-                    'Revistas',
-                    'Conferencias',
-                    'Programa ALFIN',
-                    'Sorteo de Libros',
-                  ].map((item, idx) => (
+                  {HERO_MARQUEE_ITEMS.map((item, idx) => (
                     <span key={idx} className="flex items-center gap-6 shrink-0 hover:text-white transition-colors cursor-default">
                       <span>{item}</span>
                       <span className="text-[#008744] font-black text-sm">&bull;</span>
@@ -137,7 +120,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
                 </span>
                 <div className="flex items-center gap-4">
                   <a
-                    href="https://www.facebook.com/famurp.pe/"
+                    href={INSTITUTIONAL_LINKS.facebookFamurp}
                     target="_blank"
                     rel="noreferrer"
                     title="Facebook Oficial Facultad de Medicina Humana URP"
@@ -157,7 +140,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
                   </a>
 
                   <a
-                    href="https://www.instagram.com/bib_famurp/"
+                    href={INSTITUTIONAL_LINKS.instagramBibFamurp}
                     target="_blank"
                     rel="noreferrer"
                     title="Instagram Oficial @bib_famurp"
@@ -234,7 +217,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
         </button>
 
         <div className="flex items-center gap-2">
-          {heroSlides.map((slide, idx) => (
+          {HERO_SLIDES.map((slide, idx) => (
             <button
               key={slide.id}
               type="button"
