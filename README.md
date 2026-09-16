@@ -23,40 +23,52 @@ MedLib-URP/
 ├── frontend/                                 # Aplicación Web SPA (React 19, TypeScript, TailwindCSS, Vite)
 │   ├── src/
 │   │   ├── assets/                           # Identidad visual institucional y logos
-│   │   ├── components/                       # Componentes globales de interfaz (Header, Footer, Navbar)
+│   │   ├── components/                       # Componentes globales de interfaz (Header, Footer, Navbar, Pagination)
+│   │   ├── constants/                        # Constantes globales compartidas
+│   │   │   └── institutionalLinks.ts         # URLs oficiales URP, Intranet, OPAC y redes sociales
 │   │   ├── core/                             # Núcleo compartido transversal
 │   │   │   ├── apiConfig.ts                  # Centralización de baseUrl y resolución de endpoints
 │   │   │   └── types/navigation.ts           # Definición canónica de vistas de navegación (AppView)
 │   │   ├── features/                         # Vertical Feature Slices
+│   │   │   ├── admin/                        # Navegación y cabecera del panel administrativo
+│   │   │   │   ├── components/               # AdminNavigationDrawer, AdminHeader
+│   │   │   │   └── adminNavigation.ts        # Configuración declarativa de pestañas y accesos
 │   │   │   ├── attendance/                   # Exportación determinística de reportes a Excel
 │   │   │   │   └── services/                 # excelExportService
 │   │   │   ├── auth/                         # Autenticación administrativa (Login, Tokens, Sesión)
 │   │   │   │   ├── components/               # AdminLoginForm
 │   │   │   │   └── services/                 # authService
 │   │   │   ├── community/                    # Feed oficial de Instagram y Objetos Perdidos
-│   │   │   │   ├── components/               # AdminLostFoundTab, InstagramCarousel, InstagramPostEmbed
+│   │   │   │   ├── components/               # AdminLostFoundTab, AdminNewPostModal, InstagramCarousel, InstagramPostEmbed
+│   │   │   │   ├── constants/                # lostFoundConstants (límites y restricciones de cartelera)
 │   │   │   │   └── services/                 # instagramService, lostFoundService
 │   │   │   ├── conferences/                  # Capacitaciones ALFIN y asistencias
 │   │   │   │   ├── components/
-│   │   │   │   │   ├── admin/                # Panel de conferencias, estadísticas y reportes
+│   │   │   │   │   ├── admin/                # Panel de conferencias, estadísticas, ConferenceReportHeader, ConferenceReportFilterBar
 │   │   │   │   │   ├── calendar/             # Calendario mensual interactivo y tarjetas
 │   │   │   │   │   └── attendance/           # Vistas y modales de inscripción y marcación en vivo
 │   │   │   │   ├── services/                 # conferenceService
-│   │   │   │   └── types.ts                  # Contratos y tipos de conferencias
+│   │   │   │   ├── types/                    # Contratos y tipos de conferencias
+│   │   │   │   └── utils/                    # participantValidation (sanitización y validación de documentos)
 │   │   │   ├── guides/                       # Directorio de bases de datos médicas
 │   │   │   │   ├── components/
 │   │   │   │   │   ├── admin/                # Gestión de recursos, matrices y modales CRUD
+│   │   │   │   │   ├── common/               # DatabaseLogo (renderizado seguro de logotipos sin innerHTML)
 │   │   │   │   │   └── directory/            # Acordeones y fichas técnicas por materia
+│   │   │   │   ├── constants/                # resourceConstants, catalogConstants
 │   │   │   │   └── services/                 # resourceService
 │   │   │   └── home/                         # Portada institucional, red molecular y boletín ALFIN
-│   │   │       ├── components/               # HomeBentoGrid, BentoHexCard, BoletinSubscriptionCard, AdminNewsletterTab
+│   │   │       ├── components/               # HomeBentoGrid, BentoHexCard, AdminNewsletterTab, AdminNewsletterStats, AdminNewsletterTable
+│   │   │       ├── constants/                # heroConstants, bentoGridGeometry
 │   │   │       └── services/                 # newsletterService
 │   │   ├── pages/                            # Vistas principales orquestadoras
 │   │   │   ├── HomePage.tsx                  # Portada institucional
 │   │   │   ├── DirectoryPage.tsx             # Catálogo de recursos con filtrado por especialidad
 │   │   │   ├── ConferencesPage.tsx           # Calendario ALFIN e inscripciones
 │   │   │   ├── LostFoundPage.tsx             # Registro de objetos perdidos en biblioteca
-│   │   │   └── AdminPage.tsx                 # Panel de administración general
+│   │   │   └── AdminPage.tsx                 # Panel de administración general modularizado
+│   │   ├── types/                            # Tipos de dominio transversales (academicLevel.ts)
+│   │   ├── utils/                            # Utilidades puras compartidas (csvExport, dateFormatter, textUtils, arrayUtils)
 │   │   ├── App.tsx                           # Enrutador de vistas
 │   │   ├── main.tsx                          # Punto de entrada
 │   │   └── index.css                         # Sistema de diseño y tokens tipográficos
@@ -65,20 +77,23 @@ MedLib-URP/
 │
 ├── backend/                                  # API RESTful en C# ASP.NET Core (.NET 10 LTS)
 │   └── src/MedLib.Api/
-│       ├── Common/                           # Utilidades transversales y contratos de seguridad
+│       ├── Common/                           # Utilidades transversales, constantes y contratos
+│       │   ├── Constants/                    # AcademicLevels, LostFoundConstants, ResourceConstants
 │       │   ├── Interfaces/                   # ITokenService, IRefreshTokenService, IPasswordHasher
-│       │   └── Security/                     # JwtTokenService, RefreshTokenService, BCryptPasswordHasher
+│       │   ├── Security/                     # JwtTokenService, RefreshTokenService, BCryptPasswordHasher
+│       │   └── Validation/                   # ParticipantDocumentValidator (DNI, Código URP, CE, ciclos)
 │       ├── Domain/                           # Entidades del modelo relacional
 │       │   └── Entities/                     # BaseDatosMedica, Materia, ConferenciaMedica, SuscriptorBoletin, etc.
-│       ├── Features/                         # Controladores y DTOs agrupados por dominio
+│       ├── Features/                         # Controladores, servicios y DTOs agrupados por dominio
 │       │   ├── Auth/                         # AuthController y AuthDtos
-│       │   ├── Conferences/                  # ConferencesController, AdminConferencesController y DTOs
+│       │   ├── Conferences/                  # ConferencesController, AdminConferencesController, Services/ (IConferenceReportService, ConferenceReportService, ConferenceLifecycleBackgroundService)
 │       │   ├── LostFound/                    # LostFoundController y DTOs
 │       │   ├── Newsletter/                   # NewsletterController y DTOs (Suscripción y métricas)
 │       │   └── Resources/                    # ResourcesController, AdminResourcesController y DTOs
-│       ├── Infrastructure/                   # Acceso a datos y persistencia
-│       │   └── Persistence/                  # MedLibDbContext (EF Core con Npgsql o SqlServer)
-│       ├── Program.cs                        # Configuración de servicios, JWT y middleware
+│       ├── Infrastructure/                   # Acceso a datos, configuración y persistencia
+│       │   ├── Configuration/                # EnvironmentConfigurationHelper (carga de .env y normalización de conexiones)
+│       │   └── Persistence/                  # MedLibDbContext, DatabaseInitializer (DDL idempotente y migraciones)
+│       ├── Program.cs                        # Punto de entrada limpio con inyección de dependencias (123 líneas)
 │       ├── appsettings.json                  # Parámetros de configuración
 │       └── MedLib.Api.csproj
 │
