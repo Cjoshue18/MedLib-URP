@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { BookOpen, RefreshCw } from 'lucide-react';
 import {
   MedicalDatabase,
@@ -101,15 +101,35 @@ export const DirectoryPage: React.FC<DirectoryPageProps> = ({ initialSearchQuery
   const col1DbsMd = filteredDbs.filter((_, i) => i % 2 === 0);
   const col2DbsMd = filteredDbs.filter((_, i) => i % 2 !== 0);
 
-  const quickKeywords = [
-    'ClinicalKey',
-    'UpToDate',
-    'Scopus',
-    'PubMed',
-    'Anatomía',
-    'Farmacología',
-    'Elsevier',
-  ];
+  const quickKeywords = useMemo(() => {
+    if (!databases || databases.length === 0) return [];
+
+    const tagCounts = new Map<string, number>();
+
+    databases.forEach((db) => {
+      db.tags.forEach((rawTag) => {
+        const tag = rawTag.trim();
+        if (!tag || normalizeText(tag) === 'medicina humana') return;
+        tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
+      });
+    });
+
+    const keyPlatforms = ['ClinicalKey', 'Elsevier', 'BMJ', 'McGraw-Hill', 'Springer', 'EBSCO', 'PubMed', 'Scopus'];
+    keyPlatforms.forEach((platform) => {
+      const matchCount = databases.filter((db) =>
+        normalizeText(db.title).includes(normalizeText(platform)) ||
+        db.tags.some((t) => normalizeText(t).includes(normalizeText(platform)))
+      ).length;
+      if (matchCount > 0) {
+        tagCounts.set(platform, Math.max(tagCounts.get(platform) || 0, matchCount));
+      }
+    });
+
+    return Array.from(tagCounts.entries())
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'es'))
+      .map(([keyword]) => keyword)
+      .slice(0, 8);
+  }, [databases]);
 
   const renderCard = (db: MedicalDatabase) => (
     <DatabaseAccordionCard
