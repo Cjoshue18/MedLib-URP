@@ -287,19 +287,13 @@ export const BoletinSubscriptionCard: React.FC<BoletinSubscriptionCardProps> = (
 
   return (
     <div className={`bg-white rounded-3xl border-2 border-slate-800 shadow-2xl overflow-hidden ${className}`.trim()}>
-      <div className="bg-gradient-to-r from-[#00572B] via-[#008744] to-[#00A859] p-5 text-white flex items-center justify-between">
-        <div>
-          <span className="text-[10px] font-bold tracking-widest uppercase text-[#8cf9a9] block mb-0.5">
-            FACULTAD DE MEDICINA HUMANA
-          </span>
-          <h2 className="text-lg sm:text-xl font-display font-black leading-tight">
-            ¡ACCESO DIRECTO <br />AL CONOCIMIENTO!
-          </h2>
-        </div>
-        <div className="text-right flex flex-col items-center bg-black/20 backdrop-blur-xs px-2.5 py-1.5 rounded-xl border border-white/20 shrink-0">
-          <span className="text-2xl font-black leading-none text-white">{new Date().getFullYear() - 1969}</span>
-          <span className="text-[9px] font-bold uppercase tracking-wider text-[#8cf9a9]">Años URP</span>
-        </div>
+      <div className="bg-gradient-to-r from-[#00572B] via-[#008744] to-[#00A859] p-5 text-white">
+        <span className="text-[10px] font-bold tracking-widest uppercase text-[#8cf9a9] block mb-0.5">
+          FACULTAD DE MEDICINA HUMANA
+        </span>
+        <h2 className="text-lg sm:text-xl font-display font-black leading-tight">
+          ¡ACCESO DIRECTO <br />AL CONOCIMIENTO!
+        </h2>
       </div>
       {formSection}
     </div>
