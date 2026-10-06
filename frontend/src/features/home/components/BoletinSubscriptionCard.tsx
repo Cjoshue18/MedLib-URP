@@ -268,7 +268,7 @@ export const BoletinSubscriptionCard: React.FC<BoletinSubscriptionCardProps> = (
 
   if (isConferences) {
     return (
-      <div className={`bg-white rounded-2xl border border-slate-200 shadow-xs p-6 ${className}`.trim()}>
+      <div className={`bg-white rounded-2xl border-2 border-slate-900 shadow-sm p-6 ${className}`.trim()}>
         <div className="border-b border-slate-200 pb-3 mb-4">
           <span className="text-[10px] font-bold text-[#008744] uppercase tracking-wider block">
             COMUNIDAD FAMURP

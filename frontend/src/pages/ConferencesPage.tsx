@@ -227,12 +227,12 @@ export const ConferencesPage: React.FC = () => {
             </div>
 
             {isLoading ? (
-              <div className="bg-white rounded-2xl border border-slate-200 shadow-xs p-12 flex flex-col items-center justify-center gap-3">
+              <div className="bg-white rounded-2xl border-2 border-slate-900 shadow-sm p-12 flex flex-col items-center justify-center gap-3">
                 <Loader2 className="w-8 h-8 text-[#008744] animate-spin" />
                 <p className="text-xs font-bold text-slate-600">Cargando actividades del mes...</p>
               </div>
             ) : conferences.length === 0 ? (
-              <div className="bg-white rounded-2xl border border-slate-200 shadow-xs p-12 text-center">
+              <div className="bg-white rounded-2xl border-2 border-slate-900 shadow-sm p-12 text-center">
                 <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-[#008744] flex items-center justify-center mx-auto mb-3 border border-emerald-200">
                   <CalendarDays className="w-7 h-7" />
                 </div>
