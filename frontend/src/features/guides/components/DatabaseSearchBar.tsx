@@ -34,7 +34,7 @@ export const DatabaseSearchBar: React.FC<DatabaseSearchBarProps> = ({
           onSubmit={(e) => e.preventDefault()}
           className="w-full flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3"
         >
-          <div className="relative flex-1 bg-white rounded-2xl border-2 border-slate-900 shadow-urp-brutal-sm px-4 py-3 flex items-center gap-2.5">
+          <div className="relative flex-1 bg-white rounded-2xl border border-slate-200 shadow-sm focus-within:border-[#008744] focus-within:ring-2 focus-within:ring-[#008744]/20 px-4 py-3 flex items-center gap-2.5 transition-all">
             <Search className="w-5 h-5 text-slate-400 shrink-0" />
             <input
               type="text"
@@ -60,7 +60,7 @@ export const DatabaseSearchBar: React.FC<DatabaseSearchBarProps> = ({
               <select
                 value={licenseFilter || 'all'}
                 onChange={(e) => onLicenseFilterChange(e.target.value as 'all' | 'subscription' | 'open')}
-                className="w-full sm:w-auto appearance-none py-3 pl-4 pr-10 rounded-2xl border-2 border-slate-900 bg-white text-xs font-bold text-slate-800 shadow-urp-brutal-sm outline-none cursor-pointer hover:bg-slate-50 transition-colors"
+                className="w-full sm:w-auto appearance-none py-3 pl-4 pr-10 rounded-2xl border border-slate-200 bg-white text-xs font-bold text-slate-800 shadow-sm outline-none cursor-pointer hover:bg-slate-50 hover:border-slate-300 focus:border-[#008744] focus:ring-2 focus:ring-[#008744]/20 transition-all"
               >
                 <option value="all">Todas las licencias</option>
                 <option value="subscription">Suscripción URP</option>

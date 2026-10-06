@@ -7,10 +7,10 @@ import {
   DatabaseSearchBar,
   DatabaseSkeletonGrid,
   DatabaseAccordionCard,
+  DatabaseMasonry,
   DEFAULT_KEY_PLATFORMS,
 } from '../features/guides';
 import { normalizeText } from '../utils/textUtils';
-import { splitIntoColumns } from '../utils/arrayUtils';
 
 interface DirectoryPageProps {
   initialSearchQuery?: string;
@@ -89,9 +89,6 @@ export const DirectoryPage: React.FC<DirectoryPageProps> = ({ initialSearchQuery
     return matchesSearch && matchesLicense;
   });
 
-  const [col1DbsLg = [], col2DbsLg = [], col3DbsLg = []] = splitIntoColumns(filteredDbs, 3);
-  const [col1DbsMd = [], col2DbsMd = []] = splitIntoColumns(filteredDbs, 2);
-
   const quickKeywords = useMemo(() => {
     if (!databases || databases.length === 0) return [];
 
@@ -146,7 +143,7 @@ export const DirectoryPage: React.FC<DirectoryPageProps> = ({ initialSearchQuery
           actionsRight={
             <button
               type="submit"
-              className="px-6 sm:px-8 py-3.5 rounded-2xl bg-[#008744] hover:bg-[#006b35] text-white font-bold text-xs sm:text-sm border-2 border-slate-900 shadow-urp-brutal tactile-btn-green transition-all cursor-pointer shrink-0 flex items-center justify-center gap-1.5"
+              className="px-6 sm:px-8 py-3.5 rounded-2xl bg-[#008744] hover:bg-[#006b35] text-white font-bold text-xs sm:text-sm shadow-urp-brutal-green tactile-btn-green transition-all cursor-pointer shrink-0 flex items-center justify-center gap-1.5"
             >
               <span>Buscar</span>
             </button>
@@ -177,32 +174,15 @@ export const DirectoryPage: React.FC<DirectoryPageProps> = ({ initialSearchQuery
           {isLoading ? (
             <DatabaseSkeletonGrid count={9} />
           ) : filteredDbs.length > 0 ? (
-            <>
-              <div className="hidden lg:grid lg:grid-cols-3 gap-4 items-start">
-                <div className="flex flex-col gap-4">
-                  {col1DbsLg.map(renderCard)}
-                </div>
-                <div className="flex flex-col gap-4">
-                  {col2DbsLg.map(renderCard)}
-                </div>
-                <div className="flex flex-col gap-4">
-                  {col3DbsLg.map(renderCard)}
-                </div>
-              </div>
-
-              <div className="hidden md:grid md:grid-cols-2 lg:hidden gap-4 items-start">
-                <div className="flex flex-col gap-4">
-                  {col1DbsMd.map(renderCard)}
-                </div>
-                <div className="flex flex-col gap-4">
-                  {col2DbsMd.map(renderCard)}
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-4 md:hidden">
-                {filteredDbs.map(renderCard)}
-              </div>
-            </>
+            <DatabaseMasonry
+              items={filteredDbs}
+              renderItem={renderCard}
+              ease="power3.out"
+              duration={0.7}
+              stagger={0.045}
+              animateFrom="bottom"
+              blurToFocus={true}
+            />
           ) : (
             <div className="py-16 text-center text-slate-500">
               <BookOpen className="w-10 h-10 text-slate-400 mx-auto mb-3" />
