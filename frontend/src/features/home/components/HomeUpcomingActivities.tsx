@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { Clock, ArrowRight, Loader2 } from 'lucide-react';
+import { gsap } from 'gsap';
 import { conferenceService, ConferenceSummary } from '../../conferences';
 
 interface HomeUpcomingActivitiesProps {
@@ -9,6 +10,7 @@ interface HomeUpcomingActivitiesProps {
 export const HomeUpcomingActivities: React.FC<HomeUpcomingActivitiesProps> = ({ onNavigate }) => {
   const [conferences, setConferences] = useState<ConferenceSummary[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const listRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -42,6 +44,40 @@ export const HomeUpcomingActivities: React.FC<HomeUpcomingActivitiesProps> = ({ 
     onNavigate('conferences', `inscripcion=${idConferencia}`);
   };
 
+  const activitiesKey = displayedActivities.map((a) => a.idConferencia).join('|');
+
+  useLayoutEffect(() => {
+    if (!listRef.current || displayedActivities.length === 0) return;
+
+    const items = listRef.current.querySelectorAll('.upcoming-activity-item');
+    if (items.length === 0) return;
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        items,
+        {
+          opacity: 0,
+          x: 60,
+          filter: 'blur(6px)',
+        },
+        {
+          opacity: 1,
+          x: 0,
+          filter: 'blur(0px)',
+          duration: 0.85,
+          ease: 'power3.out',
+          stagger: 0.12,
+          clearProps: 'transform,filter',
+          overwrite: 'auto',
+        }
+      );
+    }, listRef);
+
+    return () => {
+      ctx.revert();
+    };
+  }, [activitiesKey]);
+
   return (
     <div className="bg-white rounded-3xl border-2 border-slate-900 shadow-urp-brutal p-6 sm:p-7 flex flex-col justify-between">
       <div>
@@ -67,7 +103,7 @@ export const HomeUpcomingActivities: React.FC<HomeUpcomingActivitiesProps> = ({ 
             </p>
           </div>
         ) : (
-          <div className="space-y-4">
+          <div ref={listRef} className="space-y-4 overflow-hidden">
             {displayedActivities.map((act, idx) => {
               const startDate = new Date(act.fechaHoraInicio);
               const endDate = new Date(act.fechaHoraFin);
@@ -78,8 +114,8 @@ export const HomeUpcomingActivities: React.FC<HomeUpcomingActivitiesProps> = ({ 
               const timeStr = `${startDate.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' })} - ${endDate.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' })}`;
 
               return (
-                <React.Fragment key={act.idConferencia}>
-                  {idx > 0 && <div className="w-4/5 mx-auto border-t border-slate-200/60"></div>}
+                <div key={act.idConferencia} className="upcoming-activity-item">
+                  {idx > 0 && <div className="w-4/5 mx-auto border-t border-slate-200/60 mb-4"></div>}
                   <div
                     onClick={() => handleConferenceClick(act.idConferencia)}
                     className="flex items-center gap-4 cursor-pointer group py-1"
@@ -99,7 +135,7 @@ export const HomeUpcomingActivities: React.FC<HomeUpcomingActivitiesProps> = ({ 
                       </p>
                     </div>
                   </div>
-                </React.Fragment>
+                </div>
               );
             })}
           </div>

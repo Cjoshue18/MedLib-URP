@@ -57,14 +57,42 @@ const getInitialPosition = (direction: 'bottom' | 'top' | 'left' | 'right') => {
   }
 };
 
+const getDynamicOrder = (originalIndex: number, columns: number): number => {
+  if (columns <= 1) return originalIndex;
+
+  const row = Math.floor(originalIndex / columns);
+  const col = originalIndex % columns;
+
+  if (columns === 3) {
+    let rankInRow = 0;
+    if (row % 2 === 0) {
+      if (col === 0) rankInRow = 0;
+      else if (col === 2) rankInRow = 1;
+      else rankInRow = 2;
+    } else {
+      if (col === 2) rankInRow = 0;
+      else if (col === 1) rankInRow = 1;
+      else rankInRow = 2;
+    }
+    return row * columns + rankInRow;
+  }
+
+  if (columns === 2) {
+    const rankInRow = row % 2 === 0 ? (col === 0 ? 0 : 1) : (col === 1 ? 0 : 1);
+    return row * columns + rankInRow;
+  }
+
+  return originalIndex;
+};
+
 const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
 export const DatabaseMasonry: React.FC<DatabaseMasonryProps> = ({
   items,
   renderItem,
   ease = 'power3.out',
-  duration = 0.7,
-  stagger = 0.045,
+  duration = 1.2,
+  stagger = 0.08,
   animateFrom = 'bottom',
   blurToFocus = true,
 }) => {
@@ -72,13 +100,13 @@ export const DatabaseMasonry: React.FC<DatabaseMasonryProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
 
   const columnGroups = useMemo(() => {
-    const groups: Array<Array<{ item: MedicalDatabase; originalIndex: number }>> = Array.from(
-      { length: columns },
-      () => []
-    );
+    const groups: Array<
+      Array<{ item: MedicalDatabase; originalIndex: number; dynamicOrder: number }>
+    > = Array.from({ length: columns }, () => []);
 
     items.forEach((item, index) => {
-      groups[index % columns].push({ item, originalIndex: index });
+      const dynamicOrder = getDynamicOrder(index, columns);
+      groups[index % columns].push({ item, originalIndex: index, dynamicOrder });
     });
 
     return groups;
@@ -96,9 +124,9 @@ export const DatabaseMasonry: React.FC<DatabaseMasonryProps> = ({
     if (itemElements.length === 0) return;
 
     itemElements.sort((a, b) => {
-      const idxA = Number(a.getAttribute('data-index') ?? 0);
-      const idxB = Number(b.getAttribute('data-index') ?? 0);
-      return idxA - idxB;
+      const orderA = Number(a.getAttribute('data-dynamic-order') ?? 0);
+      const orderB = Number(b.getAttribute('data-dynamic-order') ?? 0);
+      return orderA - orderB;
     });
 
     const initialPos = getInitialPosition(animateFrom);
@@ -119,10 +147,7 @@ export const DatabaseMasonry: React.FC<DatabaseMasonryProps> = ({
           filter: blurToFocus ? 'blur(0px)' : 'none',
           duration,
           ease,
-          stagger: {
-            amount: Math.min(items.length * stagger, 0.85),
-            from: 'start',
-          },
+          stagger: (index) => Math.min(index * stagger, 2.0),
           clearProps: 'transform,filter',
           overwrite: 'auto',
         }
@@ -132,7 +157,7 @@ export const DatabaseMasonry: React.FC<DatabaseMasonryProps> = ({
     return () => {
       ctx.revert();
     };
-  }, [itemsKey, duration, ease, stagger, animateFrom, blurToFocus]);
+  }, [itemsKey, duration, ease, stagger, animateFrom, blurToFocus, columns]);
 
   return (
     <div
@@ -144,11 +169,12 @@ export const DatabaseMasonry: React.FC<DatabaseMasonryProps> = ({
     >
       {columnGroups.map((group, colIdx) => (
         <div key={colIdx} className="flex flex-col gap-4">
-          {group.map(({ item, originalIndex }) => (
+          {group.map(({ item, originalIndex, dynamicOrder }) => (
             <div
               key={item.id}
               data-key={item.id}
               data-index={originalIndex}
+              data-dynamic-order={dynamicOrder}
               className="masonry-item"
             >
               {renderItem(item, originalIndex)}
