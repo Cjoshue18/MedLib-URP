@@ -178,8 +178,8 @@ export const DirectoryPage: React.FC<DirectoryPageProps> = ({ initialSearchQuery
               items={filteredDbs}
               renderItem={renderCard}
               ease="power3.out"
-              duration={0.7}
-              stagger={0.045}
+              duration={1.2}
+              stagger={0.08}
               animateFrom="bottom"
               blurToFocus={true}
             />

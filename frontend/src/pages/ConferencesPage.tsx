@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { CalendarDays, Loader2 } from 'lucide-react';
+import { gsap } from 'gsap';
 import {
   conferenceService,
   ConferenceSummary,
@@ -174,6 +175,41 @@ export const ConferencesPage: React.FC = () => {
     currentPage * ITEMS_PER_PAGE
   );
 
+  const conferenceListRef = useRef<HTMLDivElement>(null);
+  const pageKey = `${currentPage}-${viewDate.getTime()}-${paginatedConferences.map((c) => c.idConferencia).join('|')}`;
+
+  useLayoutEffect(() => {
+    if (!conferenceListRef.current || paginatedConferences.length === 0) return;
+
+    const items = conferenceListRef.current.querySelectorAll('.conference-card-item');
+    if (items.length === 0) return;
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        items,
+        {
+          opacity: 0,
+          x: -70,
+          filter: 'blur(6px)',
+        },
+        {
+          opacity: 1,
+          x: 0,
+          filter: 'blur(0px)',
+          duration: 0.85,
+          ease: 'power3.out',
+          stagger: 0.12,
+          clearProps: 'transform,filter',
+          overwrite: 'auto',
+        }
+      );
+    }, conferenceListRef);
+
+    return () => {
+      ctx.revert();
+    };
+  }, [pageKey]);
+
   return (
     <div className="w-full pb-20">
       <main className="max-w-[1280px] mx-auto px-6 pt-6 sm:pt-8">
@@ -208,16 +244,17 @@ export const ConferencesPage: React.FC = () => {
                 </p>
               </div>
             ) : (
-              <div className="flex flex-col gap-5">
+              <div ref={conferenceListRef} className="flex flex-col gap-5 overflow-hidden">
                 {paginatedConferences.map((conf) => (
-                  <ConferenceCard
-                    key={conf.idConferencia}
-                    conf={conf}
-                    isCopied={copiedId === conf.idConferencia}
-                    onCopyShareLink={handleCopyShareLink}
-                    onOpenAttendance={handleOpenAttendance}
-                    onOpenRegistration={handleOpenRegistration}
-                  />
+                  <div key={conf.idConferencia} className="conference-card-item">
+                    <ConferenceCard
+                      conf={conf}
+                      isCopied={copiedId === conf.idConferencia}
+                      onCopyShareLink={handleCopyShareLink}
+                      onOpenAttendance={handleOpenAttendance}
+                      onOpenRegistration={handleOpenRegistration}
+                    />
+                  </div>
                 ))}
 
                 <Pagination
