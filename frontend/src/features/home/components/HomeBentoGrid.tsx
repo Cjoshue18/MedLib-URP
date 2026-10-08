@@ -28,6 +28,7 @@ export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
           const url = getDatabaseLogoUrl(r.logoUrl);
           if (url) {
             const img = new Image();
+            img.crossOrigin = 'anonymous';
             img.src = url;
           }
         });
@@ -44,6 +45,7 @@ export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
               const url = getDatabaseLogoUrl(r.logoUrl);
               if (url) {
                 const img = new Image();
+                img.crossOrigin = 'anonymous';
                 img.src = url;
               }
             });
