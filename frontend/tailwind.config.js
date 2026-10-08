@@ -80,6 +80,9 @@ export default {
         'brutal-green': '4px 4px 0px #00572b',
         'brutal-gold': '4px 4px 0px #d97706',
         'tactile': '0 2px 0 #0f172a',
+        'urp-brutal': '4px 4px 0px #0f172a',
+        'urp-brutal-sm': '2px 2px 0px #0f172a',
+        'urp-brutal-green': '4px 4px 0px #00572b',
       },
       borderRadius: {
         DEFAULT: "0.25rem",
