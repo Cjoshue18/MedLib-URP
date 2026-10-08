@@ -121,6 +121,7 @@ export const BentoHexCard: React.FC<BentoHexCardProps> = ({
               <g clipPath={`url(#hex-clip-${slot.id})`}>
                 <image
                   href={logoSrc}
+                  crossOrigin="anonymous"
                   x="12"
                   y="10"
                   width="72"

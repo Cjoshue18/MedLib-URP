@@ -153,7 +153,7 @@ public class AdminResourcesController : ControllerBase
         }
 
         database.NombreRecurso = request.Name.Trim();
-        if (!string.IsNullOrWhiteSpace(request.LogoUrl) && !request.LogoUrl.StartsWith("/api/v1/resources/"))
+        if (!string.IsNullOrWhiteSpace(request.LogoUrl))
         {
             database.LogotipoUrl = request.LogoUrl.Trim();
         }
@@ -192,7 +192,6 @@ public class AdminResourcesController : ControllerBase
         await _context.SaveChangesAsync(cancellationToken);
 
         _cache.Remove("resources_lite_catalog");
-        _cache.Remove($"logo_resource_{id}");
 
         return await GetResourceByIdInternal(database.IdBaseDatos, cancellationToken);
     }
@@ -222,7 +221,6 @@ public class AdminResourcesController : ControllerBase
         await _context.SaveChangesAsync(cancellationToken);
 
         _cache.Remove("resources_lite_catalog");
-        _cache.Remove($"logo_resource_{id}");
 
         return NoContent();
     }

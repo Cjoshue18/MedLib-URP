@@ -120,6 +120,7 @@ export const DatabaseAccordionCard: React.FC<DatabaseAccordionCardProps> = ({
               <img
                 src={logoSrc}
                 alt={detail.title}
+                crossOrigin="anonymous"
                 loading="lazy"
                 onLoad={handleImageLoad}
                 onError={() => setImageError(true)}
