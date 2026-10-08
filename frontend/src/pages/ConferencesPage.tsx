@@ -211,7 +211,7 @@ export const ConferencesPage: React.FC = () => {
   }, [pageKey]);
 
   return (
-    <div className="w-full pb-20">
+    <div className="w-full pb-20 overflow-x-hidden">
       <main className="max-w-[1280px] mx-auto px-6 pt-6 sm:pt-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           <div className="lg:col-span-8 flex flex-col gap-6">
@@ -244,7 +244,7 @@ export const ConferencesPage: React.FC = () => {
                 </p>
               </div>
             ) : (
-              <div ref={conferenceListRef} className="flex flex-col gap-5 overflow-hidden">
+              <div ref={conferenceListRef} className="flex flex-col gap-5">
                 {paginatedConferences.map((conf) => (
                   <div key={conf.idConferencia} className="conference-card-item">
                     <ConferenceCard
