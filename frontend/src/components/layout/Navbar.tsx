@@ -11,7 +11,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="bg-[#111827] shadow-md sticky top-0 z-50 w-full">
+    <header className="bg-black shadow-md border-b border-white/5 sticky top-0 z-50 w-full">
       <div className="flex justify-between items-center w-full px-6 max-w-[1280px] mx-auto h-20">
         <div className="flex items-center gap-3">
           <a
@@ -109,7 +109,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
       </div>
 
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#1f2937] border-t border-slate-700 px-6 py-4 space-y-3">
+        <div className="md:hidden bg-black border-t border-slate-800 px-6 py-4 space-y-3">
           <button
             onClick={() => { onNavigate('home'); setMobileMenuOpen(false); }}
             className="block w-full text-left py-2 font-label-md text-white/90 hover:text-white"

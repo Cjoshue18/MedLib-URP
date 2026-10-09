@@ -7,7 +7,7 @@ export const Footer: React.FC = () => {
       <div className="px-6 max-w-[1280px] mx-auto space-y-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-2 border-b border-slate-800/90 pb-8">
           <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-full bg-[#008744]/15 border border-[#008744]/30 flex items-center justify-center text-[#8cf9a9] shrink-0 mt-0.5">
+            <div className="w-10 h-10 rounded-full bg-[#008744]/15 flex items-center justify-center text-[#8cf9a9] shrink-0 mt-0.5">
               <Clock className="w-5 h-5" />
             </div>
             <div>
@@ -24,7 +24,7 @@ export const Footer: React.FC = () => {
           </div>
 
           <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-full bg-[#008744]/15 border border-[#008744]/30 flex items-center justify-center text-[#8cf9a9] shrink-0 mt-0.5">
+            <div className="w-10 h-10 rounded-full bg-[#008744]/15 flex items-center justify-center text-[#8cf9a9] shrink-0 mt-0.5">
               <MapPin className="w-5 h-5" />
             </div>
             <div>
@@ -41,7 +41,7 @@ export const Footer: React.FC = () => {
           </div>
 
           <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-full bg-[#008744]/15 border border-[#008744]/30 flex items-center justify-center text-[#8cf9a9] shrink-0 mt-0.5">
+            <div className="w-10 h-10 rounded-full bg-[#008744]/15 flex items-center justify-center text-[#8cf9a9] shrink-0 mt-0.5">
               <Phone className="w-5 h-5" />
             </div>
             <div>
