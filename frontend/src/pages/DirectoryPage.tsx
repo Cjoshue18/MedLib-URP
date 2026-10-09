@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { BookOpen, RefreshCw } from 'lucide-react';
 import {
   MedicalDatabase,
@@ -19,6 +19,9 @@ interface DirectoryPageProps {
 export const DirectoryPage: React.FC<DirectoryPageProps> = ({ initialSearchQuery = '' }) => {
   const [databases, setDatabases] = useState<MedicalDatabase[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isSkeletonExiting, setIsSkeletonExiting] = useState(false);
+  const [showSkeleton, setShowSkeleton] = useState(true);
+  const skeletonTimerRef = useRef<NodeJS.Timeout | null>(null);
   const [isLiveConnected, setIsLiveConnected] = useState(false);
   const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
   const [licenseFilter, setLicenseFilter] = useState<'all' | 'subscription' | 'open'>('all');
@@ -30,9 +33,19 @@ export const DirectoryPage: React.FC<DirectoryPageProps> = ({ initialSearchQuery
     }
   }, [initialSearchQuery]);
 
+  useEffect(() => {
+    return () => {
+      if (skeletonTimerRef.current) {
+        clearTimeout(skeletonTimerRef.current);
+      }
+    };
+  }, []);
+
   const loadLiveDatabases = useCallback(async () => {
     try {
       setIsLoading(true);
+      setShowSkeleton(true);
+      setIsSkeletonExiting(false);
       const apiResources = await resourceService.getResources(true);
       if (apiResources && apiResources.length > 0) {
         const mapped = apiResources.map(mapApiResourceToMedicalDatabase);
@@ -47,6 +60,14 @@ export const DirectoryPage: React.FC<DirectoryPageProps> = ({ initialSearchQuery
       setIsLiveConnected(false);
     } finally {
       setIsLoading(false);
+      setIsSkeletonExiting(true);
+      if (skeletonTimerRef.current) {
+        clearTimeout(skeletonTimerRef.current);
+      }
+      skeletonTimerRef.current = setTimeout(() => {
+        setShowSkeleton(false);
+        setIsSkeletonExiting(false);
+      }, 350);
     }
   }, []);
 
@@ -171,39 +192,55 @@ export const DirectoryPage: React.FC<DirectoryPageProps> = ({ initialSearchQuery
             </div>
           </div>
 
-          {isLoading ? (
-            <DatabaseSkeletonGrid count={9} />
-          ) : filteredDbs.length > 0 ? (
-            <DatabaseMasonry
-              items={filteredDbs}
-              renderItem={renderCard}
-              ease="power3.out"
-              duration={1.2}
-              stagger={0.08}
-              animateFrom="bottom"
-              blurToFocus={true}
-            />
-          ) : (
-            <div className="py-16 text-center text-slate-500">
-              <BookOpen className="w-10 h-10 text-slate-400 mx-auto mb-3" />
-              <p className="text-base font-bold text-slate-800">No se encontraron recursos</p>
-              <p className="text-xs text-slate-500 mt-1">
-                {isLiveConnected
-                  ? 'Prueba con otra palabra clave o limpia el campo de búsqueda.'
-                  : 'No se pudo establecer conexión con el catálogo de bases de datos médicas.'}
-              </p>
-              {!isLiveConnected && (
-                <button
-                  type="button"
-                  onClick={loadLiveDatabases}
-                  className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-white bg-urp-600 hover:bg-urp-700 transition-colors shadow-sm cursor-pointer"
-                >
-                  <RefreshCw className="w-3.5 h-3.5" />
-                  <span>Reintentar conexión</span>
-                </button>
-              )}
-            </div>
-          )}
+          <div className="relative w-full min-h-[300px]">
+            {showSkeleton && (
+              <div
+                className={`w-full transition-opacity duration-300 ease-out ${
+                  isSkeletonExiting
+                    ? 'absolute inset-0 z-10 pointer-events-none opacity-0'
+                    : 'relative z-0 opacity-100'
+                }`}
+              >
+                <DatabaseSkeletonGrid count={9} />
+              </div>
+            )}
+
+            {!isLoading && filteredDbs.length > 0 && (
+              <div className="w-full transition-opacity duration-300 ease-out opacity-100">
+                <DatabaseMasonry
+                  items={filteredDbs}
+                  renderItem={renderCard}
+                  ease="power2.out"
+                  duration={0.5}
+                  stagger={0.03}
+                  animateFrom="bottom"
+                  blurToFocus={true}
+                />
+              </div>
+            )}
+
+            {!isLoading && filteredDbs.length === 0 && (
+              <div className="py-16 text-center text-slate-500">
+                <BookOpen className="w-10 h-10 text-slate-400 mx-auto mb-3" />
+                <p className="text-base font-bold text-slate-800">No se encontraron recursos</p>
+                <p className="text-xs text-slate-500 mt-1">
+                  {isLiveConnected
+                    ? 'Prueba con otra palabra clave o limpia el campo de búsqueda.'
+                    : 'No se pudo establecer conexión con el catálogo de bases de datos médicas.'}
+                </p>
+                {!isLiveConnected && (
+                  <button
+                    type="button"
+                    onClick={loadLiveDatabases}
+                    className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-white bg-urp-600 hover:bg-urp-700 transition-colors shadow-sm cursor-pointer"
+                  >
+                    <RefreshCw className="w-3.5 h-3.5" />
+                    <span>Reintentar conexión</span>
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </main>
     </div>
