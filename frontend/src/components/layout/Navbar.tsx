@@ -12,7 +12,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
 
   return (
     <header className="bg-black shadow-md border-b border-white/5 sticky top-0 z-50 w-full">
-      <div className="flex justify-between items-center w-full px-6 max-w-[1280px] mx-auto h-20">
+      <div className="flex justify-between items-center w-full pl-6 md:pl-8 pr-4 md:pr-0 h-20">
         <div className="flex items-center gap-3">
           <a
             href="https://www.urp.edu.pe/"
@@ -78,7 +78,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
           </a>
         </nav>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 h-full">
           <button
             onClick={() => onNavigate('directory')}
             className="text-white/80 hover:text-white transition-colors duration-200 flex items-center justify-center w-10 h-10 rounded-full hover:bg-white/10 cursor-pointer"
@@ -91,7 +91,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
             href="https://test.urp.edu.pe/Intranet/"
             target="_blank"
             rel="noreferrer"
-            className="hidden md:flex bg-primary-container text-white px-6 py-2 rounded-full font-label-md text-label-md hover:bg-surface-tint transition-colors items-center gap-1 shadow-sm font-semibold"
+            className="hidden md:flex h-full self-stretch items-center justify-center bg-primary-container text-white px-7 rounded-none font-label-md text-label-md hover:bg-surface-tint transition-colors shadow-sm font-semibold tracking-wide"
           >
             INTRANET URP
           </a>
@@ -148,7 +148,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
               href="https://test.urp.edu.pe/Intranet/"
               target="_blank"
               rel="noreferrer"
-              className="flex justify-center bg-primary-container text-white px-6 py-2.5 rounded-full font-label-md text-center hover:bg-surface-tint transition-colors font-semibold"
+              className="flex justify-center bg-primary-container text-white px-6 py-2.5 rounded-none font-label-md text-center hover:bg-surface-tint transition-colors font-semibold"
             >
               INTRANET URP
             </a>
