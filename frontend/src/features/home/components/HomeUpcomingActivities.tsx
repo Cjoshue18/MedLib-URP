@@ -146,7 +146,7 @@ export const HomeUpcomingActivities: React.FC<HomeUpcomingActivitiesProps> = ({ 
         <button
           type="button"
           onClick={() => onNavigate('conferences')}
-          className="w-full py-3 px-4 rounded-full border-2 border-slate-900 hover:bg-slate-50 font-bold text-xs text-slate-900 shadow-urp-brutal-sm tactile-btn flex items-center justify-center gap-1.5 cursor-pointer"
+          className="w-full py-3 px-4 rounded-lg border-2 border-slate-900 hover:bg-slate-50 font-bold text-xs text-slate-900 shadow-urp-brutal-sm tactile-btn flex items-center justify-center gap-1.5 cursor-pointer"
         >
           <span>Ver Calendario Completo</span>
           <ArrowRight className="w-3.5 h-3.5" />

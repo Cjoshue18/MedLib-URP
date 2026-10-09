@@ -215,7 +215,7 @@ export const BoletinSubscriptionCard: React.FC<BoletinSubscriptionCardProps> = (
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full py-2.5 px-4 rounded-xl bg-[#008744] hover:bg-[#006b35] disabled:opacity-70 text-white font-bold text-xs sm:text-sm shadow-urp-brutal-green tactile-btn-green transition-all cursor-pointer flex items-center justify-center gap-2"
+          className="w-full py-2.5 px-4 rounded-lg bg-[#008744] hover:bg-[#006b35] disabled:opacity-70 text-white font-bold text-xs sm:text-sm shadow-urp-brutal-green tactile-btn-green transition-all cursor-pointer flex items-center justify-center gap-2"
         >
           {isSubmitting ? (
             <>
@@ -250,7 +250,7 @@ export const BoletinSubscriptionCard: React.FC<BoletinSubscriptionCardProps> = (
           <button
             type="button"
             onClick={onNavigateToDirectory}
-            className="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+            className="w-full py-2.5 px-4 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm"
           >
             <span>Explorar Catálogo de Bases de Datos</span>
             <ArrowRight className="w-3.5 h-3.5" />

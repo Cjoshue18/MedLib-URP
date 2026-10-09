@@ -62,7 +62,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start lg:min-h-[570px]">
           <div className="lg:col-span-7 space-y-6">
             <div className="space-y-4">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#008744] text-white text-xs font-extrabold uppercase tracking-wider shadow-sm">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-[#008744] text-white text-xs font-extrabold uppercase tracking-wider shadow-sm">
                 <span className="w-2 h-2 rounded-full bg-[#8cf9a9] animate-pulse"></span>
                 <span>Biblioteca Virtual y Especializada</span>
               </div>
@@ -105,7 +105,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
                 </div>
                 <button
                   type="submit"
-                  className="bg-[#008744] hover:bg-[#006b35] text-white font-bold px-7 py-3.5 rounded-2xl transition-all shadow-urp-brutal-green tactile-btn-green flex items-center gap-1.5 shrink-0 cursor-pointer text-sm"
+                  className="bg-[#008744] hover:bg-[#006b35] text-white font-bold px-7 py-3.5 rounded-lg transition-all shadow-urp-brutal-green tactile-btn-green flex items-center gap-1.5 shrink-0 cursor-pointer text-sm"
                 >
                   <span>Buscar</span>
                   <ArrowRight className="w-4 h-4" />
