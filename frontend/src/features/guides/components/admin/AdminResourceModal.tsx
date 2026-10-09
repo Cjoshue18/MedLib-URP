@@ -154,7 +154,7 @@ export const AdminResourceModal: React.FC<AdminResourceModalProps> = ({
 
         <form onSubmit={handleSubmit} className="p-5 sm:p-6 space-y-4 flex-1">
           {formError && (
-            <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-semibold flex items-center gap-2">
+            <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-xs font-semibold flex items-center gap-2">
               <XCircle className="w-4 h-4 shrink-0 text-red-600" />
               <span>{formError}</span>
             </div>
@@ -327,13 +327,13 @@ export const AdminResourceModal: React.FC<AdminResourceModalProps> = ({
             </div>
 
             {initialData?.mostrarEnHexagonos && (
-              <p className="text-[11px] text-rose-700 font-semibold bg-rose-50 border border-rose-200 p-2.5 rounded-xl">
+              <p className="text-[11px] text-rose-700 font-semibold bg-rose-50 border border-rose-200 p-2.5 rounded-lg">
                 Esta base de datos forma parte de la matriz hexagonal de inicio y no puede inactivarse directamente. Para inactivarla, primero debes reemplazarla por otra en la matriz usando el botón "Matriz Hexagonal".
               </p>
             )}
 
             {!initialData?.mostrarEnHexagonos && (activeResourcesCount ?? 99) <= MIN_ACTIVE_RESOURCES && initialData?.isActive && (
-              <p className="text-[11px] text-amber-700 font-semibold bg-amber-50 border border-amber-200 p-2.5 rounded-xl">
+              <p className="text-[11px] text-amber-700 font-semibold bg-amber-50 border border-amber-200 p-2.5 rounded-lg">
                 No se puede inactivar: el sistema requiere tener al menos {MIN_ACTIVE_RESOURCES} bases de datos activas.
               </p>
             )}
@@ -343,7 +343,7 @@ export const AdminResourceModal: React.FC<AdminResourceModalProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+              className="px-4 py-2 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
             >
               Cancelar
             </button>
@@ -351,7 +351,7 @@ export const AdminResourceModal: React.FC<AdminResourceModalProps> = ({
             <button
               type="submit"
               disabled={isSaving}
-              className="px-5 py-2 rounded-xl font-display font-bold text-xs text-white bg-[#008744] hover:bg-[#00572B] transition-colors shadow-xs flex items-center gap-2 cursor-pointer disabled:opacity-60"
+              className="px-5 py-2 rounded-lg font-display font-bold text-xs text-white bg-[#008744] hover:bg-[#00572B] transition-colors shadow-xs flex items-center gap-2 cursor-pointer disabled:opacity-60"
             >
               {isSaving ? (
                 <>

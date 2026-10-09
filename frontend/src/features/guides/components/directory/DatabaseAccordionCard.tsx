@@ -192,7 +192,7 @@ export const DatabaseAccordionCard: React.FC<DatabaseAccordionCardProps> = ({
             target="_blank"
             rel="noreferrer"
             onClick={(e) => e.stopPropagation()}
-            className="w-full py-3 px-5 rounded-xl bg-[#008744] hover:bg-[#006b35] text-white font-bold text-xs sm:text-sm shadow-urp-brutal-green tactile-btn-green transition-all flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full py-3 px-5 rounded-lg bg-[#008744] hover:bg-[#006b35] text-white font-bold text-xs sm:text-sm shadow-urp-brutal-green tactile-btn-green transition-all flex items-center justify-center gap-2 cursor-pointer"
           >
             <span>
               {detail.accessType === 'Suscripción URP'

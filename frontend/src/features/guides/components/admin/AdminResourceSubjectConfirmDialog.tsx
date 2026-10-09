@@ -40,7 +40,7 @@ export const AdminResourceSubjectConfirmDialog: React.FC<AdminResourceSubjectCon
             {pendingNewSubjects.map((subject, idx) => (
               <span
                 key={idx}
-                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-white text-amber-900 text-xs font-bold border border-amber-300 shadow-xs"
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white text-amber-900 text-xs font-bold border border-amber-300 shadow-xs"
               >
                 <Plus className="w-3.5 h-3.5 text-amber-600" />
                 <span>{subject}</span>
@@ -58,7 +58,7 @@ export const AdminResourceSubjectConfirmDialog: React.FC<AdminResourceSubjectCon
             type="button"
             onClick={onCancel}
             disabled={isSaving}
-            className="px-4 py-2 rounded-xl border border-slate-300 text-xs font-bold text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+            className="px-4 py-2 rounded-lg border border-slate-300 text-xs font-bold text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
           >
             Retroceder
           </button>
@@ -67,7 +67,7 @@ export const AdminResourceSubjectConfirmDialog: React.FC<AdminResourceSubjectCon
             type="button"
             onClick={onConfirm}
             disabled={isSaving}
-            className="px-5 py-2 rounded-xl bg-[#008744] hover:bg-[#00572B] text-white text-xs font-bold shadow-urp-brutal-green tactile-btn-green transition-all cursor-pointer flex items-center gap-1.5"
+            className="px-5 py-2 rounded-lg bg-[#008744] hover:bg-[#00572B] text-white text-xs font-bold shadow-urp-brutal-green tactile-btn-green transition-all cursor-pointer flex items-center gap-1.5"
           >
             {isSaving ? (
               <>

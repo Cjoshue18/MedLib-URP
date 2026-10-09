@@ -164,7 +164,7 @@ export const DirectoryPage: React.FC<DirectoryPageProps> = ({ initialSearchQuery
           actionsRight={
             <button
               type="submit"
-              className="px-6 sm:px-8 py-3.5 rounded-2xl bg-[#008744] hover:bg-[#006b35] text-white font-bold text-xs sm:text-sm shadow-urp-brutal-green tactile-btn-green transition-all cursor-pointer shrink-0 flex items-center justify-center gap-1.5"
+              className="px-6 sm:px-8 py-3.5 rounded-lg bg-[#008744] hover:bg-[#006b35] text-white font-bold text-xs sm:text-sm shadow-urp-brutal-green tactile-btn-green transition-all cursor-pointer shrink-0 flex items-center justify-center gap-1.5"
             >
               <span>Buscar</span>
             </button>
@@ -232,7 +232,7 @@ export const DirectoryPage: React.FC<DirectoryPageProps> = ({ initialSearchQuery
                   <button
                     type="button"
                     onClick={loadLiveDatabases}
-                    className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-white bg-urp-600 hover:bg-urp-700 transition-colors shadow-sm cursor-pointer"
+                    className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold text-white bg-urp-600 hover:bg-urp-700 transition-colors shadow-sm cursor-pointer"
                   >
                     <RefreshCw className="w-3.5 h-3.5" />
                     <span>Reintentar conexión</span>

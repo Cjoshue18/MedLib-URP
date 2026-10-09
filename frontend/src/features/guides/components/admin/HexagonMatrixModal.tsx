@@ -113,7 +113,7 @@ export const HexagonMatrixModal: React.FC<HexagonMatrixModalProps> = ({
             type="button"
             onClick={onClose}
             disabled={isSaving}
-            className="p-2 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
+            className="p-2 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -127,7 +127,7 @@ export const HexagonMatrixModal: React.FC<HexagonMatrixModalProps> = ({
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Filtrar por nombre, editorial o materia..."
-              className="w-full pl-9 pr-3 py-1.5 rounded-xl border border-slate-300 bg-white text-xs outline-none focus:border-[#008744]"
+              className="w-full pl-9 pr-3 py-1.5 rounded-lg border border-slate-300 bg-white text-xs outline-none focus:border-[#008744]"
             />
           </div>
 
@@ -148,7 +148,7 @@ export const HexagonMatrixModal: React.FC<HexagonMatrixModalProps> = ({
         </div>
 
         {errorMsg && (
-          <div className="mx-6 mt-4 p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center gap-2">
+          <div className="mx-6 mt-4 p-3 rounded-lg bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center gap-2">
             <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
             <span>{errorMsg}</span>
           </div>
@@ -245,7 +245,7 @@ export const HexagonMatrixModal: React.FC<HexagonMatrixModalProps> = ({
               type="button"
               onClick={onClose}
               disabled={isSaving}
-              className="px-4 py-2 rounded-xl border border-slate-300 text-xs font-bold text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+              className="px-4 py-2 rounded-lg border border-slate-300 text-xs font-bold text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
             >
               Cancelar
             </button>
@@ -254,7 +254,7 @@ export const HexagonMatrixModal: React.FC<HexagonMatrixModalProps> = ({
               type="button"
               onClick={handleSubmit}
               disabled={!isExact15 || isSaving}
-              className={`inline-flex items-center gap-2 px-5 py-2 rounded-xl text-xs font-display font-bold text-white transition-all shadow-xs ${
+              className={`inline-flex items-center gap-2 px-5 py-2 rounded-lg text-xs font-display font-bold text-white transition-all shadow-xs ${
                 isExact15 && !isSaving
                   ? 'bg-[#008744] hover:bg-[#00572B] cursor-pointer'
                   : 'bg-slate-300 cursor-not-allowed opacity-60'
