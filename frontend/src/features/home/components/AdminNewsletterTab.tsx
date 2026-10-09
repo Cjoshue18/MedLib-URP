@@ -165,7 +165,7 @@ export const AdminNewsletterTab: React.FC<AdminNewsletterTabProps> = ({ onShowFe
             type="button"
             onClick={handleSyncConferences}
             disabled={isLoading || isSyncing}
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-bold transition-all cursor-pointer shadow-xs disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-bold transition-all cursor-pointer shadow-xs disabled:opacity-50"
             title="Importar y sincronizar correos de inscripciones y asistencias de conferencias"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin' : ''}`} />
@@ -176,7 +176,7 @@ export const AdminNewsletterTab: React.FC<AdminNewsletterTabProps> = ({ onShowFe
             type="button"
             onClick={loadData}
             disabled={isLoading}
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition-all cursor-pointer shadow-xs disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition-all cursor-pointer shadow-xs disabled:opacity-50"
             title="Recargar suscriptores"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? 'animate-spin' : ''}`} />
@@ -187,7 +187,7 @@ export const AdminNewsletterTab: React.FC<AdminNewsletterTabProps> = ({ onShowFe
             type="button"
             onClick={handleCopyAllEmails}
             disabled={filteredSubscribers.length === 0}
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition-all cursor-pointer shadow-xs disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition-all cursor-pointer shadow-xs disabled:opacity-50"
             title="Copiar todos los correos filtrados para enviar correos masivos"
           >
             <Copy className="w-3.5 h-3.5" />
@@ -198,7 +198,7 @@ export const AdminNewsletterTab: React.FC<AdminNewsletterTabProps> = ({ onShowFe
             type="button"
             onClick={handleExportCsv}
             disabled={filteredSubscribers.length === 0}
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#008744] hover:bg-[#006b35] text-white text-xs font-bold transition-all cursor-pointer shadow-urp-brutal-green tactile-btn-green disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[#008744] hover:bg-[#006b35] text-white text-xs font-bold transition-all cursor-pointer shadow-urp-brutal-green tactile-btn-green disabled:opacity-50"
             title="Descargar lista en formato CSV para Excel"
           >
             <Download className="w-3.5 h-3.5" />

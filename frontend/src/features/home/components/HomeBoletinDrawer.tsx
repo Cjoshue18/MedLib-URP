@@ -13,11 +13,11 @@ export const BoletinPill: React.FC<BoletinPillProps> = ({ onOpen, orientation = 
       <button
         type="button"
         onClick={onOpen}
-        className="group relative w-12 sm:w-14 h-64 sm:h-72 mt-4 lg:mt-6 rounded-full bg-[#008744] hover:bg-[#006b35] text-white shadow-urp-brutal-green tactile-btn-green flex flex-col items-center justify-between py-6 px-1.5 transition-all duration-300 cursor-pointer border-2 border-white/20 hover:scale-105 active:scale-95"
+        className="group relative w-12 sm:w-14 h-64 sm:h-72 mt-4 lg:mt-6 rounded-lg bg-[#008744] hover:bg-[#006b35] text-white shadow-urp-brutal-green tactile-btn-green flex flex-col items-center justify-between py-6 px-1.5 transition-all duration-300 cursor-pointer border-2 border-white/20 hover:scale-105 active:scale-95"
         title="Abrir formulario de boletín y novedades"
         aria-label="Abrir formulario de boletín y novedades"
       >
-        <div className="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center text-white shrink-0 group-hover:scale-110 transition-transform">
+        <div className="w-8 h-8 rounded-md bg-white/15 flex items-center justify-center text-white shrink-0 group-hover:scale-110 transition-transform">
           <Mail className="w-4 h-4 text-white" />
         </div>
 
@@ -34,11 +34,11 @@ export const BoletinPill: React.FC<BoletinPillProps> = ({ onOpen, orientation = 
     <button
       type="button"
       onClick={onOpen}
-      className="group inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-[#008744] hover:bg-[#006b35] text-white shadow-urp-brutal-green tactile-btn-green border-2 border-white/20 text-xs font-extrabold uppercase tracking-wider transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95"
+      className="group inline-flex items-center gap-2.5 px-5 py-2.5 rounded-lg bg-[#008744] hover:bg-[#006b35] text-white shadow-urp-brutal-green tactile-btn-green border-2 border-white/20 text-xs font-extrabold uppercase tracking-wider transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95"
       title="Abrir formulario de boletín y novedades"
       aria-label="Abrir formulario de boletín y novedades"
     >
-      <div className="w-6 h-6 rounded-full bg-white/15 flex items-center justify-center text-white shrink-0 group-hover:scale-110 transition-transform">
+      <div className="w-6 h-6 rounded-md bg-white/15 flex items-center justify-center text-white shrink-0 group-hover:scale-110 transition-transform">
         <Mail className="w-3.5 h-3.5 text-white" />
       </div>
 
@@ -91,7 +91,7 @@ export const HomeBoletinDrawer: React.FC<HomeBoletinDrawerProps> = ({
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 -left-12 z-20 w-9 h-9 rounded-full bg-slate-600/50 hover:bg-slate-600/90 text-white backdrop-blur-xs border border-white/25 flex items-center justify-center transition-all duration-200 cursor-pointer shadow-lg hover:scale-110 active:scale-95 group"
+          className="absolute top-4 -left-12 z-20 w-9 h-9 rounded-lg bg-slate-600/50 hover:bg-slate-600/90 text-white backdrop-blur-xs border border-white/25 flex items-center justify-center transition-all duration-200 cursor-pointer shadow-lg hover:scale-110 active:scale-95 group"
           title="Cerrar formulario"
           aria-label="Cerrar formulario"
         >
