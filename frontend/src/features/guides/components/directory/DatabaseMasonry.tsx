@@ -45,15 +45,15 @@ const useMediaColumns = (): number => {
 const getInitialPosition = (direction: 'bottom' | 'top' | 'left' | 'right') => {
   switch (direction) {
     case 'top':
-      return { x: 0, y: -70 };
+      return { x: 0, y: -16 };
     case 'bottom':
-      return { x: 0, y: 70 };
+      return { x: 0, y: 16 };
     case 'left':
-      return { x: -70, y: 0 };
+      return { x: -16, y: 0 };
     case 'right':
-      return { x: 70, y: 0 };
+      return { x: 16, y: 0 };
     default:
-      return { x: 0, y: 70 };
+      return { x: 0, y: 16 };
   }
 };
 
@@ -90,9 +90,9 @@ const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffec
 export const DatabaseMasonry: React.FC<DatabaseMasonryProps> = ({
   items,
   renderItem,
-  ease = 'power3.out',
-  duration = 1.2,
-  stagger = 0.08,
+  ease = 'power2.out',
+  duration = 0.5,
+  stagger = 0.03,
   animateFrom = 'bottom',
   blurToFocus = true,
 }) => {
@@ -138,7 +138,7 @@ export const DatabaseMasonry: React.FC<DatabaseMasonryProps> = ({
           opacity: 0,
           x: initialPos.x,
           y: initialPos.y,
-          filter: blurToFocus ? 'blur(8px)' : 'none',
+          filter: blurToFocus ? 'blur(2px)' : 'none',
         },
         {
           opacity: 1,
@@ -147,7 +147,7 @@ export const DatabaseMasonry: React.FC<DatabaseMasonryProps> = ({
           filter: blurToFocus ? 'blur(0px)' : 'none',
           duration,
           ease,
-          stagger: (index) => Math.min(index * stagger, 2.0),
+          stagger: (index) => Math.min(index * stagger, 0.35),
           clearProps: 'transform,filter',
           overwrite: 'auto',
         }
