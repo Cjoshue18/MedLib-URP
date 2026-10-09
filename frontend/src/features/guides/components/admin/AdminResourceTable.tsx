@@ -45,7 +45,7 @@ export const AdminResourceTable: React.FC<AdminResourceTableProps> = ({
   );
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+    <div className="bg-white rounded-lg border border-slate-200 shadow-xs overflow-hidden">
       <div className="px-5 py-4 border-b border-slate-200 flex items-center justify-between">
         <div>
           <h2 className="text-sm font-bold font-display text-slate-900">

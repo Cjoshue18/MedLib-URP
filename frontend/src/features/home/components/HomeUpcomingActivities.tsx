@@ -79,7 +79,7 @@ export const HomeUpcomingActivities: React.FC<HomeUpcomingActivitiesProps> = ({ 
   }, [activitiesKey]);
 
   return (
-    <div className="bg-white rounded-3xl border-2 border-slate-900 shadow-urp-brutal p-6 sm:p-7 flex flex-col justify-between">
+    <div className="bg-white rounded-lg border-2 border-slate-900 shadow-urp-brutal p-6 sm:p-7 flex flex-col justify-between">
       <div>
         <h3 className="text-xl sm:text-2xl font-display font-extrabold text-slate-900 mb-1">
           Próximas Actividades
@@ -95,7 +95,7 @@ export const HomeUpcomingActivities: React.FC<HomeUpcomingActivitiesProps> = ({ 
           </div>
         ) : displayedActivities.length === 0 ? (
           <div className="py-10 text-center flex flex-col items-center justify-center space-y-2">
-            <div className="w-12 h-12 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mb-1">
+            <div className="w-12 h-12 rounded-lg bg-slate-100 text-slate-400 flex items-center justify-center mb-1">
               <Clock className="w-6 h-6" />
             </div>
             <p className="text-xs sm:text-sm font-bold text-slate-600">
@@ -120,7 +120,7 @@ export const HomeUpcomingActivities: React.FC<HomeUpcomingActivitiesProps> = ({ 
                     onClick={() => handleConferenceClick(act.idConferencia)}
                     className="flex items-center gap-4 cursor-pointer group py-1"
                   >
-                    <div className={`w-14 h-14 sm:w-16 sm:h-16 aspect-square rounded-2xl ${act.estadoEvento === 'Finalizada' ? 'bg-slate-950 text-slate-300' : 'bg-[#008744] text-white'} flex flex-col items-center justify-center shrink-0 shadow-sm group-hover:scale-105 transition-transform`}>
+                    <div className={`w-14 h-14 sm:w-16 sm:h-16 aspect-square rounded-lg ${act.estadoEvento === 'Finalizada' ? 'bg-slate-950 text-slate-300' : 'bg-[#008744] text-white'} flex flex-col items-center justify-center shrink-0 shadow-sm group-hover:scale-105 transition-transform`}>
                       <span className="text-xl sm:text-2xl font-display font-black leading-none">{dayStr}</span>
                       <span className={`text-[10px] sm:text-[11px] font-bold uppercase tracking-wider mt-0.5 ${act.estadoEvento === 'Finalizada' ? 'text-slate-400' : 'text-emerald-100'}`}>{monthStr}</span>
                     </div>

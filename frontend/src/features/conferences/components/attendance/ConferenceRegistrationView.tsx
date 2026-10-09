@@ -170,10 +170,10 @@ export const ConferenceRegistrationView: React.FC<ConferenceRegistrationViewProp
         <span>Volver al Calendario de Conferencias</span>
       </button>
 
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+      <div className="bg-white rounded-lg border border-slate-200 shadow-xs overflow-hidden">
         <div className="bg-[#008744] text-white px-6 sm:px-8 py-6 border-b border-emerald-700 shadow-inner">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-white/20 flex items-center justify-center backdrop-blur-xs">
+            <div className="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center backdrop-blur-xs">
               <GraduationCap className="w-5 h-5 text-white" />
             </div>
             <div>
@@ -188,7 +188,7 @@ export const ConferenceRegistrationView: React.FC<ConferenceRegistrationViewProp
         </div>
 
         <div className="p-6 sm:p-8 space-y-6">
-          <div className="bg-slate-50 rounded-2xl border border-slate-200 p-5 space-y-2">
+          <div className="bg-slate-50 rounded-lg border border-slate-200 p-5 space-y-2">
             <div className="flex flex-wrap items-center gap-2">
               <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-slate-900 text-white">
                 {conference.modalidad}

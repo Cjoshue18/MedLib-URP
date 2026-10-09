@@ -9,7 +9,7 @@ interface ConferenceReportHeaderProps {
 
 export const ConferenceReportHeader: React.FC<ConferenceReportHeaderProps> = ({ report }) => {
   return (
-    <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
+    <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-xs">
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
         <div className="flex flex-wrap items-center gap-3 text-xs font-semibold text-slate-600">
           <span className="flex items-center gap-1.5">

@@ -126,7 +126,7 @@ export const AdminConferencesTab: React.FC<AdminConferencesTabProps> = ({
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-lg border border-slate-200 shadow-xs">
         <div>
           <span className="text-[10px] font-black tracking-wider uppercase text-[#008744] block">
             Jefatura ALFIN &amp; Eventos Médicos
@@ -150,13 +150,13 @@ export const AdminConferencesTab: React.FC<AdminConferencesTabProps> = ({
       </div>
 
       {isLoading ? (
-        <div className="bg-white p-12 rounded-2xl border border-slate-200 shadow-xs flex flex-col items-center justify-center gap-3">
+        <div className="bg-white p-12 rounded-lg border border-slate-200 shadow-xs flex flex-col items-center justify-center gap-3">
           <Loader2 className="w-8 h-8 text-[#008744] animate-spin" />
           <p className="text-xs font-bold text-slate-600">Cargando catálogo de conferencias...</p>
         </div>
       ) : conferences.length === 0 ? (
-        <div className="bg-white p-12 rounded-2xl border border-slate-200 shadow-xs text-center space-y-3">
-          <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-[#008744] flex items-center justify-center mx-auto border border-emerald-300">
+        <div className="bg-white p-12 rounded-lg border border-slate-200 shadow-xs text-center space-y-3">
+          <div className="w-12 h-12 rounded-lg bg-emerald-100 text-[#008744] flex items-center justify-center mx-auto border border-emerald-300">
             <Calendar className="w-6 h-6" />
           </div>
           <h3 className="text-base font-bold text-slate-900">No hay conferencias registradas</h3>

@@ -34,7 +34,7 @@ export const DatabaseSearchBar: React.FC<DatabaseSearchBarProps> = ({
           onSubmit={(e) => e.preventDefault()}
           className="w-full flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3"
         >
-          <div className="relative flex-1 bg-white rounded-2xl border border-slate-200 shadow-sm focus-within:border-[#008744] focus-within:ring-2 focus-within:ring-[#008744]/20 px-4 py-3 flex items-center gap-2.5 transition-all">
+          <div className="relative flex-1 bg-white rounded-lg border border-slate-200 shadow-sm focus-within:border-[#008744] focus-within:ring-2 focus-within:ring-[#008744]/20 px-4 py-3 flex items-center gap-2.5 transition-all">
             <Search className="w-5 h-5 text-slate-400 shrink-0" />
             <input
               type="text"
@@ -60,7 +60,7 @@ export const DatabaseSearchBar: React.FC<DatabaseSearchBarProps> = ({
               <select
                 value={licenseFilter || 'all'}
                 onChange={(e) => onLicenseFilterChange(e.target.value as 'all' | 'subscription' | 'open')}
-                className="w-full sm:w-auto appearance-none py-3 pl-4 pr-10 rounded-2xl border border-slate-200 bg-white text-xs font-bold text-slate-800 shadow-sm outline-none cursor-pointer hover:bg-slate-50 hover:border-slate-300 focus:border-[#008744] focus:ring-2 focus:ring-[#008744]/20 transition-all"
+                className="w-full sm:w-auto appearance-none py-3 pl-4 pr-10 rounded-lg border border-slate-200 bg-white text-xs font-bold text-slate-800 shadow-sm outline-none cursor-pointer hover:bg-slate-50 hover:border-slate-300 focus:border-[#008744] focus:ring-2 focus:ring-[#008744]/20 transition-all"
               >
                 <option value="all">Todas las licencias</option>
                 <option value="subscription">Suscripción URP</option>
@@ -109,7 +109,7 @@ export const DatabaseSearchBar: React.FC<DatabaseSearchBarProps> = ({
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+    <div className="bg-white rounded-lg border border-slate-200 p-4 sm:p-5 shadow-xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
       <div className="flex-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
         <div className="relative flex-1">
           <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
@@ -118,7 +118,7 @@ export const DatabaseSearchBar: React.FC<DatabaseSearchBarProps> = ({
             value={searchTerm}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder={placeholder}
-            className="w-full pl-10 pr-9 py-2 rounded-xl border border-slate-300 text-sm focus:border-[#008744] focus:ring-1 focus:ring-[#008744] outline-none transition-colors"
+            className="w-full pl-10 pr-9 py-2 rounded-lg border border-slate-300 text-sm focus:border-[#008744] focus:ring-1 focus:ring-[#008744] outline-none transition-colors"
           />
           {searchTerm && (
             <button
@@ -138,7 +138,7 @@ export const DatabaseSearchBar: React.FC<DatabaseSearchBarProps> = ({
                 <select
                   value={licenseFilter || 'all'}
                   onChange={(e) => onLicenseFilterChange(e.target.value as 'all' | 'subscription' | 'open')}
-                  className="appearance-none py-2 pl-3 pr-8 rounded-xl border border-slate-300 text-xs font-semibold text-slate-700 bg-white focus:border-[#008744] outline-none cursor-pointer hover:bg-slate-50 transition-colors"
+                  className="appearance-none py-2 pl-3 pr-8 rounded-lg border border-slate-300 text-xs font-semibold text-slate-700 bg-white focus:border-[#008744] outline-none cursor-pointer hover:bg-slate-50 transition-colors"
                 >
                   <option value="all">Todas las licencias</option>
                   <option value="subscription">Suscripción URP</option>
@@ -153,7 +153,7 @@ export const DatabaseSearchBar: React.FC<DatabaseSearchBarProps> = ({
                 <select
                   value={statusFilter || 'all'}
                   onChange={(e) => onStatusFilterChange(e.target.value as 'all' | 'active' | 'inactive')}
-                  className="appearance-none py-2 pl-3 pr-8 rounded-xl border border-slate-300 text-xs font-semibold text-slate-700 bg-white focus:border-[#008744] outline-none cursor-pointer hover:bg-slate-50 transition-colors"
+                  className="appearance-none py-2 pl-3 pr-8 rounded-lg border border-slate-300 text-xs font-semibold text-slate-700 bg-white focus:border-[#008744] outline-none cursor-pointer hover:bg-slate-50 transition-colors"
                 >
                   <option value="all">Todos los estados</option>
                   <option value="active">Solo Activos</option>

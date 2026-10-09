@@ -171,7 +171,7 @@ export const DirectoryPage: React.FC<DirectoryPageProps> = ({ initialSearchQuery
           }
         />
 
-        <div className="bg-white rounded-3xl border-2 border-slate-900 shadow-urp-brutal p-6 sm:p-8 flex flex-col gap-6">
+        <div className="bg-white rounded-lg border-2 border-slate-900 shadow-urp-brutal p-6 sm:p-8 flex flex-col gap-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">
             <div>
               <div className="flex items-center gap-2.5 flex-wrap">

@@ -52,7 +52,7 @@ export const ConferenceRegistrationSuccessCard: React.FC<ConferenceRegistrationS
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10 animate-fadeIn">
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+      <div className="bg-white rounded-lg border border-slate-200 shadow-xs overflow-hidden">
         <div className={`p-8 text-center border-b ${
           isAlreadyRegistered
             ? 'bg-amber-500 text-slate-900 border-amber-600'
@@ -89,7 +89,7 @@ export const ConferenceRegistrationSuccessCard: React.FC<ConferenceRegistrationS
         </div>
 
         <div className="p-6 sm:p-8 space-y-6">
-          <div className="bg-slate-50 p-6 rounded-2xl space-y-3">
+          <div className="bg-slate-50 p-6 rounded-lg space-y-3">
             <h2 className="text-xs font-black uppercase tracking-wider text-slate-500">
               Resumen de la Conferencia
             </h2>
@@ -125,7 +125,7 @@ export const ConferenceRegistrationSuccessCard: React.FC<ConferenceRegistrationS
           </div>
 
           {conference.enlaceVirtual && (
-            <div className="p-6 rounded-2xl bg-sky-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="p-6 rounded-lg bg-sky-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="space-y-1.5">
                 <div className="flex items-center gap-2 text-sky-950 font-black text-xs uppercase tracking-wider">
                   <Video className="w-4 h-4 text-sky-600" />
@@ -155,7 +155,7 @@ export const ConferenceRegistrationSuccessCard: React.FC<ConferenceRegistrationS
             </div>
           )}
 
-          <div className="bg-[#E8F8F0] p-6 rounded-2xl space-y-2.5">
+          <div className="bg-[#E8F8F0] p-6 rounded-lg space-y-2.5">
             <h2 className="text-xs font-black uppercase tracking-wider text-[#00572B]">
               Datos del Participante Registrado
             </h2>
@@ -168,7 +168,7 @@ export const ConferenceRegistrationSuccessCard: React.FC<ConferenceRegistrationS
             </div>
           </div>
 
-          <div className="p-6 rounded-2xl bg-slate-50 space-y-3">
+          <div className="p-6 rounded-lg bg-slate-50 space-y-3">
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-xs font-black uppercase tracking-wider text-slate-900">

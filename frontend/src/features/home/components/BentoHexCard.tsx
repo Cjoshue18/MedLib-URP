@@ -92,6 +92,8 @@ export const BentoHexCard: React.FC<BentoHexCardProps> = ({
             <polygon
               points="24,0 72,0 96,41.57 72,83.14 24,83.14 0,41.57"
               fill={`url(#grad-${slot.id})`}
+              stroke="#0f172a"
+              strokeWidth="2"
               className="transition-colors duration-200"
             />
             {slot.innerBond && (

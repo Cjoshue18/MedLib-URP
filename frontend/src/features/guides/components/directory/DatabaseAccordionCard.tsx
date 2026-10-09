@@ -75,7 +75,7 @@ export const DatabaseAccordionCard: React.FC<DatabaseAccordionCardProps> = ({
 
   return (
     <div
-      className={`rounded-2xl transition-all duration-300 border-2 overflow-hidden ${
+      className={`rounded-lg transition-all duration-300 border-2 overflow-hidden ${
         isExpanded
           ? 'bg-white border-slate-900 shadow-urp-brutal'
           : 'bg-white border-slate-200 hover:border-slate-900 hover:shadow-urp-brutal-sm'
@@ -115,7 +115,7 @@ export const DatabaseAccordionCard: React.FC<DatabaseAccordionCardProps> = ({
 
       {isExpanded && (
         <div className="px-4 pb-5 sm:px-6 sm:pb-6 pt-3 border-t-2 border-slate-100 flex flex-col gap-4">
-          <div className="flex justify-center items-center h-28 sm:h-32 p-4 bg-slate-50/90 border-2 border-slate-200 rounded-2xl shadow-inner overflow-hidden select-none">
+          <div className="flex justify-center items-center h-28 sm:h-32 p-4 bg-slate-50/90 border-2 border-slate-200 rounded-lg shadow-inner overflow-hidden select-none">
             {logoSrc && !imageError ? (
               <img
                 src={logoSrc}
@@ -163,7 +163,7 @@ export const DatabaseAccordionCard: React.FC<DatabaseAccordionCardProps> = ({
             )}
           </div>
 
-          <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 text-xs text-slate-700">
+          <div className="p-3.5 rounded-lg bg-slate-50 border border-slate-200 space-y-2 text-xs text-slate-700">
             <div
               className={`flex items-center justify-between ${
                 detail.hasMobileApp ? 'pb-1.5 border-b border-slate-200/80' : ''
@@ -228,7 +228,7 @@ export const DatabaseAccordionCard: React.FC<DatabaseAccordionCardProps> = ({
                 )}
               </div>
 
-              <div className="w-full aspect-video rounded-2xl border-2 border-slate-900 shadow-urp-brutal-sm overflow-hidden bg-black">
+              <div className="w-full aspect-video rounded-lg border-2 border-slate-900 shadow-urp-brutal-sm overflow-hidden bg-black">
                 <iframe
                   src={`https://www.youtube-nocookie.com/embed/${detail.tutorialVideoId}?rel=0`}
                   title={`Tutorial Oficial - ${detail.title}`}

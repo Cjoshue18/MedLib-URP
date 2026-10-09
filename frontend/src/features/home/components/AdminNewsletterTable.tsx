@@ -43,7 +43,7 @@ export const AdminNewsletterTable: React.FC<AdminNewsletterTableProps> = ({
   onDeleteSubscriber,
 }) => {
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+    <div className="bg-white rounded-lg border border-slate-200 shadow-xs overflow-hidden">
       <div className="p-4 border-b border-slate-200 bg-slate-50/50 flex flex-col sm:flex-row items-center justify-between gap-3">
         <div className="relative w-full sm:w-80">
           <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
@@ -52,7 +52,7 @@ export const AdminNewsletterTable: React.FC<AdminNewsletterTableProps> = ({
             value={searchTerm}
             onChange={(e) => onSearchTermChange(e.target.value)}
             placeholder="Buscar por correo institucional..."
-            className="w-full pl-9 pr-3 py-2 text-xs rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#008744]"
+            className="w-full pl-9 pr-3 py-2 text-xs rounded-lg border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-[#008744]"
           />
         </div>
 
