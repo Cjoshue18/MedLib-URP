@@ -3,7 +3,7 @@ import { ExternalLink, Clock, MapPin, Phone } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-[#12161a] text-white w-full border-t-2 border-slate-800 pt-12 pb-8 mt-auto">
+    <footer className="bg-black text-white w-full border-t-2 border-slate-800 pt-12 pb-8 mt-auto">
       <div className="px-6 max-w-[1280px] mx-auto space-y-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-2 border-b border-slate-800/90 pb-8">
           <div className="flex items-start gap-4">
