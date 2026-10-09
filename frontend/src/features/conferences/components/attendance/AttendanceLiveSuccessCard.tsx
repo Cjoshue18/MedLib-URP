@@ -36,7 +36,7 @@ export const AttendanceLiveSuccessCard: React.FC<AttendanceLiveSuccessCardProps>
 }) => {
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10 animate-fadeIn">
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+      <div className="bg-white rounded-lg border border-slate-200 shadow-xs overflow-hidden">
         <div className="bg-slate-900 text-white p-8 text-center border-b border-slate-800">
           <div className="w-16 h-16 rounded-full bg-emerald-500 text-white flex items-center justify-center mx-auto mb-4 border-2 border-emerald-400 shadow-sm">
             <CheckCircle2 className="w-9 h-9" />
@@ -53,7 +53,7 @@ export const AttendanceLiveSuccessCard: React.FC<AttendanceLiveSuccessCardProps>
         </div>
 
         <div className="p-6 sm:p-8 space-y-6">
-          <div className="bg-slate-50 p-6 rounded-2xl space-y-3">
+          <div className="bg-slate-50 p-6 rounded-lg space-y-3">
             <h2 className="text-xs font-black uppercase tracking-wider text-slate-500">
               Actividad Académica
             </h2>
@@ -76,7 +76,7 @@ export const AttendanceLiveSuccessCard: React.FC<AttendanceLiveSuccessCardProps>
             </div>
           </div>
 
-          <div className="bg-[#E8F8F0] p-6 rounded-2xl space-y-2.5">
+          <div className="bg-[#E8F8F0] p-6 rounded-lg space-y-2.5">
             <h2 className="text-xs font-black uppercase tracking-wider text-[#00572B]">
               Constancia de Marcación en Vivo
             </h2>
@@ -91,7 +91,7 @@ export const AttendanceLiveSuccessCard: React.FC<AttendanceLiveSuccessCardProps>
           </div>
 
           {conference.enlaceVirtual && (
-            <div className="p-6 rounded-2xl bg-sky-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="p-6 rounded-lg bg-sky-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <h3 className="text-xs font-black uppercase tracking-wider text-sky-950">
                   Transmisión en Vivo (Sala Virtual)

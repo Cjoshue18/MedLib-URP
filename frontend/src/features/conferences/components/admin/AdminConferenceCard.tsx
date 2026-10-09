@@ -44,7 +44,7 @@ export const AdminConferenceCard: React.FC<AdminConferenceCardProps> = ({
   const isCopiedAtt = copiedLink?.id === conf.idConferencia && copiedLink?.type === 'att';
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden flex flex-col lg:flex-row">
+    <div className="bg-white rounded-lg border border-slate-200 shadow-xs overflow-hidden flex flex-col lg:flex-row">
       <div
         className={`p-6 min-w-[140px] flex flex-col justify-between items-center text-center font-display border-b lg:border-b-0 lg:border-r border-slate-200 ${
           conf.asistenciaAbierta

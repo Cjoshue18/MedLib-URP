@@ -136,7 +136,7 @@ export const AttendanceLiveView: React.FC<AttendanceLiveViewProps> = ({
           <span>Volver al Calendario</span>
         </button>
 
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-xs p-8 sm:p-12 text-center space-y-4">
+        <div className="bg-white rounded-lg border border-slate-200 shadow-xs p-8 sm:p-12 text-center space-y-4">
           <div className="w-16 h-16 rounded-full bg-red-50 text-red-600 flex items-center justify-center mx-auto border border-red-200">
             <Radio className="w-8 h-8" />
           </div>
@@ -188,10 +188,10 @@ export const AttendanceLiveView: React.FC<AttendanceLiveViewProps> = ({
         <span>Volver al Calendario de Conferencias</span>
       </button>
 
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+      <div className="bg-white rounded-lg border border-slate-200 shadow-xs overflow-hidden">
         <div className="bg-slate-900 text-white px-6 sm:px-8 py-6 border-b border-slate-800">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/40">
+            <div className="w-10 h-10 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/40">
               <Radio className="w-5 h-5 animate-pulse" />
             </div>
             <div>
@@ -206,7 +206,7 @@ export const AttendanceLiveView: React.FC<AttendanceLiveViewProps> = ({
         </div>
 
         <div className="p-6 sm:p-8 space-y-6">
-          <div className="bg-slate-50 rounded-2xl border border-slate-200 p-5 space-y-2">
+          <div className="bg-slate-50 rounded-lg border border-slate-200 p-5 space-y-2">
             <div className="flex items-center gap-2">
               <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-600 text-white animate-pulse">
                 Asistencia Abierta

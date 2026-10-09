@@ -60,9 +60,9 @@ export const AdminLoginForm: React.FC<AdminLoginFormProps> = ({
       </header>
 
       <main className="relative z-10 flex-1 flex items-center justify-center py-12">
-        <div className="w-full max-w-md bg-white rounded-3xl border-2 border-slate-900 shadow-urp-brutal overflow-hidden">
+        <div className="w-full max-w-md bg-white rounded-lg border-2 border-slate-900 shadow-urp-brutal overflow-hidden">
           <div className="bg-gradient-to-r from-[#00572B] via-[#008744] to-[#00A859] p-6 text-white text-center relative">
-            <div className="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center mx-auto mb-3 shadow-inner">
+            <div className="w-14 h-14 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center mx-auto mb-3 shadow-inner">
               <Lock className="w-7 h-7 text-white" />
             </div>
             <h1 className="text-xl font-black font-display tracking-tight uppercase">
@@ -75,7 +75,7 @@ export const AdminLoginForm: React.FC<AdminLoginFormProps> = ({
 
           <form onSubmit={handleSubmit} className="p-6 sm:p-8 space-y-5">
             {loginError && (
-              <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-semibold flex items-center gap-2 animate-shake">
+              <div className="p-3.5 rounded-lg bg-red-50 border border-red-200 text-red-700 text-xs font-semibold flex items-center gap-2 animate-shake">
                 <XCircle className="w-4 h-4 shrink-0 text-red-600" />
                 <span>{loginError}</span>
               </div>
@@ -97,7 +97,7 @@ export const AdminLoginForm: React.FC<AdminLoginFormProps> = ({
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="Ej. admin_famurp"
-                  className="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-[#008744] focus:ring-2 focus:ring-[#008744]/20 text-slate-900 text-sm font-medium outline-none transition-all"
+                  className="w-full pl-10 pr-3.5 py-2.5 rounded-lg border border-slate-300 focus:border-[#008744] focus:ring-2 focus:ring-[#008744]/20 text-slate-900 text-sm font-medium outline-none transition-all"
                   required
                 />
               </div>
@@ -119,7 +119,7 @@ export const AdminLoginForm: React.FC<AdminLoginFormProps> = ({
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••••••"
-                  className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-300 focus:border-[#008744] focus:ring-2 focus:ring-[#008744]/20 text-slate-900 text-sm font-medium outline-none transition-all"
+                  className="w-full pl-10 pr-10 py-2.5 rounded-lg border border-slate-300 focus:border-[#008744] focus:ring-2 focus:ring-[#008744]/20 text-slate-900 text-sm font-medium outline-none transition-all"
                   required
                 />
                 <button

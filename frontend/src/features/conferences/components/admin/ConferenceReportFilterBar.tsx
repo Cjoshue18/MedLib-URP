@@ -26,7 +26,7 @@ export const ConferenceReportFilterBar: React.FC<ConferenceReportFilterBarProps>
   isLoadingConferences,
 }) => {
   return (
-    <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-end justify-between gap-4">
+    <div className="bg-white p-5 rounded-lg border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-end justify-between gap-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 flex-1">
         <div>
           <label className="text-xs font-extrabold text-slate-700 block mb-1.5">

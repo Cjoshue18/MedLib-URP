@@ -73,7 +73,7 @@ export const InstagramCarousel: React.FC<InstagramCarouselProps> = ({
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs h-[450px] animate-pulse flex flex-col justify-between"
+              className="bg-white rounded-lg border border-slate-200 p-4 shadow-xs h-[450px] animate-pulse flex flex-col justify-between"
             >
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-full bg-slate-200 shrink-0"></div>
@@ -82,7 +82,7 @@ export const InstagramCarousel: React.FC<InstagramCarouselProps> = ({
                   <div className="h-2.5 w-16 bg-slate-100 rounded"></div>
                 </div>
               </div>
-              <div className="w-full flex-1 bg-slate-100 rounded-xl my-4"></div>
+              <div className="w-full flex-1 bg-slate-100 rounded-lg my-4"></div>
               <div className="space-y-2">
                 <div className="h-3 w-4/5 bg-slate-200 rounded"></div>
                 <div className="h-2.5 w-1/2 bg-slate-100 rounded"></div>
@@ -96,8 +96,8 @@ export const InstagramCarousel: React.FC<InstagramCarouselProps> = ({
 
   if (posts.length === 0) {
     return (
-      <div className="bg-white rounded-3xl border border-slate-200 p-8 sm:p-12 text-center shadow-xs max-w-2xl mx-auto">
-        <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-[#008744] flex items-center justify-center mx-auto mb-3 border border-emerald-100">
+      <div className="bg-white rounded-lg border border-slate-200 p-8 sm:p-12 text-center shadow-xs max-w-2xl mx-auto">
+        <div className="w-14 h-14 rounded-lg bg-emerald-50 text-[#008744] flex items-center justify-center mx-auto mb-3 border border-emerald-100">
           <InstagramIcon className="w-7 h-7" />
         </div>
         <h3 className="font-display font-extrabold text-base text-slate-900">
@@ -115,7 +115,7 @@ export const InstagramCarousel: React.FC<InstagramCarouselProps> = ({
   return (
     <div className="relative w-full group">
       <div
-        className="overflow-hidden rounded-2xl"
+        className="overflow-hidden rounded-lg"
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
@@ -130,7 +130,7 @@ export const InstagramCarousel: React.FC<InstagramCarouselProps> = ({
               key={post.id}
               className="w-full sm:w-1/2 lg:w-1/3 shrink-0 px-2 sm:px-2.5 flex flex-col"
             >
-              <div className="w-full h-full bg-white rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition-all overflow-hidden flex flex-col justify-between p-2">
+              <div className="w-full h-full bg-white rounded-lg border border-slate-200 shadow-xs hover:shadow-md transition-all overflow-hidden flex flex-col justify-between p-2">
                 <div className="w-full flex items-center justify-center min-h-[440px]">
                   <InstagramPostEmbed url={post.urlInstagram} captioned={false} />
                 </div>

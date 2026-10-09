@@ -52,7 +52,7 @@ export const ConferenceMonthlyCalendar: React.FC<ConferenceMonthlyCalendarProps>
   const todayDayNumber = isCurrentCalendarMonth ? today.getDate() : -1;
 
   return (
-    <div className="bg-white rounded-2xl border-2 border-slate-900 shadow-sm p-6">
+    <div className="bg-white rounded-lg border-2 border-slate-900 shadow-sm p-6">
       <div className="flex items-center justify-between mb-4 border-b border-slate-200 pb-3">
         <div className="flex items-center gap-2">
           <CalendarDays className="w-4 h-4 text-[#008744]" />

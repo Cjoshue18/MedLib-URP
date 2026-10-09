@@ -42,7 +42,7 @@ export const LostFoundPage: React.FC = () => {
 
             <InstagramCarousel posts={posts} isLoading={isLoading} />
 
-            <div className="mt-8 p-4 rounded-2xl bg-amber-50 border border-amber-200 flex items-center gap-3 text-xs text-amber-900 font-semibold shadow-xs">
+            <div className="mt-8 p-4 rounded-lg bg-amber-50 border border-amber-200 flex items-center gap-3 text-xs text-amber-900 font-semibold shadow-xs">
               <AlertCircle className="w-5 h-5 text-amber-600 shrink-0" />
               <span>
                 Nota: Todo objeto hallado permanece bajo custodia en recepción durante un plazo máximo de 30 días.

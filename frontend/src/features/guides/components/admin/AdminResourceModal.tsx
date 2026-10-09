@@ -133,8 +133,8 @@ export const AdminResourceModal: React.FC<AdminResourceModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-fadeIn">
-      <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200 flex flex-col">
-        <div className="p-5 sm:p-6 border-b border-slate-200 flex items-center justify-between bg-slate-50 rounded-t-3xl">
+      <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200 flex flex-col">
+        <div className="p-5 sm:p-6 border-b border-slate-200 flex items-center justify-between bg-slate-50 rounded-t-lg">
           <div>
             <h3 className="text-base font-bold font-display text-slate-900">
               {formData.id ? 'Editar Base de Datos Médica' : 'Registrar Nueva Base de Datos'}

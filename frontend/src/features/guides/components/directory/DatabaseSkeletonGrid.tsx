@@ -13,7 +13,7 @@ export const DatabaseSkeletonGrid: React.FC<DatabaseSkeletonGridProps> = ({ coun
       {Array.from({ length: count }).map((_, idx) => (
         <div
           key={idx}
-          className="bg-white rounded-2xl border-2 border-slate-200/90 p-4 sm:p-4.5 flex items-center justify-between animate-pulse shadow-sm transition-all"
+          className="bg-white rounded-lg border-2 border-slate-200/90 p-4 sm:p-4.5 flex items-center justify-between animate-pulse shadow-sm transition-all"
         >
           <div className="min-w-0 flex-1 pr-3">
             <div className={`h-4 bg-slate-200 rounded-md mb-2 ${widths[idx % widths.length]}`} />

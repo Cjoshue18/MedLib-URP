@@ -145,7 +145,7 @@ export const AdminStatisticsTab: React.FC<AdminStatisticsTabProps> = ({
 
   return (
     <div className="space-y-6">
-      <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-white p-6 rounded-lg border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <span className="text-[10px] font-black tracking-wider uppercase text-[#008744] block">
             Auditoría de Asistencias &amp; Acreditación
@@ -194,12 +194,12 @@ export const AdminStatisticsTab: React.FC<AdminStatisticsTabProps> = ({
       />
 
       {isLoadingReport ? (
-        <div className="bg-white p-12 rounded-2xl border border-slate-200 shadow-xs flex flex-col items-center justify-center gap-3">
+        <div className="bg-white p-12 rounded-lg border border-slate-200 shadow-xs flex flex-col items-center justify-center gap-3">
           <Loader2 className="w-8 h-8 text-[#008744] animate-spin" />
           <p className="text-xs font-bold text-slate-600">Procesando y cruzando nóminas de asistencia...</p>
         </div>
       ) : filteredConferences.length === 0 ? (
-        <div className="bg-white p-12 rounded-2xl border border-slate-200 shadow-xs text-center space-y-2">
+        <div className="bg-white p-12 rounded-lg border border-slate-200 shadow-xs text-center space-y-2">
           <Calendar className="w-8 h-8 text-slate-400 mx-auto" />
           <h3 className="font-bold text-slate-800 text-sm">
             Sin conferencias en {MONTH_NAMES_ES[selectedMonth]} {selectedYear}
@@ -209,7 +209,7 @@ export const AdminStatisticsTab: React.FC<AdminStatisticsTabProps> = ({
           </p>
         </div>
       ) : !report ? (
-        <div className="bg-white p-12 rounded-2xl border border-slate-200 shadow-xs text-center">
+        <div className="bg-white p-12 rounded-lg border border-slate-200 shadow-xs text-center">
           <p className="text-xs text-slate-500">Selecciona una conferencia para visualizar las estadísticas.</p>
         </div>
       ) : (

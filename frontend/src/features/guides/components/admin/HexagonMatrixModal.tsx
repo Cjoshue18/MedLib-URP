@@ -93,10 +93,10 @@ export const HexagonMatrixModal: React.FC<HexagonMatrixModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden">
+      <div className="bg-white rounded-lg border border-slate-200 shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden">
         <div className="px-6 py-5 border-b border-slate-200 flex items-center justify-between bg-slate-50/70">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center shadow-xs">
+            <div className="w-10 h-10 rounded-lg bg-amber-50 border border-amber-200 flex items-center justify-center shadow-xs">
               <Hexagon className="w-5 h-5 fill-amber-400 text-amber-600" />
             </div>
             <div>
@@ -164,7 +164,7 @@ export const HexagonMatrixModal: React.FC<HexagonMatrixModalProps> = ({
                 <div
                   key={res.id}
                   onClick={() => handleToggle(res.id)}
-                  className={`p-3 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${
+                  className={`p-3 rounded-lg border transition-all cursor-pointer flex items-center justify-between gap-3 ${
                     isSelected
                       ? 'bg-emerald-50/60 border-emerald-300 shadow-xs'
                       : count >= 15

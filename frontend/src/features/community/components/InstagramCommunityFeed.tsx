@@ -11,7 +11,7 @@ export const InstagramCommunityFeed: React.FC<InstagramCommunityFeedProps> = ({
 }) => {
   return (
     <section className="max-w-[1280px] mx-auto px-6 pb-20">
-      <div className="bg-white rounded-3xl border-2 border-slate-900 shadow-urp-brutal p-6 sm:p-8">
+      <div className="bg-white rounded-lg border-2 border-slate-900 shadow-urp-brutal p-6 sm:p-8">
         <div className="mb-6 border-b border-slate-200 pb-4">
           <span className="text-[11px] font-bold text-[#008744] uppercase tracking-wider block">
             COMUNIDAD MÉDICA &amp; ACTIVIDADES

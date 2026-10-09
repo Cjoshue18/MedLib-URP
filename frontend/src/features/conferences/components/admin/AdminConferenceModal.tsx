@@ -154,10 +154,10 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
         onClick={() => !isSubmitting && onClose()}
       />
 
-      <div className="relative w-full max-w-2xl bg-white rounded-2xl border border-slate-200 shadow-xl overflow-hidden flex flex-col z-10 max-h-[92vh]">
+      <div className="relative w-full max-w-2xl bg-white rounded-lg border border-slate-200 shadow-xl overflow-hidden flex flex-col z-10 max-h-[92vh]">
         <div className="bg-[#008744] text-white px-6 py-5 flex items-center justify-between border-b border-emerald-700">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center">
               <Calendar className="w-4 h-4 text-white" />
             </div>
             <div>
@@ -181,7 +181,7 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
 
         <form onSubmit={handleSaveConference} className="p-6 overflow-y-auto space-y-4">
           {modalError && (
-            <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-medium flex items-center gap-2">
+            <div className="p-3.5 rounded-lg bg-red-50 border border-red-200 text-red-700 text-xs font-medium flex items-center gap-2">
               <ShieldAlert className="w-4 h-4 shrink-0" />
               <span>{modalError}</span>
             </div>
@@ -197,7 +197,7 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
               onChange={(e) => setFormTitulo(e.target.value)}
               placeholder="Ej. Búsqueda Avanzada en bases médicas para Revisiones Sistemáticas"
               required
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-xs font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#008744]"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 bg-slate-50 text-xs font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#008744]"
             />
           </div>
 
@@ -212,7 +212,7 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
                 onChange={(e) => setFormPonente(e.target.value)}
                 placeholder="Ej. Dra. Patricia Valenzuela"
                 required
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-xs font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#008744]"
+                className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 bg-slate-50 text-xs font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#008744]"
               />
             </div>
             <div>
@@ -225,7 +225,7 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
                 onChange={(e) => setFormEditorial(e.target.value)}
                 placeholder="Ej. Elsevier Clinical Solutions / URP"
                 required
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-xs font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#008744]"
+                className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 bg-slate-50 text-xs font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#008744]"
               />
             </div>
           </div>
@@ -240,7 +240,7 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
                 value={formInicio}
                 onChange={(e) => setFormInicio(e.target.value)}
                 required
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#008744]"
+                className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 bg-slate-50 text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#008744]"
               />
             </div>
             <div>
@@ -252,7 +252,7 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
                 value={formFin}
                 onChange={(e) => setFormFin(e.target.value)}
                 required
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#008744]"
+                className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 bg-slate-50 text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#008744]"
               />
             </div>
           </div>
@@ -265,7 +265,7 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
               <select
                 value={formModalidad}
                 onChange={(e) => setFormModalidad(e.target.value as 'Virtual' | 'Presencial')}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#008744]"
+                className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#008744]"
               >
                 <option value="Virtual">Virtual (En línea / Sala Virtual)</option>
                 <option value="Presencial">Presencial (Campus URP)</option>
@@ -279,7 +279,7 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
                 <select
                   value={formEstado}
                   onChange={(e) => setFormEstado(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#008744]"
+                  className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#008744]"
                 >
                   <option value="Programada">Programada</option>
                   <option value="En Curso">En Curso</option>
@@ -300,12 +300,12 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
                 value={formEnlace}
                 onChange={(e) => setFormEnlace(e.target.value)}
                 placeholder="https://..."
-                className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-xs font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#008744]"
+                className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 bg-slate-50 text-xs font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#008744]"
               />
             </div>
           )}
 
-          <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col gap-2.5">
+          <div className="p-3.5 rounded-lg bg-slate-50 border border-slate-200 flex flex-col gap-2.5">
             <div className="flex items-center justify-between">
               <div>
                 <span className="text-xs font-bold text-slate-900 block">
@@ -324,7 +324,7 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
             </div>
 
             {formAutoPurge && (
-              <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 flex items-start gap-2.5 text-amber-900">
+              <div className="p-3 rounded-lg bg-amber-50 border border-amber-200 flex items-start gap-2.5 text-amber-900">
                 <ShieldAlert className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
                 <div className="text-[11px] leading-relaxed">
                   <span className="font-bold block">Aviso de Purga Permanente:</span>

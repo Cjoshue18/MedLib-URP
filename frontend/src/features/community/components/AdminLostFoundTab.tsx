@@ -53,7 +53,7 @@ export const AdminLostFoundTab: React.FC<AdminLostFoundTabProps> = ({ onShowFeed
 
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="bg-white rounded-lg border border-slate-200 p-6 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-xl sm:text-2xl font-display font-extrabold text-slate-900">
             Publicaciones de Instagram
@@ -64,7 +64,7 @@ export const AdminLostFoundTab: React.FC<AdminLostFoundTabProps> = ({ onShowFeed
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-700">
+          <div className="px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs font-bold text-slate-700">
             <span>Activas: </span>
             <span className="text-[#008744] font-black">{lostPosts.length}</span>
             <span> / {MAX_ACTIVE_LOST_FOUND_POSTS}</span>
@@ -90,12 +90,12 @@ export const AdminLostFoundTab: React.FC<AdminLostFoundTabProps> = ({ onShowFeed
       {isLoadingLostPosts ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-96 rounded-2xl bg-slate-100 animate-pulse border border-slate-200"></div>
+            <div key={i} className="h-96 rounded-lg bg-slate-100 animate-pulse border border-slate-200"></div>
           ))}
         </div>
       ) : lostPosts.length === 0 ? (
-        <div className="bg-white rounded-2xl border border-dashed border-slate-300 p-12 text-center shadow-xs">
-          <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-[#008744] mx-auto flex items-center justify-center mb-3 border border-emerald-100">
+        <div className="bg-white rounded-lg border border-dashed border-slate-300 p-12 text-center shadow-xs">
+          <div className="w-14 h-14 rounded-lg bg-emerald-50 text-[#008744] mx-auto flex items-center justify-center mb-3 border border-emerald-100">
             <InstagramIcon className="w-7 h-7" />
           </div>
           <h3 className="font-display font-extrabold text-base text-slate-800">
@@ -118,7 +118,7 @@ export const AdminLostFoundTab: React.FC<AdminLostFoundTabProps> = ({ onShowFeed
           {lostPosts.map((post) => (
             <div
               key={post.id}
-              className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-md transition-shadow flex flex-col"
+              className="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-xs hover:shadow-md transition-shadow flex flex-col"
             >
               <div className="p-3.5 border-b border-slate-100 flex items-center justify-between bg-slate-50/70">
                 <span className="text-[11px] font-bold text-slate-500">
@@ -146,7 +146,7 @@ export const AdminLostFoundTab: React.FC<AdminLostFoundTabProps> = ({ onShowFeed
               </div>
 
               <div className="p-4 flex-1 flex flex-col justify-between">
-                <div className="w-full flex justify-center overflow-hidden rounded-xl border border-slate-100 bg-slate-50/50 min-h-[380px]">
+                <div className="w-full flex justify-center overflow-hidden rounded-lg border border-slate-100 bg-slate-50/50 min-h-[380px]">
                   <InstagramPostEmbed url={post.urlInstagram} />
                 </div>
               </div>

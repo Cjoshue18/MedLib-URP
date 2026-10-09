@@ -20,9 +20,9 @@ export const AdminResourceSubjectConfirmDialog: React.FC<AdminResourceSubjectCon
 
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-xs animate-fadeIn">
-      <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4 animate-in zoom-in-95 duration-200">
+      <div className="bg-white rounded-lg max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4 animate-in zoom-in-95 duration-200">
         <div className="flex items-start gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 border border-amber-200 shadow-xs">
+          <div className="w-10 h-10 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 border border-amber-200 shadow-xs">
             <AlertTriangle className="w-5 h-5" />
           </div>
           <div>
@@ -35,7 +35,7 @@ export const AdminResourceSubjectConfirmDialog: React.FC<AdminResourceSubjectCon
           </div>
         </div>
 
-        <div className="p-3.5 bg-amber-50/70 rounded-2xl border border-amber-200 max-h-48 overflow-y-auto">
+        <div className="p-3.5 bg-amber-50/70 rounded-lg border border-amber-200 max-h-48 overflow-y-auto">
           <div className="flex flex-wrap gap-1.5">
             {pendingNewSubjects.map((subject, idx) => (
               <span

@@ -10,7 +10,7 @@ interface AdminNewsletterStatsProps {
 export const AdminNewsletterStats: React.FC<AdminNewsletterStatsProps> = ({ stats, subscribers }) => {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
-      <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs">
+      <div className="bg-white rounded-lg border border-slate-200 p-4 shadow-xs">
         <div className="flex items-center justify-between">
           <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Total</span>
           <Users className="w-4 h-4 text-[#008744]" />
@@ -21,7 +21,7 @@ export const AdminNewsletterStats: React.FC<AdminNewsletterStatsProps> = ({ stat
         <span className="text-[10px] text-slate-400 font-medium">Correos activos</span>
       </div>
 
-      <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs">
+      <div className="bg-white rounded-lg border border-slate-200 p-4 shadow-xs">
         <div className="flex items-center justify-between">
           <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider">Pregrado</span>
           <BookOpen className="w-4 h-4 text-emerald-600" />
@@ -32,7 +32,7 @@ export const AdminNewsletterStats: React.FC<AdminNewsletterStatsProps> = ({ stat
         <span className="text-[10px] text-slate-400 font-medium">Estudiantes pregrado</span>
       </div>
 
-      <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs">
+      <div className="bg-white rounded-lg border border-slate-200 p-4 shadow-xs">
         <div className="flex items-center justify-between">
           <span className="text-xs font-bold text-blue-700 uppercase tracking-wider">Posgrado</span>
           <GraduationCap className="w-4 h-4 text-blue-600" />
@@ -43,7 +43,7 @@ export const AdminNewsletterStats: React.FC<AdminNewsletterStatsProps> = ({ stat
         <span className="text-[10px] text-slate-400 font-medium">Maestrías/Doctorados</span>
       </div>
 
-      <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs">
+      <div className="bg-white rounded-lg border border-slate-200 p-4 shadow-xs">
         <div className="flex items-center justify-between">
           <span className="text-xs font-bold text-amber-700 uppercase tracking-wider">Residentado</span>
           <Stethoscope className="w-4 h-4 text-amber-600" />
@@ -54,7 +54,7 @@ export const AdminNewsletterStats: React.FC<AdminNewsletterStatsProps> = ({ stat
         <span className="text-[10px] text-slate-400 font-medium">Especialidades</span>
       </div>
 
-      <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs">
+      <div className="bg-white rounded-lg border border-slate-200 p-4 shadow-xs">
         <div className="flex items-center justify-between">
           <span className="text-xs font-bold text-purple-700 uppercase tracking-wider">Docentes</span>
           <Award className="w-4 h-4 text-purple-600" />
@@ -65,7 +65,7 @@ export const AdminNewsletterStats: React.FC<AdminNewsletterStatsProps> = ({ stat
         <span className="text-[10px] text-slate-400 font-medium">Cuerpo docente</span>
       </div>
 
-      <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs">
+      <div className="bg-white rounded-lg border border-slate-200 p-4 shadow-xs">
         <div className="flex items-center justify-between">
           <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">Otros</span>
           <Users className="w-4 h-4 text-slate-500" />

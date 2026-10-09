@@ -143,10 +143,10 @@ export const AdminNewsletterTab: React.FC<AdminNewsletterTabProps> = ({ onShowFe
 
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div className="bg-white rounded-lg border border-slate-200 p-5 sm:p-6 shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="p-2 rounded-xl bg-emerald-50 text-[#008744] border border-emerald-200">
+            <span className="p-2 rounded-lg bg-emerald-50 text-[#008744] border border-emerald-200">
               <Mail className="w-5 h-5" />
             </span>
             <div>
