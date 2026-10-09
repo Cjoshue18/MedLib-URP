@@ -68,7 +68,7 @@ export default {
           700: '#008744',
           800: '#006b35',
           900: '#004d26',
-          charcoal: '#12161a',
+          charcoal: '#000000',
           surface: '#1e242c',
           gold: '#f59e0b',
         }

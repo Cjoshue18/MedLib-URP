@@ -38,7 +38,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
   };
 
   return (
-    <section className="relative bg-[#12161a] text-white pt-10 pb-24 px-6 sm:px-8 border-b-4 border-[#008744] overflow-hidden">
+    <section className="relative bg-black text-white pt-10 pb-24 px-6 sm:px-8 border-b-4 border-[#008744] overflow-hidden">
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
         {HERO_SLIDES.map((slide, idx) => (
           <img
@@ -52,8 +52,8 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
             }`}
           />
         ))}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#12161a]/90 via-[#12161a]/70 to-[#12161a]/50"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-[#12161a]/85 via-transparent to-black/35"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/50"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/35"></div>
         <div className="absolute inset-0 bg-grid-pattern-dark opacity-20"></div>
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#008744]/20 blur-[120px] rounded-full pointer-events-none"></div>
       </div>
