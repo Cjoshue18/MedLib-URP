@@ -230,7 +230,7 @@ export const AdminDatabasesTab: React.FC<AdminDatabasesTabProps> = ({
               type="button"
               onClick={loadResources}
               disabled={isLoadingResources}
-              className="p-2 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-50 transition-colors cursor-pointer"
+              className="p-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50 transition-colors cursor-pointer"
               title="Refrescar catálogo"
             >
               <RefreshCw className={`w-4 h-4 ${isLoadingResources ? 'animate-spin' : ''}`} />
@@ -239,7 +239,7 @@ export const AdminDatabasesTab: React.FC<AdminDatabasesTabProps> = ({
             <button
               type="button"
               onClick={handleOpenCreateModal}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl font-display font-bold text-xs text-white bg-[#008744] hover:bg-[#00572B] transition-colors shadow-xs cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-display font-bold text-xs text-white bg-[#008744] hover:bg-[#00572B] transition-colors shadow-xs cursor-pointer"
             >
               <Plus className="w-4 h-4" />
               <span>Registrar Base de Datos</span>
