@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ResourceApiDto, getDatabaseLogoUrl } from '../../guides';
 
 export interface HexSlotData {
@@ -28,8 +28,15 @@ export const BentoHexCard: React.FC<BentoHexCardProps> = ({
   onTouchStart,
   onMouseEnter,
 }) => {
+  const [imageError, setImageError] = useState(false);
   const logoSrc = getDatabaseLogoUrl(slot.resource?.logoUrl);
   const title = slot.resource?.name || 'Base de datos médica';
+
+  useEffect(() => {
+    setImageError(false);
+  }, [slot.resource?.logoUrl]);
+
+  const hasValidLogo = Boolean(logoSrc && !imageError);
 
   const cx = 65 + slot.col * 72;
   const cy = 50 + slot.row * 83.138 + (slot.col % 2 !== 0 ? 41.569 : 0);
@@ -113,26 +120,26 @@ export const BentoHexCard: React.FC<BentoHexCardProps> = ({
             </defs>
             <polygon
               points="24,0 72,0 96,41.57 72,83.14 24,83.14 0,41.57"
-              fill={logoSrc ? "#ffffff" : "#0f172a"}
-              stroke={logoSrc ? "#e2e8f0" : "#00a859"}
-              strokeWidth={logoSrc ? "1" : "2"}
+              fill={hasValidLogo ? "#ffffff" : "#0f172a"}
+              stroke={hasValidLogo ? "#e2e8f0" : "#00a859"}
+              strokeWidth={hasValidLogo ? "1" : "2"}
             />
-            {logoSrc && (
+            {hasValidLogo && (
               <g clipPath={`url(#hex-clip-${slot.id})`}>
                 <image
                   href={logoSrc}
-                  crossOrigin="anonymous"
                   x="12"
                   y="10"
                   width="72"
                   height="63"
                   preserveAspectRatio="xMidYMid meet"
+                  onError={() => setImageError(true)}
                 />
               </g>
             )}
           </svg>
 
-          {!logoSrc && (
+          {!hasValidLogo && (
             <div className="absolute inset-0 flex flex-col items-center justify-center p-1.5 text-center select-none pointer-events-none">
               {isLoading || !slot.resource ? (
                 <div className="flex flex-col items-center justify-center gap-1">

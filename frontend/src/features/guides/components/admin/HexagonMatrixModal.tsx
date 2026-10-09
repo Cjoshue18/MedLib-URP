@@ -188,7 +188,6 @@ export const HexagonMatrixModal: React.FC<HexagonMatrixModalProps> = ({
                         <img
                           src={logoSrc}
                           alt={res.name}
-                          crossOrigin="anonymous"
                           className="max-w-full max-h-full object-contain"
                           onError={(e) => {
                             e.currentTarget.style.display = 'none';

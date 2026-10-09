@@ -25,7 +25,6 @@ export const DatabaseLogo: React.FC<DatabaseLogoProps> = ({
         <img
           src={logoSrc}
           alt={name}
-          crossOrigin="anonymous"
           className="max-w-full max-h-full object-contain"
           onError={() => setHasError(true)}
         />
