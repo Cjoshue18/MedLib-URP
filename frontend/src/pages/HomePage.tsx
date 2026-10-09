@@ -4,7 +4,6 @@ import {
   HomeBentoGrid,
   HomeUpcomingActivities,
 } from '../features/home';
-import { InstagramCommunityFeed } from '../features/community';
 
 interface HomePageProps {
   onNavigate: (view: 'home' | 'directory' | 'conferences' | 'lost-found', query?: string) => void;
@@ -15,7 +14,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
     <main className="w-full bg-[#f8fafc] text-slate-900 overflow-hidden">
       <HomeHero onNavigate={onNavigate} />
 
-      <section className="max-w-[1280px] mx-auto px-6 py-16">
+      <section className="max-w-[1280px] mx-auto px-6 py-16 pb-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           <div className="lg:col-span-7 space-y-8">
             <HomeBentoGrid onNavigate={onNavigate} />
@@ -26,8 +25,6 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           </div>
         </div>
       </section>
-
-      <InstagramCommunityFeed />
     </main>
   );
 };
