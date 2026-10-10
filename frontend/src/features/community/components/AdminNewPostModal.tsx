@@ -116,7 +116,7 @@ export const AdminNewPostModal: React.FC<AdminNewPostModalProps> = ({
               type="button"
               onClick={onClose}
               disabled={isSubmitting}
-              className="px-4 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-slate-100 border border-slate-300 transition-colors cursor-pointer"
+              className="px-4 py-2 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-100 border border-slate-300 transition-colors cursor-pointer"
             >
               Cancelar
             </button>
@@ -124,7 +124,7 @@ export const AdminNewPostModal: React.FC<AdminNewPostModalProps> = ({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#008744] hover:bg-[#00572B] transition-colors cursor-pointer flex items-center gap-1.5 shadow-xs"
+              className="px-4 py-2 rounded-lg text-xs font-bold text-white bg-[#008744] hover:bg-[#00572B] transition-colors cursor-pointer flex items-center gap-1.5 shadow-xs"
             >
               {isSubmitting ? (
                 <>
