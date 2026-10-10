@@ -147,7 +147,7 @@ export const ConferenceRegistrationSuccessCard: React.FC<ConferenceRegistrationS
                 href={conference.enlaceVirtual}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#0284c7] hover:bg-[#0369a1] text-white text-xs font-bold shadow-urp-brutal-sm tactile-btn transition-all cursor-pointer shrink-0 self-start sm:self-center"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#0284c7] hover:bg-[#0369a1] text-white text-xs font-bold shadow-urp-brutal-sm tactile-btn transition-all cursor-pointer shrink-0 self-start sm:self-center"
               >
                 <ExternalLink className="w-3.5 h-3.5" />
                 <span>Ingresar a la Sala</span>
@@ -181,7 +181,7 @@ export const ConferenceRegistrationSuccessCard: React.FC<ConferenceRegistrationS
               <Share2 className="w-4 h-4 text-[#008744] shrink-0" />
             </div>
 
-            <div className="flex items-center gap-2 bg-white p-2 rounded-xl border border-slate-200 shadow-2xs">
+            <div className="flex items-center gap-2 bg-white p-2 rounded-lg border border-slate-200 shadow-2xs">
               <LinkIcon className="w-4 h-4 text-slate-400 shrink-0 ml-1" />
               <input
                 type="text"
@@ -192,7 +192,7 @@ export const ConferenceRegistrationSuccessCard: React.FC<ConferenceRegistrationS
               <button
                 type="button"
                 onClick={onCopyRegistrationLink}
-                className="px-4 py-2 rounded-xl bg-[#008744] hover:bg-[#006b35] text-white text-xs font-bold shadow-urp-brutal-sm tactile-btn transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
+                className="px-4 py-2 rounded-lg bg-[#008744] hover:bg-[#006b35] text-white text-xs font-bold shadow-urp-brutal-sm tactile-btn transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
               >
                 {copiedLink ? (
                   <>
@@ -210,7 +210,7 @@ export const ConferenceRegistrationSuccessCard: React.FC<ConferenceRegistrationS
             <button
               type="button"
               onClick={onBackToCalendar}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl bg-[#008744] hover:bg-[#006b35] text-white font-display font-black text-sm shadow-urp-brutal-green tactile-btn-green transition-all cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-lg bg-[#008744] hover:bg-[#006b35] text-white font-display font-black text-sm shadow-urp-brutal-green tactile-btn-green transition-all cursor-pointer"
             >
               <Calendar className="w-4 h-4" />
               <span>Ver Calendario de Conferencias</span>

@@ -86,7 +86,7 @@ export const ConferenceCard: React.FC<ConferenceCardProps> = ({
             <button
               type="button"
               onClick={() => onCopyShareLink(conf)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer text-xs font-semibold"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer text-xs font-semibold"
               title="Copiar enlace de invitación"
             >
               {isCopied ? (
@@ -108,7 +108,7 @@ export const ConferenceCard: React.FC<ConferenceCardProps> = ({
               <button
                 type="button"
                 onClick={() => onOpenAttendance(conf)}
-                className="py-2 px-4 rounded-full border-2 border-emerald-700 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-all shadow-urp-brutal-sm tactile-btn cursor-pointer flex items-center gap-1.5"
+                className="py-2 px-4 rounded-lg border-2 border-emerald-700 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-all shadow-urp-brutal-sm tactile-btn cursor-pointer flex items-center gap-1.5"
               >
                 <Radio className="w-3.5 h-3.5" />
                 <span>Marcar Asistencia</span>
@@ -118,7 +118,7 @@ export const ConferenceCard: React.FC<ConferenceCardProps> = ({
               <button
                 type="button"
                 disabled
-                className="py-2 px-5 rounded-full border-2 border-slate-300 bg-slate-100 font-bold text-xs text-slate-400 cursor-not-allowed"
+                className="py-2 px-5 rounded-lg border-2 border-slate-300 bg-slate-100 font-bold text-xs text-slate-400 cursor-not-allowed"
               >
                 Evento Concluido
               </button>
@@ -126,7 +126,7 @@ export const ConferenceCard: React.FC<ConferenceCardProps> = ({
               <button
                 type="button"
                 onClick={() => onOpenRegistration(conf)}
-                className="py-2 px-5 rounded-full border-2 border-slate-900 font-bold text-xs text-slate-900 hover:bg-slate-900 hover:text-white transition-all shadow-urp-brutal-sm tactile-btn cursor-pointer"
+                className="py-2 px-5 rounded-lg border-2 border-slate-900 font-bold text-xs text-slate-900 hover:bg-slate-900 hover:text-white transition-all shadow-urp-brutal-sm tactile-btn cursor-pointer"
               >
                 Inscribirme
               </button>

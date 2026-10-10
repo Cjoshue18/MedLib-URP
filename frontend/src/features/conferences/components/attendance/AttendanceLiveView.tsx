@@ -130,7 +130,7 @@ export const AttendanceLiveView: React.FC<AttendanceLiveViewProps> = ({
         <button
           type="button"
           onClick={onBackToCalendar}
-          className="inline-flex items-center gap-2 text-xs font-bold text-slate-700 hover:text-[#008744] px-3.5 py-2 rounded-xl bg-white border border-slate-200 shadow-xs hover:border-slate-300 transition-colors cursor-pointer"
+          className="inline-flex items-center gap-2 text-xs font-bold text-slate-700 hover:text-[#008744] px-3.5 py-2 rounded-lg bg-white border border-slate-200 shadow-xs hover:border-slate-300 transition-colors cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Volver al Calendario</span>
@@ -150,7 +150,7 @@ export const AttendanceLiveView: React.FC<AttendanceLiveViewProps> = ({
             <button
               type="button"
               onClick={onBackToCalendar}
-              className="py-3 px-6 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-urp-brutal-sm tactile-btn cursor-pointer"
+              className="py-3 px-6 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-urp-brutal-sm tactile-btn cursor-pointer"
             >
               Regresar al Calendario
             </button>
@@ -182,7 +182,7 @@ export const AttendanceLiveView: React.FC<AttendanceLiveViewProps> = ({
       <button
         type="button"
         onClick={onBackToCalendar}
-        className="inline-flex items-center gap-2 text-xs font-bold text-slate-700 hover:text-[#008744] px-3.5 py-2 rounded-xl bg-white border border-slate-200 shadow-xs hover:border-slate-300 transition-colors cursor-pointer"
+        className="inline-flex items-center gap-2 text-xs font-bold text-slate-700 hover:text-[#008744] px-3.5 py-2 rounded-lg bg-white border border-slate-200 shadow-xs hover:border-slate-300 transition-colors cursor-pointer"
       >
         <ArrowLeft className="w-4 h-4" />
         <span>Volver al Calendario de Conferencias</span>
@@ -242,7 +242,7 @@ export const AttendanceLiveView: React.FC<AttendanceLiveViewProps> = ({
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {errorMessage && (
-              <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-start gap-2.5 animate-fadeIn">
+              <div className="p-4 rounded-lg bg-red-50 border border-red-200 text-red-700 text-xs flex items-start gap-2.5 animate-fadeIn">
                 <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
                 <span className="leading-tight font-semibold">{errorMessage}</span>
               </div>
@@ -269,7 +269,7 @@ export const AttendanceLiveView: React.FC<AttendanceLiveViewProps> = ({
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-3.5 px-6 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-display font-black text-sm shadow-urp-brutal-green tactile-btn-green transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+                className="w-full py-3.5 px-6 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-display font-black text-sm shadow-urp-brutal-green tactile-btn-green transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
               >
                 {isSubmitting ? (
                   <>

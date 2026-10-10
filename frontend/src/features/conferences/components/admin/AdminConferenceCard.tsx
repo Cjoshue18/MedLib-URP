@@ -129,7 +129,7 @@ export const AdminConferenceCard: React.FC<AdminConferenceCardProps> = ({
             <button
               type="button"
               onClick={() => onCopyLink(conf.idConferencia, 'reg')}
-              className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-white text-xs font-bold shadow-urp-brutal-sm tactile-btn cursor-pointer transition-all ${
+              className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-white text-xs font-bold shadow-urp-brutal-sm tactile-btn cursor-pointer transition-all ${
                 isCopiedReg ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-[#0284c7] hover:bg-[#0369a1]'
               }`}
               title="Copiar enlace de pre-inscripción para alumnos"
@@ -141,7 +141,7 @@ export const AdminConferenceCard: React.FC<AdminConferenceCardProps> = ({
             <button
               type="button"
               onClick={() => onCopyLink(conf.idConferencia, 'att')}
-              className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-white text-xs font-bold shadow-urp-brutal-sm tactile-btn cursor-pointer transition-all ${
+              className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-white text-xs font-bold shadow-urp-brutal-sm tactile-btn cursor-pointer transition-all ${
                 isCopiedAtt ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-[#0d9488] hover:bg-[#0f766e]'
               }`}
               title="Copiar enlace directo de asistencia"
@@ -153,7 +153,7 @@ export const AdminConferenceCard: React.FC<AdminConferenceCardProps> = ({
             <button
               type="button"
               onClick={() => onTogglePurge(conf)}
-              className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-white text-xs font-bold shadow-urp-brutal-sm tactile-btn cursor-pointer transition-all ${
+              className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-white text-xs font-bold shadow-urp-brutal-sm tactile-btn cursor-pointer transition-all ${
                 conf.autoPurgar30Dias
                   ? 'bg-[#d97706] hover:bg-[#b45309]'
                   : 'bg-[#4f46e5] hover:bg-[#4338ca]'
@@ -167,7 +167,7 @@ export const AdminConferenceCard: React.FC<AdminConferenceCardProps> = ({
 
           <div className="flex flex-wrap items-center gap-2">
             {conf.estadoEvento === 'Finalizada' ? (
-              <span className="py-2 px-3.5 rounded-xl text-xs font-extrabold flex items-center gap-1.5 bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed">
+              <span className="py-2 px-3.5 rounded-lg text-xs font-extrabold flex items-center gap-1.5 bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed">
                 <Radio className="w-3.5 h-3.5 opacity-40" />
                 <span>Evento Concluido</span>
               </span>
@@ -175,7 +175,7 @@ export const AdminConferenceCard: React.FC<AdminConferenceCardProps> = ({
               <button
                 type="button"
                 onClick={() => onToggleAttendance(conf)}
-                className={`py-2 px-3.5 rounded-xl text-xs font-extrabold flex items-center gap-1.5 shadow-urp-brutal-sm tactile-btn transition-all cursor-pointer ${
+                className={`py-2 px-3.5 rounded-lg text-xs font-extrabold flex items-center gap-1.5 shadow-urp-brutal-sm tactile-btn transition-all cursor-pointer ${
                   conf.asistenciaAbierta
                     ? 'bg-red-600 hover:bg-red-700 text-white'
                     : 'bg-[#008744] hover:bg-[#006b35] text-white'
@@ -189,7 +189,7 @@ export const AdminConferenceCard: React.FC<AdminConferenceCardProps> = ({
             <button
               type="button"
               onClick={() => onNavigateToStats(conf.idConferencia)}
-              className="py-2 px-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold flex items-center gap-1.5 shadow-urp-brutal-sm tactile-btn cursor-pointer"
+              className="py-2 px-3.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold flex items-center gap-1.5 shadow-urp-brutal-sm tactile-btn cursor-pointer"
             >
               <BarChart3 className="w-3.5 h-3.5 text-emerald-400" />
               <span>Ver Estadísticas</span>
@@ -198,7 +198,7 @@ export const AdminConferenceCard: React.FC<AdminConferenceCardProps> = ({
             <button
               type="button"
               onClick={() => onEdit(conf)}
-              className="p-2 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-100 shadow-urp-brutal-sm tactile-btn transition-all cursor-pointer"
+              className="p-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100 shadow-urp-brutal-sm tactile-btn transition-all cursor-pointer"
               title="Editar conferencia"
             >
               <Edit3 className="w-4 h-4" />
@@ -207,7 +207,7 @@ export const AdminConferenceCard: React.FC<AdminConferenceCardProps> = ({
             <button
               type="button"
               onClick={() => onDelete(conf)}
-              className="p-2 rounded-xl border border-red-300 text-red-600 hover:bg-red-50 shadow-urp-brutal-sm tactile-btn transition-all cursor-pointer"
+              className="p-2 rounded-lg border border-red-300 text-red-600 hover:bg-red-50 shadow-urp-brutal-sm tactile-btn transition-all cursor-pointer"
               title="Eliminar conferencia"
             >
               <Trash2 className="w-4 h-4" />
