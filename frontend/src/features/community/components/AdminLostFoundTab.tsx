@@ -74,7 +74,7 @@ export const AdminLostFoundTab: React.FC<AdminLostFoundTabProps> = ({ onShowFeed
             type="button"
             onClick={() => setIsNewPostModalOpen(true)}
             disabled={lostPosts.length >= MAX_ACTIVE_LOST_FOUND_POSTS}
-            className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-display font-bold text-xs text-white shadow-xs transition-colors ${
+            className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-lg font-display font-bold text-xs text-white shadow-xs transition-colors ${
               lostPosts.length >= MAX_ACTIVE_LOST_FOUND_POSTS
                 ? 'bg-slate-400 cursor-not-allowed opacity-70'
                 : 'bg-[#008744] hover:bg-[#00572B] cursor-pointer'
@@ -107,7 +107,7 @@ export const AdminLostFoundTab: React.FC<AdminLostFoundTabProps> = ({ onShowFeed
           <button
             type="button"
             onClick={() => setIsNewPostModalOpen(true)}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#008744] hover:bg-[#00572B] transition-colors cursor-pointer shadow-xs"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold text-white bg-[#008744] hover:bg-[#00572B] transition-colors cursor-pointer shadow-xs"
           >
             <Plus className="w-4 h-4" />
             <span>Registrar Primera Publicación</span>

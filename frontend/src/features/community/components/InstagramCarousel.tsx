@@ -146,7 +146,7 @@ export const InstagramCarousel: React.FC<InstagramCarouselProps> = ({
             type="button"
             onClick={handlePrev}
             disabled={currentIndex === 0}
-            className={`absolute -left-3 sm:-left-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white border border-slate-200/90 shadow-md flex items-center justify-center text-slate-700 hover:bg-slate-900 hover:text-white transition-all cursor-pointer ${
+            className={`absolute -left-3 sm:-left-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-white border border-slate-200/90 shadow-md flex items-center justify-center text-slate-700 hover:bg-slate-900 hover:text-white transition-all cursor-pointer ${
               currentIndex === 0
                 ? 'opacity-0 pointer-events-none scale-90'
                 : 'opacity-100 scale-100 hover:scale-105 active:scale-95'
@@ -160,7 +160,7 @@ export const InstagramCarousel: React.FC<InstagramCarouselProps> = ({
             type="button"
             onClick={handleNext}
             disabled={currentIndex >= maxIndex}
-            className={`absolute -right-3 sm:-right-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white border border-slate-200/90 shadow-md flex items-center justify-center text-slate-700 hover:bg-slate-900 hover:text-white transition-all cursor-pointer ${
+            className={`absolute -right-3 sm:-right-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-white border border-slate-200/90 shadow-md flex items-center justify-center text-slate-700 hover:bg-slate-900 hover:text-white transition-all cursor-pointer ${
               currentIndex >= maxIndex
                 ? 'opacity-0 pointer-events-none scale-90'
                 : 'opacity-100 scale-100 hover:scale-105 active:scale-95'
