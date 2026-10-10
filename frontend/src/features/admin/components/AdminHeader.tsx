@@ -29,7 +29,7 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
           <button
             type="button"
             onClick={onOpenDrawer}
-            className="p-2 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+            className="p-2 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
             title="Abrir menú de módulos"
           >
             <Menu className="w-5 h-5 text-slate-800" />

@@ -135,7 +135,7 @@ export const AdminLoginForm: React.FC<AdminLoginFormProps> = ({
             <button
               type="submit"
               disabled={isLoggingIn}
-              className="w-full py-3 px-4 rounded-xl font-display font-bold text-sm text-white bg-[#008744] hover:bg-[#00572B] active:translate-y-0.5 border-2 border-slate-900 shadow-urp-brutal-green transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70"
+              className="w-full py-3 px-4 rounded-lg font-display font-bold text-sm text-white bg-[#008744] hover:bg-[#00572B] active:translate-y-0.5 border-2 border-slate-900 shadow-urp-brutal-green transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-70"
             >
               {isLoggingIn ? (
                 <>
