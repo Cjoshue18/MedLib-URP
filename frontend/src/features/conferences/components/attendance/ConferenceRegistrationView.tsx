@@ -164,7 +164,7 @@ export const ConferenceRegistrationView: React.FC<ConferenceRegistrationViewProp
       <button
         type="button"
         onClick={onBackToCalendar}
-        className="inline-flex items-center gap-2 text-xs font-bold text-slate-700 hover:text-[#008744] px-3.5 py-2 rounded-xl bg-white border border-slate-200 shadow-xs hover:border-slate-300 transition-colors cursor-pointer"
+        className="inline-flex items-center gap-2 text-xs font-bold text-slate-700 hover:text-[#008744] px-3.5 py-2 rounded-lg bg-white border border-slate-200 shadow-xs hover:border-slate-300 transition-colors cursor-pointer"
       >
         <ArrowLeft className="w-4 h-4" />
         <span>Volver al Calendario de Conferencias</span>
@@ -226,7 +226,7 @@ export const ConferenceRegistrationView: React.FC<ConferenceRegistrationViewProp
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {errorMessage && (
-              <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-start gap-2.5 animate-fadeIn">
+              <div className="p-4 rounded-lg bg-red-50 border border-red-200 text-red-700 text-xs flex items-start gap-2.5 animate-fadeIn">
                 <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
                 <span className="leading-tight font-semibold">{errorMessage}</span>
               </div>
@@ -253,7 +253,7 @@ export const ConferenceRegistrationView: React.FC<ConferenceRegistrationViewProp
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-3.5 px-6 rounded-2xl bg-[#008744] hover:bg-[#006b35] text-white font-display font-black text-sm shadow-urp-brutal-green tactile-btn-green transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+                className="w-full py-3.5 px-6 rounded-lg bg-[#008744] hover:bg-[#006b35] text-white font-display font-black text-sm shadow-urp-brutal-green tactile-btn-green transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
               >
                 {isSubmitting ? (
                   <>

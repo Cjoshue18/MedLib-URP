@@ -142,7 +142,7 @@ export const AdminConferencesTab: React.FC<AdminConferencesTabProps> = ({
         <button
           type="button"
           onClick={handleOpenCreateModal}
-          className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-[#008744] hover:bg-[#006b35] text-white font-bold text-xs sm:text-sm shadow-urp-brutal-green tactile-btn-green transition-all cursor-pointer shrink-0"
+          className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-[#008744] hover:bg-[#006b35] text-white font-bold text-xs sm:text-sm shadow-urp-brutal-green tactile-btn-green transition-all cursor-pointer shrink-0"
         >
           <Plus className="w-4 h-4" />
           <span>Nueva Conferencia ALFIN</span>
@@ -166,7 +166,7 @@ export const AdminConferencesTab: React.FC<AdminConferencesTabProps> = ({
           <button
             type="button"
             onClick={handleOpenCreateModal}
-            className="py-2.5 px-5 rounded-xl bg-[#008744] text-white font-bold text-xs shadow-urp-brutal-sm tactile-btn cursor-pointer"
+            className="py-2.5 px-5 rounded-lg bg-[#008744] text-white font-bold text-xs shadow-urp-brutal-sm tactile-btn cursor-pointer"
           >
             Crear Primera Conferencia
           </button>

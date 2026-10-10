@@ -36,7 +36,7 @@ export const ConferenceReportFilterBar: React.FC<ConferenceReportFilterBarProps>
             value={selectedMonth}
             onChange={(e) => onMonthChange(parseInt(e.target.value, 10))}
             disabled={isLoadingConferences}
-            className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#008744] cursor-pointer"
+            className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 bg-slate-50 text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#008744] cursor-pointer"
           >
             {MONTH_NAMES_ES.map((name, idx) => (
               <option key={idx} value={idx}>
@@ -54,7 +54,7 @@ export const ConferenceReportFilterBar: React.FC<ConferenceReportFilterBarProps>
             value={selectedYear}
             onChange={(e) => onYearChange(parseInt(e.target.value, 10))}
             disabled={isLoadingConferences}
-            className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#008744] cursor-pointer"
+            className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 bg-slate-50 text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#008744] cursor-pointer"
           >
             {availableYears.map((year) => (
               <option key={year} value={year}>
@@ -72,7 +72,7 @@ export const ConferenceReportFilterBar: React.FC<ConferenceReportFilterBarProps>
             value={selectedConferenceId || ''}
             onChange={(e) => onConferenceIdChange(parseInt(e.target.value, 10))}
             disabled={isLoadingConferences || filteredConferences.length === 0}
-            className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#008744] cursor-pointer disabled:opacity-50"
+            className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 bg-slate-50 text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#008744] cursor-pointer disabled:opacity-50"
           >
             {filteredConferences.length === 0 ? (
               <option value="">

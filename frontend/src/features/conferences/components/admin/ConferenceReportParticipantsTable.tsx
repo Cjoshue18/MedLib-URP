@@ -77,7 +77,7 @@ export const ConferenceReportParticipantsTable: React.FC<ConferenceReportPartici
           <button
             type="button"
             onClick={() => onFilterTabChange('all')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
+            className={`px-3.5 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer ${
               activeFilterTab === 'all'
                 ? 'bg-slate-900 text-white shadow-urp-brutal-sm'
                 : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
@@ -89,7 +89,7 @@ export const ConferenceReportParticipantsTable: React.FC<ConferenceReportPartici
           <button
             type="button"
             onClick={() => onFilterTabChange('Acreditado')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
+            className={`px-3.5 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer ${
               activeFilterTab === 'Acreditado'
                 ? 'bg-emerald-600 text-white shadow-urp-brutal-sm'
                 : 'bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100'
@@ -101,7 +101,7 @@ export const ConferenceReportParticipantsTable: React.FC<ConferenceReportPartici
           <button
             type="button"
             onClick={() => onFilterTabChange('Espontaneo')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
+            className={`px-3.5 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer ${
               activeFilterTab === 'Espontaneo'
                 ? 'bg-amber-500 text-white shadow-urp-brutal-sm'
                 : 'bg-amber-50 text-amber-800 border border-amber-200 hover:bg-amber-100'
@@ -113,7 +113,7 @@ export const ConferenceReportParticipantsTable: React.FC<ConferenceReportPartici
           <button
             type="button"
             onClick={() => onFilterTabChange('Inasistencia')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
+            className={`px-3.5 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer ${
               activeFilterTab === 'Inasistencia'
                 ? 'bg-red-600 text-white shadow-urp-brutal-sm'
                 : 'bg-red-50 text-red-800 border border-red-200 hover:bg-red-100'
@@ -131,14 +131,14 @@ export const ConferenceReportParticipantsTable: React.FC<ConferenceReportPartici
               value={searchTerm}
               onChange={(e) => onSearchChange(e.target.value)}
               placeholder="Buscar documento o nombre..."
-              className="w-full pl-8 pr-3 py-1.5 rounded-xl border border-slate-300 text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#008744]"
+              className="w-full pl-8 pr-3 py-1.5 rounded-lg border border-slate-300 text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#008744]"
             />
           </div>
 
           <select
             value={selectedRole}
             onChange={(e) => onRoleChange(e.target.value)}
-            className="px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-[#008744] cursor-pointer"
+            className="px-3 py-1.5 rounded-lg border border-slate-300 text-xs font-bold text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-[#008744] cursor-pointer"
           >
             <option value="all">Todos los Roles</option>
             <option value="Estudiante">Estudiantes</option>

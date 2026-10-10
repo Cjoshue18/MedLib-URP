@@ -163,7 +163,7 @@ export const AdminStatisticsTab: React.FC<AdminStatisticsTabProps> = ({
             type="button"
             onClick={() => selectedConferenceId && loadReportData(selectedConferenceId)}
             disabled={!selectedConferenceId || isLoadingReport}
-            className="p-3 rounded-2xl border-2 border-slate-900 text-slate-700 hover:bg-slate-100 transition-colors shadow-urp-brutal-sm tactile-btn cursor-pointer disabled:opacity-50"
+            className="p-3 rounded-lg border-2 border-slate-900 text-slate-700 hover:bg-slate-100 transition-colors shadow-urp-brutal-sm tactile-btn cursor-pointer disabled:opacity-50"
             title="Refrescar reporte"
           >
             <RefreshCw className={`w-4 h-4 ${isLoadingReport ? 'animate-spin' : ''}`} />
@@ -173,7 +173,7 @@ export const AdminStatisticsTab: React.FC<AdminStatisticsTabProps> = ({
             type="button"
             onClick={handleExportExcel}
             disabled={!report || isLoadingReport}
-            className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-[#107C41] hover:bg-[#0c5e31] text-white font-bold text-xs sm:text-sm shadow-urp-brutal-sm tactile-btn cursor-pointer transition-all disabled:opacity-50"
+            className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-[#107C41] hover:bg-[#0c5e31] text-white font-bold text-xs sm:text-sm shadow-urp-brutal-sm tactile-btn cursor-pointer transition-all disabled:opacity-50"
           >
             <FileSpreadsheet className="w-4 h-4" />
             <span>Exportar Reporte Excel (.xlsx)</span>
