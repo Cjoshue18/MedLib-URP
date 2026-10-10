@@ -106,7 +106,7 @@ export const App: React.FC = () => {
         <button
           type="button"
           onClick={scrollToTop}
-          className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-[#008744] hover:bg-[#006b35] text-white shadow-urp-brutal-green tactile-btn-green flex items-center justify-center transition-all duration-300 cursor-pointer animate-in fade-in zoom-in-95 group"
+          className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-lg bg-[#008744] hover:bg-[#006b35] text-white shadow-urp-brutal-green tactile-btn-green flex items-center justify-center transition-all duration-300 cursor-pointer animate-in fade-in zoom-in-95 group"
           title="Regresar al inicio"
           aria-label="Regresar al inicio"
         >
