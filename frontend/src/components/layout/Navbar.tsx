@@ -81,7 +81,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
         <div className="flex items-center gap-4 h-full">
           <button
             onClick={() => onNavigate('directory')}
-            className="text-white/80 hover:text-white transition-colors duration-200 flex items-center justify-center w-10 h-10 rounded-full hover:bg-white/10 cursor-pointer"
+            className="text-white/80 hover:text-white transition-colors duration-200 flex items-center justify-center w-10 h-10 rounded-lg hover:bg-white/10 cursor-pointer"
             title="Buscar en el catálogo"
           >
             <span className="material-symbols-outlined text-2xl">search</span>
@@ -98,7 +98,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden text-white/80 hover:text-white flex items-center justify-center w-10 h-10 rounded-full hover:bg-white/10 cursor-pointer"
+            className="md:hidden text-white/80 hover:text-white flex items-center justify-center w-10 h-10 rounded-lg hover:bg-white/10 cursor-pointer"
             aria-label="Toggle Menu"
           >
             <span className="material-symbols-outlined text-2xl">

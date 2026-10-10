@@ -73,7 +73,7 @@ export const Footer: React.FC = () => {
               href="https://www.urp.edu.pe/"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#008744] hover:bg-[#006b35] text-white text-xs sm:text-sm font-bold shadow-urp-brutal-green tactile-btn-green transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#008744] hover:bg-[#006b35] text-white text-xs sm:text-sm font-bold shadow-urp-brutal-green tactile-btn-green transition-all cursor-pointer"
             >
               <span>Portal Principal URP (urp.edu.pe)</span>
               <ExternalLink className="w-3.5 h-3.5" />
