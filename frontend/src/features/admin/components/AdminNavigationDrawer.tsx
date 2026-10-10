@@ -64,7 +64,7 @@ export const AdminNavigationDrawer: React.FC<AdminNavigationDrawerProps> = ({
                 onSelectTab(item.id);
                 onClose();
               }}
-              className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+              className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                 activeTab === item.id
                   ? 'bg-emerald-50 text-[#00572B] border-2 border-emerald-600 shadow-xs'
                   : 'text-slate-700 hover:bg-slate-50 border border-slate-100'
