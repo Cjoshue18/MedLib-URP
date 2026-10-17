@@ -60,17 +60,17 @@ export const Footer: React.FC = () => {
         </div>
 
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-b border-slate-800 pb-8">
-          <div className="space-y-1.5">
-            <span className="font-display text-xl sm:text-2xl text-white font-extrabold block">
-              MedLib URP
-            </span>
-            <p className="text-xs sm:text-sm text-slate-400 max-w-md leading-relaxed">
-              Biblioteca Virtual y Especializada de la Facultad de Medicina Humana - Universidad Ricardo Palma.
-            </p>
-          </div>
+          <div className="space-y-4">
+            <div className="space-y-1.5">
+              <span className="font-display text-xl sm:text-2xl text-white font-extrabold block">
+                MedLib URP
+              </span>
+              <p className="text-xs sm:text-sm text-slate-400 max-w-md leading-relaxed">
+                Biblioteca Virtual y Especializada de la Facultad de Medicina Humana - Universidad Ricardo Palma.
+              </p>
+            </div>
 
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 pt-1">
               <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
                 Síguenos en:
               </span>
@@ -123,7 +123,9 @@ export const Footer: React.FC = () => {
                 </a>
               </div>
             </div>
+          </div>
 
+          <div className="flex items-center">
             <a
               href="https://www.urp.edu.pe/"
               target="_blank"
