@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Search, ArrowRight, ChevronRight, ChevronLeft } from 'lucide-react';
 import { HomeBoletinDrawer, BoletinPill } from './HomeBoletinDrawer';
 import { HERO_SLIDES, HERO_MARQUEE_ITEMS } from '../constants/heroConstants';
-import { INSTITUTIONAL_LINKS } from '../../../constants/institutionalLinks';
 
 interface HomeHeroProps {
   onNavigate: (view: 'home' | 'directory' | 'conferences' | 'lost-found', query?: string) => void;
@@ -114,59 +113,6 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
             </div>
 
             <div className="space-y-3 pt-1 pl-1">
-              <div className="flex items-center gap-4">
-                <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-                  Síguenos en:
-                </span>
-                <div className="flex items-center gap-4">
-                  <a
-                    href={INSTITUTIONAL_LINKS.facebookFamurp}
-                    target="_blank"
-                    rel="noreferrer"
-                    title="Facebook Oficial Facultad de Medicina Humana URP"
-                    aria-label="Facebook Oficial FAMURP"
-                    className="group flex items-center gap-2 text-slate-300 hover:text-white transition-all transform hover:scale-105 cursor-pointer"
-                  >
-                    <svg className="w-6 h-6 drop-shadow-md transition-transform group-hover:scale-110" viewBox="0 0 24 24">
-                      <circle cx="12" cy="12" r="12" fill="#1877F2" />
-                      <path
-                        fill="#FFFFFF"
-                        d="M14.5 12h-2v7h-3v-7h-1.5v-2.5H9.5V8c0-1.8 1-2.8 2.8-2.8h2.2v2.5h-1.4c-.9 0-1.1.4-1.1 1.1v.7h2.5L14.5 12z"
-                      />
-                    </svg>
-                    <span className="text-xs font-semibold text-slate-300 group-hover:text-white transition-colors">
-                      Facebook
-                    </span>
-                  </a>
-
-                  <a
-                    href={INSTITUTIONAL_LINKS.instagramBibFamurp}
-                    target="_blank"
-                    rel="noreferrer"
-                    title="Instagram Oficial @bib_famurp"
-                    aria-label="Instagram Oficial Biblioteca FMH URP"
-                    className="group flex items-center gap-2 text-slate-300 hover:text-white transition-all transform hover:scale-105 cursor-pointer"
-                  >
-                    <svg className="w-6 h-6 drop-shadow-md transition-transform group-hover:scale-110" viewBox="0 0 24 24">
-                      <defs>
-                        <radialGradient id="ig-grad-hero" cx="20%" cy="100%" r="150%">
-                          <stop offset="0%" stopColor="#ffd521" />
-                          <stop offset="25%" stopColor="#f50000" />
-                          <stop offset="50%" stopColor="#b900b4" />
-                          <stop offset="100%" stopColor="#4300e8" />
-                        </radialGradient>
-                      </defs>
-                      <rect width="24" height="24" rx="6.5" fill="url(#ig-grad-hero)" />
-                      <circle cx="12" cy="12" r="4.2" fill="none" stroke="#FFFFFF" strokeWidth="1.8" />
-                      <circle cx="17.8" cy="6.2" r="1.1" fill="#FFFFFF" />
-                      <rect x="4.5" y="4.5" width="15" height="15" rx="3.8" fill="none" stroke="#FFFFFF" strokeWidth="1.8" />
-                    </svg>
-                    <span className="text-xs font-semibold text-slate-300 group-hover:text-white transition-colors">
-                      Instagram
-                    </span>
-                  </a>
-                </div>
-              </div>
 
               <div className="flex items-center gap-2.5 pt-1">
                 <span className="w-2 h-2 rounded-full bg-[#00a859] animate-pulse"></span>
