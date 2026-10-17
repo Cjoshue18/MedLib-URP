@@ -75,7 +75,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
               </h1>
 
               <p className="text-base sm:text-lg text-slate-300 max-w-xl leading-relaxed">
-                Acceso exclusivo a una amplia colección de recursos científicos médicos indexados, soporte clínico especializado y certificaciones oficiales en <strong className="text-white font-semibold">conferencias médicas</strong>.
+                Portal oficial para estudiantes, donde podrán acceder a bases de datos científicas, literatura especializada y conferencias médicas.
               </p>
             </div>
 
@@ -112,18 +112,8 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
               </form>
             </div>
 
-            <div className="space-y-3 pt-1 pl-1">
-
-              <div className="flex items-center gap-2.5 pt-1">
-                <span className="w-2 h-2 rounded-full bg-[#00a859] animate-pulse"></span>
-                <span className="font-handwriting text-lg sm:text-xl text-emerald-300 font-semibold tracking-wide select-none drop-shadow-xs">
-                  Portal Oficial para Estudiantes &mdash; Biblioteca FMH URP
-                </span>
-              </div>
-
-              <div className="lg:hidden flex justify-center pt-2">
-                <BoletinPill onOpen={() => setIsHeroFormOpen(true)} orientation="horizontal" />
-              </div>
+            <div className="lg:hidden flex justify-center pt-2">
+              <BoletinPill onOpen={() => setIsHeroFormOpen(true)} orientation="horizontal" />
             </div>
           </div>
 
