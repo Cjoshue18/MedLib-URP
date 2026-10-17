@@ -75,7 +75,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
               </h1>
 
               <p className="text-base sm:text-lg text-slate-300 max-w-xl leading-relaxed">
-                Acceso exclusivo a una amplia colección de recursos científicos médicos indexados, soporte clínico especializado y certificaciones oficiales de <strong className="text-white font-semibold">Alfabetización Informacional (ALFIN)</strong>.
+                Acceso exclusivo a una amplia colección de recursos científicos médicos indexados, soporte clínico especializado y certificaciones oficiales en <strong className="text-white font-semibold">conferencias médicas</strong>.
               </p>
             </div>
 

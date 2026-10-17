@@ -16,7 +16,7 @@ export const ADMIN_NAVIGATION_ITEMS: readonly AdminNavigationItem[] = [
   {
     id: 'conferences',
     label: 'Conferencias',
-    sublabel: 'Conferencias & ALFIN',
+    sublabel: 'Conferencias',
     description: 'Talleres, eventos y control de asistencia',
   },
   {

@@ -55,7 +55,7 @@ export const AdminLoginForm: React.FC<AdminLoginFormProps> = ({
         </button>
         <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700 text-xs font-semibold text-emerald-400">
           <ShieldCheck className="w-3.5 h-3.5" />
-          <span>Acceso Seguro ALFIN URP</span>
+          <span>Acceso Seguro URP</span>
         </div>
       </header>
 

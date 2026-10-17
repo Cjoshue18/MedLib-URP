@@ -178,7 +178,7 @@ export const ConferenceRegistrationView: React.FC<ConferenceRegistrationViewProp
             </div>
             <div>
               <span className="text-[10px] font-black tracking-wider uppercase text-emerald-100 block">
-                Formulario Oficial ALFIN &bull; FAMURP
+                Formulario Oficial de Conferencias &bull; FAMURP
               </span>
               <h1 className="text-xl sm:text-2xl font-display font-black leading-tight text-white">
                 Pre-inscripción a Capacitación Médica

@@ -56,7 +56,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
                 : 'text-white/80 hover:text-white hover:text-primary'
               }`}
           >
-            Conferencias &amp; ALFIN
+            Conferencias
           </button>
           <button
             onClick={() => onNavigate('lost-found')}
@@ -126,7 +126,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
             onClick={() => { onNavigate('conferences'); setMobileMenuOpen(false); }}
             className="block w-full text-left py-2 font-label-md text-white/90 hover:text-white"
           >
-            Conferencias &amp; ALFIN
+            Conferencias
           </button>
           <button
             onClick={() => { onNavigate('lost-found'); setMobileMenuOpen(false); }}

@@ -59,7 +59,7 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
       } else {
         setFormTitulo('');
         setFormPonente('');
-        setFormEditorial('FAMURP ALFIN');
+        setFormEditorial('FAMURP Conferencias');
         const now = new Date();
         setFormInicio(formatForDatetimeLocal(now.toISOString()));
         const twoHoursLater = new Date(now.getTime() + 7200000);
@@ -110,7 +110,7 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
         const updatePayload: UpdateConferenceRequest = {
           tituloEvento: formTitulo.trim(),
           expositorPonente: formPonente.trim(),
-          entidadEditorial: formEditorial.trim() || 'FAMURP ALFIN',
+          entidadEditorial: formEditorial.trim() || 'FAMURP Conferencias',
           fechaHoraInicio: startDate.toISOString(),
           fechaHoraFin: endDate.toISOString(),
           modalidad: formModalidad,
@@ -124,7 +124,7 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
         const createPayload: CreateConferenceRequest = {
           tituloEvento: formTitulo.trim(),
           expositorPonente: formPonente.trim(),
-          entidadEditorial: formEditorial.trim() || 'FAMURP ALFIN',
+          entidadEditorial: formEditorial.trim() || 'FAMURP Conferencias',
           fechaHoraInicio: startDate.toISOString(),
           fechaHoraFin: endDate.toISOString(),
           modalidad: formModalidad,
@@ -162,7 +162,7 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
             </div>
             <div>
               <h2 className="text-base sm:text-lg font-display font-black leading-tight text-white">
-                {editingConference ? 'Editar Conferencia ALFIN' : 'Nueva Conferencia Médica'}
+                {editingConference ? 'Editar Conferencia' : 'Nueva Conferencia Médica'}
               </h2>
               <p className="text-[10px] text-emerald-100">
                 Facultad de Medicina Humana URP
