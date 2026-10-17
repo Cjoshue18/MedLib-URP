@@ -151,7 +151,7 @@ export const AdminStatisticsTab: React.FC<AdminStatisticsTabProps> = ({
             Auditoría de Asistencias &amp; Acreditación
           </span>
           <h2 className="text-xl sm:text-2xl font-display font-black text-slate-900">
-            Estadísticas y Reportes ALFIN
+            Estadísticas y Reportes de Conferencias
           </h2>
           <p className="text-xs text-slate-500 mt-0.5">
             Cruce algorítmico de pre-inscripción vs. marcación en tiempo real con exportación oficial.

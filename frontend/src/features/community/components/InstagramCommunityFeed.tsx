@@ -7,7 +7,7 @@ interface InstagramCommunityFeedProps {
 
 export const InstagramCommunityFeed: React.FC<InstagramCommunityFeedProps> = ({
   subtitle,
-  footerNote = 'Síguenos para avisos de horarios especiales en sala, nuevas adquisiciones bibliográficas y convocatorias ALFIN.',
+  footerNote = 'Síguenos para avisos de horarios especiales en sala, nuevas adquisiciones bibliográficas y conferencias.',
 }) => {
   return (
     <section className="max-w-[1280px] mx-auto px-6 pb-20">

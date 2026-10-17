@@ -240,7 +240,7 @@ export const BoletinSubscriptionCard: React.FC<BoletinSubscriptionCardProps> = (
         <ShieldCheck className="w-4 h-4 text-[#008744] shrink-0 mt-0.5" />
         <span className="text-slate-600 leading-snug">
           {isConferences
-            ? 'Notificaciones exclusivas de horas ALFIN para acreditación médica SUNEDU.'
+            ? 'Notificaciones exclusivas de conferencias y capacitaciones médicas.'
             : 'Acceso con cuenta institucional a literatura científica y soporte clínico.'}
         </span>
       </div>

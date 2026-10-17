@@ -29,7 +29,7 @@ export const App: React.FC = () => {
         if (queryParam) {
           setDirectorySearchQuery(queryParam);
         }
-      } else if (hash === '#conferencias' || hash === '#alfin') {
+      } else if (hash === '#conferencias') {
         setCurrentView('conferences');
       } else if (hash === '#objetos-perdidos' || hash === '#comunidad') {
         setCurrentView('lost-found');

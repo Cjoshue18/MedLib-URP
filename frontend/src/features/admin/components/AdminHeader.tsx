@@ -95,7 +95,7 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
             </div>
             <div className="hidden lg:block text-left">
               <p className="text-xs font-bold text-slate-900 leading-tight">admin_famurp</p>
-              <p className="text-[10px] font-medium text-slate-500">Jefatura ALFIN</p>
+              <p className="text-[10px] font-medium text-slate-500">Jefatura de Conferencias</p>
             </div>
           </div>
 

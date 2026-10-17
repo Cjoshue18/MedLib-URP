@@ -63,7 +63,7 @@ public class AdminConferencesController : ControllerBase
         {
             TituloEvento = request.TituloEvento.Trim(),
             ExpositorPonente = request.ExpositorPonente.Trim(),
-            EntidadEditorial = string.IsNullOrWhiteSpace(request.EntidadEditorial) ? "FAMURP ALFIN" : request.EntidadEditorial.Trim(),
+            EntidadEditorial = string.IsNullOrWhiteSpace(request.EntidadEditorial) ? "FAMURP Conferencias" : request.EntidadEditorial.Trim(),
             FechaHoraInicio = request.FechaHoraInicio,
             FechaHoraFin = request.FechaHoraFin,
             Modalidad = string.IsNullOrWhiteSpace(request.Modalidad) ? "Virtual" : request.Modalidad.Trim(),

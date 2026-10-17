@@ -8,7 +8,7 @@ export const excelExportService = {
     const summaryData = [
       ['UNIVERSIDAD RICARDO PALMA - FACULTAD DE MEDICINA HUMANA'],
       ['BIBLIOTECA VIRTUAL Y ESPECIALIZADA (BVE-FAMURP)'],
-      ['REPORTE OFICIAL DE CAPACITACIÓN Y ASISTENCIAS ALFIN'],
+      ['REPORTE OFICIAL DE ASISTENCIAS A CONFERENCIAS'],
       [''],
       ['DATOS DE LA ACTIVIDAD ACADÉMICA'],
       ['ID Conferencia:', report.conferencia.idConferencia],
@@ -87,7 +87,7 @@ export const excelExportService = {
       .replace(/[^a-zA-Z0-9]/g, '_')
       .slice(0, 30);
 
-    const filename = `ALFIN_URP_${cleanTitle}_${new Date().toISOString().slice(0, 10)}.xlsx`;
+    const filename = `Conferencias_URP_${cleanTitle}_${new Date().toISOString().slice(0, 10)}.xlsx`;
     XLSX.writeFile(wb, filename);
   }
 };

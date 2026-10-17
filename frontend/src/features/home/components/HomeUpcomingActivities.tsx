@@ -85,7 +85,7 @@ export const HomeUpcomingActivities: React.FC<HomeUpcomingActivitiesProps> = ({ 
           Próximas Actividades
         </h3>
         <p className="text-xs text-slate-500 mb-6">
-          Conferencias y capacitaciones ALFIN programadas.
+          Conferencias y capacitaciones programadas.
         </p>
 
         {isLoading ? (
