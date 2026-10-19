@@ -17,7 +17,7 @@ interface DatabaseSearchBarProps {
 export const DatabaseSearchBar: React.FC<DatabaseSearchBarProps> = ({
   searchTerm,
   onSearchChange,
-  placeholder = 'Buscar por nombre, palabra clave o materia...',
+  placeholder = 'Buscar base de datos, por materia académica o recurso...',
   licenseFilter,
   onLicenseFilterChange,
   statusFilter,

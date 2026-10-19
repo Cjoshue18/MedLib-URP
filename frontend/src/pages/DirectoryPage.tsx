@@ -127,7 +127,7 @@ export const DirectoryPage: React.FC<DirectoryPageProps> = ({ initialSearchQuery
         <DatabaseSearchBar
           searchTerm={searchQuery}
           onSearchChange={setSearchQuery}
-          placeholder="Buscar recurso por nombre, materia o especialidad..."
+          placeholder="Buscar base de datos, por materia académica o recurso..."
           licenseFilter={licenseFilter}
           onLicenseFilterChange={setLicenseFilter}
           variant="hero"
