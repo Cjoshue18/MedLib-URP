@@ -7,6 +7,7 @@ import { DirectoryPage } from './pages/DirectoryPage';
 import { ConferencesPage } from './pages/ConferencesPage';
 import { LostFoundPage } from './pages/LostFoundPage';
 import { AdminPage } from './pages/AdminPage';
+import { triggerSilentWarmup } from './core/services/warmupService';
 
 export type { AppView } from './core/types/navigation';
 import type { AppView } from './core/types/navigation';
@@ -15,6 +16,10 @@ export const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<AppView>('home');
   const [directorySearchQuery, setDirectorySearchQuery] = useState('');
   const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    triggerSilentWarmup();
+  }, []);
 
   useEffect(() => {
     const handleHashChange = () => {

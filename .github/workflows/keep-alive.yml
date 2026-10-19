@@ -1,0 +1,72 @@
+name: Backend Keep-Alive (Jitter)
+
+on:
+  schedule:
+    - cron: '*/12 13-23,0-2 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: keep-alive-render
+  cancel-in-progress: true
+
+jobs:
+  ping-render:
+    name: Ping Render Backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Evaluar Horario Academico URP y Ejecutar Ping con Jitter
+        run: |
+          DIA_SEMANA=$(TZ="America/Lima" date +%u)
+          HORA_LIMA=$(TZ="America/Lima" date +%-H)
+          MINUTO_LIMA=$(TZ="America/Lima" date +%M)
+
+          echo "Evaluando ventana horaria: Dia $DIA_SEMANA, Hora $HORA_LIMA:$MINUTO_LIMA (Hora Lima)"
+
+          DENTRO_DE_HORARIO=false
+
+          if [ "$DIA_SEMANA" -ge 1 ] && [ "$DIA_SEMANA" -le 5 ]; then
+            if [ "$HORA_LIMA" -ge 8 ] && [ "$HORA_LIMA" -lt 13 ]; then
+              DENTRO_DE_HORARIO=true
+            elif [ "$HORA_LIMA" -ge 15 ] && [ "$HORA_LIMA" -lt 21 ]; then
+              DENTRO_DE_HORARIO=true
+            fi
+          elif [ "$DIA_SEMANA" -eq 6 ]; then
+            if [ "$HORA_LIMA" -ge 8 ] && [ "$HORA_LIMA" -lt 14 ]; then
+              DENTRO_DE_HORARIO=true
+            fi
+          fi
+
+          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
+            echo "Ejecucion manual detectada (workflow_dispatch). Forzando ping de prueba."
+            DENTRO_DE_HORARIO=true
+          fi
+
+          if [ "$DENTRO_DE_HORARIO" = false ]; then
+            echo "Fuera de ventana operativa de estudiantes. Omitiendo ping para permitir suspension y ahorro de horas en Render."
+            exit 0
+          fi
+
+          JITTER_SEG=$(( RANDOM % 150 + 20 ))
+          echo "Aplicando jitter aleatorio de $JITTER_SEG segundos para simular navegacion organica..."
+          sleep $JITTER_SEG
+
+          TARGET_URL="${{ secrets.RENDER_BACKEND_URL }}"
+          if [ -z "$TARGET_URL" ]; then
+            TARGET_URL="https://medlib-urp.onrender.com"
+          fi
+
+          echo "Enviando ping a: $TARGET_URL"
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -m 65 \
+            -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36" \
+            -H "Accept: application/json, text/plain, */*" \
+            "$TARGET_URL/")
+
+          echo "Respuesta del backend: HTTP $HTTP_STATUS"
+
+          if [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 400 ]; then
+            echo "Backend saludable y activo."
+            exit 0
+          else
+            echo "Advertencia: El backend retorno HTTP $HTTP_STATUS (posible cold start en progreso)."
+            exit 0
+          fi
