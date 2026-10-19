@@ -85,9 +85,14 @@ export const ConferenceCard: React.FC<ConferenceCardProps> = ({
           <div className="flex items-center gap-2">
             <button
               type="button"
-              onClick={() => onCopyShareLink(conf)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer text-xs font-semibold"
-              title="Copiar enlace de invitación"
+              disabled={isFinalizada}
+              onClick={() => !isFinalizada && onCopyShareLink(conf)}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${
+                isFinalizada
+                  ? 'border-slate-200 bg-slate-100 text-slate-400 cursor-not-allowed opacity-60'
+                  : 'border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-100 cursor-pointer'
+              }`}
+              title={isFinalizada ? 'Conferencia concluida' : 'Copiar enlace de invitación'}
             >
               {isCopied ? (
                 <>
