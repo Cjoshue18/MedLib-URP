@@ -79,14 +79,6 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
         </nav>
 
         <div className="flex items-center gap-4 h-full">
-          <button
-            onClick={() => onNavigate('directory')}
-            className="text-white/80 hover:text-white transition-colors duration-200 flex items-center justify-center w-10 h-10 rounded-lg hover:bg-white/10 cursor-pointer"
-            title="Buscar en el catálogo"
-          >
-            <span className="material-symbols-outlined text-2xl">search</span>
-          </button>
-
           <a
             href="https://test.urp.edu.pe/Intranet/"
             target="_blank"
