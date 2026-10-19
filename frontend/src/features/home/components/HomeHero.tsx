@@ -13,14 +13,22 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
   const [isHeroFormOpen, setIsHeroFormOpen] = useState(false);
 
   useEffect(() => {
-    HERO_SLIDES.forEach((slide) => {
-      const img = new Image();
-      img.src = slide.src;
-    });
+    // Precarga diferida de diapositivas secundarias para no competir con el render inicial
+    const preloadTimer = setTimeout(() => {
+      HERO_SLIDES.slice(1).forEach((slide) => {
+        const img = new Image();
+        img.src = slide.src;
+      });
+    }, 1500);
+
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
     }, 6000);
-    return () => clearInterval(timer);
+
+    return () => {
+      clearTimeout(preloadTimer);
+      clearInterval(timer);
+    };
   }, []);
 
   const handlePrevSlide = () => {
@@ -44,8 +52,9 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
             key={slide.id}
             src={slide.src}
             alt={slide.alt}
-            loading="eager"
-            decoding="async"
+            loading={idx === 0 ? 'eager' : 'lazy'}
+            decoding={idx === 0 ? 'sync' : 'async'}
+            fetchPriority={idx === 0 ? 'high' : 'low'}
             className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ease-in-out ${
               idx === currentSlide ? 'opacity-65' : 'opacity-0'
             }`}
