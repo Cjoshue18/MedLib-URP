@@ -98,7 +98,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Buscar por fármaco, patología, autor o tema médico..."
+                    placeholder="Buscar base de datos, por materia académica o recurso..."
                     className="w-full pl-12 pr-4 py-3.5 bg-white text-slate-900 rounded-lg border border-white/20 font-sans text-sm focus:outline-none focus:ring-2 focus:ring-[#00a859] shadow-2xl transition-all"
                   />
                 </div>
