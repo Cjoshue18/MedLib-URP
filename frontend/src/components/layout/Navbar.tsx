@@ -13,31 +13,21 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
   return (
     <header className="bg-black shadow-md border-b border-white/5 sticky top-0 z-50 w-full">
       <div className="flex justify-between items-center w-full pl-6 md:pl-8 pr-4 md:pr-0 h-20">
-        <div className="flex items-center gap-3">
-          <a
-            href="https://www.urp.edu.pe/"
-            target="_blank"
-            rel="noreferrer"
-            title="Ir al Portal Oficial de la Universidad Ricardo Palma (urp.edu.pe)"
-            aria-label="Portal Oficial URP"
-            className="flex items-center focus:outline-none group cursor-pointer"
-          >
-            <img
-              src={headerLogo}
-              alt="Logo Universidad Ricardo Palma"
-              className="w-11 h-11 object-contain rounded-full shadow-md group-hover:scale-110 group-hover:ring-2 group-hover:ring-[#008744] transition-all"
-            />
-          </a>
-          <button
-            onClick={() => { onNavigate('home'); setMobileMenuOpen(false); }}
-            className="flex items-center text-left focus:outline-none group cursor-pointer"
-            title="Ir al inicio de MedLib-URP"
-          >
-            <span className="font-headline-md text-headline-md font-bold text-white tracking-tight group-hover:text-[#8cf9a9] transition-colors">
-              MedLib-URP
-            </span>
-          </button>
-        </div>
+        <button
+          onClick={() => { onNavigate('home'); setMobileMenuOpen(false); }}
+          className="flex items-center gap-3 text-left focus:outline-none group cursor-pointer"
+          title="Ir al inicio de MedLib-URP"
+          aria-label="Ir al inicio de MedLib-URP"
+        >
+          <img
+            src={headerLogo}
+            alt="Logo Universidad Ricardo Palma"
+            className="w-11 h-11 object-contain rounded-full shadow-md group-hover:scale-110 group-hover:ring-2 group-hover:ring-[#008744] transition-all"
+          />
+          <span className="font-headline-md text-headline-md font-bold text-white tracking-tight group-hover:text-[#8cf9a9] transition-colors">
+            MedLib-URP
+          </span>
+        </button>
 
         <nav className="hidden md:flex items-center gap-8">
           <button
