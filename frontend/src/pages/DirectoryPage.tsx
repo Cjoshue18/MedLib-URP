@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { BookOpen, RefreshCw } from 'lucide-react';
 import {
   MedicalDatabase,
@@ -8,7 +8,6 @@ import {
   DatabaseSkeletonGrid,
   DatabaseAccordionCard,
   DatabaseMasonry,
-  DEFAULT_KEY_PLATFORMS,
 } from '../features/guides';
 import { normalizeText } from '../utils/textUtils';
 
@@ -110,34 +109,7 @@ export const DirectoryPage: React.FC<DirectoryPageProps> = ({ initialSearchQuery
     return matchesSearch && matchesLicense;
   });
 
-  const quickKeywords = useMemo(() => {
-    if (!databases || databases.length === 0) return [];
 
-    const tagCounts = new Map<string, number>();
-
-    databases.forEach((db) => {
-      db.tags.forEach((rawTag) => {
-        const tag = rawTag.trim();
-        if (!tag || normalizeText(tag) === 'medicina humana') return;
-        tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
-      });
-    });
-
-    DEFAULT_KEY_PLATFORMS.forEach((platform) => {
-      const matchCount = databases.filter((db) =>
-        normalizeText(db.title).includes(normalizeText(platform)) ||
-        db.tags.some((t) => normalizeText(t).includes(normalizeText(platform)))
-      ).length;
-      if (matchCount > 0) {
-        tagCounts.set(platform, Math.max(tagCounts.get(platform) || 0, matchCount));
-      }
-    });
-
-    return Array.from(tagCounts.entries())
-      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'es'))
-      .map(([keyword]) => keyword)
-      .slice(0, 8);
-  }, [databases]);
 
   const renderCard = (db: MedicalDatabase) => (
     <DatabaseAccordionCard
@@ -158,8 +130,6 @@ export const DirectoryPage: React.FC<DirectoryPageProps> = ({ initialSearchQuery
           placeholder="Buscar recurso por nombre, materia o especialidad..."
           licenseFilter={licenseFilter}
           onLicenseFilterChange={setLicenseFilter}
-          suggestions={quickKeywords}
-          onSuggestionClick={setSearchQuery}
           variant="hero"
           actionsRight={
             <button
