@@ -72,11 +72,12 @@ export const BoletinSubscriptionCard: React.FC<BoletinSubscriptionCardProps> = (
     <div
       className={`bg-white rounded-2xl shadow-xl overflow-hidden ${className}`.trim()}
     >
-      <div className="bg-[#008744] p-5 sm:p-6 pb-7 text-white">
-        <h2 className="text-xl sm:text-2xl font-display font-extrabold tracking-tight leading-tight">
+      <div className="relative bg-gradient-to-br from-[#00924c] via-[#007b3e] to-[#004e26] p-5 sm:p-6 pb-7 text-white overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_15%,rgba(255,255,255,0.14),transparent_55%)] pointer-events-none" />
+        <h2 className="relative z-10 text-xl sm:text-2xl font-display font-extrabold tracking-tight leading-tight">
           {isConferences ? '¡Boletín de Conferencias Médicas!' : '¡Acceso Directo al Conocimiento Médico!'}
         </h2>
-        <p className="text-xs text-white/90 mt-2 leading-relaxed">
+        <p className="relative z-10 text-xs text-white/90 mt-2 leading-relaxed">
           {isConferences
             ? 'Alertas sobre ponencias científicas, capacitaciones clínicas y talleres organizados por la FAMURP.'
             : 'Bases de datos, conferencias, literatura científica para toda la facultad médica.'}
