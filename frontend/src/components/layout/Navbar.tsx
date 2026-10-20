@@ -73,7 +73,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
             href="https://test.urp.edu.pe/Intranet/"
             target="_blank"
             rel="noreferrer"
-            className="hidden md:flex h-full self-stretch items-center justify-center bg-primary-container text-white px-7 rounded-none font-label-md text-label-md hover:bg-surface-tint transition-colors shadow-sm font-semibold tracking-wide"
+            className="hidden md:flex items-center justify-center bg-primary-container text-white px-5 py-2.5 my-auto mr-4 md:mr-6 rounded-lg font-label-md text-label-md hover:bg-surface-tint transition-all shadow-sm font-semibold tracking-wide cursor-pointer"
           >
             INTRANET URP
           </a>
@@ -130,7 +130,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
               href="https://test.urp.edu.pe/Intranet/"
               target="_blank"
               rel="noreferrer"
-              className="flex justify-center bg-primary-container text-white px-6 py-2.5 rounded-none font-label-md text-center hover:bg-surface-tint transition-colors font-semibold"
+              className="flex justify-center bg-primary-container text-white px-6 py-2.5 rounded-lg font-label-md text-center hover:bg-surface-tint transition-colors font-semibold"
             >
               INTRANET URP
             </a>
