@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, ArrowRight, ChevronRight, ChevronLeft } from 'lucide-react';
-import { HomeBoletinDrawer, BoletinPill } from './HomeBoletinDrawer';
+import { BoletinSubscriptionCard } from './BoletinSubscriptionCard';
 import { HERO_SLIDES, HERO_MARQUEE_ITEMS } from '../constants/heroConstants';
 
 interface HomeHeroProps {
@@ -10,10 +10,8 @@ interface HomeHeroProps {
 export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
-  const [isHeroFormOpen, setIsHeroFormOpen] = useState(false);
 
   useEffect(() => {
-    // Precarga diferida de diapositivas secundarias para no competir con el render inicial
     const preloadTimer = setTimeout(() => {
       HERO_SLIDES.slice(1).forEach((slide) => {
         const img = new Image();
@@ -67,7 +65,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
       </div>
 
       <div className="max-w-[1280px] mx-auto relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start lg:min-h-[570px]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center lg:min-h-[570px]">
           <div className="lg:col-span-7 space-y-6">
             <div className="space-y-4">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-[#008744] text-white text-xs font-extrabold uppercase tracking-wider shadow-sm">
@@ -121,34 +119,24 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
               </form>
             </div>
 
-            <div className="lg:hidden flex justify-center pt-2">
-              <BoletinPill onOpen={() => setIsHeroFormOpen(true)} orientation="horizontal" />
+            <div className="lg:hidden pt-4 flex justify-center">
+              <BoletinSubscriptionCard
+                variant="home"
+                onNavigateToDirectory={() => onNavigate('directory')}
+                className="w-full max-w-sm"
+              />
             </div>
           </div>
 
-          <div className="hidden lg:flex lg:col-span-5 justify-end lg:min-h-[570px]">
-            {!isHeroFormOpen ? (
-              <BoletinPill onOpen={() => setIsHeroFormOpen(true)} orientation="vertical" />
-            ) : (
-              <HomeBoletinDrawer
-                isOpen={isHeroFormOpen}
-                onClose={() => setIsHeroFormOpen(false)}
-                onNavigateToDirectory={() => onNavigate('directory')}
-              />
-            )}
+          <div className="hidden lg:flex lg:col-span-5 justify-end items-center">
+            <BoletinSubscriptionCard
+              variant="home"
+              onNavigateToDirectory={() => onNavigate('directory')}
+              className="w-full max-w-sm"
+            />
           </div>
         </div>
       </div>
-
-      {isHeroFormOpen && (
-        <div className="lg:hidden">
-          <HomeBoletinDrawer
-            isOpen={isHeroFormOpen}
-            onClose={() => setIsHeroFormOpen(false)}
-            onNavigateToDirectory={() => onNavigate('directory')}
-          />
-        </div>
-      )}
 
       <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-3 select-none">
         <button
