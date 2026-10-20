@@ -141,16 +141,16 @@ export const BoletinSubscriptionCard: React.FC<BoletinSubscriptionCardProps> = (
                 className="w-full pl-9 pr-3.5 py-2.5 rounded-lg border border-slate-300 bg-slate-50 text-xs sm:text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#008744] focus:bg-white focus:border-transparent transition-all disabled:opacity-60"
               />
             </div>
-            <div className="flex items-center gap-1.5 mt-1.5 text-[11px] text-slate-500 font-medium">
-              <CheckCircle2 className="w-3.5 h-3.5 text-[#008744] shrink-0" />
+            <div className="flex items-start gap-1.5 mt-1.5 text-[11px] text-slate-500 font-medium leading-snug">
+              <CheckCircle2 className="w-3.5 h-3.5 text-[#008744] shrink-0 mt-0.5" />
               <span>Dominio institucional URP para activación de licencias y alertas.</span>
             </div>
           </div>
 
           {feedback?.type === 'error' && (
-            <div className="flex items-center gap-2 p-2.5 rounded-lg bg-red-50 border border-red-200 text-xs text-red-700 animate-fadeIn">
-              <AlertCircle className="w-4 h-4 shrink-0 text-red-600" />
-              <span>{feedback.message}</span>
+            <div className="flex items-start gap-2 p-2.5 rounded-lg bg-red-50 border border-red-200 text-xs text-red-700 animate-fadeIn">
+              <AlertCircle className="w-4 h-4 shrink-0 text-red-600 mt-0.5" />
+              <span className="leading-snug">{feedback.message}</span>
             </div>
           )}
 
