@@ -7,8 +7,6 @@ import {
   Send,
   Loader2,
   AlertCircle,
-  ShieldCheck,
-  ArrowRight,
 } from 'lucide-react';
 import { newsletterService } from '../services/newsletterService';
 
@@ -30,7 +28,6 @@ const LEVEL_MAP: Record<NivelBoletin, string> = {
 
 export const BoletinSubscriptionCard: React.FC<BoletinSubscriptionCardProps> = ({
   variant = 'home',
-  onNavigateToDirectory,
   className = '',
 }) => {
   const [academicLevel, setAcademicLevel] = useState<NivelBoletin>('pregrado');
@@ -178,33 +175,6 @@ export const BoletinSubscriptionCard: React.FC<BoletinSubscriptionCardProps> = (
             )}
           </button>
         </form>
-
-        <div className="p-3 rounded-lg bg-emerald-50/70 border border-emerald-200/80 flex items-start gap-3">
-          <div className="w-8 h-8 rounded-lg bg-emerald-100/90 text-[#008744] flex items-center justify-center shrink-0 mt-0.5">
-            <ShieldCheck className="w-4 h-4 text-[#008744]" />
-          </div>
-          <div className="space-y-0.5">
-            <span className="text-xs font-bold text-slate-900 block">
-              Acceso institucional validado
-            </span>
-            <p className="text-[11px] text-slate-600 leading-snug">
-              {isConferences
-                ? 'Notificaciones exclusivas de conferencias y capacitaciones médicas.'
-                : 'Acceso con cuenta institucional a literatura científica y soporte clínico.'}
-            </p>
-          </div>
-        </div>
-
-        {!isConferences && onNavigateToDirectory && (
-          <button
-            type="button"
-            onClick={onNavigateToDirectory}
-            className="w-full py-2.5 px-4 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm active:scale-[0.99]"
-          >
-            <span>Explorar Catálogo de Bases de Datos</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </button>
-        )}
       </div>
     </div>
   );
