@@ -70,20 +70,20 @@ export const BoletinSubscriptionCard: React.FC<BoletinSubscriptionCardProps> = (
 
   return (
     <div
-      className={`bg-[#008744] rounded-2xl shadow-xl overflow-hidden ${className}`.trim()}
+      className={`bg-white rounded-2xl shadow-xl overflow-hidden ${className}`.trim()}
     >
-      <div className="p-5 sm:p-6 text-white">
+      <div className="bg-[#008744] p-5 sm:p-6 pb-7 text-white">
         <h2 className="text-xl sm:text-2xl font-display font-extrabold tracking-tight leading-tight">
           {isConferences ? '¡Boletín de Conferencias Médicas!' : '¡Acceso Directo al Conocimiento Médico!'}
         </h2>
         <p className="text-xs text-white/90 mt-2 leading-relaxed">
           {isConferences
             ? 'Alertas sobre ponencias científicas, capacitaciones clínicas y talleres organizados por la FAMURP.'
-            : 'Bases de datos clínicas indexadas, alertas personalizadas y literatura científica para el cuerpo médico universitario.'}
+            : 'Bases de datos, conferencias, literatura científica para toda la facultad médica.'}
         </p>
       </div>
 
-      <div className="bg-white rounded-xl mx-2.5 sm:mx-3 mb-2.5 sm:mb-3 p-4 sm:p-5 border border-slate-200/80 shadow-xs space-y-4 text-slate-900">
+      <div className="-mt-3.5 relative z-10 bg-white rounded-t-2xl p-4 sm:p-5 space-y-4 text-slate-900">
         <div>
           <div className="flex items-center justify-between text-xs mb-1.5">
             <label
@@ -117,7 +117,7 @@ export const BoletinSubscriptionCard: React.FC<BoletinSubscriptionCardProps> = (
           <div>
             <label
               htmlFor={isConferences ? 'newsletter-email-conferences' : 'newsletter-email-home'}
-              className="block text-[11px] font-bold text-slate-800 uppercase tracking-wider mb-1.5"
+              className="block text-[10px] sm:text-[10.5px] font-bold text-slate-800 uppercase tracking-tight mb-1.5 whitespace-nowrap"
             >
               {isConferences ? 'Correo Institucional URP' : 'Recibe correos con novedades, conferencias y más'}
             </label>
