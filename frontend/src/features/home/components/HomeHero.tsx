@@ -123,7 +123,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
               <BoletinSubscriptionCard
                 variant="home"
                 onNavigateToDirectory={() => onNavigate('directory')}
-                className="w-full max-w-sm"
+                className="w-full max-w-[350px]"
               />
             </div>
           </div>
@@ -132,7 +132,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
             <BoletinSubscriptionCard
               variant="home"
               onNavigateToDirectory={() => onNavigate('directory')}
-              className="w-full max-w-sm"
+              className="w-full max-w-[350px]"
             />
           </div>
         </div>
