@@ -6,10 +6,10 @@ import { HomeBentoMolecularBonds } from './HomeBentoMolecularBonds';
 import { HEX_POSITIONS } from '../constants/bentoGridGeometry';
 
 interface HomeBentoGridProps {
-  onNavigate: (view: 'directory') => void;
+  onNavigate?: (view: 'directory') => void;
 }
 
-export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
+export const HomeBentoGrid: React.FC<HomeBentoGridProps> = () => {
   const [resources, setResources] = useState<ResourceApiDto[]>(() => resourceService.getCachedLiteResources());
   const [isLoading, setIsLoading] = useState(() => resources.length === 0);
   const [flippedHexIds, setFlippedHexIds] = useState<Set<number>>(new Set());
@@ -288,20 +288,6 @@ export const HomeBentoGrid: React.FC<HomeBentoGridProps> = ({ onNavigate }) => {
               onMouseEnter={handleHexHover}
             />
           ))}
-
-          <div className="absolute left-[83%] sm:left-[84%] top-[72%] -translate-y-1/2 select-none z-20 whitespace-nowrap">
-            <button
-              type="button"
-              onClick={() => onNavigate('directory')}
-              className="inline-flex items-center gap-1.5 text-sm sm:text-base font-extrabold text-[#008744] hover:text-[#00572b] transition-all hover:translate-x-1 cursor-pointer group"
-              title="Ver más bases de datos médicas"
-            >
-              <span>Ver Más</span>
-              <span className="text-lg sm:text-xl leading-none font-black text-[#008744] group-hover:translate-x-1 transition-transform">
-                &gt;
-              </span>
-            </button>
-          </div>
         </div>
       </div>
     </div>
