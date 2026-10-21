@@ -8,7 +8,7 @@ export const Footer: React.FC = () => {
       <div className="px-6 max-w-[1280px] mx-auto space-y-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-2 border-b border-slate-800/90 pb-8">
           <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-full bg-[#008744]/15 flex items-center justify-center text-[#8cf9a9] shrink-0 mt-0.5">
+            <div className="w-10 h-10 rounded-full bg-[#008744]/20 flex items-center justify-center text-[#8cf9a9] shrink-0 mt-0.5">
               <Clock className="w-5 h-5" />
             </div>
             <div>
@@ -25,7 +25,7 @@ export const Footer: React.FC = () => {
           </div>
 
           <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-full bg-[#008744]/15 flex items-center justify-center text-[#8cf9a9] shrink-0 mt-0.5">
+            <div className="w-10 h-10 rounded-full bg-[#008744]/20 flex items-center justify-center text-[#8cf9a9] shrink-0 mt-0.5">
               <MapPin className="w-5 h-5" />
             </div>
             <div>
@@ -42,7 +42,7 @@ export const Footer: React.FC = () => {
           </div>
 
           <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-full bg-[#008744]/15 flex items-center justify-center text-[#8cf9a9] shrink-0 mt-0.5">
+            <div className="w-10 h-10 rounded-full bg-[#008744]/20 flex items-center justify-center text-[#8cf9a9] shrink-0 mt-0.5">
               <Phone className="w-5 h-5" />
             </div>
             <div>
@@ -90,7 +90,7 @@ export const Footer: React.FC = () => {
                       d="M14.5 12h-2v7h-3v-7h-1.5v-2.5H9.5V8c0-1.8 1-2.8 2.8-2.8h2.2v2.5h-1.4c-.9 0-1.1.4-1.1 1.1v.7h2.5L14.5 12z"
                     />
                   </svg>
-                  <span className="text-xs font-semibold text-slate-300 group-hover:text-white transition-colors">
+                  <span className="text-xs font-semibold text-slate-300 group-hover:text-[#8cf9a9] transition-colors">
                     Facebook
                   </span>
                 </a>
@@ -117,7 +117,7 @@ export const Footer: React.FC = () => {
                     <circle cx="17.8" cy="6.2" r="1.1" fill="#FFFFFF" />
                     <rect x="4.5" y="4.5" width="15" height="15" rx="3.8" fill="none" stroke="#FFFFFF" strokeWidth="1.8" />
                   </svg>
-                  <span className="text-xs font-semibold text-slate-300 group-hover:text-white transition-colors">
+                  <span className="text-xs font-semibold text-slate-300 group-hover:text-[#8cf9a9] transition-colors">
                     Instagram
                   </span>
                 </a>
@@ -138,9 +138,9 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
           <p>© {new Date().getFullYear()} Universidad Ricardo Palma. Todos los derechos reservados.</p>
-          <p className="text-slate-500">
+          <p className="text-slate-400">
             Portal de Recursos Médicos
           </p>
         </div>

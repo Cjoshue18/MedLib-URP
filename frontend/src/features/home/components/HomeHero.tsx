@@ -43,7 +43,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
   };
 
   return (
-    <section className="relative bg-black text-white pt-10 pb-24 px-6 sm:px-8 border-b-4 border-[#008744] overflow-hidden">
+    <section className="relative bg-white text-slate-900 pt-10 pb-24 px-6 sm:px-8 border-b-4 border-[#008744] overflow-hidden transition-colors duration-200">
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
         {HERO_SLIDES.map((slide, idx) => (
           <img
@@ -54,43 +54,41 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
             decoding={idx === 0 ? 'sync' : 'async'}
             fetchPriority={idx === 0 ? 'high' : 'low'}
             className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ease-in-out ${
-              idx === currentSlide ? 'opacity-65' : 'opacity-0'
+              idx === currentSlide ? 'opacity-85' : 'opacity-0'
             }`}
           />
         ))}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/50"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/35"></div>
-        <div className="absolute inset-0 bg-grid-pattern-dark opacity-20"></div>
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#008744]/20 blur-[120px] rounded-full pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-transparent to-transparent"></div>
       </div>
 
       <div className="max-w-[1280px] mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center lg:min-h-[570px]">
           <div className="lg:col-span-7 space-y-6">
             <div className="space-y-4">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-[#008744] text-white text-xs font-extrabold uppercase tracking-wider shadow-sm">
-                <span className="w-2 h-2 rounded-full bg-[#8cf9a9] animate-pulse"></span>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-[#008744]/10 border border-[#008744]/30 text-[#008744] text-xs font-extrabold uppercase tracking-wider shadow-sm">
+                <span className="w-2 h-2 rounded-full bg-[#008744] animate-pulse"></span>
                 <span>Facultad de Medicina Humana</span>
               </div>
 
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[54px] font-display font-extrabold leading-[1.1] tracking-tight">
-                <span className="text-white block sm:inline">Biblioteca Virtual de </span>
+                <span className="text-slate-900 block sm:inline">Biblioteca Virtual de </span>
                 <br className="hidden sm:block" />
-                <span className="animate-camera-pan-text font-black">
+                <span className="text-[#008744] font-black">
                   Medicina Humana
                 </span>
               </h1>
 
-              <p className="text-base sm:text-lg text-slate-300 max-w-xl leading-relaxed">
+              <p className="text-base sm:text-lg text-slate-600 max-w-xl leading-relaxed">
                 Portal oficial para estudiantes, donde podrán acceder a bases de datos científicas, literatura especializada y conferencias médicas.
               </p>
             </div>
 
             <div className="space-y-3 max-w-xl">
-              <div className="overflow-hidden w-full py-1 relative">
-                <div className="animate-marquee-scroll flex items-center gap-6 text-xs text-slate-300/90 font-semibold tracking-wide select-none">
+              <div className="overflow-hidden w-full py-1.5 relative border-y border-slate-200">
+                <div className="animate-marquee-scroll flex items-center gap-6 text-xs text-slate-600 font-semibold tracking-wide select-none">
                   {HERO_MARQUEE_ITEMS.map((item, idx) => (
-                    <span key={idx} className="flex items-center gap-6 shrink-0 hover:text-white transition-colors cursor-default">
+                    <span key={idx} className="flex items-center gap-6 shrink-0 hover:text-slate-900 transition-colors cursor-default">
                       <span>{item}</span>
                       <span className="text-[#008744] font-black text-sm">&bull;</span>
                     </span>
@@ -106,7 +104,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Buscar base de datos, por materia académica o recurso..."
-                    className="w-full pl-12 pr-4 py-3.5 bg-white text-slate-900 rounded-lg border border-white/20 font-sans text-sm focus:outline-none focus:ring-2 focus:ring-[#00a859] shadow-2xl transition-all"
+                    className="w-full pl-12 pr-4 py-3.5 bg-white text-slate-900 rounded-lg border border-slate-300 font-sans text-sm focus:outline-none focus:ring-2 focus:ring-[#00a859] shadow-md transition-all"
                   />
                 </div>
                 <button
@@ -142,7 +140,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
         <button
           type="button"
           onClick={handlePrevSlide}
-          className="w-8 h-8 flex items-center justify-center text-white/75 hover:text-white transition-colors cursor-pointer drop-shadow-md"
+          className="w-8 h-8 flex items-center justify-center text-slate-500 hover:text-slate-900 transition-colors cursor-pointer drop-shadow-sm"
           title="Imagen anterior"
           aria-label="Imagen anterior"
         >
@@ -157,8 +155,8 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
               onClick={() => setCurrentSlide(idx)}
               className={`w-2.5 h-2.5 rounded-full transition-colors duration-200 cursor-pointer drop-shadow-md ${
                 idx === currentSlide
-                  ? 'bg-[#008744] ring-2 ring-white/80'
-                  : 'bg-white/40 hover:bg-white/80'
+                  ? 'bg-[#008744] ring-2 ring-[#008744]/40'
+                  : 'bg-slate-300 hover:bg-slate-400'
               }`}
               title={`Ir a imagen ${idx + 1}`}
               aria-label={`Ir a imagen ${idx + 1}`}
@@ -169,7 +167,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
         <button
           type="button"
           onClick={handleNextSlide}
-          className="w-8 h-8 flex items-center justify-center text-white/75 hover:text-white transition-colors cursor-pointer drop-shadow-md"
+          className="w-8 h-8 flex items-center justify-center text-slate-500 hover:text-slate-900 transition-colors cursor-pointer drop-shadow-sm"
           title="Imagen siguiente"
           aria-label="Imagen siguiente"
         >
