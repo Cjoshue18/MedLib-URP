@@ -6,7 +6,7 @@ export const Footer: React.FC = () => {
   return (
     <footer className="bg-black text-white w-full border-t-2 border-slate-800 pt-12 pb-8 mt-auto">
       <div className="px-6 max-w-[1280px] mx-auto space-y-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-2 border-b border-slate-800/90 pb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-2">
           <div className="flex items-start gap-4">
             <div className="w-10 h-10 rounded-full bg-[#008744]/20 flex items-center justify-center text-[#8cf9a9] shrink-0 mt-0.5">
               <Clock className="w-5 h-5" />
@@ -59,7 +59,7 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-b border-slate-800 pb-8">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="space-y-4">
             <div className="space-y-1.5">
               <span className="font-display text-xl sm:text-2xl text-white font-extrabold block">
