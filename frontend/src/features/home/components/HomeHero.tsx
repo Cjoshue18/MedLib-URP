@@ -74,7 +74,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[54px] font-display font-extrabold leading-[1.1] tracking-tight">
                 <span className="text-slate-900 block sm:inline">Biblioteca Virtual de </span>
                 <br className="hidden sm:block" />
-                <span className="text-[#008744] font-black">
+                <span className="animate-camera-pan-text font-black">
                   Medicina Humana
                 </span>
               </h1>
