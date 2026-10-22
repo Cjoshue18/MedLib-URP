@@ -203,4 +203,4 @@ pnpm typecheck
 ## Créditos y Contacto
 
 * **Desarrollo:** Joshua Correa (@Cjoshue18)
-* **Institución:** Facultad de Medicina Humana "Manuel Velasco Suárez", Universidad Ricardo Palma
+* **Institución:** Facultad de Medicina Humana, Universidad Ricardo Palma
