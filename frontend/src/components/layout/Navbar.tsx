@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ExternalLink } from 'lucide-react';
-import headerLogo from '../../assets/logo-header.webp';
+import { HeaderBrandBadge } from './HeaderBrandBadge';
 
 interface NavbarProps {
   currentView: 'home' | 'directory' | 'conferences' | 'lost-found';
@@ -12,22 +12,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
 
   return (
     <header className="bg-white shadow-sm border-b border-slate-200 sticky top-0 z-50 w-full transition-colors duration-200">
-      <div className="flex justify-between items-center w-full pl-6 md:pl-8 pr-4 md:pr-0 h-20">
-        <button
-          onClick={() => { onNavigate('home'); setMobileMenuOpen(false); }}
-          className="flex items-center gap-3 text-left focus:outline-none group cursor-pointer"
-          title="Ir al inicio de MedLib-URP"
-          aria-label="Ir al inicio de MedLib-URP"
-        >
-          <img
-            src={headerLogo}
-            alt="Logo Universidad Ricardo Palma"
-            className="w-11 h-11 object-contain rounded-full shadow-md group-hover:scale-110 group-hover:ring-2 group-hover:ring-[#008744] transition-all"
-          />
-          <span className="font-headline-md text-headline-md font-bold text-slate-900 tracking-tight group-hover:text-[#008744] transition-colors">
-            MedLib-URP
-          </span>
-        </button>
+      <div className="flex justify-between items-center w-full pl-0 pr-4 md:pr-0 h-20">
+        <HeaderBrandBadge
+          onNavigate={(view) => {
+            onNavigate(view);
+            setMobileMenuOpen(false);
+          }}
+        />
 
         <nav className="hidden md:flex items-center gap-8">
           <button
