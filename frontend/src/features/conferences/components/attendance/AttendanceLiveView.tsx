@@ -150,7 +150,7 @@ export const AttendanceLiveView: React.FC<AttendanceLiveViewProps> = ({
             <button
               type="button"
               onClick={onBackToCalendar}
-              className="py-3 px-6 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-urp-brutal-sm tactile-btn cursor-pointer"
+              className="py-3 px-6 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs tactile-btn cursor-pointer"
             >
               Regresar al Calendario
             </button>
@@ -269,7 +269,7 @@ export const AttendanceLiveView: React.FC<AttendanceLiveViewProps> = ({
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-3.5 px-6 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-display font-black text-sm shadow-urp-brutal-green tactile-btn-green transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+                className="w-full py-3.5 px-6 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-display font-black text-sm tactile-btn-green transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
               >
                 {isSubmitting ? (
                   <>

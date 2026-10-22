@@ -109,7 +109,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
                 </div>
                 <button
                   type="submit"
-                  className="bg-[#008744] hover:bg-[#006b35] text-white font-bold px-7 py-3.5 rounded-lg transition-all shadow-urp-brutal-green tactile-btn-green flex items-center gap-1.5 shrink-0 cursor-pointer text-sm"
+                  className="bg-[#008744] hover:bg-[#006b35] text-white font-bold px-7 py-3.5 rounded-lg transition-all tactile-btn-green flex items-center gap-1.5 shrink-0 cursor-pointer text-sm"
                 >
                   <span>Buscar</span>
                   <ArrowRight className="w-4 h-4" />

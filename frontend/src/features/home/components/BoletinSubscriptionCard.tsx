@@ -155,7 +155,7 @@ export const BoletinSubscriptionCard: React.FC<BoletinSubscriptionCardProps> = (
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-3 px-4 rounded-lg bg-[#008744] hover:bg-[#006b35] disabled:opacity-70 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer flex items-center justify-center gap-2 active:scale-[0.99]"
+            className="w-full py-3 px-4 rounded-lg bg-[#008744] hover:bg-[#006b35] disabled:opacity-70 text-white font-bold text-xs sm:text-sm transition-all cursor-pointer flex items-center justify-center gap-2 tactile-btn-green"
           >
             {isSubmitting ? (
               <>
