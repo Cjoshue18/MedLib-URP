@@ -2,7 +2,7 @@ import React from 'react';
 import {
   HomeHero,
   HomeBentoGrid,
-  HomeUpcomingActivities,
+  BoletinSubscriptionCard,
 } from '../features/home';
 
 interface HomePageProps {
@@ -21,7 +21,11 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
           </div>
 
           <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-24">
-            <HomeUpcomingActivities onNavigate={onNavigate} />
+            <BoletinSubscriptionCard
+              variant="home"
+              onNavigateToDirectory={() => onNavigate('directory')}
+              className="w-full max-w-[420px] mx-auto lg:mx-0"
+            />
           </div>
         </div>
       </section>

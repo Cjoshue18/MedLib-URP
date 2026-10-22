@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, ArrowRight, ChevronRight, ChevronLeft } from 'lucide-react';
-import { BoletinSubscriptionCard } from './BoletinSubscriptionCard';
+import { HomeUpcomingActivities } from './HomeUpcomingActivities';
 import { HERO_SLIDES, HERO_MARQUEE_ITEMS } from '../constants/heroConstants';
 
 interface HomeHeroProps {
@@ -116,22 +116,12 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
                 </button>
               </form>
             </div>
-
-            <div className="lg:hidden pt-4 flex justify-center">
-              <BoletinSubscriptionCard
-                variant="home"
-                onNavigateToDirectory={() => onNavigate('directory')}
-                className="w-full max-w-[350px]"
-              />
-            </div>
           </div>
 
-          <div className="hidden lg:flex lg:col-span-5 justify-end items-center">
-            <BoletinSubscriptionCard
-              variant="home"
-              onNavigateToDirectory={() => onNavigate('directory')}
-              className="w-full max-w-[350px]"
-            />
+          <div className="lg:col-span-5 flex justify-center lg:justify-end items-center">
+            <div className="w-full max-w-[420px]">
+              <HomeUpcomingActivities onNavigate={onNavigate} />
+            </div>
           </div>
         </div>
       </div>
