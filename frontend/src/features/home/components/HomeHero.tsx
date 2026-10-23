@@ -127,7 +127,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
         </div>
       </section>
 
-      <section className="w-full bg-white border-b border-slate-200 py-8 px-6 sm:px-8">
+      <section className="w-full bg-[#f8fafc] py-8 px-6 sm:px-8">
         <div className="max-w-[760px] mx-auto space-y-3.5">
           <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-2.5">
             <div className="relative flex-1">

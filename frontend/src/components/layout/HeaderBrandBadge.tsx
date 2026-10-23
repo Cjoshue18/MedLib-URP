@@ -14,16 +14,13 @@ export const HeaderBrandBadge: React.FC<HeaderBrandBadgeProps> = ({
     <button
       type="button"
       onClick={() => onNavigate?.('home')}
-      className={`group relative inline-flex items-center h-[calc(100%+1px)] -mb-[1px] text-left focus:outline-none cursor-pointer select-none transition-all ${className}`}
+      className={`group relative inline-flex items-center h-full text-left focus:outline-none cursor-pointer select-none transition-all ${className}`}
       title="Biblioteca Virtual de Medicina Humana - Ir al inicio"
       aria-label="Biblioteca Virtual de Medicina Humana - Ir al inicio"
     >
       <div className="relative h-full flex items-center filter drop-shadow-[0_4px_10px_rgba(0,0,0,0.08)] drop-shadow-[0_1px_3px_rgba(0,0,0,0.05)] group-hover:drop-shadow-[0_8px_18px_rgba(0,0,0,0.13)] transition-all duration-300">
         <div
-          className="bg-black h-full pl-5 sm:pl-7 md:pl-8 pr-12 sm:pr-14 md:pr-16 flex items-center gap-3.5 sm:gap-4 md:gap-4.5 transition-colors"
-          style={{
-            clipPath: 'polygon(0 0, 100% 0, calc(100% - 32px) 100%, 0 100%)',
-          }}
+          className="bg-black h-full px-5 sm:px-6 md:px-7 flex items-center gap-3.5 sm:gap-4 md:gap-4.5 transition-colors"
         >
           <img
             src={headerLogo}
