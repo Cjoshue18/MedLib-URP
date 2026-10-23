@@ -38,10 +38,10 @@ export const AttendanceLiveSuccessCard: React.FC<AttendanceLiveSuccessCardProps>
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10 animate-fadeIn">
       <div className="bg-white rounded-lg border border-slate-200 shadow-xs overflow-hidden">
         <div className="bg-slate-900 text-white p-8 text-center border-b border-slate-800">
-          <div className="w-16 h-16 rounded-full bg-emerald-500 text-white flex items-center justify-center mx-auto mb-4 border-2 border-emerald-400 shadow-sm">
+          <div className="w-16 h-16 rounded-full bg-[#008744] text-white flex items-center justify-center mx-auto mb-4 border-2 border-[#8CF9A9] shadow-sm">
             <CheckCircle2 className="w-9 h-9" />
           </div>
-          <span className="text-[11px] font-black uppercase tracking-widest text-emerald-400 block mb-1">
+          <span className="text-[11px] font-black uppercase tracking-widest text-[#8CF9A9] block mb-1">
             Asistencia Registrada &bull; BVE-FAMURP
           </span>
           <h1 className="text-2xl sm:text-3xl font-display font-black leading-tight text-white">

@@ -233,7 +233,7 @@ export const ConferencesPage: React.FC = () => {
               </div>
             ) : conferences.length === 0 ? (
               <div className="bg-white rounded-lg shadow-sm p-12 text-center">
-                <div className="w-14 h-14 rounded-lg bg-emerald-50 text-[#008744] flex items-center justify-center mx-auto mb-3 border border-emerald-200">
+                <div className="w-14 h-14 rounded-lg bg-slate-50 text-[#008744] flex items-center justify-center mx-auto mb-3 border border-slate-200">
                   <CalendarDays className="w-7 h-7" />
                 </div>
                 <h3 className="font-display font-black text-lg text-slate-900 mb-1">

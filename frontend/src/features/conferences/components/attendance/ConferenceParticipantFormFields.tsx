@@ -90,7 +90,7 @@ export const ConferenceParticipantFormFields: React.FC<ConferenceParticipantForm
                   }}
                   className={`w-full text-left px-3 py-2 text-xs font-bold transition-colors cursor-pointer flex items-center justify-between ${
                     tipoParticipante === 'Pregrado' || tipoParticipante === 'Estudiante'
-                      ? 'bg-emerald-50 text-[#008744]'
+                      ? 'bg-slate-100 text-[#008744]'
                       : 'text-slate-800 hover:bg-slate-50'
                   }`}
                 >
@@ -107,7 +107,7 @@ export const ConferenceParticipantFormFields: React.FC<ConferenceParticipantForm
                   }}
                   className={`w-full text-left px-3 py-2 text-xs font-bold transition-colors cursor-pointer flex items-center justify-between ${
                     tipoParticipante === 'Posgrado'
-                      ? 'bg-emerald-50 text-[#008744]'
+                      ? 'bg-slate-100 text-[#008744]'
                       : 'text-slate-800 hover:bg-slate-50'
                   }`}
                 >

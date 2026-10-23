@@ -171,13 +171,13 @@ export const ConferenceRegistrationView: React.FC<ConferenceRegistrationViewProp
       </button>
 
       <div className="bg-white rounded-lg border border-slate-200 shadow-xs overflow-hidden">
-        <div className="bg-[#008744] text-white px-6 sm:px-8 py-6 border-b border-emerald-700 shadow-inner">
+        <div className="bg-[#008744] text-white px-6 sm:px-8 py-6 border-b border-[#0F172A]/20 shadow-inner">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center backdrop-blur-xs">
               <GraduationCap className="w-5 h-5 text-white" />
             </div>
             <div>
-              <span className="text-[10px] font-black tracking-wider uppercase text-emerald-100 block">
+              <span className="text-[10px] font-black tracking-wider uppercase text-[#8CF9A9] block">
                 Formulario Oficial de Conferencias &bull; FAMURP
               </span>
               <h1 className="text-xl sm:text-2xl font-display font-black leading-tight text-white">
@@ -194,7 +194,7 @@ export const ConferenceRegistrationView: React.FC<ConferenceRegistrationViewProp
                 {conference.modalidad}
               </span>
               {conference.asistenciaAbierta && (
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-600 text-white animate-pulse">
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#00A859] text-white animate-pulse">
                   Asistencia en Vivo Habilitada
                 </span>
               )}

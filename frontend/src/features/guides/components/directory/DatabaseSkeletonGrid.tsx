@@ -18,7 +18,7 @@ export const DatabaseSkeletonGrid: React.FC<DatabaseSkeletonGridProps> = ({ coun
           <div className="min-w-0 flex-1 pr-3">
             <div className={`h-4 bg-slate-200 rounded-md mb-2 ${widths[idx % widths.length]}`} />
             <div className="flex items-center gap-2">
-              <div className={`h-3 bg-emerald-100/90 rounded-md ${tagWidths[idx % tagWidths.length]}`} />
+              <div className={`h-3 bg-slate-200 rounded-md ${tagWidths[idx % tagWidths.length]}`} />
               <div className="h-3 bg-slate-100 rounded-md w-12" />
             </div>
           </div>

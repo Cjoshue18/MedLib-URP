@@ -56,12 +56,12 @@ export const ConferenceRegistrationSuccessCard: React.FC<ConferenceRegistrationS
         <div className={`p-8 text-center border-b ${
           isAlreadyRegistered
             ? 'bg-amber-500 text-slate-900 border-amber-600'
-            : 'bg-[#008744] text-white border-emerald-700'
+            : 'bg-[#008744] text-white border-[#0F172A]'
         }`}>
           <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 border shadow-sm ${
             isAlreadyRegistered
               ? 'bg-white text-amber-600 border-amber-300'
-              : 'bg-white text-[#008744] border-emerald-200'
+              : 'bg-white text-[#008744] border-slate-300'
           }`}>
             {isAlreadyRegistered ? (
               <AlertTriangle className="w-9 h-9" />
@@ -70,7 +70,7 @@ export const ConferenceRegistrationSuccessCard: React.FC<ConferenceRegistrationS
             )}
           </div>
           <span className={`text-[11px] font-black uppercase tracking-widest block mb-1 ${
-            isAlreadyRegistered ? 'text-amber-950' : 'text-emerald-100'
+            isAlreadyRegistered ? 'text-amber-950' : 'text-[#8CF9A9]'
           }`}>
             {isAlreadyRegistered ? 'Pre-inscripción Existente • BVE-FAMURP' : 'Registro Confirmado • BVE-FAMURP'}
           </span>
@@ -80,7 +80,7 @@ export const ConferenceRegistrationSuccessCard: React.FC<ConferenceRegistrationS
             {isAlreadyRegistered ? 'Usted ya se había registrado' : '¡Muchas Gracias por tu Pre-inscripción!'}
           </h1>
           <p className={`text-xs sm:text-sm max-w-lg mx-auto mt-2 leading-relaxed ${
-            isAlreadyRegistered ? 'text-amber-950 font-medium' : 'text-emerald-100'
+            isAlreadyRegistered ? 'text-amber-950 font-medium' : 'text-white/90'
           }`}>
             {isAlreadyRegistered
               ? 'Tu documento ya se encuentra registrado en la nómina oficial de esta capacitación. A continuación tienes los detalles y el enlace a la sala virtual para tu acceso.'

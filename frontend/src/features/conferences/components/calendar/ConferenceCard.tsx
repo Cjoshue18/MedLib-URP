@@ -32,8 +32,8 @@ export const ConferenceCard: React.FC<ConferenceCardProps> = ({
     <div className="bg-white rounded-lg border-2 border-slate-900 transition-all duration-150 hover:shadow-urp-brutal hover:-translate-x-0.5 hover:-translate-y-0.5 overflow-hidden flex flex-col sm:flex-row group cursor-pointer">
       <div className={`${isFinalizada ? 'bg-slate-950 text-slate-300' : 'bg-[#008744] text-white'} flex flex-col items-center justify-center p-6 min-w-[120px] shrink-0 font-display font-black shadow-inner transition-colors`}>
         <span className="text-3xl sm:4xl leading-none">{dayStr}</span>
-        <span className={`text-xs uppercase tracking-widest font-extrabold mt-1 ${isFinalizada ? 'text-slate-400' : 'text-emerald-100'}`}>{monthStr}</span>
-        <span className={`text-[10px] font-medium mt-1 ${isFinalizada ? 'text-slate-500' : 'text-emerald-200'}`}>
+        <span className={`text-xs uppercase tracking-widest font-extrabold mt-1 ${isFinalizada ? 'text-slate-400' : 'text-[#8CF9A9]'}`}>{monthStr}</span>
+        <span className={`text-[10px] font-medium mt-1 ${isFinalizada ? 'text-slate-500' : 'text-white/80'}`}>
           {conf.modalidad}
         </span>
       </div>
@@ -59,8 +59,8 @@ export const ConferenceCard: React.FC<ConferenceCardProps> = ({
 
             <div className="flex items-center gap-1.5">
               {conf.asistenciaAbierta && (
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black border border-emerald-300 animate-pulse">
-                  <Radio className="w-3 h-3 text-emerald-600" />
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white text-[#008744] text-[10px] font-black border border-[#008744]/40 animate-pulse">
+                  <Radio className="w-3 h-3 text-[#008744]" />
                   Asistencia Abierta
                 </span>
               )}
@@ -96,8 +96,8 @@ export const ConferenceCard: React.FC<ConferenceCardProps> = ({
             >
               {isCopied ? (
                 <>
-                  <Check className="w-3.5 h-3.5 text-emerald-600" />
-                  <span className="text-emerald-700 font-bold">Enlace copiado</span>
+                  <Check className="w-3.5 h-3.5 text-[#008744]" />
+                  <span className="text-[#008744] font-bold">Enlace copiado</span>
                 </>
               ) : (
                 <>
@@ -113,7 +113,7 @@ export const ConferenceCard: React.FC<ConferenceCardProps> = ({
               <button
                 type="button"
                 onClick={() => onOpenAttendance(conf)}
-                className="py-2 px-4 rounded-lg border-2 border-emerald-700 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-all tactile-btn cursor-pointer flex items-center gap-1.5"
+                className="py-2 px-4 rounded-lg border-2 border-[#008744] bg-[#00A859] hover:bg-[#008744] text-white font-bold text-xs transition-all tactile-btn cursor-pointer flex items-center gap-1.5"
               >
                 <Radio className="w-3.5 h-3.5" />
                 <span>Marcar Asistencia</span>

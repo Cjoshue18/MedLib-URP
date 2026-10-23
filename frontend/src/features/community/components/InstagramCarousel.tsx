@@ -97,7 +97,7 @@ export const InstagramCarousel: React.FC<InstagramCarouselProps> = ({
   if (posts.length === 0) {
     return (
       <div className="bg-white rounded-lg border border-slate-200 p-8 sm:p-12 text-center shadow-xs max-w-2xl mx-auto">
-        <div className="w-14 h-14 rounded-lg bg-emerald-50 text-[#008744] flex items-center justify-center mx-auto mb-3 border border-emerald-100">
+        <div className="w-14 h-14 rounded-lg bg-slate-50 text-[#008744] flex items-center justify-center mx-auto mb-3 border border-slate-200">
           <InstagramIcon className="w-7 h-7" />
         </div>
         <h3 className="font-display font-extrabold text-base text-slate-900">

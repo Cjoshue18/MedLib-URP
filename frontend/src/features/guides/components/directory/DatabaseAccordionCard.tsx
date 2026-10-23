@@ -150,7 +150,7 @@ export const DatabaseAccordionCard: React.FC<DatabaseAccordionCardProps> = ({
                 <div className="h-3.5 bg-slate-200 rounded w-full" />
                 <div className="h-3.5 bg-slate-200 rounded w-5/6" />
                 <div className="h-3.5 bg-slate-100 rounded w-3/4" />
-                <div className="flex items-center gap-2 pt-1 text-xs text-emerald-700 font-semibold">
+                <div className="flex items-center gap-2 pt-1 text-xs text-[#008744] font-semibold">
                   <Loader2 className="w-3.5 h-3.5 animate-spin text-[#008744]" />
                   <span>Cargando descripción clínica y tutorial...</span>
                 </div>
@@ -182,7 +182,7 @@ export const DatabaseAccordionCard: React.FC<DatabaseAccordionCardProps> = ({
             {detail.hasMobileApp && (
               <div className="flex items-center justify-between">
                 <span className="font-bold text-slate-500">App Móvil:</span>
-                <span className="font-black text-emerald-700">Disponible (iOS / Android)</span>
+                <span className="font-black text-[#008744]">Disponible (iOS / Android)</span>
               </div>
             )}
           </div>

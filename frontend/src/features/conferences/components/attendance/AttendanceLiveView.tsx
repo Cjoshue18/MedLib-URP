@@ -191,11 +191,11 @@ export const AttendanceLiveView: React.FC<AttendanceLiveViewProps> = ({
       <div className="bg-white rounded-lg border border-slate-200 shadow-xs overflow-hidden">
         <div className="bg-slate-900 text-white px-6 sm:px-8 py-6 border-b border-slate-800">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/40">
+            <div className="w-10 h-10 rounded-lg bg-[#008744]/20 text-[#8CF9A9] flex items-center justify-center border border-[#8CF9A9]/40">
               <Radio className="w-5 h-5 animate-pulse" />
             </div>
             <div>
-              <span className="text-[10px] font-black tracking-wider uppercase text-emerald-400 block">
+              <span className="text-[10px] font-black tracking-wider uppercase text-[#8CF9A9] block">
                 Sesión en Vivo &bull; Sala Virtual URP
               </span>
               <h1 className="text-xl sm:text-2xl font-display font-black leading-tight text-white">
@@ -208,7 +208,7 @@ export const AttendanceLiveView: React.FC<AttendanceLiveViewProps> = ({
         <div className="p-6 sm:p-8 space-y-6">
           <div className="bg-slate-50 rounded-lg border border-slate-200 p-5 space-y-2">
             <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-600 text-white animate-pulse">
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#00A859] text-white animate-pulse">
                 Asistencia Abierta
               </span>
               <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-slate-900 text-white">
@@ -269,7 +269,7 @@ export const AttendanceLiveView: React.FC<AttendanceLiveViewProps> = ({
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-3.5 px-6 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-display font-black text-sm tactile-btn-green transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+                className="w-full py-3.5 px-6 rounded-lg bg-[#00A859] hover:bg-[#008744] text-white font-display font-black text-sm tactile-btn-green transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
               >
                 {isSubmitting ? (
                   <>
