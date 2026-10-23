@@ -72,7 +72,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
                 profundidad.
               </h1>
 
-              <p className="text-base sm:text-lg text-slate-300 font-dm-sans max-w-xl leading-relaxed">
+              <p className="text-base sm:text-lg text-slate-300 font-sans max-w-xl leading-relaxed">
                 Portal oficial para estudiantes, donde podrán acceder a bases de datos científicas, literatura especializada y conferencias médicas.
               </p>
             </div>

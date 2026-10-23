@@ -116,8 +116,7 @@ export default {
         "label-md": ["Inter", "sans-serif"],
         sans: ["Inter", "system-ui", "sans-serif"],
         display: ["Plus Jakarta Sans", "sans-serif"],
-        lora: ["Lora", "serif"],
-        "dm-sans": ["DM Sans", "sans-serif"]
+        lora: ["Lora", "serif"]
       },
       fontSize: {
         "title-lg": ["20px", { lineHeight: "28px", fontWeight: "600" }],
