@@ -28,6 +28,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
             onNavigate(view);
             setMobileMenuOpen(false);
           }}
+          isLightBackground={isScrolled || currentView !== 'home'}
           className="pointer-events-auto"
         />
 

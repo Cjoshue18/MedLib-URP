@@ -66,15 +66,13 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
         <div className="max-w-[1280px] mx-auto relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center lg:min-h-[500px]">
             <div className="lg:col-span-7 space-y-4">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[54px] font-display font-extrabold leading-[1.1] tracking-tight">
-                <span className="text-slate-900 block sm:inline">Biblioteca Virtual de </span>
-                <br className="hidden sm:block" />
-                <span className="animate-camera-pan-text font-black">
-                  Medicina Humana
-                </span>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[62px] font-lora font-normal sm:font-medium text-white leading-[1.08] tracking-tight">
+                Un lugar para<br className="hidden sm:block" />{' '}
+                <span className="italic font-normal text-[#8CF9A9]">pensar</span> en<br className="hidden sm:block" />{' '}
+                profundidad.
               </h1>
 
-              <p className="text-base sm:text-lg text-slate-600 max-w-xl leading-relaxed">
+              <p className="text-base sm:text-lg text-slate-300 font-dm-sans max-w-xl leading-relaxed">
                 Portal oficial para estudiantes, donde podrán acceder a bases de datos científicas, literatura especializada y conferencias médicas.
               </p>
             </div>
@@ -91,7 +89,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
           <button
             type="button"
             onClick={handlePrevSlide}
-            className="w-8 h-8 flex items-center justify-center text-slate-500 hover:text-slate-900 transition-colors cursor-pointer drop-shadow-sm"
+            className="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-white transition-colors cursor-pointer drop-shadow-sm"
             title="Imagen anterior"
             aria-label="Imagen anterior"
           >
@@ -106,8 +104,8 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
                 onClick={() => setCurrentSlide(idx)}
                 className={`w-2.5 h-2.5 rounded-full transition-colors duration-200 cursor-pointer drop-shadow-md ${
                   idx === currentSlide
-                    ? 'bg-[#008744] ring-2 ring-[#008744]/40'
-                    : 'bg-slate-300 hover:bg-slate-400'
+                    ? 'bg-[#8CF9A9] ring-2 ring-[#8CF9A9]/40'
+                    : 'bg-slate-600 hover:bg-slate-500'
                 }`}
                 title={`Ir a imagen ${idx + 1}`}
                 aria-label={`Ir a imagen ${idx + 1}`}
@@ -118,7 +116,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
           <button
             type="button"
             onClick={handleNextSlide}
-            className="w-8 h-8 flex items-center justify-center text-slate-500 hover:text-slate-900 transition-colors cursor-pointer drop-shadow-sm"
+            className="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-white transition-colors cursor-pointer drop-shadow-sm"
             title="Imagen siguiente"
             aria-label="Imagen siguiente"
           >
