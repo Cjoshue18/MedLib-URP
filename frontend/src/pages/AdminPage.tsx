@@ -64,7 +64,6 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
     <div className="min-h-screen bg-[#F8FAFC] text-slate-900 font-sans flex flex-col antialiased">
       <AdminHeader
         activeTab={activeAdminTab}
-        onSelectTab={setActiveAdminTab}
         onOpenDrawer={() => setIsDrawerOpen(true)}
         onOpenMatrixModal={() => setIsMatrixModalOpen(true)}
         hexagonCount={hexagonCount}

@@ -1,11 +1,9 @@
 import React from 'react';
 import { Menu, Hexagon, ExternalLink, LogOut } from 'lucide-react';
 import { AdminTab } from '../types';
-import { ADMIN_NAVIGATION_ITEMS } from '../constants/adminNavigation';
 
 interface AdminHeaderProps {
   activeTab: AdminTab;
-  onSelectTab: (tab: AdminTab) => void;
   onOpenDrawer: () => void;
   onOpenMatrixModal: () => void;
   hexagonCount: number;
@@ -15,7 +13,6 @@ interface AdminHeaderProps {
 
 export const AdminHeader: React.FC<AdminHeaderProps> = ({
   activeTab,
-  onSelectTab,
   onOpenDrawer,
   onOpenMatrixModal,
   hexagonCount,
@@ -43,23 +40,6 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
               Biblioteca Virtual y Especializada de Medicina Humana
             </p>
           </div>
-
-          <nav className="hidden xl:flex items-center gap-1 ml-4 pl-4 border-l border-slate-200 text-xs font-bold">
-            {ADMIN_NAVIGATION_ITEMS.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => onSelectTab(item.id)}
-                className={`px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
-                  activeTab === item.id
-                    ? 'bg-emerald-50 text-[#00572B] border border-emerald-300'
-                    : 'text-slate-600 hover:bg-slate-100'
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
-          </nav>
         </div>
 
         <div className="flex items-center gap-3">
@@ -67,12 +47,12 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
             <button
               type="button"
               onClick={onOpenMatrixModal}
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-800 hover:text-emerald-900 px-3 py-1.5 rounded-lg border border-emerald-300 hover:border-emerald-400 bg-emerald-50 hover:bg-emerald-100 transition-colors cursor-pointer shadow-xs"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#008744] hover:text-[#008744] px-3 py-1.5 rounded-lg border border-[#008744]/30 hover:border-[#008744] bg-[#008744]/5 hover:bg-[#008744]/10 transition-colors cursor-pointer shadow-xs"
               title="Configurar los 15 recursos de la matriz hexagonal de inicio"
             >
-              <Hexagon className="w-3.5 h-3.5 fill-emerald-600 text-emerald-700" />
+              <Hexagon className="w-3.5 h-3.5 fill-[#008744] text-[#008744]" />
               <span>Matriz Hexagonal</span>
-              <span className="ml-1 px-1.5 py-0.5 bg-emerald-200 text-emerald-900 rounded-full text-[10px] font-black">
+              <span className="ml-1 px-1.5 py-0.5 bg-[#008744]/15 text-[#008744] rounded-full text-[10px] font-black">
                 {hexagonCount}/15
               </span>
             </button>
