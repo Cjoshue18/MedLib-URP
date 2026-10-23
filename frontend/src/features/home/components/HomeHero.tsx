@@ -44,7 +44,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
 
   return (
     <>
-      <section className="relative bg-white text-slate-900 pt-28 sm:pt-32 pb-20 px-6 sm:px-8 border-b-4 border-[#008744] overflow-hidden transition-colors duration-200">
+      <section className="relative bg-[#0F172A] text-slate-900 pt-28 sm:pt-32 pb-20 px-6 sm:px-8 border-b-4 border-[#008744] overflow-hidden transition-colors duration-200">
         <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
           {HERO_SLIDES.map((slide, idx) => (
             <img
@@ -59,8 +59,8 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
               }`}
             />
           ))}
-          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/40 to-transparent via-40% to-70%"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-white/25 via-transparent to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0F172A] via-[#0F172A]/40 to-transparent via-40% to-70%"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/25 via-transparent to-transparent"></div>
         </div>
 
         <div className="max-w-[1280px] mx-auto relative z-10">
