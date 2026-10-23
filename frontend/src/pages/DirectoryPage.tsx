@@ -198,16 +198,6 @@ export const DirectoryPage: React.FC<DirectoryPageProps> = ({ initialSearchQuery
                     ? 'Prueba con otra palabra clave o limpia el campo de búsqueda.'
                     : 'No se pudo establecer conexión con el catálogo de bases de datos médicas.'}
                 </p>
-                {!isLiveConnected && (
-                  <button
-                    type="button"
-                    onClick={loadLiveDatabases}
-                    className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold text-white bg-urp-600 hover:bg-urp-700 transition-colors shadow-sm cursor-pointer"
-                  >
-                    <RefreshCw className="w-3.5 h-3.5" />
-                    <span>Reintentar conexión</span>
-                  </button>
-                )}
               </div>
             )}
           </div>
