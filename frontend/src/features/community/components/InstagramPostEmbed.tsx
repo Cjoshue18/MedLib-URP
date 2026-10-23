@@ -63,7 +63,7 @@ export const InstagramPostEmbed: React.FC<InstagramPostEmbedProps> = ({
         data-instgrm-permalink={`${cleanPermalink}?utm_source=ig_embed&amp;utm_campaign=loading`}
         data-instgrm-version="14"
         style={{
-          background: '#FFF',
+          background: '#FFFFFF',
           border: 0,
           borderRadius: '16px',
           boxShadow: 'none',

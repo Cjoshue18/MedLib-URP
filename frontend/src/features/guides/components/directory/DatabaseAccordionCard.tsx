@@ -228,7 +228,7 @@ export const DatabaseAccordionCard: React.FC<DatabaseAccordionCardProps> = ({
                 )}
               </div>
 
-              <div className="w-full aspect-video rounded-lg border-2 border-slate-900 shadow-urp-brutal-sm overflow-hidden bg-black">
+              <div className="w-full aspect-video rounded-lg border-2 border-slate-900 shadow-urp-brutal-sm overflow-hidden bg-[#020617]">
                 <iframe
                   src={`https://www.youtube-nocookie.com/embed/${detail.tutorialVideoId}?rel=0`}
                   title={`Tutorial Oficial - ${detail.title}`}
