@@ -66,11 +66,6 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center lg:min-h-[570px]">
           <div className="lg:col-span-7 space-y-6">
             <div className="space-y-4">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-[#008744]/10 border border-[#008744]/30 text-[#008744] text-xs font-extrabold uppercase tracking-wider shadow-sm">
-                <span className="w-2 h-2 rounded-full bg-[#008744] animate-pulse"></span>
-                <span>Facultad de Medicina Humana</span>
-              </div>
-
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[54px] font-display font-extrabold leading-[1.1] tracking-tight">
                 <span className="text-slate-900 block sm:inline">Biblioteca Virtual de </span>
                 <br className="hidden sm:block" />
