@@ -161,9 +161,11 @@ h1, h2, h3, h4, h5, h6 {
   background: linear-gradient(
     90deg,
     #00a859 0%,
-    #00a859 35%,
-    #22c55e 50%,
-    #00a859 65%,
+    #00a859 30%,
+    #8cf9a9 42%,
+    #ffffff 50%,
+    #8cf9a9 58%,
+    #00a859 70%,
     #00a859 100%
   );
   background-size: 200% auto;
