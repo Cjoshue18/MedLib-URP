@@ -104,7 +104,7 @@ export const AttendanceLiveSuccessCard: React.FC<AttendanceLiveSuccessCardProps>
                 href={conference.enlaceVirtual}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#008744] hover:bg-[#00A859] text-white text-xs font-bold tactile-btn transition-all cursor-pointer shrink-0"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#00A859] hover:bg-[#008744] text-white text-xs font-bold tactile-btn transition-all cursor-pointer shrink-0"
               >
                 <ExternalLink className="w-3.5 h-3.5" />
                 <span>Volver a la Sala Virtual</span>
@@ -116,7 +116,7 @@ export const AttendanceLiveSuccessCard: React.FC<AttendanceLiveSuccessCardProps>
             <button
               type="button"
               onClick={onBackToCalendar}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-lg bg-[#008744] hover:bg-[#00A859] text-white font-display font-black text-sm tactile-btn-green transition-all cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-lg bg-[#00A859] hover:bg-[#008744] text-white font-display font-black text-sm tactile-btn-green transition-all cursor-pointer"
             >
               <Calendar className="w-4 h-4" />
               <span>Ver Calendario de Conferencias</span>
