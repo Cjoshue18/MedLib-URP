@@ -28,10 +28,8 @@ export const HeaderBrandBadge: React.FC<HeaderBrandBadgeProps> = ({
         />
         <div className="flex flex-col justify-center leading-none select-none">
           <span
-            className={`font-display text-xs sm:text-[14px] md:text-[16px] font-bold tracking-tight leading-tight transition-colors drop-shadow-sm ${
-              isLightBackground
-                ? 'text-slate-900 group-hover:text-[#008744]'
-                : 'text-white group-hover:text-[#8cf9a9]'
+            className={`font-display text-xs sm:text-[14px] md:text-[16px] font-bold tracking-tight leading-tight drop-shadow-sm ${
+              isLightBackground ? 'text-slate-900' : 'text-white'
             }`}
           >
             Biblioteca Virtual y Especializada de
