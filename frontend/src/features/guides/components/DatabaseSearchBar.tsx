@@ -1,4 +1,4 @@
-import { Search, X, Sparkles, ChevronDown } from 'lucide-react';
+import { Search, X, ChevronDown } from 'lucide-react';
 
 interface DatabaseSearchBarProps {
   searchTerm: string;
@@ -9,8 +9,6 @@ interface DatabaseSearchBarProps {
   statusFilter?: 'all' | 'active' | 'inactive';
   onStatusFilterChange?: (value: 'all' | 'active' | 'inactive') => void;
   actionsRight?: React.ReactNode;
-  suggestions?: string[];
-  onSuggestionClick?: (value: string) => void;
   variant?: 'panel' | 'hero';
 }
 
@@ -23,8 +21,6 @@ export const DatabaseSearchBar: React.FC<DatabaseSearchBarProps> = ({
   statusFilter,
   onStatusFilterChange,
   actionsRight,
-  suggestions,
-  onSuggestionClick,
   variant = 'panel',
 }) => {
   if (variant === 'hero') {
@@ -73,37 +69,6 @@ export const DatabaseSearchBar: React.FC<DatabaseSearchBarProps> = ({
           {actionsRight}
         </form>
 
-        {suggestions && suggestions.length > 0 && (
-          <div className="flex flex-wrap items-center justify-center gap-1.5 pt-1">
-            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wide mr-1 flex items-center gap-1">
-              <Sparkles className="w-3 h-3 text-[#008744]" />
-              Sugerencias:
-            </span>
-            {suggestions.map((kw) => (
-              <button
-                key={kw}
-                type="button"
-                onClick={() => (onSuggestionClick ? onSuggestionClick(kw) : onSearchChange(kw))}
-                className={`text-xs px-2.5 py-1 rounded-lg border transition-all cursor-pointer font-semibold ${
-                  searchTerm.toLowerCase() === kw.toLowerCase()
-                    ? 'bg-[#008744] text-white border-[#008744]'
-                    : 'bg-white text-slate-600 border-slate-200 hover:border-slate-900 hover:text-slate-900 shadow-2xs'
-                }`}
-              >
-                {kw}
-              </button>
-            ))}
-            {searchTerm && (
-              <button
-                type="button"
-                onClick={() => onSearchChange('')}
-                className="text-xs px-2.5 py-1 rounded-lg bg-rose-50 text-rose-700 border border-rose-200 font-bold hover:bg-rose-100 transition-colors cursor-pointer"
-              >
-                Ver todos
-              </button>
-            )}
-          </div>
-        )}
       </div>
     );
   }

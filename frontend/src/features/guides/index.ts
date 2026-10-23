@@ -21,4 +21,4 @@ export type {
 
 export { mapApiResourceToMedicalDatabase } from './utils/resourceAdapter';
 export { MAX_HEXAGONS_COUNT, MIN_ACTIVE_RESOURCES } from './constants/resourceConstants';
-export { DEFAULT_KEY_PLATFORMS } from './constants/catalogConstants';
+
