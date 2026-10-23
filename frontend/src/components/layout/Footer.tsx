@@ -4,8 +4,8 @@ import { INSTITUTIONAL_LINKS } from '../../constants/institutionalLinks';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-black text-white w-full border-t-2 border-slate-800 pt-12 pb-8 mt-auto">
-      <div className="px-6 max-w-[1280px] mx-auto space-y-10">
+    <footer className="w-full text-white border-t-4 border-[#008744] bg-gradient-to-b from-[#0F172A] via-[#0b101d] to-[#05070e] mt-auto">
+      <div className="px-6 max-w-[1280px] mx-auto pt-12 pb-10 space-y-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-2">
           <div className="flex items-start gap-4">
             <div className="w-10 h-10 rounded-full bg-[#008744]/20 flex items-center justify-center text-[#8cf9a9] shrink-0 mt-0.5">
@@ -137,11 +137,13 @@ export const Footer: React.FC = () => {
             </a>
           </div>
         </div>
+      </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+      <div className="border-t border-slate-800/80 bg-[#04060c]/90 py-5">
+        <div className="max-w-[1280px] mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
           <p>© {new Date().getFullYear()} Universidad Ricardo Palma. Todos los derechos reservados.</p>
           <p className="text-slate-400">
-            Portal de Recursos Médicos
+            Portal de Recursos Médicos &bull; FAMURP
           </p>
         </div>
       </div>
