@@ -69,7 +69,7 @@ export const BoletinSubscriptionCard: React.FC<BoletinSubscriptionCardProps> = (
     <div
       className={`bg-white rounded-2xl shadow-xl overflow-hidden ${className}`.trim()}
     >
-      <div className="relative bg-gradient-to-br from-[#00924c] via-[#007b3e] to-[#004e26] p-5 sm:p-6 pb-7 text-white overflow-hidden">
+      <div className="relative bg-gradient-to-br from-[#00A859] to-[#008744] p-5 sm:p-6 pb-7 text-white overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_15%,rgba(255,255,255,0.14),transparent_55%)] pointer-events-none" />
         <h2 className="relative z-10 text-xl sm:text-2xl font-display font-extrabold tracking-tight leading-tight">
           {isConferences ? '¡Boletín de Conferencias Médicas!' : '¡Acceso Directo al Conocimiento Médico!'}
@@ -155,7 +155,7 @@ export const BoletinSubscriptionCard: React.FC<BoletinSubscriptionCardProps> = (
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-3 px-4 rounded-lg bg-[#008744] hover:bg-[#006b35] disabled:opacity-70 text-white font-bold text-xs sm:text-sm transition-all cursor-pointer flex items-center justify-center gap-2 tactile-btn-green"
+            className="w-full py-3 px-4 rounded-lg bg-[#008744] hover:bg-[#00A859] disabled:opacity-70 text-white font-bold text-xs sm:text-sm transition-all cursor-pointer flex items-center justify-center gap-2 tactile-btn-green"
           >
             {isSubmitting ? (
               <>

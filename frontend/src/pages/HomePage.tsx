@@ -11,7 +11,7 @@ interface HomePageProps {
 
 export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
   return (
-    <main className="w-full bg-[#f8fafc] text-slate-900 overflow-hidden">
+    <main className="w-full bg-white text-slate-900 overflow-hidden">
       <HomeHero onNavigate={onNavigate} />
 
       <section className="max-w-[1280px] mx-auto px-6 py-16 pb-24">

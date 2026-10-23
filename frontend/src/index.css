@@ -4,21 +4,21 @@
 @import "tailwindcss/utilities";
 
 :root {
-  --primary: #006b35;
+  --primary: #008744;
   --primary-container: #008744;
   --primary-fixed: #8cf9a9;
   --on-primary: #ffffff;
-  --background: #f7f9fb;
+  --background: #ffffff;
   --surface-card: #ffffff;
-  --surface-container-low: #f2f4f6;
+  --surface-container-low: #ffffff;
   --border-subtle: #e2e8f0;
-  --text-slate: #1e293b;
-  --secondary: #575e70;
+  --text-slate: #0f172a;
+  --secondary: #0f172a;
 }
 
 body {
-  background-color: #f7f9fb;
-  color: #191c1e;
+  background-color: #ffffff;
+  color: #0f172a;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   margin: 0;
   padding: 0;
@@ -65,7 +65,7 @@ h1, h2, h3, h4, h5, h6 {
     90deg, 
     #00a859 0%, 
     #00a859 35%, 
-    #22c55e 50%, 
+    #8cf9a9 50%, 
     #00a859 65%, 
     #00a859 100%
   );
@@ -103,7 +103,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .shadow-urp-brutal-green {
-  box-shadow: 4px 4px 0px #00572b;
+  box-shadow: 4px 4px 0px #0f172a;
 }
 
 .tactile-btn {
@@ -126,12 +126,12 @@ h1, h2, h3, h4, h5, h6 {
 
 .tactile-btn-green:hover {
   transform: translate(-2px, -2px);
-  box-shadow: 4px 4px 0px #00572b;
+  box-shadow: 4px 4px 0px #0f172a;
 }
 
 .tactile-btn-green:active {
   transform: translate(2px, 2px);
-  box-shadow: 0px 0px 0px #00572b;
+  box-shadow: 0px 0px 0px #0f172a;
 }
 
 .bg-grid-pattern {

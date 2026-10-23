@@ -253,7 +253,7 @@ export const ConferenceRegistrationView: React.FC<ConferenceRegistrationViewProp
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-3.5 px-6 rounded-lg bg-[#008744] hover:bg-[#006b35] text-white font-display font-black text-sm tactile-btn-green transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+                className="w-full py-3.5 px-6 rounded-lg bg-[#008744] hover:bg-[#00A859] text-white font-display font-black text-sm tactile-btn-green transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
               >
                 {isSubmitting ? (
                   <>

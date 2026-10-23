@@ -125,7 +125,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
         </div>
       </section>
 
-      <section className="w-full bg-[#f8fafc] py-8 px-6 sm:px-8">
+      <section className="w-full bg-white py-8 px-6 sm:px-8">
         <div className="max-w-[760px] mx-auto space-y-3.5">
           <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-2.5">
             <div className="relative flex-1">
@@ -140,7 +140,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
             </div>
             <button
               type="submit"
-              className="bg-[#008744] hover:bg-[#006b35] text-white font-bold px-7 py-3.5 rounded-lg transition-all tactile-btn-green flex items-center justify-center gap-1.5 shrink-0 cursor-pointer text-sm"
+              className="bg-[#008744] hover:bg-[#00A859] text-white font-bold px-7 py-3.5 rounded-lg transition-all tactile-btn-green flex items-center justify-center gap-1.5 shrink-0 cursor-pointer text-sm"
             >
               <span>Buscar</span>
               <ArrowRight className="w-4 h-4" />

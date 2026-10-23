@@ -45,16 +45,16 @@ export const BentoHexCard: React.FC<BentoHexCardProps> = ({
   const widthPct = (96 / 510) * 100;
   const heightPct = (83.138 / 360) * 100;
 
-  const yTop = cy - 41.569;
-  const yBottom = cy + 41.569;
-  const tTop = Math.max(0, Math.min(1, (yTop - 10) / 340));
-  const tBottom = Math.max(0, Math.min(1, (yBottom - 10) / 340));
-  const topG = Math.round(195 - tTop * (195 - 48));
-  const topB = Math.round(112 - tTop * (112 - 20));
-  const botG = Math.round(195 - tBottom * (195 - 48));
-  const botB = Math.round(112 - tBottom * (112 - 20));
-  const topColor = `rgb(0, ${topG}, ${topB})`;
-  const botColor = `rgb(0, ${botG}, ${botB})`;
+
+
+
+
+
+
+
+
+  const topColor = '#00a859';
+  const botColor = '#008744';
 
   return (
     <div
@@ -121,7 +121,8 @@ export const BentoHexCard: React.FC<BentoHexCardProps> = ({
             <polygon
               points="24,0 72,0 96,41.57 72,83.14 24,83.14 0,41.57"
               fill={hasValidLogo ? "#ffffff" : "#0f172a"}
-              stroke={hasValidLogo ? "#e2e8f0" : "#00a859"}
+              stroke={hasValidLogo ? "#0f172a" : "#00a859"}
+              strokeOpacity={hasValidLogo ? "0.15" : "1"}
               strokeWidth={hasValidLogo ? "1" : "2"}
             />
             {hasValidLogo && (
@@ -143,8 +144,8 @@ export const BentoHexCard: React.FC<BentoHexCardProps> = ({
             <div className="absolute inset-0 flex flex-col items-center justify-center p-1.5 text-center select-none pointer-events-none">
               {isLoading || !slot.resource ? (
                 <div className="flex flex-col items-center justify-center gap-1">
-                  <div className="w-3.5 h-3.5 rounded-full border-2 border-emerald-500/30 border-t-emerald-400 animate-spin" />
-                  <span className="text-emerald-400 font-bold text-[7px] tracking-wider uppercase">
+                  <div className="w-3.5 h-3.5 rounded-full border-2 border-[#008744]/30 border-t-[#8cf9a9] animate-spin" />
+                  <span className="text-[#8cf9a9] font-bold text-[7px] tracking-wider uppercase">
                     Cargando...
                   </span>
                 </div>

@@ -174,7 +174,7 @@ export const DatabaseAccordionCard: React.FC<DatabaseAccordionCardProps> = ({
                 {detail.accessType === 'Suscripción URP' ? (
                   <Lock className="w-3 h-3 text-[#008744]" />
                 ) : (
-                  <Globe className="w-3 h-3 text-sky-600" />
+                  <Globe className="w-3 h-3 text-[#008744]" />
                 )}
                 {detail.accessType}
               </span>
@@ -192,7 +192,7 @@ export const DatabaseAccordionCard: React.FC<DatabaseAccordionCardProps> = ({
             target="_blank"
             rel="noreferrer"
             onClick={(e) => e.stopPropagation()}
-            className="w-full py-3 px-5 rounded-lg bg-[#008744] hover:bg-[#006b35] text-white font-bold text-xs sm:text-sm tactile-btn-green transition-all flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full py-3 px-5 rounded-lg bg-[#008744] hover:bg-[#00A859] text-white font-bold text-xs sm:text-sm tactile-btn-green transition-all flex items-center justify-center gap-2 cursor-pointer"
           >
             <span>
               {detail.accessType === 'Suscripción URP'

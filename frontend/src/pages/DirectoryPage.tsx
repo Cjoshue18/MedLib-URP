@@ -134,7 +134,7 @@ export const DirectoryPage: React.FC<DirectoryPageProps> = ({ initialSearchQuery
           actionsRight={
             <button
               type="submit"
-              className="w-full sm:w-auto px-6 h-11 rounded-lg bg-[#008744] hover:bg-[#006b35] text-white font-bold text-xs sm:text-sm tactile-btn-green transition-all cursor-pointer shrink-0 flex items-center justify-center gap-1.5"
+              className="w-full sm:w-auto px-6 h-11 rounded-lg bg-[#008744] hover:bg-[#00A859] text-white font-bold text-xs sm:text-sm tactile-btn-green transition-all cursor-pointer shrink-0 flex items-center justify-center gap-1.5"
             >
               <span>Buscar</span>
             </button>

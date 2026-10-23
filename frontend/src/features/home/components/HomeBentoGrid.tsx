@@ -257,7 +257,7 @@ export const HomeBentoGrid: React.FC<HomeBentoGridProps> = () => {
             <svg viewBox="0 0 96 83.14" className="w-full h-full overflow-visible drop-shadow-xs">
               <polygon
                 points="24,0 72,0 96,41.57 72,83.14 24,83.14 0,41.57"
-                className="fill-white group-hover:fill-emerald-50/80 stroke-slate-800 group-hover:stroke-[#008744] stroke-[2] group-hover:stroke-[2.5] transition-all duration-200"
+                className="fill-white group-hover:fill-white stroke-[#0F172A] group-hover:stroke-[#008744] stroke-[2] group-hover:stroke-[2.5] transition-all duration-200"
               />
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-700 group-hover:text-[#008744] transition-colors p-1 select-none pointer-events-none">

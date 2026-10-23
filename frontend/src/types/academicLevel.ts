@@ -39,14 +39,14 @@ export const normalizeAcademicLevel = (raw?: string | null): AcademicLevel => {
 export const getAcademicLevelBadgeClass = (level: string): string => {
   switch (level) {
     case 'Pregrado':
-      return 'bg-emerald-50 text-emerald-800 border-emerald-300';
+      return 'bg-white text-[#008744] border-[#008744]/30';
     case 'Posgrado':
-      return 'bg-blue-50 text-blue-800 border-blue-300';
+      return 'bg-white text-slate-800 border-slate-300';
     case 'Residentado':
-      return 'bg-amber-50 text-amber-800 border-amber-300';
+      return 'bg-white text-slate-800 border-slate-300';
     case 'Docente':
-      return 'bg-purple-50 text-purple-800 border-purple-300';
+      return 'bg-white text-slate-800 border-slate-300';
     default:
-      return 'bg-slate-50 text-slate-700 border-slate-300';
+      return 'bg-white text-slate-700 border-slate-200';
   }
 };

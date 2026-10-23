@@ -125,20 +125,20 @@ export const ConferenceRegistrationSuccessCard: React.FC<ConferenceRegistrationS
           </div>
 
           {conference.enlaceVirtual && (
-            <div className="p-6 rounded-lg bg-sky-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="p-6 rounded-lg bg-white border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="space-y-1.5">
-                <div className="flex items-center gap-2 text-sky-950 font-black text-xs uppercase tracking-wider">
-                  <Video className="w-4 h-4 text-sky-600" />
+                <div className="flex items-center gap-2 text-slate-900 font-black text-xs uppercase tracking-wider">
+                  <Video className="w-4 h-4 text-[#008744]" />
                   <span>Acceso a la Sala Virtual</span>
                 </div>
-                <p className="text-xs text-sky-900 leading-relaxed font-medium">
+                <p className="text-xs text-slate-600 leading-relaxed font-medium">
                   Podrás conectarte el día de la sesión usando el siguiente enlace institucional:
                 </p>
                 <a
                   href={conference.enlaceVirtual}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-xs font-mono font-bold text-sky-700 hover:underline break-all block pt-0.5"
+                  className="text-xs font-mono font-bold text-[#008744] hover:underline break-all block pt-0.5"
                 >
                   {conference.enlaceVirtual}
                 </a>
@@ -147,7 +147,7 @@ export const ConferenceRegistrationSuccessCard: React.FC<ConferenceRegistrationS
                 href={conference.enlaceVirtual}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#0284c7] hover:bg-[#0369a1] text-white text-xs font-bold tactile-btn transition-all cursor-pointer shrink-0 self-start sm:self-center"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#008744] hover:bg-[#00A859] text-white text-xs font-bold tactile-btn transition-all cursor-pointer shrink-0 self-start sm:self-center"
               >
                 <ExternalLink className="w-3.5 h-3.5" />
                 <span>Ingresar a la Sala</span>
@@ -155,8 +155,8 @@ export const ConferenceRegistrationSuccessCard: React.FC<ConferenceRegistrationS
             </div>
           )}
 
-          <div className="bg-[#E8F8F0] p-6 rounded-lg space-y-2.5">
-            <h2 className="text-xs font-black uppercase tracking-wider text-[#00572B]">
+          <div className="bg-white border border-slate-200 p-6 rounded-lg space-y-2.5">
+            <h2 className="text-xs font-black uppercase tracking-wider text-[#008744]">
               Datos del Participante Registrado
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs font-medium text-slate-800">
@@ -192,7 +192,7 @@ export const ConferenceRegistrationSuccessCard: React.FC<ConferenceRegistrationS
               <button
                 type="button"
                 onClick={onCopyRegistrationLink}
-                className="px-4 py-2 rounded-lg bg-[#008744] hover:bg-[#006b35] text-white text-xs font-bold tactile-btn transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
+                className="px-4 py-2 rounded-lg bg-[#008744] hover:bg-[#00A859] text-white text-xs font-bold tactile-btn transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
               >
                 {copiedLink ? (
                   <>
@@ -210,7 +210,7 @@ export const ConferenceRegistrationSuccessCard: React.FC<ConferenceRegistrationS
             <button
               type="button"
               onClick={onBackToCalendar}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-lg bg-[#008744] hover:bg-[#006b35] text-white font-display font-black text-sm tactile-btn-green transition-all cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-lg bg-[#008744] hover:bg-[#00A859] text-white font-display font-black text-sm tactile-btn-green transition-all cursor-pointer"
             >
               <Calendar className="w-4 h-4" />
               <span>Ver Calendario de Conferencias</span>

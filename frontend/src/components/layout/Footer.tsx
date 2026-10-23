@@ -4,7 +4,7 @@ import { INSTITUTIONAL_LINKS } from '../../constants/institutionalLinks';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="w-full text-white border-t-4 border-[#008744] bg-gradient-to-b from-[#0F172A] via-[#0b101d] to-[#05070e] mt-auto">
+    <footer className="w-full text-white border-t-4 border-[#008744] bg-[#222222] mt-auto">
       <div className="px-6 max-w-[1280px] mx-auto pt-12 pb-10 space-y-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-2">
           <div className="flex items-start gap-4">
@@ -103,19 +103,18 @@ export const Footer: React.FC = () => {
                   aria-label="Instagram Oficial Biblioteca FMH URP"
                   className="group flex items-center gap-2 text-slate-300 hover:text-white transition-all transform hover:scale-105 cursor-pointer"
                 >
-                  <svg className="w-5 h-5 drop-shadow-md transition-transform group-hover:scale-110" viewBox="0 0 24 24">
-                    <defs>
-                      <radialGradient id="ig-grad-footer" cx="20%" cy="100%" r="150%">
-                        <stop offset="0%" stopColor="#ffd521" />
-                        <stop offset="25%" stopColor="#f50000" />
-                        <stop offset="50%" stopColor="#b900b4" />
-                        <stop offset="100%" stopColor="#4300e8" />
-                      </radialGradient>
-                    </defs>
-                    <rect width="24" height="24" rx="6.5" fill="url(#ig-grad-footer)" />
-                    <circle cx="12" cy="12" r="4.2" fill="none" stroke="#FFFFFF" strokeWidth="1.8" />
-                    <circle cx="17.8" cy="6.2" r="1.1" fill="#FFFFFF" />
-                    <rect x="4.5" y="4.5" width="15" height="15" rx="3.8" fill="none" stroke="#FFFFFF" strokeWidth="1.8" />
+                  <svg
+                    className="w-5 h-5 transition-transform group-hover:scale-110"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
                   </svg>
                   <span className="text-xs font-semibold text-slate-300 group-hover:text-[#8cf9a9] transition-colors">
                     Instagram
@@ -130,7 +129,7 @@ export const Footer: React.FC = () => {
               href="https://www.urp.edu.pe/"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#008744] hover:bg-[#006b35] text-white text-xs sm:text-sm font-bold tactile-btn-green transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#008744] hover:bg-[#00A859] text-white text-xs sm:text-sm font-bold tactile-btn-green transition-all cursor-pointer"
             >
               <span>Portal Principal URP (urp.edu.pe)</span>
               <ExternalLink className="w-3.5 h-3.5" />
@@ -139,7 +138,7 @@ export const Footer: React.FC = () => {
         </div>
       </div>
 
-      <div className="border-t border-slate-800/80 bg-[#04060c]/90 py-5">
+      <div className="border-t border-slate-800/80 bg-[#0F172A] py-5">
         <div className="max-w-[1280px] mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
           <p>© {new Date().getFullYear()} Universidad Ricardo Palma. Todos los derechos reservados.</p>
           <p className="text-slate-400">
