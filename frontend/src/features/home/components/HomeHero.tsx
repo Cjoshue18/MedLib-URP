@@ -54,12 +54,12 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
             decoding={idx === 0 ? 'sync' : 'async'}
             fetchPriority={idx === 0 ? 'high' : 'low'}
             className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ease-in-out ${
-              idx === currentSlide ? 'opacity-85' : 'opacity-0'
+              idx === currentSlide ? 'opacity-100' : 'opacity-0'
             }`}
           />
         ))}
-        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-transparent"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-transparent to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/40 to-transparent via-40% to-70%"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-white/25 via-transparent to-transparent"></div>
       </div>
 
       <div className="max-w-[1280px] mx-auto relative z-10">
