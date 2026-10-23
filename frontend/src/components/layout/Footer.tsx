@@ -1,64 +1,11 @@
 import React from 'react';
-import { ExternalLink, Clock, MapPin, Phone } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import { INSTITUTIONAL_LINKS } from '../../constants/institutionalLinks';
 
 export const Footer: React.FC = () => {
   return (
     <footer className="w-full text-white border-t-4 border-[#008744] bg-[#0F172A] mt-auto">
-      <div className="px-6 max-w-[1280px] mx-auto pt-12 pb-10 space-y-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-2">
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-full bg-[#008744]/20 flex items-center justify-center text-white shrink-0 mt-0.5">
-              <Clock className="w-5 h-5" />
-            </div>
-            <div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
-                Horario de Atención
-              </h4>
-              <p className="text-sm font-semibold text-slate-100">
-                Lunes a Viernes: 08:00 - 21:00
-              </p>
-              <p className="text-xs text-slate-400 mt-0.5">
-                Sábados: 08:00 - 15:00
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-full bg-[#008744]/20 flex items-center justify-center text-white shrink-0 mt-0.5">
-              <MapPin className="w-5 h-5" />
-            </div>
-            <div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
-                Ubicación
-              </h4>
-              <p className="text-sm font-semibold text-slate-100">
-                Campus URP - Facultad de Medicina
-              </p>
-              <p className="text-xs text-slate-400 mt-0.5">
-                Piso 4, Ala Sur
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-full bg-[#008744]/20 flex items-center justify-center text-white shrink-0 mt-0.5">
-              <Phone className="w-5 h-5" />
-            </div>
-            <div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
-                Contacto Directo
-              </h4>
-              <p className="text-sm font-semibold text-slate-100">
-                biblioteca.famurp@urp.edu.pe
-              </p>
-              <p className="text-xs text-slate-400 mt-0.5">
-                Tel: +51 1 708-0000 Anexo 212
-              </p>
-            </div>
-          </div>
-        </div>
-
+      <div className="px-6 max-w-[1280px] mx-auto py-10">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="space-y-4">
             <div className="space-y-1.5">
@@ -83,12 +30,16 @@ export const Footer: React.FC = () => {
                   aria-label="Facebook Oficial FAMURP"
                   className="group flex items-center gap-2 text-slate-300 hover:text-white transition-all transform hover:scale-105 cursor-pointer"
                 >
-                  <svg className="w-5 h-5 drop-shadow-md transition-transform group-hover:scale-110" viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="12" fill="#1877F2" />
-                    <path
-                      fill="#FFFFFF"
-                      d="M14.5 12h-2v7h-3v-7h-1.5v-2.5H9.5V8c0-1.8 1-2.8 2.8-2.8h2.2v2.5h-1.4c-.9 0-1.1.4-1.1 1.1v.7h2.5L14.5 12z"
-                    />
+                  <svg
+                    className="w-5 h-5 transition-transform group-hover:scale-110"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
                   </svg>
                   <span className="text-xs font-semibold text-slate-300 group-hover:text-[#8cf9a9] transition-colors">
                     Facebook
