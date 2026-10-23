@@ -44,7 +44,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
 
   return (
     <>
-      <section className="relative bg-white text-slate-900 pt-10 pb-20 px-6 sm:px-8 border-b border-slate-200 overflow-hidden transition-colors duration-200">
+      <section className="relative bg-white text-slate-900 pt-10 pb-20 px-6 sm:px-8 border-b-4 border-[#008744] overflow-hidden transition-colors duration-200">
         <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
           {HERO_SLIDES.map((slide, idx) => (
             <img
@@ -127,7 +127,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
         </div>
       </section>
 
-      <section className="w-full bg-white border-b-4 border-[#008744] py-8 px-6 sm:px-8">
+      <section className="w-full bg-white border-b border-slate-200 py-8 px-6 sm:px-8">
         <div className="max-w-[760px] mx-auto space-y-3.5">
           <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-2.5">
             <div className="relative flex-1">
