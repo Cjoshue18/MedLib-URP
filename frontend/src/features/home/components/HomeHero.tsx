@@ -44,7 +44,7 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
 
   return (
     <>
-      <section className="relative bg-white text-slate-900 pt-10 pb-20 px-6 sm:px-8 border-b-4 border-[#008744] overflow-hidden transition-colors duration-200">
+      <section className="relative bg-white text-slate-900 pt-28 sm:pt-32 pb-20 px-6 sm:px-8 border-b-4 border-[#008744] overflow-hidden transition-colors duration-200">
         <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
           {HERO_SLIDES.map((slide, idx) => (
             <img

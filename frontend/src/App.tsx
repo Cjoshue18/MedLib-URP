@@ -98,7 +98,7 @@ export const App: React.FC = () => {
     <div className="flex flex-col min-h-screen bg-background text-on-background font-body-md antialiased selection:bg-primary-fixed selection:text-on-primary-fixed">
       <Navbar currentView={currentView} onNavigate={navigateTo} />
 
-      <div className="flex-grow">
+      <div className={`flex-grow ${currentView !== 'home' ? 'pt-20' : ''}`}>
         {currentView === 'home' && <HomePage onNavigate={navigateTo} />}
         {currentView === 'directory' && <DirectoryPage initialSearchQuery={directorySearchQuery} />}
         {currentView === 'conferences' && <ConferencesPage />}
