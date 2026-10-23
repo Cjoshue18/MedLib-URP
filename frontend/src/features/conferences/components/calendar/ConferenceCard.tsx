@@ -65,7 +65,7 @@ export const ConferenceCard: React.FC<ConferenceCardProps> = ({
                 </span>
               )}
               {isFinalizada && (
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-slate-950 text-slate-300 text-[10px] font-black border border-slate-700">
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-slate-950 text-slate-300 text-[10px] font-black border border-slate-800">
                   Finalizada
                 </span>
               )}

@@ -138,7 +138,7 @@ export const DatabaseAccordionCard: React.FC<DatabaseAccordionCardProps> = ({
               {detail.tags.map((tag, idx) => (
                 <span
                   key={idx}
-                  className="bg-slate-100 text-slate-700 border border-slate-200 px-2 py-0.5 rounded-md text-[10px] font-bold"
+                  className="bg-slate-100 text-slate-800 border border-slate-200 px-2 py-0.5 rounded-md text-[10px] font-bold"
                 >
                   {tag}
                 </span>
@@ -163,7 +163,7 @@ export const DatabaseAccordionCard: React.FC<DatabaseAccordionCardProps> = ({
             )}
           </div>
 
-          <div className="p-3.5 rounded-lg bg-slate-50 border border-slate-200 space-y-2 text-xs text-slate-700">
+          <div className="p-3.5 rounded-lg bg-slate-50 border border-slate-200 space-y-2 text-xs text-slate-800">
             <div
               className={`flex items-center justify-between ${
                 detail.hasMobileApp ? 'pb-1.5 border-b border-slate-200/80' : ''

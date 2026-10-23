@@ -47,6 +47,6 @@ export const getAcademicLevelBadgeClass = (level: string): string => {
     case 'Docente':
       return 'bg-white text-slate-800 border-slate-300';
     default:
-      return 'bg-white text-slate-700 border-slate-200';
+      return 'bg-white text-slate-800 border-slate-200';
   }
 };

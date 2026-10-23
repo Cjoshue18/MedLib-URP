@@ -4,11 +4,11 @@ import { INSTITUTIONAL_LINKS } from '../../constants/institutionalLinks';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="w-full text-white border-t-4 border-[#008744] bg-[#222222] mt-auto">
+    <footer className="w-full text-white border-t-4 border-[#008744] bg-[#0F172A] mt-auto">
       <div className="px-6 max-w-[1280px] mx-auto pt-12 pb-10 space-y-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-2">
           <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-full bg-[#008744]/20 flex items-center justify-center text-[#8cf9a9] shrink-0 mt-0.5">
+            <div className="w-10 h-10 rounded-full bg-[#008744]/20 flex items-center justify-center text-white shrink-0 mt-0.5">
               <Clock className="w-5 h-5" />
             </div>
             <div>
@@ -25,7 +25,7 @@ export const Footer: React.FC = () => {
           </div>
 
           <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-full bg-[#008744]/20 flex items-center justify-center text-[#8cf9a9] shrink-0 mt-0.5">
+            <div className="w-10 h-10 rounded-full bg-[#008744]/20 flex items-center justify-center text-white shrink-0 mt-0.5">
               <MapPin className="w-5 h-5" />
             </div>
             <div>
@@ -42,7 +42,7 @@ export const Footer: React.FC = () => {
           </div>
 
           <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-full bg-[#008744]/20 flex items-center justify-center text-[#8cf9a9] shrink-0 mt-0.5">
+            <div className="w-10 h-10 rounded-full bg-[#008744]/20 flex items-center justify-center text-white shrink-0 mt-0.5">
               <Phone className="w-5 h-5" />
             </div>
             <div>
@@ -52,7 +52,7 @@ export const Footer: React.FC = () => {
               <p className="text-sm font-semibold text-slate-100">
                 biblioteca.famurp@urp.edu.pe
               </p>
-              <p className="text-xs text-slate-400 mt-0.5 font-mono">
+              <p className="text-xs text-slate-400 mt-0.5">
                 Tel: +51 1 708-0000 Anexo 212
               </p>
             </div>
@@ -63,7 +63,7 @@ export const Footer: React.FC = () => {
           <div className="space-y-4">
             <div className="space-y-1.5">
               <span className="font-display text-xl sm:text-2xl text-white font-extrabold block">
-                MedLib URP
+                BVE-FAMURP
               </span>
               <p className="text-xs sm:text-sm text-slate-400 max-w-md leading-relaxed">
                 Biblioteca Virtual y Especializada de la Facultad de Medicina Humana - Universidad Ricardo Palma.
@@ -138,7 +138,7 @@ export const Footer: React.FC = () => {
         </div>
       </div>
 
-      <div className="border-t border-slate-800/80 bg-[#0F172A] py-5">
+      <div className="border-t border-slate-800/80 bg-[#020617] py-5">
         <div className="max-w-[1280px] mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
           <p>© {new Date().getFullYear()} Universidad Ricardo Palma. Todos los derechos reservados.</p>
           <p className="text-slate-400">

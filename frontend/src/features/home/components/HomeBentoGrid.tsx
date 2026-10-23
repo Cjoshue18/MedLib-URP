@@ -260,7 +260,7 @@ export const HomeBentoGrid: React.FC<HomeBentoGridProps> = () => {
                 className="fill-white group-hover:fill-white stroke-[#0F172A] group-hover:stroke-[#008744] stroke-[2] group-hover:stroke-[2.5] transition-all duration-200"
               />
             </svg>
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-700 group-hover:text-[#008744] transition-colors p-1 select-none pointer-events-none">
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-800 group-hover:text-[#008744] transition-colors p-1 select-none pointer-events-none">
               <RotateCcw
                 className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-500 ${
                   isAllFlipped ? 'rotate-180 text-[#008744]' : 'group-hover:-rotate-45'

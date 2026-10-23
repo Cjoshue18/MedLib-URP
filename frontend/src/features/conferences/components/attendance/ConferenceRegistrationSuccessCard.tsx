@@ -138,7 +138,7 @@ export const ConferenceRegistrationSuccessCard: React.FC<ConferenceRegistrationS
                   href={conference.enlaceVirtual}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-xs font-mono font-bold text-[#008744] hover:underline break-all block pt-0.5"
+                  className="text-xs font-sans font-bold text-[#008744] hover:underline break-all block pt-0.5"
                 >
                   {conference.enlaceVirtual}
                 </a>
@@ -187,7 +187,7 @@ export const ConferenceRegistrationSuccessCard: React.FC<ConferenceRegistrationS
                 type="text"
                 readOnly
                 value={registrationLink}
-                className="bg-transparent text-xs font-mono text-slate-700 flex-1 outline-none truncate"
+                className="bg-transparent text-xs font-sans text-slate-800 flex-1 outline-none truncate"
               />
               <button
                 type="button"

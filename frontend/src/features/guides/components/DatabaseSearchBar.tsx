@@ -47,7 +47,7 @@ export const DatabaseSearchBar: React.FC<DatabaseSearchBarProps> = ({
               <button
                 type="button"
                 onClick={() => onSearchChange('')}
-                className="p-1 text-slate-400 hover:text-slate-700 rounded-lg cursor-pointer transition-colors shrink-0"
+                className="p-1 text-slate-400 hover:text-slate-800 rounded-lg cursor-pointer transition-colors shrink-0"
                 title="Limpiar búsqueda"
               >
                 <X className="w-4 h-4" />
@@ -66,7 +66,7 @@ export const DatabaseSearchBar: React.FC<DatabaseSearchBarProps> = ({
                 <option value="subscription">Suscripción URP</option>
                 <option value="open">Acceso Abierto</option>
               </select>
-              <ChevronDown className="w-4 h-4 text-slate-700 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none stroke-[2.5]" />
+              <ChevronDown className="w-4 h-4 text-slate-800 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none stroke-[2.5]" />
             </div>
           )}
 
@@ -138,7 +138,7 @@ export const DatabaseSearchBar: React.FC<DatabaseSearchBarProps> = ({
                 <select
                   value={licenseFilter || 'all'}
                   onChange={(e) => onLicenseFilterChange(e.target.value as 'all' | 'subscription' | 'open')}
-                  className="appearance-none py-2 pl-3 pr-8 rounded-lg border border-slate-300 text-xs font-semibold text-slate-700 bg-white focus:border-[#008744] outline-none cursor-pointer hover:bg-slate-50 transition-colors"
+                  className="appearance-none py-2 pl-3 pr-8 rounded-lg border border-slate-300 text-xs font-semibold text-slate-800 bg-white focus:border-[#008744] outline-none cursor-pointer hover:bg-slate-50 transition-colors"
                 >
                   <option value="all">Todas las licencias</option>
                   <option value="subscription">Suscripción URP</option>
@@ -153,7 +153,7 @@ export const DatabaseSearchBar: React.FC<DatabaseSearchBarProps> = ({
                 <select
                   value={statusFilter || 'all'}
                   onChange={(e) => onStatusFilterChange(e.target.value as 'all' | 'active' | 'inactive')}
-                  className="appearance-none py-2 pl-3 pr-8 rounded-lg border border-slate-300 text-xs font-semibold text-slate-700 bg-white focus:border-[#008744] outline-none cursor-pointer hover:bg-slate-50 transition-colors"
+                  className="appearance-none py-2 pl-3 pr-8 rounded-lg border border-slate-300 text-xs font-semibold text-slate-800 bg-white focus:border-[#008744] outline-none cursor-pointer hover:bg-slate-50 transition-colors"
                 >
                   <option value="all">Todos los estados</option>
                   <option value="active">Solo Activos</option>

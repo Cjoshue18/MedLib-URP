@@ -67,7 +67,7 @@ export const ConferenceParticipantFormFields: React.FC<ConferenceParticipantForm
               className={`w-full py-2.5 px-3 rounded-lg text-xs font-extrabold border transition-all cursor-pointer flex items-center justify-center gap-1 ${
                 isEstudianteActive
                   ? 'bg-[#008744] text-white border-slate-900 shadow-urp-brutal-sm'
-                  : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                  : 'bg-white text-slate-800 border-slate-200 hover:bg-slate-50'
               }`}
             >
               <span>
@@ -91,7 +91,7 @@ export const ConferenceParticipantFormFields: React.FC<ConferenceParticipantForm
                   className={`w-full text-left px-3 py-2 text-xs font-bold transition-colors cursor-pointer flex items-center justify-between ${
                     tipoParticipante === 'Pregrado' || tipoParticipante === 'Estudiante'
                       ? 'bg-emerald-50 text-[#008744]'
-                      : 'text-slate-700 hover:bg-slate-50'
+                      : 'text-slate-800 hover:bg-slate-50'
                   }`}
                 >
                   <span>Pregrado</span>
@@ -108,7 +108,7 @@ export const ConferenceParticipantFormFields: React.FC<ConferenceParticipantForm
                   className={`w-full text-left px-3 py-2 text-xs font-bold transition-colors cursor-pointer flex items-center justify-between ${
                     tipoParticipante === 'Posgrado'
                       ? 'bg-emerald-50 text-[#008744]'
-                      : 'text-slate-700 hover:bg-slate-50'
+                      : 'text-slate-800 hover:bg-slate-50'
                   }`}
                 >
                   <span>Posgrado</span>
@@ -131,7 +131,7 @@ export const ConferenceParticipantFormFields: React.FC<ConferenceParticipantForm
               className={`py-2.5 px-3 rounded-lg text-xs font-extrabold border transition-all cursor-pointer ${
                 tipoParticipante === rol
                   ? 'bg-[#008744] text-white border-slate-900 shadow-urp-brutal-sm'
-                  : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                  : 'bg-white text-slate-800 border-slate-200 hover:bg-slate-50'
               }`}
             >
               {rol}
@@ -178,7 +178,7 @@ export const ConferenceParticipantFormFields: React.FC<ConferenceParticipantForm
             }
             maxLength={tipoDocumento === 'DNI' ? 8 : 9}
             required
-            className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 bg-slate-50 text-xs font-mono font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#008744]"
+            className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 bg-slate-50 text-xs font-sans font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#008744]"
           />
         </div>
       </div>

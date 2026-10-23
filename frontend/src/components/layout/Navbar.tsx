@@ -90,7 +90,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="relative z-10 md:hidden text-slate-700 hover:text-[#008744] hover:bg-slate-100 flex items-center justify-center w-10 h-10 rounded-lg cursor-pointer"
+              className="relative z-10 md:hidden text-slate-800 hover:text-[#008744] hover:bg-slate-100 flex items-center justify-center w-10 h-10 rounded-lg cursor-pointer"
               aria-label="Toggle Menu"
             >
               <span className="material-symbols-outlined text-2xl">

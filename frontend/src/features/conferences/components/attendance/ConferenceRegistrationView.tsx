@@ -164,7 +164,7 @@ export const ConferenceRegistrationView: React.FC<ConferenceRegistrationViewProp
       <button
         type="button"
         onClick={onBackToCalendar}
-        className="inline-flex items-center gap-2 text-xs font-bold text-slate-700 hover:text-[#008744] px-3.5 py-2 rounded-lg bg-white border border-slate-200 shadow-xs hover:border-slate-300 transition-colors cursor-pointer"
+        className="inline-flex items-center gap-2 text-xs font-bold text-slate-800 hover:text-[#008744] px-3.5 py-2 rounded-lg bg-white border border-slate-200 shadow-xs hover:border-slate-300 transition-colors cursor-pointer"
       >
         <ArrowLeft className="w-4 h-4" />
         <span>Volver al Calendario de Conferencias</span>

@@ -65,7 +65,7 @@ export const ConferenceMonthlyCalendar: React.FC<ConferenceMonthlyCalendarProps>
             type="button"
             onClick={onPrevMonth}
             disabled={!canGoPrev}
-            className="w-7 h-7 rounded-lg border border-slate-200 flex items-center justify-center hover:bg-slate-100 text-slate-700 cursor-pointer transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+            className="w-7 h-7 rounded-lg border border-slate-200 flex items-center justify-center hover:bg-slate-100 text-slate-800 cursor-pointer transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
             title={canGoPrev ? 'Mes anterior' : 'Límite: máximo 1 mes atrás'}
           >
             <ChevronLeft className="w-4 h-4" />
@@ -73,7 +73,7 @@ export const ConferenceMonthlyCalendar: React.FC<ConferenceMonthlyCalendarProps>
           <button
             type="button"
             onClick={onNextMonth}
-            className="w-7 h-7 rounded-lg border border-slate-200 flex items-center justify-center hover:bg-slate-100 text-slate-700 cursor-pointer transition-colors"
+            className="w-7 h-7 rounded-lg border border-slate-200 flex items-center justify-center hover:bg-slate-100 text-slate-800 cursor-pointer transition-colors"
             title="Mes siguiente"
           >
             <ChevronRight className="w-4 h-4" />
@@ -106,7 +106,7 @@ export const ConferenceMonthlyCalendar: React.FC<ConferenceMonthlyCalendarProps>
           } else if (isToday) {
             styleClasses += ' border border-[#008744] text-[#008744] font-bold';
           } else {
-            styleClasses += ' text-slate-700 hover:bg-slate-100/60';
+            styleClasses += ' text-slate-800 hover:bg-slate-100/60';
           }
 
           return (
