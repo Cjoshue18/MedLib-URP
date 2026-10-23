@@ -95,7 +95,7 @@ export const App: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-white text-slate-900 font-body-md antialiased selection:bg-[#8CF9A9] selection:text-[#0F172A]">
+    <div className="flex flex-col min-h-screen bg-white text-slate-900 font-sans antialiased selection:bg-[#8CF9A9] selection:text-[#0F172A]">
       <Navbar currentView={currentView} onNavigate={navigateTo} />
 
       <div className={`flex-grow ${currentView !== 'home' ? 'pt-20' : ''}`}>

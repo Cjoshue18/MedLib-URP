@@ -49,7 +49,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
             <nav className="relative z-10 hidden md:flex items-center gap-6 lg:gap-8">
               <button
                 onClick={() => onNavigate('directory')}
-                className={`font-label-md text-label-md transition-colors duration-200 cursor-pointer ${
+                className={`font-sans text-sm font-semibold transition-colors duration-200 cursor-pointer ${
                   currentView === 'directory'
                     ? 'text-[#008744] border-b-2 border-[#008744] pb-1 font-semibold'
                     : 'text-slate-600 hover:text-[#008744]'
@@ -59,7 +59,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
               </button>
               <button
                 onClick={() => onNavigate('conferences')}
-                className={`font-label-md text-label-md transition-colors duration-200 cursor-pointer ${
+                className={`font-sans text-sm font-semibold transition-colors duration-200 cursor-pointer ${
                   currentView === 'conferences'
                     ? 'text-[#008744] border-b-2 border-[#008744] pb-1 font-semibold'
                     : 'text-slate-600 hover:text-[#008744]'
@@ -69,7 +69,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
               </button>
               <button
                 onClick={() => onNavigate('lost-found')}
-                className={`font-label-md text-label-md transition-colors duration-200 cursor-pointer ${
+                className={`font-sans text-sm font-semibold transition-colors duration-200 cursor-pointer ${
                   currentView === 'lost-found'
                     ? 'text-[#008744] border-b-2 border-[#008744] pb-1 font-semibold'
                     : 'text-slate-600 hover:text-[#008744]'
@@ -81,7 +81,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
                 href="https://biblioteca.urp.edu.pe/abnopac/"
                 target="_blank"
                 rel="noreferrer"
-                className="text-slate-600 hover:text-[#008744] font-label-md text-label-md transition-colors duration-200 inline-flex items-center gap-1.5"
+                className="text-slate-600 hover:text-[#008744] font-sans text-sm font-semibold transition-colors duration-200 inline-flex items-center gap-1.5"
               >
                 <span>Catálogo de Libros</span>
                 <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
@@ -110,25 +110,25 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
           >
             <button
               onClick={() => { onNavigate('home'); setMobileMenuOpen(false); }}
-              className="block w-full text-left py-2 font-label-md text-slate-800 hover:text-[#008744]"
+              className="block w-full text-left py-2 font-sans text-sm font-semibold text-slate-800 hover:text-[#008744]"
             >
               Inicio
             </button>
             <button
               onClick={() => { onNavigate('directory'); setMobileMenuOpen(false); }}
-              className="block w-full text-left py-2 font-label-md text-slate-800 hover:text-[#008744]"
+              className="block w-full text-left py-2 font-sans text-sm font-semibold text-slate-800 hover:text-[#008744]"
             >
               Bases de Datos
             </button>
             <button
               onClick={() => { onNavigate('conferences'); setMobileMenuOpen(false); }}
-              className="block w-full text-left py-2 font-label-md text-slate-800 hover:text-[#008744]"
+              className="block w-full text-left py-2 font-sans text-sm font-semibold text-slate-800 hover:text-[#008744]"
             >
               Conferencias
             </button>
             <button
               onClick={() => { onNavigate('lost-found'); setMobileMenuOpen(false); }}
-              className="block w-full text-left py-2 font-label-md text-slate-800 hover:text-[#008744]"
+              className="block w-full text-left py-2 font-sans text-sm font-semibold text-slate-800 hover:text-[#008744]"
             >
               Objetos Perdidos
             </button>
@@ -136,7 +136,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
               href="https://biblioteca.urp.edu.pe/abnopac/"
               target="_blank"
               rel="noreferrer"
-              className="block w-full text-left py-2 font-label-md text-slate-800 hover:text-[#008744] inline-flex items-center gap-1.5"
+              className="block w-full text-left py-2 font-sans text-sm font-semibold text-slate-800 hover:text-[#008744] inline-flex items-center gap-1.5"
             >
               <span>Catálogo de Libros</span>
               <ExternalLink className="w-3.5 h-3.5 text-slate-400" />

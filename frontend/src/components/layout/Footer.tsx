@@ -4,7 +4,7 @@ import { INSTITUTIONAL_LINKS } from '../../constants/institutionalLinks';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="w-full text-white border-t-4 border-[#008744] bg-[#0F172A] mt-auto">
+    <footer className="w-full text-white bg-[#0F172A] mt-auto">
       <div className="px-6 max-w-[1280px] mx-auto py-10">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="space-y-4">

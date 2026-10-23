@@ -76,27 +76,6 @@ h1, h2, h3, h4, h5, h6 {
   animation: shimmer-sweep 4s ease-in-out infinite;
 }
 
-.font-headline-md {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 24px;
-  line-height: 32px;
-  font-weight: 700;
-}
-
-.font-body-md {
-  font-family: 'Inter', sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
-}
-
-.font-label-md {
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  line-height: 20px;
-  letter-spacing: 0.01em;
-  font-weight: 600;
-}
 
 .shadow-urp-brutal {
   box-shadow: 4px 4px 0px #0f172a;
