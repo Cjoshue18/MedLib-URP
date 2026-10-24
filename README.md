@@ -1,4 +1,4 @@
-# MedLib URP
+# BVE FAMURP
 
 > Biblioteca Virtual y Especializada de la Facultad de Medicina Humana "Manuel Velasco Suárez"
 > Universidad Ricardo Palma, Lima, Perú
@@ -7,7 +7,7 @@
 
 ## Descripción Institucional
 
-MedLib URP es la plataforma digital de la Biblioteca Virtual y Especializada de la Facultad de Medicina Humana de la Universidad Ricardo Palma. Centraliza el acceso a recursos electrónicos médicos, soporte de decisiones clínicas, revistas médicas internacionales y la gestión de capacitaciones y acreditaciones de Alfabetización Informacional (ALFIN) para pregrado, internado y residentado médico.
+BVE FAMURP es la plataforma digital de la Biblioteca Virtual y Especializada de la Facultad de Medicina Humana de la Universidad Ricardo Palma. Centraliza el acceso a recursos electrónicos médicos, soporte de decisiones clínicas, revistas médicas internacionales y la gestión de capacitaciones y acreditaciones de Alfabetización Informacional (ALFIN) para pregrado, internado y residentado médico.
 
 ---
 
