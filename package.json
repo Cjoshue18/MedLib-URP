@@ -9,5 +9,11 @@
     "build": "corepack pnpm --filter medlib-urp-frontend build",
     "preview": "corepack pnpm --filter medlib-urp-frontend preview",
     "typecheck": "corepack pnpm --filter medlib-urp-frontend typecheck"
+  },
+  "pnpm": {
+    "overrides": {
+      "source-map-js": ">=1.2.2",
+      "postcss-selector-parser": ">=7.1.6"
+    }
   }
 }
