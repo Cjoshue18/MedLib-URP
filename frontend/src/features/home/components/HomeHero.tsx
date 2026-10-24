@@ -58,22 +58,24 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
         className="relative bg-[#0F172A] text-slate-900 pt-28 sm:pt-32 pb-20 px-6 sm:px-8 border-b-4 border-[#008744] overflow-hidden transition-colors duration-200"
       >
         <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
-          {HERO_SLIDES.map((slide, idx) => (
-            <img
-              key={slide.id}
-              src={slide.src}
-              alt={slide.alt}
-              loading={idx === 0 ? 'eager' : 'lazy'}
-              decoding={idx === 0 ? 'sync' : 'async'}
-              fetchPriority={idx === 0 ? 'high' : 'low'}
-              className={`absolute inset-0 w-full h-full object-cover object-center ${
-                idx === currentSlide ? 'hero-slide-active' : 'hero-slide-inactive'
-              }`}
-            />
-          ))}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0F172A] via-[#0F172A]/40 to-transparent via-40% to-70%"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/25 via-transparent to-transparent"></div>
-          <div className="absolute inset-0 bg-grid-pattern-dark opacity-20 pointer-events-none"></div>
+          <div className="absolute inset-0 z-0">
+            {HERO_SLIDES.map((slide, idx) => (
+              <img
+                key={slide.id}
+                src={slide.src}
+                alt={slide.alt}
+                loading={idx === 0 ? 'eager' : 'lazy'}
+                decoding={idx === 0 ? 'sync' : 'async'}
+                fetchPriority={idx === 0 ? 'high' : 'low'}
+                className={`absolute inset-0 w-full h-full object-cover object-center ${
+                  idx === currentSlide ? 'hero-slide-active' : 'hero-slide-inactive'
+                }`}
+              />
+            ))}
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0F172A] via-[#0F172A]/40 to-transparent via-40% to-70% z-10"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/25 via-transparent to-transparent z-10"></div>
+          <div className="absolute inset-0 bg-grid-pattern-dark opacity-40 pointer-events-none z-20"></div>
         </div>
 
         <div className="max-w-[1280px] mx-auto relative z-10">
