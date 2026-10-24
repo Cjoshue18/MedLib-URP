@@ -1,5 +1,4 @@
 import React from 'react';
-import { ExternalLink } from 'lucide-react';
 import { INSTITUTIONAL_LINKS } from '../../constants/institutionalLinks';
 
 export const Footer: React.FC = () => {
@@ -75,17 +74,6 @@ export const Footer: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex items-center">
-            <a
-              href="https://www.urp.edu.pe/"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#00A859] hover:bg-[#008744] text-white text-xs sm:text-sm font-bold tactile-btn-green transition-all cursor-pointer"
-            >
-              <span>Portal Principal URP (urp.edu.pe)</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-          </div>
         </div>
       </div>
 
