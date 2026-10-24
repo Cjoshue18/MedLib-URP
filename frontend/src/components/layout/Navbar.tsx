@@ -9,7 +9,8 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(() => typeof window !== 'undefined' && window.scrollY > 15);
+  const isNonHome = currentView !== 'home';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,7 +30,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
               onNavigate(view);
               setMobileMenuOpen(false);
             }}
-            isLightBackground={currentView !== 'home'}
+            isLightBackground={isNonHome}
             className="pointer-events-auto"
           />
         </div>
@@ -39,10 +40,14 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
         <div className="max-w-[1280px] mx-auto px-6 sm:px-8 flex justify-end items-center w-full h-20">
           <div className="relative pointer-events-auto h-20 flex items-center">
             <div
-              className={`absolute top-0 bottom-0 -left-6 sm:-left-8 -right-[100vw] rounded-bl-3xl border-b border-l pointer-events-none transition-all duration-300 ease-in-out ${
-                isScrolled
-                  ? 'bg-white/75 backdrop-blur-md border-slate-200/70 shadow-md'
-                  : 'bg-white border-slate-200 shadow-sm'
+              className={`absolute top-0 bottom-0 -left-6 sm:-left-8 -right-[100vw] rounded-bl-3xl border-b border-l pointer-events-none transition-colors duration-200 ${
+                isNonHome
+                  ? isScrolled
+                    ? 'bg-[#0F172A]/90 backdrop-blur-md border-slate-800 shadow-md'
+                    : 'bg-[#0F172A] border-slate-800 shadow-sm'
+                  : isScrolled
+                    ? 'bg-white/75 backdrop-blur-md border-slate-200/70 shadow-md'
+                    : 'bg-white border-slate-200 shadow-sm'
               }`}
             />
 
@@ -51,8 +56,12 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
                 onClick={() => onNavigate('directory')}
                 className={`font-sans text-sm font-semibold transition-colors duration-200 cursor-pointer ${
                   currentView === 'directory'
-                    ? 'text-[#008744] border-b-2 border-[#008744] pb-1 font-semibold'
-                    : 'text-slate-600 hover:text-[#008744]'
+                    ? isNonHome
+                      ? 'text-[#8CF9A9] border-b-2 border-[#8CF9A9] pb-1'
+                      : 'text-[#008744] border-b-2 border-[#008744] pb-1'
+                    : isNonHome
+                      ? 'text-slate-300 hover:text-white'
+                      : 'text-slate-600 hover:text-[#008744]'
                 }`}
               >
                 Bases de Datos
@@ -61,8 +70,12 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
                 onClick={() => onNavigate('conferences')}
                 className={`font-sans text-sm font-semibold transition-colors duration-200 cursor-pointer ${
                   currentView === 'conferences'
-                    ? 'text-[#008744] border-b-2 border-[#008744] pb-1 font-semibold'
-                    : 'text-slate-600 hover:text-[#008744]'
+                    ? isNonHome
+                      ? 'text-[#8CF9A9] border-b-2 border-[#8CF9A9] pb-1'
+                      : 'text-[#008744] border-b-2 border-[#008744] pb-1'
+                    : isNonHome
+                      ? 'text-slate-300 hover:text-white'
+                      : 'text-slate-600 hover:text-[#008744]'
                 }`}
               >
                 Conferencias
@@ -71,8 +84,12 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
                 onClick={() => onNavigate('lost-found')}
                 className={`font-sans text-sm font-semibold transition-colors duration-200 cursor-pointer ${
                   currentView === 'lost-found'
-                    ? 'text-[#008744] border-b-2 border-[#008744] pb-1 font-semibold'
-                    : 'text-slate-600 hover:text-[#008744]'
+                    ? isNonHome
+                      ? 'text-[#8CF9A9] border-b-2 border-[#8CF9A9] pb-1'
+                      : 'text-[#008744] border-b-2 border-[#008744] pb-1'
+                    : isNonHome
+                      ? 'text-slate-300 hover:text-white'
+                      : 'text-slate-600 hover:text-[#008744]'
                 }`}
               >
                 Objetos Perdidos
@@ -81,16 +98,22 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
                 href="https://biblioteca.urp.edu.pe/abnopac/"
                 target="_blank"
                 rel="noreferrer"
-                className="text-slate-600 hover:text-[#008744] font-sans text-sm font-semibold transition-colors duration-200 inline-flex items-center gap-1.5"
+                className={`font-sans text-sm font-semibold transition-colors duration-200 inline-flex items-center gap-1.5 ${
+                  isNonHome ? 'text-slate-300 hover:text-white' : 'text-slate-600 hover:text-[#008744]'
+                }`}
               >
                 <span>Catálogo de Libros</span>
-                <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+                <ExternalLink className={`w-3.5 h-3.5 ${isNonHome ? 'text-slate-400' : 'text-slate-400'}`} />
               </a>
             </nav>
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="relative z-10 md:hidden text-slate-800 hover:text-[#008744] hover:bg-slate-100 flex items-center justify-center w-10 h-10 rounded-lg cursor-pointer"
+              className={`relative z-10 md:hidden flex items-center justify-center w-10 h-10 rounded-lg cursor-pointer transition-colors ${
+                isNonHome
+                  ? 'text-white hover:text-[#8CF9A9] hover:bg-slate-800'
+                  : 'text-slate-800 hover:text-[#008744] hover:bg-slate-100'
+              }`}
               aria-label="Toggle Menu"
             >
               <span className="material-symbols-outlined text-2xl">
@@ -103,32 +126,44 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
         {mobileMenuOpen && (
           <div
             className={`md:hidden border-t border-b shadow-md px-6 py-4 space-y-3 pointer-events-auto transition-all duration-300 ${
-              isScrolled
-                ? 'bg-white/85 backdrop-blur-md border-slate-200/70'
-                : 'bg-white border-slate-200'
+              isNonHome
+                ? isScrolled
+                  ? 'bg-[#0F172A]/90 backdrop-blur-md border-slate-800 text-white'
+                  : 'bg-[#0F172A] border-slate-800 text-white'
+                : isScrolled
+                  ? 'bg-white/85 backdrop-blur-md border-slate-200/70 text-slate-800'
+                  : 'bg-white border-slate-200 text-slate-800'
             }`}
           >
             <button
               onClick={() => { onNavigate('home'); setMobileMenuOpen(false); }}
-              className="block w-full text-left py-2 font-sans text-sm font-semibold text-slate-800 hover:text-[#008744]"
+              className={`block w-full text-left py-2 font-sans text-sm font-semibold ${
+                isNonHome ? 'text-slate-200 hover:text-[#8CF9A9]' : 'text-slate-800 hover:text-[#008744]'
+              }`}
             >
               Inicio
             </button>
             <button
               onClick={() => { onNavigate('directory'); setMobileMenuOpen(false); }}
-              className="block w-full text-left py-2 font-sans text-sm font-semibold text-slate-800 hover:text-[#008744]"
+              className={`block w-full text-left py-2 font-sans text-sm font-semibold ${
+                isNonHome ? 'text-slate-200 hover:text-[#8CF9A9]' : 'text-slate-800 hover:text-[#008744]'
+              }`}
             >
               Bases de Datos
             </button>
             <button
               onClick={() => { onNavigate('conferences'); setMobileMenuOpen(false); }}
-              className="block w-full text-left py-2 font-sans text-sm font-semibold text-slate-800 hover:text-[#008744]"
+              className={`block w-full text-left py-2 font-sans text-sm font-semibold ${
+                isNonHome ? 'text-slate-200 hover:text-[#8CF9A9]' : 'text-slate-800 hover:text-[#008744]'
+              }`}
             >
               Conferencias
             </button>
             <button
               onClick={() => { onNavigate('lost-found'); setMobileMenuOpen(false); }}
-              className="block w-full text-left py-2 font-sans text-sm font-semibold text-slate-800 hover:text-[#008744]"
+              className={`block w-full text-left py-2 font-sans text-sm font-semibold ${
+                isNonHome ? 'text-slate-200 hover:text-[#8CF9A9]' : 'text-slate-800 hover:text-[#008744]'
+              }`}
             >
               Objetos Perdidos
             </button>
@@ -136,7 +171,9 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
               href="https://biblioteca.urp.edu.pe/abnopac/"
               target="_blank"
               rel="noreferrer"
-              className="block w-full text-left py-2 font-sans text-sm font-semibold text-slate-800 hover:text-[#008744] inline-flex items-center gap-1.5"
+              className={`block w-full text-left py-2 font-sans text-sm font-semibold inline-flex items-center gap-1.5 ${
+                isNonHome ? 'text-slate-200 hover:text-[#8CF9A9]' : 'text-slate-800 hover:text-[#008744]'
+              }`}
             >
               <span>Catálogo de Libros</span>
               <ExternalLink className="w-3.5 h-3.5 text-slate-400" />

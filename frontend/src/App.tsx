@@ -12,9 +12,32 @@ import { triggerSilentWarmup } from './core/services/warmupService';
 export type { AppView } from './core/types/navigation';
 import type { AppView } from './core/types/navigation';
 
+const parseHashRoute = (): { view: AppView; query: string } => {
+  if (typeof window === 'undefined') return { view: 'home', query: '' };
+  const fullHash = window.location.hash;
+  const [rawRoute, rawQuery] = fullHash.split('?');
+  const hash = rawRoute.toLowerCase();
+  const params = new URLSearchParams(rawQuery || '');
+  const query = params.get('q') || '';
+
+  if (hash === '#directorio' || hash === '#catalogo') {
+    return { view: 'directory', query };
+  }
+  if (hash === '#conferencias') {
+    return { view: 'conferences', query: '' };
+  }
+  if (hash === '#objetos-perdidos' || hash === '#comunidad') {
+    return { view: 'lost-found', query: '' };
+  }
+  if (hash === '#gestion-bibliotecaria-famurp') {
+    return { view: 'admin', query: '' };
+  }
+  return { view: 'home', query: '' };
+};
+
 export const App: React.FC = () => {
-  const [currentView, setCurrentView] = useState<AppView>('home');
-  const [directorySearchQuery, setDirectorySearchQuery] = useState('');
+  const [currentView, setCurrentView] = useState<AppView>(() => parseHashRoute().view);
+  const [directorySearchQuery, setDirectorySearchQuery] = useState(() => parseHashRoute().query);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
