@@ -75,7 +75,6 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
           </div>
           <div className="absolute inset-0 bg-gradient-to-r from-[#0F172A] via-[#0F172A]/40 to-transparent via-40% to-70% z-10"></div>
           <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/25 via-transparent to-transparent z-10"></div>
-          <div className="absolute inset-0 bg-grid-pattern-dark opacity-40 pointer-events-none z-20"></div>
         </div>
 
         <div className="max-w-[1280px] mx-auto relative z-10">
