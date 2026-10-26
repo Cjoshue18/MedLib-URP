@@ -176,10 +176,13 @@ export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
             <div className="relative flex-1">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input
+                id="home-search-input"
+                name="search"
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Buscar base de datos, por materia académica o recurso..."
+                aria-label="Buscar base de datos, por materia académica o recurso"
                 className="w-full pl-12 pr-4 py-3.5 bg-white text-slate-900 rounded-lg border border-slate-300 font-sans text-sm focus:outline-none focus:ring-2 focus:ring-[#00a859] shadow-md transition-all"
               />
             </div>

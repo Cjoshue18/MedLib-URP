@@ -10,6 +10,8 @@ interface DatabaseSearchBarProps {
   onStatusFilterChange?: (value: 'all' | 'active' | 'inactive') => void;
   actionsRight?: React.ReactNode;
   variant?: 'panel' | 'hero';
+  id?: string;
+  name?: string;
 }
 
 export const DatabaseSearchBar: React.FC<DatabaseSearchBarProps> = ({
@@ -22,6 +24,8 @@ export const DatabaseSearchBar: React.FC<DatabaseSearchBarProps> = ({
   onStatusFilterChange,
   actionsRight,
   variant = 'panel',
+  id = 'database-search',
+  name = 'search',
 }) => {
   if (variant === 'hero') {
     return (
@@ -33,10 +37,13 @@ export const DatabaseSearchBar: React.FC<DatabaseSearchBarProps> = ({
           <div className="relative flex-1 bg-white rounded-lg border border-slate-200 shadow-sm focus-within:border-[#008744] focus-within:ring-2 focus-within:ring-[#008744]/20 px-4 h-11 flex items-center gap-2.5 transition-all">
             <Search className="w-4 sm:w-5 h-4 sm:h-5 text-slate-400 shrink-0" />
             <input
+              id={`${id}-hero-input`}
+              name={name}
               type="text"
               value={searchTerm}
               onChange={(e) => onSearchChange(e.target.value)}
               placeholder={placeholder}
+              aria-label={placeholder}
               className="w-full text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 bg-transparent outline-none font-medium"
             />
             {searchTerm && (
@@ -54,6 +61,9 @@ export const DatabaseSearchBar: React.FC<DatabaseSearchBarProps> = ({
           {onLicenseFilterChange && (
             <div className="relative shrink-0 w-full sm:w-auto">
               <select
+                id={`${id}-hero-license-filter`}
+                name="licenseFilter"
+                aria-label="Filtrar por tipo de licencia"
                 value={licenseFilter || 'all'}
                 onChange={(e) => onLicenseFilterChange(e.target.value as 'all' | 'subscription' | 'open')}
                 className="w-full sm:w-auto h-11 appearance-none pl-4 pr-10 rounded-lg border border-slate-200 bg-white text-xs font-bold text-slate-800 shadow-sm outline-none cursor-pointer hover:bg-slate-50 hover:border-slate-300 focus:border-[#008744] focus:ring-2 focus:ring-[#008744]/20 transition-all flex items-center"
@@ -79,10 +89,13 @@ export const DatabaseSearchBar: React.FC<DatabaseSearchBarProps> = ({
         <div className="relative flex-1">
           <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
+            id={`${id}-panel-input`}
+            name={name}
             type="text"
             value={searchTerm}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder={placeholder}
+            aria-label={placeholder}
             className="w-full pl-10 pr-9 py-2 rounded-lg border border-slate-300 text-sm focus:border-[#008744] focus:ring-1 focus:ring-[#008744] outline-none transition-colors"
           />
           {searchTerm && (
@@ -101,6 +114,9 @@ export const DatabaseSearchBar: React.FC<DatabaseSearchBarProps> = ({
             {onLicenseFilterChange && (
               <div className="relative">
                 <select
+                  id={`${id}-panel-license-filter`}
+                  name="licenseFilter"
+                  aria-label="Filtrar por tipo de licencia"
                   value={licenseFilter || 'all'}
                   onChange={(e) => onLicenseFilterChange(e.target.value as 'all' | 'subscription' | 'open')}
                   className="appearance-none py-2 pl-3 pr-8 rounded-lg border border-slate-300 text-xs font-semibold text-slate-800 bg-white focus:border-[#008744] outline-none cursor-pointer hover:bg-slate-50 transition-colors"
@@ -116,6 +132,9 @@ export const DatabaseSearchBar: React.FC<DatabaseSearchBarProps> = ({
             {onStatusFilterChange && (
               <div className="relative">
                 <select
+                  id={`${id}-panel-status-filter`}
+                  name="statusFilter"
+                  aria-label="Filtrar por estado del recurso"
                   value={statusFilter || 'all'}
                   onChange={(e) => onStatusFilterChange(e.target.value as 'all' | 'active' | 'inactive')}
                   className="appearance-none py-2 pl-3 pr-8 rounded-lg border border-slate-300 text-xs font-semibold text-slate-800 bg-white focus:border-[#008744] outline-none cursor-pointer hover:bg-slate-50 transition-colors"

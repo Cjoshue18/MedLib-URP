@@ -184,9 +184,12 @@ export const ConferenceRegistrationSuccessCard: React.FC<ConferenceRegistrationS
             <div className="flex items-center gap-2 bg-white p-2 rounded-lg border border-slate-200 shadow-2xs">
               <LinkIcon className="w-4 h-4 text-slate-400 shrink-0 ml-1" />
               <input
+                id="registration-share-link"
+                name="registrationLink"
                 type="text"
                 readOnly
                 value={registrationLink}
+                aria-label="Enlace de registro a la conferencia"
                 className="bg-transparent text-xs font-sans text-slate-800 flex-1 outline-none truncate"
               />
               <button
