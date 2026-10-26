@@ -67,7 +67,7 @@ export const BoletinSubscriptionCard: React.FC<BoletinSubscriptionCardProps> = (
 
   return (
     <div
-      className={`bg-white rounded-2xl shadow-xl overflow-hidden ${className}`.trim()}
+      className={`bg-white rounded-lg shadow-xl overflow-hidden ${className}`.trim()}
     >
       <div className="relative bg-gradient-to-br from-[#00A859] to-[#008744] p-5 sm:p-6 pb-7 text-white overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_15%,rgba(255,255,255,0.14),transparent_55%)] pointer-events-none" />
@@ -81,7 +81,7 @@ export const BoletinSubscriptionCard: React.FC<BoletinSubscriptionCardProps> = (
         </p>
       </div>
 
-      <div className="-mt-3.5 relative z-10 bg-white rounded-t-2xl p-4 sm:p-5 space-y-4 text-slate-900">
+      <div className="-mt-3.5 relative z-10 bg-white rounded-t-lg p-4 sm:p-5 space-y-4 text-slate-900">
         <div>
           <div className="flex items-center justify-between text-xs mb-1.5">
             <label
@@ -139,8 +139,8 @@ export const BoletinSubscriptionCard: React.FC<BoletinSubscriptionCardProps> = (
                 className="w-full pl-9 pr-3.5 py-2.5 rounded-lg border border-slate-300 bg-slate-50 text-xs sm:text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#008744] focus:bg-white focus:border-transparent transition-all disabled:opacity-60"
               />
             </div>
-            <div className="flex items-start gap-1.5 mt-1.5 text-[11px] text-slate-500 font-medium leading-snug">
-              <CheckCircle2 className="w-3.5 h-3.5 text-[#008744] shrink-0 mt-0.5" />
+            <div className="flex items-center gap-1.5 mt-1.5 text-[11px] text-slate-500 font-medium leading-normal">
+              <CheckCircle2 className="w-3.5 h-3.5 text-[#008744] shrink-0" />
               <span>Dominio institucional URP para activación de licencias y alertas.</span>
             </div>
           </div>
