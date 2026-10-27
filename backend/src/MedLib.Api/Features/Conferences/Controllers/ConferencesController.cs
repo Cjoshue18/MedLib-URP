@@ -1,4 +1,3 @@
-using MedLib.Api.Common.Constants;
 using MedLib.Api.Common.Validation;
 using MedLib.Api.Domain.Entities;
 using MedLib.Api.Features.Conferences.Dtos;
@@ -171,7 +170,6 @@ public class ConferencesController : ControllerBase
         };
 
         _context.Inscripciones.Add(inscripcion);
-        await SyncParticipantToNewsletterAsync(inscripcion.Correo, inscripcion.TipoParticipante, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
 
         return StatusCode(201, new 
@@ -240,7 +238,6 @@ public class ConferencesController : ControllerBase
         };
 
         _context.Asistencias.Add(asistencia);
-        await SyncParticipantToNewsletterAsync(asistencia.Correo, asistencia.TipoParticipante, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
 
         return Ok(new 
@@ -251,32 +248,5 @@ public class ConferencesController : ControllerBase
             participante = $"{asistencia.Nombres} {asistencia.Apellidos}",
             hora = asistencia.FechaHoraMarcacion
         });
-    }
-
-    private async Task SyncParticipantToNewsletterAsync(string email, string tipoParticipante, CancellationToken cancellationToken)
-    {
-        var cleanEmail = email.Trim().ToLowerInvariant();
-        if (string.IsNullOrWhiteSpace(cleanEmail) || !cleanEmail.Contains('@')) return;
-
-        var existing = await _context.SuscriptoresBoletin
-            .FirstOrDefaultAsync(s => s.CorreoInstitucional == cleanEmail, cancellationToken);
-
-        var level = AcademicLevels.Normalize(tipoParticipante);
-
-        if (existing == null)
-        {
-            _context.SuscriptoresBoletin.Add(new SuscriptorBoletin
-            {
-                CorreoInstitucional = cleanEmail,
-                NivelAcademico = level,
-                FechaSuscripcion = DateTime.UtcNow,
-                EstadoActivo = true
-            });
-        }
-        else if (!existing.EstadoActivo)
-        {
-            existing.EstadoActivo = true;
-            existing.NivelAcademico = level;
-        }
     }
 }
