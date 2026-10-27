@@ -5,11 +5,7 @@ import { BentoHexCard } from './BentoHexCard';
 import { HomeBentoMolecularBonds } from './HomeBentoMolecularBonds';
 import { HEX_POSITIONS } from '../constants/bentoGridGeometry';
 
-interface HomeBentoGridProps {
-  onNavigate?: (view: 'directory') => void;
-}
-
-export const HomeBentoGrid: React.FC<HomeBentoGridProps> = () => {
+export const HomeBentoGrid: React.FC = () => {
   const [resources, setResources] = useState<ResourceApiDto[]>(() => resourceService.getCachedLiteResources());
   const [isLoading, setIsLoading] = useState(() => resources.length === 0);
   const [flippedHexIds, setFlippedHexIds] = useState<Set<number>>(new Set());

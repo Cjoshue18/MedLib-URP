@@ -239,7 +239,7 @@ export const ConferencesPage: React.FC = () => {
                   Sin conferencias programadas
                 </h3>
                 <p className="text-xs text-slate-500 max-w-md mx-auto leading-relaxed">
-                  En este mes no se registran conferencias. Puedes revisar los meses siguientes usando el calendario o registrarte al boletín para recibir avisos.
+                  En este mes no se registran conferencias. Puedes revisar los meses siguientes usando el calendario institucional.
                 </p>
               </div>
             ) : (

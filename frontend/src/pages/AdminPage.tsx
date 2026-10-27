@@ -60,7 +60,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 font-sans flex flex-col antialiased">
+    <div className="min-h-screen bg-white text-slate-900 font-sans flex flex-col antialiased">
       <AdminHeader
         activeTab={activeAdminTab}
         onOpenDrawer={() => setIsDrawerOpen(true)}

@@ -57,17 +57,15 @@ MedLib-URP/
 │   │   │   │   │   └── directory/            # Acordeones y fichas técnicas por materia
 │   │   │   │   ├── constants/                # resourceConstants, catalogConstants
 │   │   │   │   └── services/                 # resourceService
-│   │   │   └── home/                         # Portada institucional, red molecular y boletín ALFIN
-│   │   │       ├── components/               # HomeBentoGrid, BentoHexCard, AdminNewsletterTab, AdminNewsletterStats, AdminNewsletterTable
-│   │   │       ├── constants/                # heroConstants, bentoGridGeometry
-│   │   │       └── services/                 # newsletterService
+│   │   │   └── home/                         # Portada institucional y red molecular
+│   │   │       ├── components/               # HomeBentoGrid, BentoHexCard, HomeHero
+│   │   │       └── constants/                # heroConstants, bentoGridGeometry
 │   │   ├── pages/                            # Vistas principales orquestadoras
 │   │   │   ├── HomePage.tsx                  # Portada institucional
 │   │   │   ├── DirectoryPage.tsx             # Catálogo de recursos con filtrado por especialidad
 │   │   │   ├── ConferencesPage.tsx           # Calendario ALFIN e inscripciones
 │   │   │   ├── LostFoundPage.tsx             # Registro de objetos perdidos en biblioteca
 │   │   │   └── AdminPage.tsx                 # Panel de administración general modularizado
-│   │   ├── types/                            # Tipos de dominio transversales (academicLevel.ts)
 │   │   ├── utils/                            # Utilidades puras compartidas (csvExport, dateFormatter, textUtils, arrayUtils)
 │   │   ├── App.tsx                           # Enrutador de vistas
 │   │   ├── main.tsx                          # Punto de entrada
@@ -78,17 +76,16 @@ MedLib-URP/
 ├── backend/                                  # API RESTful en C# ASP.NET Core (.NET 10 LTS)
 │   └── src/MedLib.Api/
 │       ├── Common/                           # Utilidades transversales, constantes y contratos
-│       │   ├── Constants/                    # AcademicLevels, LostFoundConstants, ResourceConstants
+│       │   ├── Constants/                    # LostFoundConstants, ResourceConstants
 │       │   ├── Interfaces/                   # ITokenService, IRefreshTokenService, IPasswordHasher
 │       │   ├── Security/                     # JwtTokenService, RefreshTokenService, BCryptPasswordHasher
 │       │   └── Validation/                   # ParticipantDocumentValidator (DNI, Código URP, CE, ciclos)
 │       ├── Domain/                           # Entidades del modelo relacional
-│       │   └── Entities/                     # BaseDatosMedica, Materia, ConferenciaMedica, SuscriptorBoletin, etc.
+│       │   └── Entities/                     # BaseDatosMedica, Materia, ConferenciaMedica, etc.
 │       ├── Features/                         # Controladores, servicios y DTOs agrupados por dominio
 │       │   ├── Auth/                         # AuthController y AuthDtos
 │       │   ├── Conferences/                  # ConferencesController, AdminConferencesController, Services/ (IConferenceReportService, ConferenceReportService, ConferenceLifecycleBackgroundService)
 │       │   ├── LostFound/                    # LostFoundController y DTOs
-│       │   ├── Newsletter/                   # NewsletterController y DTOs (Suscripción y métricas)
 │       │   └── Resources/                    # ResourcesController, AdminResourcesController y DTOs
 │       ├── Infrastructure/                   # Acceso a datos, configuración y persistencia
 │       │   ├── Configuration/                # EnvironmentConfigurationHelper (carga de .env y normalización de conexiones)
@@ -107,7 +104,7 @@ MedLib-URP/
 
 ## Modelo Relacional de la Base de Datos
 
-El modelo relacional está compuesto por 11 tablas optimizadas con índices dedicados y borrado en cascada en las relaciones dependientes:
+El modelo relacional está compuesto por 10 tablas optimizadas con índices dedicados y borrado en cascada en las relaciones dependientes:
 
 ### Catálogo de Tablas
 
