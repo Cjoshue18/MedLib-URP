@@ -9,7 +9,6 @@ import {
   ConferenceMonthlyCalendar,
   ConferenceCard,
 } from '../features/conferences';
-import { BoletinSubscriptionCard } from '../features/home';
 import { Pagination } from '../components/common/Pagination';
 
 export const ConferencesPage: React.FC = () => {
@@ -277,8 +276,6 @@ export const ConferencesPage: React.FC = () => {
               onPrevMonth={handlePrevMonth}
               onNextMonth={handleNextMonth}
             />
-
-            <BoletinSubscriptionCard variant="conferences" />
           </aside>
         </div>
       </main>
