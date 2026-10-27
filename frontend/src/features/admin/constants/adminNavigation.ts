@@ -20,12 +20,6 @@ export const ADMIN_NAVIGATION_ITEMS: readonly AdminNavigationItem[] = [
     description: 'Talleres, eventos y control de asistencia',
   },
   {
-    id: 'newsletter',
-    label: 'Boletín',
-    sublabel: 'Boletín',
-    description: 'Suscriptores y audiencia por nivel académico',
-  },
-  {
     id: 'statistics',
     label: 'Estadísticas',
     sublabel: 'Estadísticas y Reportes',

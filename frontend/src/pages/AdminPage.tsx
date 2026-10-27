@@ -3,7 +3,6 @@ import { CheckCircle2 } from 'lucide-react';
 import { authService, AdminLoginForm } from '../features/auth';
 import { AdminDatabasesTab } from '../features/guides';
 import { AdminLostFoundTab } from '../features/community';
-import { AdminNewsletterTab } from '../features/home';
 import {
   AdminConferencesTab,
   AdminStatisticsTab,
@@ -104,8 +103,6 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
             }}
             onShowFeedback={triggerFeedback}
           />
-        ) : activeAdminTab === 'newsletter' ? (
-          <AdminNewsletterTab onShowFeedback={triggerFeedback} />
         ) : (
           <AdminStatisticsTab
             initialConferenceId={selectedConferenceIdForStats}
