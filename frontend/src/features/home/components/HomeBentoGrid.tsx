@@ -216,75 +216,86 @@ export const HomeBentoGrid: React.FC = () => {
   }, [activeSlots, isAllFlipped]);
 
   return (
-    <div className="space-y-8">
-      <div className="border-b border-slate-200 pb-4 space-y-2">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-[#008744] text-white text-xs font-extrabold uppercase tracking-wider shadow-sm">
-          <Stethoscope className="w-3.5 h-3.5 text-white" />
-          <span>Colección Científica Especializada</span>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6 items-stretch w-full">
+      <div className="col-span-1 md:col-span-2 lg:col-span-4 lg:row-span-2 lg:col-start-1 lg:row-start-1 rounded-lg border border-slate-200 bg-white p-6 relative flex flex-col justify-between min-h-[460px] lg:min-h-[500px]">
+        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+          <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#008744]">Elemento 1</span>
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[#008744]/10 text-[#008744] text-xs font-bold">
+            <Stethoscope className="w-3.5 h-3.5" />
+            <span>Colección Científica Especializada</span>
+          </div>
         </div>
 
-        <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-slate-900 tracking-tight">
-          Bases de Datos Médicas
-        </h2>
-
-        <p className="text-sm text-slate-600">
-          Herramientas clave suscritas por la facultad para diagnóstico, farmacología y soporte clínico.
-        </p>
-      </div>
-
-      <div className="relative w-full py-6 overflow-visible flex items-center justify-center">
-        <div className="relative w-full max-w-[530px] aspect-[510/360] select-none">
-          <div
-            className="absolute cursor-pointer group z-20 select-none touch-manipulation"
-            style={{
-              left: `${(17 / 510) * 100}%`,
-              top: `${(174.707 / 360) * 100}%`,
-              width: `${(96 / 510) * 100}%`,
-              height: `${(83.138 / 360) * 100}%`,
-              clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)',
-            }}
-            onClick={handleFlipAll}
-            onTouchStart={() => {
-              lastTouchRef.current = Date.now();
-            }}
-            title="Girar todos los recursos"
-            aria-label="Girar todos los recursos"
-          >
-            <svg viewBox="0 0 96 83.14" className="w-full h-full overflow-visible drop-shadow-xs">
-              <polygon
-                points="24,0 72,0 96,41.57 72,83.14 24,83.14 0,41.57"
-                className="fill-white group-hover:fill-white stroke-[#0F172A] group-hover:stroke-[#008744] stroke-[2] group-hover:stroke-[2.5] transition-all duration-200"
-              />
-            </svg>
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-800 group-hover:text-[#008744] transition-colors p-1 select-none pointer-events-none">
-              <RotateCcw
-                className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-500 ${
-                  isAllFlipped ? 'rotate-180 text-[#008744]' : 'group-hover:-rotate-45'
-                }`}
-              />
-              <span className="text-[7.5px] sm:text-[8px] font-black uppercase tracking-wider mt-0.5 text-slate-500 group-hover:text-[#008744]">
-                {isAllFlipped ? 'Volver' : 'Girar'}
-              </span>
-            </div>
-          </div>
-
-          <HomeBentoMolecularBonds />
-
-          {activeSlots.map((slot) => (
-            <BentoHexCard
-              key={slot.id}
-              slot={slot}
-              isFlipped={isAllFlipped || flippedHexIds.has(slot.id)}
-              isAllFlipped={isAllFlipped}
-              isLoading={isLoading}
-              onClick={handleHexClick}
+        <div className="relative w-full py-4 flex-1 flex items-center justify-center overflow-visible">
+          <div className="relative w-full max-w-[530px] aspect-[510/360] select-none">
+            <div
+              className="absolute cursor-pointer group z-20 select-none touch-manipulation"
+              style={{
+                left: `${(17 / 510) * 100}%`,
+                top: `${(174.707 / 360) * 100}%`,
+                width: `${(96 / 510) * 100}%`,
+                height: `${(83.138 / 360) * 100}%`,
+                clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)',
+              }}
+              onClick={handleFlipAll}
               onTouchStart={() => {
                 lastTouchRef.current = Date.now();
               }}
-              onMouseEnter={handleHexHover}
-            />
-          ))}
+              title="Girar todos los recursos"
+              aria-label="Girar todos los recursos"
+            >
+              <svg viewBox="0 0 96 83.14" className="w-full h-full overflow-visible drop-shadow-xs">
+                <polygon
+                  points="24,0 72,0 96,41.57 72,83.14 24,83.14 0,41.57"
+                  className="fill-white group-hover:fill-white stroke-[#0F172A] group-hover:stroke-[#008744] stroke-[2] group-hover:stroke-[2.5] transition-all duration-200"
+                />
+              </svg>
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-800 group-hover:text-[#008744] transition-colors p-1 select-none pointer-events-none">
+                <RotateCcw
+                  className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-500 ${
+                    isAllFlipped ? 'rotate-180 text-[#008744]' : 'group-hover:-rotate-45'
+                  }`}
+                />
+                <span className="text-[7.5px] sm:text-[8px] font-black uppercase tracking-wider mt-0.5 text-slate-500 group-hover:text-[#008744]">
+                  {isAllFlipped ? 'Volver' : 'Girar'}
+                </span>
+              </div>
+            </div>
+
+            <HomeBentoMolecularBonds />
+
+            {activeSlots.map((slot) => (
+              <BentoHexCard
+                key={slot.id}
+                slot={slot}
+                isFlipped={isAllFlipped || flippedHexIds.has(slot.id)}
+                isAllFlipped={isAllFlipped}
+                isLoading={isLoading}
+                onClick={handleHexClick}
+                onTouchStart={() => {
+                  lastTouchRef.current = Date.now();
+                }}
+                onMouseEnter={handleHexHover}
+              />
+            ))}
+          </div>
         </div>
+      </div>
+
+      <div className="col-span-1 md:col-span-1 md:row-span-2 lg:col-span-2 lg:row-span-2 lg:col-start-5 lg:row-start-1 rounded-lg border-2 border-dashed border-slate-200 bg-transparent flex flex-col items-center justify-center p-6 min-h-[460px] lg:min-h-[500px]">
+        <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">Elemento 2</span>
+      </div>
+
+      <div className="col-span-1 md:col-span-1 lg:col-span-2 lg:row-span-1 lg:col-start-1 lg:row-start-3 rounded-lg border-2 border-dashed border-slate-200 bg-transparent flex flex-col items-center justify-center p-6 min-h-[280px] lg:min-h-[310px]">
+        <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">Elemento 3</span>
+      </div>
+
+      <div className="col-span-1 md:col-span-1 lg:col-span-2 lg:row-span-1 lg:col-start-1 lg:row-start-4 rounded-lg border-2 border-dashed border-slate-200 bg-transparent flex flex-col items-center justify-center p-4 min-h-[85px]">
+        <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">Elemento 4</span>
+      </div>
+
+      <div className="col-span-1 md:col-span-2 lg:col-span-4 lg:row-span-2 lg:col-start-3 lg:row-start-3 rounded-lg border-2 border-dashed border-slate-200 bg-transparent flex flex-col items-center justify-center p-6 min-h-[360px] lg:min-h-[419px]">
+        <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">Elemento 5</span>
       </div>
     </div>
   );
