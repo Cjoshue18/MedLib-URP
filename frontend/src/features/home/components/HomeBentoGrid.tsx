@@ -3,6 +3,7 @@ import { Stethoscope, RotateCcw } from 'lucide-react';
 import { resourceService, ResourceApiDto, getDatabaseLogoUrl } from '../../guides';
 import { BentoHexCard } from './BentoHexCard';
 import { HomeBentoMolecularBonds } from './HomeBentoMolecularBonds';
+import { BentoScheduleCard } from './BentoScheduleCard';
 import { HEX_POSITIONS } from '../constants/bentoGridGeometry';
 
 export const HomeBentoGrid: React.FC = () => {
@@ -286,9 +287,7 @@ export const HomeBentoGrid: React.FC = () => {
         <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">Elemento 2</span>
       </div>
 
-      <div className="col-span-1 md:col-span-1 lg:col-span-2 lg:row-span-1 lg:col-start-1 lg:row-start-3 rounded-lg border-2 border-dashed border-slate-200 bg-transparent flex flex-col items-center justify-center p-6 min-h-[280px] lg:min-h-[310px]">
-        <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">Elemento 3</span>
-      </div>
+      <BentoScheduleCard />
 
       <div className="col-span-1 md:col-span-1 lg:col-span-2 lg:row-span-1 lg:col-start-1 lg:row-start-4 rounded-lg border-2 border-dashed border-slate-200 bg-transparent flex flex-col items-center justify-center p-4 min-h-[85px]">
         <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">Elemento 4</span>
