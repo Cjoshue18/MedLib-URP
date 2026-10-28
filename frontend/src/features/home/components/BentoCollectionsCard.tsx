@@ -81,8 +81,7 @@ export const BentoCollectionsCard: React.FC<BentoCollectionsCardProps> = ({
         ))}
       </div>
 
-      <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-        <span>Repositorio institucional homologado por SUNEDU y Renati.</span>
+      <div className="pt-3 border-t border-slate-100 flex items-center justify-end text-xs text-slate-500">
         <span className="font-bold text-[#008744]">Actualizado 2026</span>
       </div>
     </div>
