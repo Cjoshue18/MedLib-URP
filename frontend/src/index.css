@@ -175,7 +175,7 @@ h1, h2, h3, h4, h5, h6 {
 .animate-marquee-slow {
   display: flex;
   width: max-content;
-  animation: marquee-horizontal 70s linear infinite;
+  animation: marquee-horizontal 250s linear infinite;
 }
 
 .animate-marquee-slow:hover {
