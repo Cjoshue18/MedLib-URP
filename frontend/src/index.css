@@ -172,6 +172,16 @@ h1, h2, h3, h4, h5, h6 {
   animation-play-state: paused;
 }
 
+.animate-marquee-slow {
+  display: flex;
+  width: max-content;
+  animation: marquee-horizontal 70s linear infinite;
+}
+
+.animate-marquee-slow:hover {
+  animation-play-state: paused;
+}
+
 .preserve-3d {
   transform-style: preserve-3d;
 }

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { RotateCcw, Search } from 'lucide-react';
+import { RotateCcw, Search, ArrowRight } from 'lucide-react';
 import { resourceService, ResourceApiDto, getDatabaseLogoUrl } from '../../guides';
 import { BentoHexCard } from './BentoHexCard';
 import { HomeBentoMolecularBonds } from './HomeBentoMolecularBonds';
@@ -273,29 +273,32 @@ export const BentoDatabasesCard: React.FC<BentoDatabasesCardProps> = ({
           </h2>
         </div>
 
-        <form onSubmit={handleSearchSubmit} className="relative flex items-center">
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Buscar en UpToDate, ClinicalKey, guías clínicas, revistas..."
-            className="w-full h-12 pl-11 pr-28 rounded-lg bg-white text-slate-900 border border-slate-300 focus:border-[#00A859] focus:outline-none text-xs sm:text-sm placeholder:text-slate-400 shadow-xs transition-all"
-          />
-          <Search className="absolute left-3.5 w-4 h-4 text-slate-400" />
+        <form onSubmit={handleSearchSubmit} className="flex flex-col sm:flex-row gap-2.5">
+          <div className="relative flex-1">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Buscar base de datos, por materia académica o recurso..."
+              className="w-full pl-12 pr-4 py-3.5 bg-white text-slate-900 rounded-lg border border-slate-300 font-sans text-sm focus:outline-none focus:ring-2 focus:ring-[#00a859] shadow-md transition-all"
+            />
+          </div>
           <button
             type="submit"
-            className="absolute right-1.5 h-9 px-4 rounded-md bg-[#00A859] hover:bg-[#008744] text-white font-display text-xs font-bold tracking-wide uppercase transition-colors shadow-xs cursor-pointer"
+            className="bg-[#00A859] hover:bg-[#008744] text-white font-bold px-7 py-3.5 rounded-lg transition-all tactile-btn-green flex items-center justify-center gap-1.5 shrink-0 cursor-pointer text-sm"
           >
-            Buscar
+            <span>Buscar</span>
+            <ArrowRight className="w-4 h-4" />
           </button>
         </form>
 
         <div className="w-full overflow-hidden py-1.5 border-y border-slate-100 select-none">
-          <div className="animate-marquee-scroll flex items-center gap-6 text-[11px] font-bold uppercase tracking-wider text-[#0F172A]">
+          <div className="animate-marquee-slow flex items-center gap-6 text-xs text-slate-600 font-semibold tracking-wide select-none">
             {[...tickerItems, ...tickerItems].map((name, index) => (
               <React.Fragment key={`${name}-${index}`}>
                 <span>{name}</span>
-                <span className="text-slate-300">&bull;</span>
+                <span className="text-[#008744] font-black text-sm">&bull;</span>
               </React.Fragment>
             ))}
           </div>
