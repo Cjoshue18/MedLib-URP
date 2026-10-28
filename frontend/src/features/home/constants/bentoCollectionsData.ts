@@ -20,8 +20,8 @@ export const BENTO_COLLECTIONS: BentoCollectionItem[] = [
     id: 'journals',
     title: 'Revistas',
     description: 'Hemeroteca médica con publicaciones periódicas Q1/Q2 y revistas arbitradas de salud en texto completo.',
-    href: '#revistas',
-    isExternal: false,
+    href: 'https://revistas.urp.edu.pe/index.php/RFMH',
+    isExternal: true,
     type: 'journals',
   },
   {
