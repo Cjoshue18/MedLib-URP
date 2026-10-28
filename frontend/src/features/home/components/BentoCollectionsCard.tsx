@@ -43,41 +43,42 @@ export const BentoCollectionsCard: React.FC<BentoCollectionsCardProps> = ({
 
       <div className="divide-y divide-slate-100 py-2 flex-1 flex flex-col justify-around">
         {BENTO_COLLECTIONS.map((item) => (
-          <div
+          <a
             key={item.id}
-            className="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 group"
+            href={item.href}
+            target={item.isExternal ? '_blank' : undefined}
+            rel={item.isExternal ? 'noreferrer' : undefined}
+            title={`Ir a ${item.title}`}
+            aria-label={`Ir a ${item.title}`}
+            onClick={(e) => {
+              if (!item.isExternal && onNavigate) {
+                e.preventDefault();
+                onNavigate('directory');
+              }
+            }}
+            className="py-3.5 px-3.5 rounded-lg hover:bg-[#008744] text-slate-900 hover:text-white transition-all duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 group cursor-pointer"
           >
             <div className="flex items-start gap-4">
-              <div className="w-11 h-11 rounded-lg bg-[#008744]/10 text-[#008744] flex items-center justify-center shrink-0 group-hover:bg-[#008744] group-hover:text-white transition-all">
+              <div className="w-11 h-11 rounded-lg bg-[#008744]/10 text-[#008744] group-hover:bg-white group-hover:text-[#008744] flex items-center justify-center shrink-0 transition-colors">
                 {renderIcon(item.type)}
               </div>
               <div>
-                <h4 className="font-display font-bold text-base text-[#0F172A] group-hover:text-[#008744] transition-colors">
+                <h4 className="font-display font-bold text-base text-[#0F172A] group-hover:text-white transition-colors">
                   {item.title}
                 </h4>
-                <p className="text-xs text-slate-600 mt-0.5 max-w-xl">
+                <p className="text-xs text-slate-600 group-hover:text-white/80 transition-colors mt-0.5 max-w-xl">
                   {item.description}
                 </p>
               </div>
             </div>
 
-            <a
-              href={item.href}
-              target={item.isExternal ? '_blank' : undefined}
-              rel={item.isExternal ? 'noreferrer' : undefined}
-              onClick={(e) => {
-                if (!item.isExternal && onNavigate) {
-                  e.preventDefault();
-                  onNavigate('directory');
-                }
-              }}
-              className="w-10 h-10 rounded-full border border-slate-200 hover:border-[#008744] hover:bg-[#008744] text-[#0F172A] hover:text-white flex items-center justify-center transition-all shrink-0 self-end sm:self-center group-hover:translate-x-1"
-              title={`Ir a ${item.title}`}
-              aria-label={`Ir a ${item.title}`}
+            <div
+              className="w-10 h-10 rounded-full border border-slate-200 group-hover:border-white group-hover:bg-white text-[#0F172A] group-hover:text-[#008744] flex items-center justify-center transition-all shrink-0 self-end sm:self-center group-hover:translate-x-1"
+              aria-hidden="true"
             >
               <ArrowRight className="w-4 h-4" strokeWidth={2.5} />
-            </a>
-          </div>
+            </div>
+          </a>
         ))}
       </div>
 
