@@ -52,15 +52,24 @@ export const BentoScheduleCard: React.FC<BentoScheduleCardProps> = ({ className 
       )}
 
       <div className="p-4 sm:p-5 space-y-1.5 text-xs">
-        {LIBRARY_SCHEDULE_DAYS.map((schedule) => {
-          if (schedule.isSaturday) {
+        {LIBRARY_SCHEDULE_DAYS.map((schedule, index) => {
+          const isToday = index === status.currentDayIndex;
+
+          if (isToday) {
             return (
               <div
                 key={schedule.dayName}
                 className="flex items-center justify-between py-1.5 px-3 rounded-none bg-[#00A859] text-white"
               >
-                <span className="font-bold text-white">{schedule.dayName}</span>
-                <span className="font-extrabold text-[#8CF9A9]">{schedule.hours}</span>
+                <div className="flex items-center gap-1.5">
+                  <span className="font-bold text-white">{schedule.dayName}</span>
+                  <span className="text-[#8CF9A9] text-[10px] font-black uppercase">
+                    (Hoy)
+                  </span>
+                </div>
+                <span className="font-extrabold text-[#8CF9A9]">
+                  {schedule.isSunday ? 'CERRADO' : schedule.hours}
+                </span>
               </div>
             );
           }
