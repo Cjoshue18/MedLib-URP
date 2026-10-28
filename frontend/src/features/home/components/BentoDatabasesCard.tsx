@@ -10,7 +10,7 @@ interface BentoDatabasesCardProps {
   onNavigate?: (view: any, query?: string) => void;
 }
 
-const TICKER_ITEMS = [
+const FALLBACK_TICKER_ITEMS = [
   'Bases de Datos Médicas',
   'UpToDate Anywhere',
   'ClinicalKey',
@@ -30,6 +30,7 @@ export const BentoDatabasesCard: React.FC<BentoDatabasesCardProps> = ({
   onNavigate,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [tickerItems, setTickerItems] = useState<string[]>(FALLBACK_TICKER_ITEMS);
   const [resources, setResources] = useState<ResourceApiDto[]>(() =>
     resourceService.getCachedLiteResources()
   );
@@ -79,6 +80,12 @@ export const BentoDatabasesCard: React.FC<BentoDatabasesCardProps> = ({
           setIsLoading(false);
         }
       });
+
+    resourceService.getResourceNames().then((names) => {
+      if (isMounted && names.length > 0) {
+        setTickerItems(names);
+      }
+    });
 
     return () => {
       isMounted = false;
@@ -285,7 +292,7 @@ export const BentoDatabasesCard: React.FC<BentoDatabasesCardProps> = ({
 
         <div className="w-full overflow-hidden py-1.5 border-y border-slate-100 select-none">
           <div className="animate-marquee-scroll flex items-center gap-6 text-[11px] font-bold uppercase tracking-wider text-[#0F172A]">
-            {[...TICKER_ITEMS, ...TICKER_ITEMS].map((name, index) => (
+            {[...tickerItems, ...tickerItems].map((name, index) => (
               <React.Fragment key={`${name}-${index}`}>
                 <span>{name}</span>
                 <span className="text-slate-300">&bull;</span>

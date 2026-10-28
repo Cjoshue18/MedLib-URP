@@ -39,6 +39,20 @@ export const resourceService = {
     return data;
   },
 
+  async getResourceNames(): Promise<string[]> {
+    try {
+      const response = await fetch(`${getApiBase()}/api/v1/resources/names`);
+      if (response.ok) {
+        const names = await response.json();
+        if (Array.isArray(names) && names.length > 0) {
+          return names;
+        }
+      }
+    } catch {}
+
+    return this.getCachedLiteResources().map((r) => r.name);
+  },
+
   async getAdminResources(): Promise<ResourceApiDto[]> {
     try {
       const response = await authService.authenticatedFetch(`${getApiBase()}/api/v1/admin/resources`);

@@ -7,14 +7,6 @@ export const HomeBentoMolecularBonds: React.FC = () => {
       className="absolute inset-0 w-full h-full pointer-events-none overflow-visible z-10"
     >
       <polyline
-        points="113,-33.1 161,-33.1 185,8.4"
-        fill="none"
-        stroke="#008744"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <polyline
         points="401,50 449,50 473,91.6"
         fill="none"
         stroke="#008744"
