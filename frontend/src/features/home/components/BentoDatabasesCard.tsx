@@ -7,7 +7,7 @@ import { HEX_POSITIONS } from '../constants/bentoGridGeometry';
 
 interface BentoDatabasesCardProps {
   className?: string;
-  onNavigate?: (view: any, query?: string) => void;
+  onNavigate?: (view: string, query?: string) => void;
 }
 
 const FALLBACK_TICKER_ITEMS = [
@@ -281,11 +281,14 @@ export const BentoDatabasesCard: React.FC<BentoDatabasesCardProps> = ({
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Buscar base de datos, por materia académica o recurso..."
+              aria-label="Buscar base de datos, por materia académica o recurso"
               className="w-full pl-12 pr-4 py-3.5 bg-white text-slate-900 rounded-lg border border-slate-300 font-sans text-sm focus:outline-none focus:ring-2 focus:ring-[#00a859] shadow-md transition-all"
             />
           </div>
           <button
             type="submit"
+            aria-label="Buscar base de datos"
+            title="Buscar base de datos"
             className="bg-[#00A859] hover:bg-[#008744] text-white font-bold px-7 py-3.5 rounded-lg transition-all tactile-btn-green flex items-center justify-center gap-1.5 shrink-0 cursor-pointer text-sm"
           >
             <span>Buscar</span>
@@ -305,8 +308,15 @@ export const BentoDatabasesCard: React.FC<BentoDatabasesCardProps> = ({
         </div>
       </div>
 
-      <div className="w-full flex items-center justify-center py-4 flex-1 overflow-visible">
-        <div className="relative w-full max-w-[530px] aspect-[510/360] select-none">
+      <div className="w-full flex items-center justify-center sm:justify-between py-2 sm:py-4 flex-1 overflow-visible gap-2 sm:gap-4 lg:gap-6">
+        <div className="hidden sm:flex items-center justify-center shrink-0 w-36 sm:w-44 md:w-56 lg:w-64 select-none pointer-events-none mb-2 sm:mb-3 lg:mb-4">
+          <img
+            src="/doctor-v3-guia-animado.svg"
+            alt="Doctor Guía URP"
+            className="w-full h-auto object-contain max-h-[240px] sm:max-h-[285px] md:max-h-[330px] lg:max-h-[360px] drop-shadow-md select-none transform -translate-y-0.5 sm:-translate-y-1"
+          />
+        </div>
+        <div className="relative w-full max-w-[460px] sm:max-w-[475px] lg:max-w-[495px] aspect-[510/360] select-none ml-auto translate-x-1 sm:translate-x-2 lg:translate-x-4">
           <div
             className="absolute cursor-pointer group z-20 select-none touch-manipulation"
             style={{
@@ -322,6 +332,14 @@ export const BentoDatabasesCard: React.FC<BentoDatabasesCardProps> = ({
             }}
             title="Girar todos los recursos"
             aria-label="Girar todos los recursos"
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleFlipAll();
+              }
+            }}
           >
             <svg viewBox="0 0 96 83.14" className="w-full h-full overflow-visible drop-shadow-xs">
               <polygon

@@ -72,6 +72,15 @@ export const BentoHexCard: React.FC<BentoHexCardProps> = ({
       onTouchStart={onTouchStart}
       onMouseEnter={() => onMouseEnter(slot.id)}
       title={title}
+      role="button"
+      tabIndex={0}
+      aria-label={`Recurso: ${title}`}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick(slot.id);
+        }
+      }}
     >
       <div
         className={`w-full h-full relative transition-transform duration-500 ease-out preserve-3d ${
