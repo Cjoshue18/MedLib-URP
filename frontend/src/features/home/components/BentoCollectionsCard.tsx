@@ -32,13 +32,12 @@ export const BentoCollectionsCard: React.FC<BentoCollectionsCardProps> = ({
       <div className="pb-3 border-b border-slate-100 flex items-center justify-between">
         <div>
           <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#008744]">
-            ACERVO DOCUMENTAL
+            ACCESO CENTRALIZADO
           </span>
           <h3 className="text-2xl font-display font-black text-[#0F172A]">
             Colecciones &amp; Repositorios
           </h3>
         </div>
-        <span className="text-xs font-bold text-slate-500">Acceso Centralizado</span>
       </div>
 
       <div className="divide-y divide-slate-100 py-2 flex-1 flex flex-col justify-around">
@@ -83,7 +82,7 @@ export const BentoCollectionsCard: React.FC<BentoCollectionsCardProps> = ({
       </div>
 
       <div className="pt-3 border-t border-slate-100 flex items-center justify-end text-xs text-slate-500">
-        <span className="font-bold text-[#008744]">Actualizado 2026</span>
+        <span className="font-bold text-[#008744]">Repositorios URP oficiales</span>
       </div>
     </div>
   );

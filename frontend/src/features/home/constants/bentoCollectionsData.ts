@@ -11,7 +11,7 @@ export const BENTO_COLLECTIONS: BentoCollectionItem[] = [
   {
     id: 'books',
     title: 'Libros',
-    description: 'Catálogo bibliográfico físico en sala y tratados clínicos en formato digital con préstamo domiciliario.',
+    description: 'Colección completa de libros disponibles para consulta de ejemplares y posterior préstamo en biblioteca.',
     href: 'https://biblioteca.urp.edu.pe/abnopac/',
     isExternal: true,
     type: 'books',
@@ -19,7 +19,7 @@ export const BENTO_COLLECTIONS: BentoCollectionItem[] = [
   {
     id: 'journals',
     title: 'Revistas',
-    description: 'Hemeroteca médica con publicaciones periódicas Q1/Q2 y revistas arbitradas de salud en texto completo.',
+    description: 'Artículos de investigación en medicina y salud pública con revisión por pares y de acceso abierto. Disponible a texto completo en español e inglés.',
     href: 'https://revistas.urp.edu.pe/index.php/RFMH',
     isExternal: true,
     type: 'journals',
@@ -27,8 +27,8 @@ export const BENTO_COLLECTIONS: BentoCollectionItem[] = [
   {
     id: 'theses',
     title: 'Tesis',
-    description: 'Repositorio de tesis de pregrado, posgrado y segundas especialidades médicas aprobadas en la FAMURP.',
-    href: 'https://repositorio.urp.edu.pe/',
+    description: 'Tesis de bachiller, pregrado, posgrado e investigaciones de la Facultad de Medicina Humana.',
+    href: 'https://hdl.handle.net/20.500.14138/26',
     isExternal: true,
     type: 'theses',
   },
