@@ -37,18 +37,3 @@ export const HERO_SLIDES: HeroSlide[] = [
     description: 'Respalda tu aprendizaje clínico con nuestra amplia variedad de libros físicos. Desde ciencias básicas hasta las patologías más complejas, todo lo que necesitas está aquí.',
   },
 ];
-
-export const HERO_MARQUEE_ITEMS: string[] = [
-  'Catálogo amplio',
-  'Bases de datos médicas',
-  'Revistas',
-  'Conferencias',
-  'Conferencias Especializadas',
-  'Sorteo de Libros',
-  'Catálogo amplio',
-  'Bases de datos médicas',
-  'Revistas',
-  'Conferencias',
-  'Conferencias Especializadas',
-  'Sorteo de Libros',
-];
