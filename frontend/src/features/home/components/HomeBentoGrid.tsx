@@ -5,6 +5,7 @@ import { BentoHexCard } from './BentoHexCard';
 import { HomeBentoMolecularBonds } from './HomeBentoMolecularBonds';
 import { BentoScheduleCard } from './BentoScheduleCard';
 import { BentoFaqCtaCard } from './BentoFaqCtaCard';
+import { BentoCollectionsCard } from './BentoCollectionsCard';
 import { HEX_POSITIONS } from '../constants/bentoGridGeometry';
 
 export const HomeBentoGrid: React.FC = () => {
@@ -292,9 +293,7 @@ export const HomeBentoGrid: React.FC = () => {
 
       <BentoFaqCtaCard />
 
-      <div className="col-span-1 md:col-span-2 lg:col-span-4 lg:row-span-2 lg:col-start-3 lg:row-start-3 rounded-lg border-2 border-dashed border-slate-200 bg-transparent flex flex-col items-center justify-center p-6 min-h-[360px] lg:min-h-[419px]">
-        <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">Elemento 5</span>
-      </div>
+      <BentoCollectionsCard />
     </div>
   );
 };

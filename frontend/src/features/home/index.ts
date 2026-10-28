@@ -5,4 +5,6 @@ export { HomeBentoMolecularBonds } from './components/HomeBentoMolecularBonds';
 export { HomeUpcomingActivities } from './components/HomeUpcomingActivities';
 export { BentoScheduleCard } from './components/BentoScheduleCard';
 export { BentoFaqCtaCard } from './components/BentoFaqCtaCard';
+export { BentoCollectionsCard } from './components/BentoCollectionsCard';
+export * from './constants/bentoCollectionsData';
 export * from './utils/libraryScheduleUtils';
