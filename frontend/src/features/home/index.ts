@@ -3,6 +3,7 @@ export { HomeBentoGrid } from './components/HomeBentoGrid';
 export { BentoHexCard } from './components/BentoHexCard';
 export { HomeBentoMolecularBonds } from './components/HomeBentoMolecularBonds';
 export { HomeUpcomingActivities } from './components/HomeUpcomingActivities';
+export { BentoDatabasesCard } from './components/BentoDatabasesCard';
 export { BentoScheduleCard } from './components/BentoScheduleCard';
 export { BentoFaqCtaCard } from './components/BentoFaqCtaCard';
 export { BentoCollectionsCard } from './components/BentoCollectionsCard';

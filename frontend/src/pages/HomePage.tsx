@@ -15,7 +15,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
       <section className="max-w-[1280px] mx-auto px-6 py-16 pb-24">
         <div className="w-full max-w-[1280px] mx-auto">
-          <HomeBentoGrid />
+          <HomeBentoGrid onNavigate={onNavigate} />
         </div>
       </section>
     </main>
