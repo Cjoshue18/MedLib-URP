@@ -99,6 +99,28 @@ public class ResourcesController : ControllerBase
         return Ok(list);
     }
 
+    [HttpGet("materias")]
+    public async Task<ActionResult<List<string>>> GetMaterias(CancellationToken cancellationToken)
+    {
+        const string materiasCacheKey = "resources_materias_catalog";
+
+        if (_cache.TryGetValue(materiasCacheKey, out List<string>? cachedMaterias) && cachedMaterias != null)
+        {
+            return Ok(cachedMaterias);
+        }
+
+        var materias = await _context.Materias
+            .AsNoTracking()
+            .OrderBy(m => m.NombreMateria)
+            .Select(m => m.NombreMateria)
+            .Distinct()
+            .ToListAsync(cancellationToken);
+
+        _cache.Set(materiasCacheKey, materias, TimeSpan.FromMinutes(10));
+
+        return Ok(materias);
+    }
+
     [HttpGet("names")]
     public async Task<ActionResult<List<string>>> GetNames(CancellationToken cancellationToken)
     {

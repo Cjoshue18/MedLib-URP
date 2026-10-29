@@ -87,6 +87,19 @@ export const resourceService = {
     }
   },
 
+  async getMaterias(): Promise<string[]> {
+    try {
+      const response = await fetch(`${getApiBase()}/api/v1/resources/materias`);
+      if (response.ok) {
+        const materias = await response.json();
+        if (Array.isArray(materias)) {
+          return materias;
+        }
+      }
+    } catch {}
+    return [];
+  },
+
   async getSubjects(): Promise<SubjectApiDto[]> {
     const response = await fetch(`${getApiBase()}/api/v1/subjects`);
     if (!response.ok) {
