@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { ExternalLink } from 'lucide-react';
+import type { AppView } from '../../core/types/navigation';
 import { HeaderBrandBadge } from './HeaderBrandBadge';
 
 interface NavbarProps {
-  currentView: 'home' | 'directory' | 'conferences' | 'lost-found';
-  onNavigate: (view: 'home' | 'directory' | 'conferences' | 'lost-found') => void;
+  currentView: AppView;
+  onNavigate: (view: AppView) => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {

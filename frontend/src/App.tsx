@@ -7,10 +7,11 @@ import { DirectoryPage } from './pages/DirectoryPage';
 import { ConferencesPage } from './pages/ConferencesPage';
 import { LostFoundPage } from './pages/LostFoundPage';
 import { AdminPage } from './pages/AdminPage';
+import { NotFoundPage } from './pages/NotFoundPage';
 import { triggerSilentWarmup } from './core/services/warmupService';
 
-export type { AppView } from './core/types/navigation';
 import type { AppView } from './core/types/navigation';
+export type { AppView };
 
 const parseHashRoute = (): { view: AppView; query: string } => {
   if (typeof window === 'undefined') return { view: 'home', query: '' };
@@ -20,6 +21,9 @@ const parseHashRoute = (): { view: AppView; query: string } => {
   const params = new URLSearchParams(rawQuery || '');
   const query = params.get('q') || '';
 
+  if (hash === '' || hash === '#' || hash === '#inicio' || hash === '#home') {
+    return { view: 'home', query: '' };
+  }
   if (hash === '#directorio' || hash === '#catalogo') {
     return { view: 'directory', query };
   }
@@ -32,7 +36,7 @@ const parseHashRoute = (): { view: AppView; query: string } => {
   if (hash === '#gestion-bibliotecaria-famurp') {
     return { view: 'admin', query: '' };
   }
-  return { view: 'home', query: '' };
+  return { view: '404', query: '' };
 };
 
 export const App: React.FC = () => {
@@ -46,25 +50,10 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     const handleHashChange = () => {
-      const fullHash = window.location.hash;
-      const [rawRoute, rawQuery] = fullHash.split('?');
-      const hash = rawRoute.toLowerCase();
-      const params = new URLSearchParams(rawQuery || '');
-      const queryParam = params.get('q') || '';
-
-      if (hash === '#directorio' || hash === '#catalogo') {
-        setCurrentView('directory');
-        if (queryParam) {
-          setDirectorySearchQuery(queryParam);
-        }
-      } else if (hash === '#conferencias') {
-        setCurrentView('conferences');
-      } else if (hash === '#objetos-perdidos' || hash === '#comunidad') {
-        setCurrentView('lost-found');
-      } else if (hash === '#gestion-bibliotecaria-famurp') {
-        setCurrentView('admin');
-      } else {
-        setCurrentView('home');
+      const { view, query } = parseHashRoute();
+      setCurrentView(view);
+      if (view === 'directory' && query) {
+        setDirectorySearchQuery(query);
       }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
@@ -109,6 +98,8 @@ export const App: React.FC = () => {
       window.location.hash = '#objetos-perdidos';
     } else if (view === 'admin') {
       window.location.hash = '#gestion-bibliotecaria-famurp';
+    } else if (view === '404') {
+      window.location.hash = '#404';
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -126,6 +117,7 @@ export const App: React.FC = () => {
         {currentView === 'directory' && <DirectoryPage initialSearchQuery={directorySearchQuery} />}
         {currentView === 'conferences' && <ConferencesPage />}
         {currentView === 'lost-found' && <LostFoundPage />}
+        {currentView === '404' && <NotFoundPage onNavigate={navigateTo} />}
       </div>
 
       <Footer />
