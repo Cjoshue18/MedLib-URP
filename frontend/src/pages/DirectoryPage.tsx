@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { BookOpen, RefreshCw } from 'lucide-react';
+import { Search, X, BookOpen, RefreshCw } from 'lucide-react';
 import {
   MedicalDatabase,
   resourceService,
   mapApiResourceToMedicalDatabase,
-  DatabaseSearchBar,
   DatabaseSkeletonGrid,
   DatabaseAccordionCard,
   DatabaseMasonry,
+  DirectoryFilters,
 } from '../features/guides';
 import { normalizeText } from '../utils/textUtils';
 
@@ -24,6 +24,8 @@ export const DirectoryPage: React.FC<DirectoryPageProps> = ({ initialSearchQuery
   const [isLiveConnected, setIsLiveConnected] = useState(false);
   const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
   const [licenseFilter, setLicenseFilter] = useState<'all' | 'subscription' | 'open'>('all');
+  const [hasMobileAppFilter, setHasMobileAppFilter] = useState(false);
+  const [selectedMaterias, setSelectedMaterias] = useState<string[]>([]);
   const [expandedDbIds, setExpandedDbIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
@@ -92,6 +94,13 @@ export const DirectoryPage: React.FC<DirectoryPageProps> = ({ initialSearchQuery
     });
   };
 
+  const handleResetFilters = () => {
+    setLicenseFilter('all');
+    setHasMobileAppFilter(false);
+    setSelectedMaterias([]);
+    setSearchQuery('');
+  };
+
   const filteredDbs = databases.filter((db) => {
     const q = normalizeText(searchQuery);
     const matchesSearch =
@@ -106,10 +115,15 @@ export const DirectoryPage: React.FC<DirectoryPageProps> = ({ initialSearchQuery
       (licenseFilter === 'subscription' && db.accessType === 'Suscripción URP') ||
       (licenseFilter === 'open' && db.accessType !== 'Suscripción URP');
 
-    return matchesSearch && matchesLicense;
+    const matchesMobileApp =
+      !hasMobileAppFilter || db.hasMobileApp === true;
+
+    const matchesMaterias =
+      selectedMaterias.length === 0 ||
+      db.tags.some((tag) => selectedMaterias.includes(tag));
+
+    return matchesSearch && matchesLicense && matchesMobileApp && matchesMaterias;
   });
-
-
 
   const renderCard = (db: MedicalDatabase) => (
     <DatabaseAccordionCard
@@ -123,84 +137,122 @@ export const DirectoryPage: React.FC<DirectoryPageProps> = ({ initialSearchQuery
 
   return (
     <div className="w-full pb-20">
-      <main className="max-w-[1280px] mx-auto px-6 pt-8 sm:pt-10 flex flex-col gap-8">
-        <DatabaseSearchBar
-          searchTerm={searchQuery}
-          onSearchChange={setSearchQuery}
-          placeholder="Buscar base de datos, por materia académica o recurso..."
-          licenseFilter={licenseFilter}
-          onLicenseFilterChange={setLicenseFilter}
-          variant="hero"
-          actionsRight={
-            <button
-              type="submit"
-              className="w-full sm:w-auto px-6 h-11 rounded-lg bg-[#00A859] hover:bg-[#008744] text-white font-bold text-xs sm:text-sm tactile-btn-green transition-all cursor-pointer shrink-0 flex items-center justify-center gap-1.5"
-            >
-              <span>Buscar</span>
-            </button>
-          }
-        />
+      <main className="max-w-[1360px] mx-auto px-4 sm:px-6 pt-8 sm:pt-10">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
+          <aside className="lg:col-span-1 flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
+              <label
+                htmlFor="directory-title-search"
+                className="font-display font-bold text-xs uppercase tracking-wider text-slate-800"
+              >
+                Filtrar por título
+              </label>
+              <form
+                onSubmit={(e) => e.preventDefault()}
+                className="flex items-center gap-2"
+              >
+                <div className="relative flex-1 bg-white rounded-lg border border-slate-200 shadow-sm focus-within:border-[#008744] focus-within:ring-2 focus-within:ring-[#008744]/20 px-3 h-11 flex items-center gap-2 transition-all">
+                  <Search className="w-4 h-4 text-slate-400 shrink-0" />
+                  <input
+                    id="directory-title-search"
+                    name="titleSearch"
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Buscar base de datos..."
+                    aria-label="Filtrar por título"
+                    className="w-full text-xs text-slate-900 placeholder:text-slate-400 bg-transparent outline-none font-medium"
+                  />
+                  {searchQuery && (
+                    <button
+                      type="button"
+                      onClick={() => setSearchQuery('')}
+                      className="p-1 text-slate-400 hover:text-slate-800 rounded-lg cursor-pointer transition-colors shrink-0"
+                      title="Limpiar búsqueda"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+                <button
+                  type="submit"
+                  className="px-4 h-11 rounded-lg bg-[#00A859] hover:bg-[#008744] text-white font-bold text-xs tactile-btn-green transition-all cursor-pointer shrink-0 flex items-center justify-center gap-1.5"
+                >
+                  <span>Buscar</span>
+                </button>
+              </form>
+            </div>
 
-        <div className="bg-white rounded-lg border-2 border-slate-900 shadow-urp-brutal p-6 sm:p-8 flex flex-col gap-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 pb-4">
-            <div>
-              <div className="flex items-center gap-2.5 flex-wrap">
-                <h3 className="font-display font-extrabold text-lg sm:text-2xl text-slate-900 flex items-center gap-2">
+            <DirectoryFilters
+              licenseFilter={licenseFilter}
+              onLicenseFilterChange={setLicenseFilter}
+              hasMobileAppFilter={hasMobileAppFilter}
+              onHasMobileAppFilterChange={setHasMobileAppFilter}
+              selectedMaterias={selectedMaterias}
+              onSelectedMateriasChange={setSelectedMaterias}
+              onResetFilters={handleResetFilters}
+            />
+          </aside>
+
+          <section className="lg:col-span-3 flex flex-col gap-5">
+            <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <h3 className="font-display font-extrabold text-base sm:text-xl text-slate-900 flex items-center gap-2">
                   {isLoading ? (
                     <>
                       <span>Cargando...</span>
                       <RefreshCw className="w-4 h-4 animate-spin text-[#008744]" />
                     </>
                   ) : (
-                    `Mostrando recursos (${filteredDbs.length}${searchQuery ? ` de ${databases.length}` : ''})`
+                    `Mostrando recursos (${filteredDbs.length}${searchQuery || hasMobileAppFilter || selectedMaterias.length > 0 || licenseFilter !== 'all' ? ` de ${databases.length}` : ''})`
                   )}
                 </h3>
-              </div>
-              <p className="text-xs sm:text-sm text-slate-500 mt-1">
-                Haz clic en cualquier plataforma para desplegar su ficha técnica completa, tutorial de acceso remoto y enlace directo.
-              </p>
-            </div>
-          </div>
-
-          <div className="relative w-full min-h-[300px]">
-            {showSkeleton && (
-              <div
-                className={`w-full transition-opacity duration-300 ease-out ${
-                  isSkeletonExiting
-                    ? 'absolute inset-0 z-10 pointer-events-none opacity-0'
-                    : 'relative z-0 opacity-100'
-                }`}
-              >
-                <DatabaseSkeletonGrid count={9} />
-              </div>
-            )}
-
-            {!isLoading && filteredDbs.length > 0 && (
-              <div className="w-full transition-opacity duration-300 ease-out opacity-100">
-                <DatabaseMasonry
-                  items={filteredDbs}
-                  renderItem={renderCard}
-                  ease="power2.out"
-                  duration={0.5}
-                  stagger={0.03}
-                  animateFrom="bottom"
-                  blurToFocus={true}
-                />
-              </div>
-            )}
-
-            {!isLoading && filteredDbs.length === 0 && (
-              <div className="py-16 text-center text-slate-500">
-                <BookOpen className="w-10 h-10 text-slate-400 mx-auto mb-3" />
-                <p className="text-base font-bold text-slate-800">No se encontraron recursos</p>
-                <p className="text-xs text-slate-500 mt-1">
-                  {isLiveConnected
-                    ? 'Prueba con otra palabra clave o limpia el campo de búsqueda.'
-                    : 'No se pudo establecer conexión con el catálogo de bases de datos médicas.'}
+                <p className="text-xs sm:text-sm text-slate-500 mt-1">
+                  Haz clic en cualquier plataforma para desplegar su ficha técnica completa, tutorial de acceso remoto y enlace directo.
                 </p>
               </div>
-            )}
-          </div>
+            </div>
+
+            <div className="relative w-full min-h-[300px]">
+              {showSkeleton && (
+                <div
+                  className={`w-full transition-opacity duration-300 ease-out ${
+                    isSkeletonExiting
+                      ? 'absolute inset-0 z-10 pointer-events-none opacity-0'
+                      : 'relative z-0 opacity-100'
+                  }`}
+                >
+                  <DatabaseSkeletonGrid count={9} />
+                </div>
+              )}
+
+              {!isLoading && filteredDbs.length > 0 && (
+                <div className="w-full transition-opacity duration-300 ease-out opacity-100">
+                  <DatabaseMasonry
+                    items={filteredDbs}
+                    renderItem={renderCard}
+                    ease="power2.out"
+                    duration={0.5}
+                    stagger={0.03}
+                    animateFrom="bottom"
+                    blurToFocus={true}
+                  />
+                </div>
+              )}
+
+              {!isLoading && filteredDbs.length === 0 && (
+                <div className="py-16 text-center text-slate-500 bg-white rounded-lg border border-slate-200 shadow-sm">
+                  <BookOpen className="w-10 h-10 text-slate-400 mx-auto mb-3" />
+                  <p className="text-base font-bold text-slate-800">No se encontraron recursos</p>
+                  <p className="text-xs text-slate-500 mt-1">
+                    {isLiveConnected
+                      ? 'Prueba con otra palabra clave o limpia los filtros aplicados.'
+                      : 'No se pudo establecer conexión con el catálogo de bases de datos médicas.'}
+                  </p>
+                </div>
+              )}
+            </div>
+          </section>
         </div>
       </main>
     </div>
