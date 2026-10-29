@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AlertCircle } from 'lucide-react';
 import {
-  InstagramCommunityFeed,
   InstagramCarousel,
   lostFoundService,
   LostItemPost
@@ -40,20 +39,15 @@ export const LostFoundPage: React.FC = () => {
               </p>
             </div>
 
-            <InstagramCarousel posts={posts} isLoading={isLoading} />
-
-            <div className="mt-8 p-4 rounded-lg bg-amber-50 border border-amber-200 flex items-center gap-3 text-xs text-amber-900 font-semibold shadow-xs">
+            <div className="mb-6 p-4 rounded-lg bg-amber-50 border border-amber-200 flex items-center gap-3 text-xs text-amber-900 font-semibold shadow-xs">
               <AlertCircle className="w-5 h-5 text-amber-600 shrink-0" />
               <span>
                 Nota: Todo objeto hallado permanece bajo custodia en recepción durante un plazo máximo de 30 días.
               </span>
             </div>
-          </div>
 
-          <InstagramCommunityFeed
-            subtitle="Sigue nuestras publicaciones en vivo para avisos inmediatos de objetos encontrados, horarios y servicios."
-            footerNote="Publicaciones sincronizadas en tiempo real desde la cuenta oficial de la Biblioteca de Medicina Humana URP."
-          />
+            <InstagramCarousel posts={posts} isLoading={isLoading} />
+          </div>
         </div>
       </main>
     </div>

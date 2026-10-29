@@ -161,10 +161,12 @@ export const AdminResourceModal: React.FC<AdminResourceModalProps> = ({
           )}
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+            <label htmlFor="resource-modal-name" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
               Nombre del Recurso *
             </label>
             <input
+              id="resource-modal-name"
+              name="name"
               type="text"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -175,10 +177,12 @@ export const AdminResourceModal: React.FC<AdminResourceModalProps> = ({
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+            <label htmlFor="resource-modal-desc" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
               Descripción Clínica
             </label>
             <textarea
+              id="resource-modal-desc"
+              name="clinicalDescription"
               rows={3}
               value={formData.clinicalDescription}
               onChange={(e) => setFormData({ ...formData, clinicalDescription: e.target.value })}
@@ -189,10 +193,12 @@ export const AdminResourceModal: React.FC<AdminResourceModalProps> = ({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+              <label htmlFor="resource-modal-access-type" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
                 Tipo de Licencia
               </label>
               <select
+                id="resource-modal-access-type"
+                name="isSubscription"
                 value={formData.isSubscription ? 'sub' : 'open'}
                 onChange={(e) => setFormData({ ...formData, isSubscription: e.target.value === 'sub' })}
                 className="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm focus:border-[#008744] outline-none bg-white font-medium"
@@ -203,10 +209,12 @@ export const AdminResourceModal: React.FC<AdminResourceModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+              <label htmlFor="resource-modal-logo-url" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
                 URL de Logotipo
               </label>
               <input
+                id="resource-modal-logo-url"
+                name="logoUrl"
                 type="text"
                 value={formData.logoUrl}
                 onChange={(e) => setFormData({ ...formData, logoUrl: e.target.value })}
@@ -217,10 +225,12 @@ export const AdminResourceModal: React.FC<AdminResourceModalProps> = ({
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+            <label htmlFor="resource-modal-external-url" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
               Enlace Externo de Acceso
             </label>
             <input
+              id="resource-modal-external-url"
+              name="externalUrl"
               type="url"
               value={formData.externalUrl}
               onChange={(e) => setFormData({ ...formData, externalUrl: e.target.value })}
@@ -230,10 +240,12 @@ export const AdminResourceModal: React.FC<AdminResourceModalProps> = ({
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+            <label htmlFor="resource-modal-subjects" className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
               Materias Asociadas (Separadas por comas)
             </label>
             <input
+              id="resource-modal-subjects"
+              name="subjectsStr"
               type="text"
               value={formData.subjectsStr}
               onChange={(e) => setFormData({ ...formData, subjectsStr: e.target.value })}
@@ -245,10 +257,12 @@ export const AdminResourceModal: React.FC<AdminResourceModalProps> = ({
           <div className="border-t border-slate-200 pt-3">
             <p className="text-xs font-bold font-display text-slate-900 mb-2">Video Tutorial Oficial (Opcional)</p>
             <div>
-              <label className="block text-[11px] font-medium text-slate-600 mb-1">
+              <label htmlFor="resource-modal-youtube-id" className="block text-[11px] font-medium text-slate-600 mb-1">
                 YouTube Video ID o URL
               </label>
               <input
+                id="resource-modal-youtube-id"
+                name="youtubeVideoId"
                 type="text"
                 value={formData.youtubeVideoId}
                 onChange={(e) => setFormData({ ...formData, youtubeVideoId: e.target.value })}
@@ -292,8 +306,10 @@ export const AdminResourceModal: React.FC<AdminResourceModalProps> = ({
 
           <div className="flex flex-col gap-3 border-t border-slate-200 pt-3">
             <div className="flex items-center gap-6">
-              <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-slate-700">
+              <label htmlFor="resource-modal-mobile-app" className="flex items-center gap-2 cursor-pointer text-xs font-bold text-slate-700">
                 <input
+                  id="resource-modal-mobile-app"
+                  name="hasMobileApp"
                   type="checkbox"
                   checked={formData.hasMobileApp}
                   onChange={(e) => setFormData({ ...formData, hasMobileApp: e.target.checked })}
@@ -303,6 +319,7 @@ export const AdminResourceModal: React.FC<AdminResourceModalProps> = ({
               </label>
 
               <label
+                htmlFor="resource-modal-active"
                 className={`flex items-center gap-2 text-xs font-bold ${
                   initialData?.mostrarEnHexagonos || ((activeResourcesCount ?? 99) <= MIN_ACTIVE_RESOURCES && initialData?.isActive)
                     ? 'cursor-not-allowed text-slate-400'
@@ -310,6 +327,8 @@ export const AdminResourceModal: React.FC<AdminResourceModalProps> = ({
                 }`}
               >
                 <input
+                  id="resource-modal-active"
+                  name="isActive"
                   type="checkbox"
                   disabled={
                     initialData?.mostrarEnHexagonos || ((activeResourcesCount ?? 99) <= MIN_ACTIVE_RESOURCES && initialData?.isActive)

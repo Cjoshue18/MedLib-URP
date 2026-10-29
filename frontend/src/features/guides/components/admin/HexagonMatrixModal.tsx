@@ -123,10 +123,13 @@ export const HexagonMatrixModal: React.FC<HexagonMatrixModalProps> = ({
           <div className="relative flex-1 min-w-[240px]">
             <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
+              id="hexagon-matrix-search"
+              name="matrixSearch"
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Filtrar por nombre, editorial o materia..."
+              aria-label="Filtrar por nombre, editorial o materia"
               className="w-full pl-9 pr-3 py-1.5 rounded-lg border border-slate-300 bg-white text-xs outline-none focus:border-[#008744]"
             />
           </div>

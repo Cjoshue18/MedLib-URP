@@ -2,7 +2,6 @@ import React from 'react';
 import {
   HomeHero,
   HomeBentoGrid,
-  BoletinSubscriptionCard,
 } from '../features/home';
 
 interface HomePageProps {
@@ -15,18 +14,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       <HomeHero onNavigate={onNavigate} />
 
       <section className="max-w-[1280px] mx-auto px-6 py-16 pb-24">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <div className="lg:col-span-7 space-y-8">
-            <HomeBentoGrid onNavigate={onNavigate} />
-          </div>
-
-          <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-24">
-            <BoletinSubscriptionCard
-              variant="home"
-              onNavigateToDirectory={() => onNavigate('directory')}
-              className="w-full max-w-[420px] mx-auto lg:mx-0"
-            />
-          </div>
+        <div className="w-full max-w-[1280px] mx-auto">
+          <HomeBentoGrid onNavigate={onNavigate} />
         </div>
       </section>
     </main>

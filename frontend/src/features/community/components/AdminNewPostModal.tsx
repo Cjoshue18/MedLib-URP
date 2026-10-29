@@ -78,12 +78,14 @@ export const AdminNewPostModal: React.FC<AdminNewPostModalProps> = ({
           )}
 
           <div>
-            <label className="block text-xs font-bold text-slate-800 mb-1.5">
+            <label htmlFor="community-post-url" className="block text-xs font-bold text-slate-800 mb-1.5">
               Enlace del Post (URL)
             </label>
             <div className="relative">
               <LinkIcon className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
+                id="community-post-url"
+                name="postUrl"
                 type="text"
                 required
                 value={newPostUrl}
@@ -92,6 +94,7 @@ export const AdminNewPostModal: React.FC<AdminNewPostModalProps> = ({
                   if (postModalError) setPostModalError(null);
                 }}
                 placeholder="https://www.instagram.com/p/C_abc123/"
+                aria-label="Enlace del Post de Instagram"
                 className="w-full pl-10 pr-4 py-2.5 text-xs rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-[#008744] focus:border-transparent"
               />
             </div>

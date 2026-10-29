@@ -127,15 +127,21 @@ export const ConferenceReportParticipantsTable: React.FC<ConferenceReportPartici
           <div className="relative min-w-[200px] flex-1">
             <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
+              id="report-participant-search"
+              name="participantSearch"
               type="text"
               value={searchTerm}
               onChange={(e) => onSearchChange(e.target.value)}
               placeholder="Buscar documento o nombre..."
+              aria-label="Buscar documento o nombre"
               className="w-full pl-8 pr-3 py-1.5 rounded-lg border border-slate-300 text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#008744]"
             />
           </div>
 
           <select
+            id="report-participant-role-filter"
+            name="participantRole"
+            aria-label="Filtrar por rol de participante"
             value={selectedRole}
             onChange={(e) => onRoleChange(e.target.value)}
             className="px-3 py-1.5 rounded-lg border border-slate-300 text-xs font-bold text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-[#008744] cursor-pointer"

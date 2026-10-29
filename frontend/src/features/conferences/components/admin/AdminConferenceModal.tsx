@@ -188,10 +188,12 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
           )}
 
           <div>
-            <label className="text-xs font-extrabold text-slate-700 block mb-1">
+            <label htmlFor="conf-modal-titulo" className="text-xs font-extrabold text-slate-700 block mb-1">
               Título del Evento o Capacitación:
             </label>
             <input
+              id="conf-modal-titulo"
+              name="titulo"
               type="text"
               value={formTitulo}
               onChange={(e) => setFormTitulo(e.target.value)}
@@ -203,10 +205,12 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="text-xs font-extrabold text-slate-700 block mb-1">
+              <label htmlFor="conf-modal-ponente" className="text-xs font-extrabold text-slate-700 block mb-1">
                 Expositor / Ponente:
               </label>
               <input
+                id="conf-modal-ponente"
+                name="ponente"
                 type="text"
                 value={formPonente}
                 onChange={(e) => setFormPonente(e.target.value)}
@@ -216,10 +220,12 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
               />
             </div>
             <div>
-              <label className="text-xs font-extrabold text-slate-700 block mb-1">
+              <label htmlFor="conf-modal-editorial" className="text-xs font-extrabold text-slate-700 block mb-1">
                 Entidad / Editorial Patrocinadora:
               </label>
               <input
+                id="conf-modal-editorial"
+                name="editorial"
                 type="text"
                 value={formEditorial}
                 onChange={(e) => setFormEditorial(e.target.value)}
@@ -232,10 +238,12 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="text-xs font-extrabold text-slate-700 block mb-1">
+              <label htmlFor="conf-modal-inicio" className="text-xs font-extrabold text-slate-700 block mb-1">
                 Fecha y Hora de Inicio:
               </label>
               <input
+                id="conf-modal-inicio"
+                name="inicio"
                 type="datetime-local"
                 value={formInicio}
                 onChange={(e) => setFormInicio(e.target.value)}
@@ -244,10 +252,12 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
               />
             </div>
             <div>
-              <label className="text-xs font-extrabold text-slate-700 block mb-1">
+              <label htmlFor="conf-modal-fin" className="text-xs font-extrabold text-slate-700 block mb-1">
                 Fecha y Hora de Finalización:
               </label>
               <input
+                id="conf-modal-fin"
+                name="fin"
                 type="datetime-local"
                 value={formFin}
                 onChange={(e) => setFormFin(e.target.value)}
@@ -259,10 +269,12 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="text-xs font-extrabold text-slate-700 block mb-1">
+              <label htmlFor="conf-modal-modalidad" className="text-xs font-extrabold text-slate-700 block mb-1">
                 Modalidad:
               </label>
               <select
+                id="conf-modal-modalidad"
+                name="modalidad"
                 value={formModalidad}
                 onChange={(e) => setFormModalidad(e.target.value as 'Virtual' | 'Presencial')}
                 className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#008744]"
@@ -273,10 +285,12 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
             </div>
             {editingConference && (
               <div>
-                <label className="text-xs font-extrabold text-slate-700 block mb-1">
+                <label htmlFor="conf-modal-estado" className="text-xs font-extrabold text-slate-700 block mb-1">
                   Estado del Evento:
                 </label>
                 <select
+                  id="conf-modal-estado"
+                  name="estado"
                   value={formEstado}
                   onChange={(e) => setFormEstado(e.target.value)}
                   className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 bg-white text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#008744]"
@@ -292,10 +306,12 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
 
           {formModalidad === 'Virtual' && (
             <div>
-              <label className="text-xs font-extrabold text-slate-700 block mb-1">
+              <label htmlFor="conf-modal-enlace" className="text-xs font-extrabold text-slate-700 block mb-1">
                 Enlace de la Sala Virtual:
               </label>
               <input
+                id="conf-modal-enlace"
+                name="enlace"
                 type="url"
                 value={formEnlace}
                 onChange={(e) => setFormEnlace(e.target.value)}
@@ -316,6 +332,8 @@ export const AdminConferenceModal: React.FC<AdminConferenceModalProps> = ({
                 </span>
               </div>
               <input
+                id="conf-modal-autopurge"
+                name="autoPurge"
                 type="checkbox"
                 checked={formAutoPurge}
                 onChange={(e) => setFormAutoPurge(e.target.checked)}
