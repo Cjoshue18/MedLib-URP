@@ -316,7 +316,7 @@ export const BentoDatabasesCard: React.FC<BentoDatabasesCardProps> = ({
             className="w-full h-auto object-contain max-h-[240px] sm:max-h-[285px] md:max-h-[330px] lg:max-h-[360px] drop-shadow-md select-none transform -translate-y-0.5 sm:-translate-y-1"
           />
         </div>
-        <div className="relative w-full max-w-[460px] sm:max-w-[475px] lg:max-w-[495px] aspect-[510/360] select-none mx-auto sm:ml-auto translate-x-0 sm:translate-x-2 lg:translate-x-4">
+        <div className="relative w-full max-w-[460px] sm:max-w-[475px] lg:max-w-[495px] aspect-[510/360] select-none mx-auto sm:ml-auto translate-x-[9.02%] sm:translate-x-2 lg:translate-x-4">
           <div
             className="absolute cursor-pointer group z-20 select-none touch-manipulation"
             style={{
