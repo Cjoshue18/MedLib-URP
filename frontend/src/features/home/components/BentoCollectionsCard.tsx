@@ -71,11 +71,16 @@ export const BentoCollectionsCard: React.FC<BentoCollectionsCardProps> = ({
               </div>
             </div>
 
-            <div
-              className="w-10 h-10 rounded-full border border-slate-200 group-hover:border-white group-hover:bg-white text-[#0F172A] group-hover:text-[#008744] flex items-center justify-center transition-all shrink-0 self-end sm:self-center group-hover:translate-x-1"
-              aria-hidden="true"
-            >
-              <ArrowRight className="w-4 h-4" strokeWidth={2.5} />
+            <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
+              <span className="sm:hidden font-sans text-xs font-bold text-[#008744] group-hover:text-white transition-colors">
+                Ir a {item.title}
+              </span>
+              <div
+                className="w-10 h-10 rounded-full border border-slate-200 group-hover:border-white group-hover:bg-white text-[#0F172A] group-hover:text-[#008744] flex items-center justify-center transition-all shrink-0 group-hover:translate-x-1"
+                aria-hidden="true"
+              >
+                <ArrowRight className="w-4 h-4" strokeWidth={2.5} />
+              </div>
             </div>
           </a>
         ))}

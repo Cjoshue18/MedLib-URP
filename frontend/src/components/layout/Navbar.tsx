@@ -53,6 +53,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
 
             <nav className="relative z-10 hidden md:flex items-center gap-6 lg:gap-8">
               <button
+                type="button"
                 onClick={() => onNavigate('directory')}
                 className={`font-sans text-sm font-semibold transition-colors duration-200 cursor-pointer ${
                   currentView === 'directory'
@@ -67,6 +68,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
                 Bases de Datos
               </button>
               <button
+                type="button"
                 onClick={() => onNavigate('conferences')}
                 className={`font-sans text-sm font-semibold transition-colors duration-200 cursor-pointer ${
                   currentView === 'conferences'
@@ -81,6 +83,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
                 Conferencias
               </button>
               <button
+                type="button"
                 onClick={() => onNavigate('lost-found')}
                 className={`font-sans text-sm font-semibold transition-colors duration-200 cursor-pointer ${
                   currentView === 'lost-found'
@@ -108,76 +111,79 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
             </nav>
 
             <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              type="button"
+              onClick={() => setMobileMenuOpen(true)}
               className={`relative z-10 md:hidden flex items-center justify-center w-10 h-10 rounded-lg cursor-pointer transition-colors ${
                 isNonHome
                   ? 'text-white hover:text-[#8CF9A9] hover:bg-slate-800'
-                  : 'text-slate-800 hover:text-[#008744] hover:bg-slate-100'
+                  : 'text-slate-800 hover:text-[#008744] hover:bg-white'
               }`}
-              aria-label="Toggle Menu"
+              aria-label="Abrir menú"
             >
-              <span className="material-symbols-outlined text-2xl">
-                {mobileMenuOpen ? 'close' : 'menu'}
-              </span>
+              <span className="material-symbols-outlined text-2xl">menu</span>
             </button>
           </div>
         </div>
 
         {mobileMenuOpen && (
-          <div
-            className={`md:hidden border-t border-b shadow-md px-6 py-4 space-y-3 pointer-events-auto transition-all duration-300 ${
-              isNonHome
-                ? isScrolled
-                  ? 'bg-[#0F172A]/90 backdrop-blur-md border-slate-800 text-white'
-                  : 'bg-[#0F172A] border-slate-800 text-white'
-                : isScrolled
-                  ? 'bg-white/85 backdrop-blur-md border-slate-200/70 text-slate-800'
-                  : 'bg-white border-slate-200 text-slate-800'
-            }`}
-          >
-            <button
-              onClick={() => { onNavigate('home'); setMobileMenuOpen(false); }}
-              className={`block w-full text-left py-2 font-sans text-sm font-semibold ${
-                isNonHome ? 'text-slate-200 hover:text-[#8CF9A9]' : 'text-slate-800 hover:text-[#008744]'
-              }`}
-            >
-              Inicio
-            </button>
-            <button
-              onClick={() => { onNavigate('directory'); setMobileMenuOpen(false); }}
-              className={`block w-full text-left py-2 font-sans text-sm font-semibold ${
-                isNonHome ? 'text-slate-200 hover:text-[#8CF9A9]' : 'text-slate-800 hover:text-[#008744]'
-              }`}
-            >
-              Bases de Datos
-            </button>
-            <button
-              onClick={() => { onNavigate('conferences'); setMobileMenuOpen(false); }}
-              className={`block w-full text-left py-2 font-sans text-sm font-semibold ${
-                isNonHome ? 'text-slate-200 hover:text-[#8CF9A9]' : 'text-slate-800 hover:text-[#008744]'
-              }`}
-            >
-              Conferencias
-            </button>
-            <button
-              onClick={() => { onNavigate('lost-found'); setMobileMenuOpen(false); }}
-              className={`block w-full text-left py-2 font-sans text-sm font-semibold ${
-                isNonHome ? 'text-slate-200 hover:text-[#8CF9A9]' : 'text-slate-800 hover:text-[#008744]'
-              }`}
-            >
-              Objetos Perdidos
-            </button>
-            <a
-              href="https://biblioteca.urp.edu.pe/abnopac/"
-              target="_blank"
-              rel="noreferrer"
-              className={`block w-full text-left py-2 font-sans text-sm font-semibold inline-flex items-center gap-1.5 ${
-                isNonHome ? 'text-slate-200 hover:text-[#8CF9A9]' : 'text-slate-800 hover:text-[#008744]'
-              }`}
-            >
-              <span>Catálogo de Libros</span>
-              <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
-            </a>
+          <div className="fixed inset-0 z-50 md:hidden bg-[#0F172A] pointer-events-auto flex flex-col">
+            <div className="px-6 h-20 flex items-center justify-between border-b border-slate-800 shrink-0">
+              <HeaderBrandBadge
+                onNavigate={(view) => {
+                  onNavigate(view);
+                  setMobileMenuOpen(false);
+                }}
+                isLightBackground={false}
+              />
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-10 h-10 flex items-center justify-center text-white hover:text-[#8CF9A9] transition-colors cursor-pointer rounded-lg"
+                aria-label="Cerrar menú"
+              >
+                <span className="material-symbols-outlined text-2xl">close</span>
+              </button>
+            </div>
+
+            <div className="px-6 py-6 space-y-4 text-white overflow-y-auto flex-1">
+              <button
+                type="button"
+                onClick={() => { onNavigate('home'); setMobileMenuOpen(false); }}
+                className="block w-full text-left py-2 font-sans text-base font-semibold text-slate-200 hover:text-[#8CF9A9] transition-colors cursor-pointer"
+              >
+                Inicio
+              </button>
+              <button
+                type="button"
+                onClick={() => { onNavigate('directory'); setMobileMenuOpen(false); }}
+                className="block w-full text-left py-2 font-sans text-base font-semibold text-slate-200 hover:text-[#8CF9A9] transition-colors cursor-pointer"
+              >
+                Bases de Datos
+              </button>
+              <button
+                type="button"
+                onClick={() => { onNavigate('conferences'); setMobileMenuOpen(false); }}
+                className="block w-full text-left py-2 font-sans text-base font-semibold text-slate-200 hover:text-[#8CF9A9] transition-colors cursor-pointer"
+              >
+                Conferencias
+              </button>
+              <button
+                type="button"
+                onClick={() => { onNavigate('lost-found'); setMobileMenuOpen(false); }}
+                className="block w-full text-left py-2 font-sans text-base font-semibold text-slate-200 hover:text-[#8CF9A9] transition-colors cursor-pointer"
+              >
+                Objetos Perdidos
+              </button>
+              <a
+                href="https://biblioteca.urp.edu.pe/abnopac/"
+                target="_blank"
+                rel="noreferrer"
+                className="block w-full text-left py-2 font-sans text-base font-semibold text-slate-200 hover:text-[#8CF9A9] transition-colors inline-flex items-center gap-1.5 cursor-pointer"
+              >
+                <span>Catálogo de Libros</span>
+                <ExternalLink className="w-4 h-4 text-slate-400" />
+              </a>
+            </div>
           </div>
         )}
       </header>

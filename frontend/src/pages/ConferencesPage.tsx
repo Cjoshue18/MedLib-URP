@@ -213,7 +213,7 @@ export const ConferencesPage: React.FC = () => {
     <div className="w-full pb-20 overflow-x-hidden">
       <main className="max-w-[1280px] mx-auto px-6 pt-6 sm:pt-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          <div className="lg:col-span-8 flex flex-col gap-6">
+          <div className="lg:col-span-8 flex flex-col gap-6 order-2 lg:order-1">
             <div className="flex items-center justify-between border-b border-slate-200 pb-3">
               <div>
                 <h2 className="text-xl sm:text-2xl font-display font-extrabold text-slate-900">
@@ -232,7 +232,7 @@ export const ConferencesPage: React.FC = () => {
               </div>
             ) : conferences.length === 0 ? (
               <div className="bg-white rounded-lg shadow-sm p-12 text-center">
-                <div className="w-14 h-14 rounded-lg bg-slate-50 text-[#008744] flex items-center justify-center mx-auto mb-3 border border-slate-200">
+                <div className="w-14 h-14 rounded-lg bg-[#008744]/10 text-[#008744] flex items-center justify-center mx-auto mb-3 border border-slate-200">
                   <CalendarDays className="w-7 h-7" />
                 </div>
                 <h3 className="font-display font-black text-lg text-slate-900 mb-1">
@@ -268,7 +268,7 @@ export const ConferencesPage: React.FC = () => {
             )}
           </div>
 
-          <aside className="lg:col-span-4 flex flex-col gap-6">
+          <aside className="lg:col-span-4 flex flex-col gap-6 order-1 lg:order-2">
             <ConferenceMonthlyCalendar
               viewDate={viewDate}
               conferences={conferences}
