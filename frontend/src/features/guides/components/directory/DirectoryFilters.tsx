@@ -60,35 +60,52 @@ export const DirectoryFilters: React.FC<DirectoryFiltersProps> = ({
 
   return (
     <div className="w-full bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
-      <div className="px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+      <div
+        className={`px-4 py-3 transition-colors duration-200 flex items-center justify-between ${
+          isPanelOpen
+            ? 'bg-[#008744] text-white border-b border-[#007A3D]'
+            : 'bg-white text-slate-900'
+        }`}
+      >
         <button
           type="button"
           onClick={() => setIsPanelOpen(!isPanelOpen)}
-          className="flex items-center gap-2 text-left font-display font-bold text-sm text-slate-900 hover:text-[#008744] transition-colors cursor-pointer group"
+          className="w-full flex items-center justify-between text-left font-display font-bold text-sm cursor-pointer"
         >
-          <span>Filtros</span>
-          <div
-            className={`w-6 h-6 rounded-md border flex items-center justify-center transition-all duration-300 ${
-              isPanelOpen
-                ? 'rotate-180 bg-[#008744] text-white border-[#008744]'
-                : 'bg-white text-slate-400 border-slate-200 group-hover:border-slate-300 group-hover:text-slate-700'
-            }`}
-          >
-            <ChevronDown className="w-3.5 h-3.5" />
+          <span className={isPanelOpen ? 'text-white' : 'text-slate-900 hover:text-[#008744] transition-colors'}>
+            Filtros
+          </span>
+          <div className="flex items-center gap-2.5">
+            {hasActiveFilters && onResetFilters && (
+              <span
+                role="button"
+                tabIndex={0}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onResetFilters();
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.stopPropagation();
+                    onResetFilters();
+                  }
+                }}
+                className={`flex items-center gap-1 text-[11px] font-bold cursor-pointer hover:underline ${
+                  isPanelOpen ? 'text-white' : 'text-[#008744]'
+                }`}
+                title="Restablecer todos los filtros"
+              >
+                <RotateCcw className="w-3 h-3" />
+                <span>Limpiar</span>
+              </span>
+            )}
+            <ChevronDown
+              className={`w-4 h-4 transition-transform duration-300 ${
+                isPanelOpen ? 'rotate-180 text-white' : 'text-slate-600'
+              }`}
+            />
           </div>
         </button>
-
-        {hasActiveFilters && onResetFilters && (
-          <button
-            type="button"
-            onClick={onResetFilters}
-            className="flex items-center gap-1 text-[11px] font-bold text-[#008744] hover:underline cursor-pointer"
-            title="Restablecer todos los filtros"
-          >
-            <RotateCcw className="w-3 h-3" />
-            <span>Limpiar</span>
-          </button>
-        )}
       </div>
 
       {isPanelOpen && (
