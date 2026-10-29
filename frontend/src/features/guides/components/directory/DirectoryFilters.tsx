@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, Layers, Smartphone, BookOpen, RefreshCw, RotateCcw } from 'lucide-react';
+import { ChevronDown, Layers, Smartphone, BookOpen, RefreshCw, RotateCcw } from 'lucide-react';
 import { resourceService } from '../../services/resourceService';
 
 export interface DirectoryFiltersProps {
@@ -64,14 +64,18 @@ export const DirectoryFilters: React.FC<DirectoryFiltersProps> = ({
         <button
           type="button"
           onClick={() => setIsPanelOpen(!isPanelOpen)}
-          className="flex items-center gap-2 text-left font-display font-bold text-sm text-slate-900 hover:text-[#008744] transition-colors cursor-pointer"
+          className="flex items-center gap-2 text-left font-display font-bold text-sm text-slate-900 hover:text-[#008744] transition-colors cursor-pointer group"
         >
           <span>Filtros</span>
-          {isPanelOpen ? (
-            <ChevronUp className="w-4 h-4 text-slate-500" />
-          ) : (
-            <ChevronDown className="w-4 h-4 text-slate-500" />
-          )}
+          <div
+            className={`w-6 h-6 rounded-md border flex items-center justify-center transition-all duration-300 ${
+              isPanelOpen
+                ? 'rotate-180 bg-[#008744] text-white border-[#008744]'
+                : 'bg-white text-slate-400 border-slate-200 group-hover:border-slate-300 group-hover:text-slate-700'
+            }`}
+          >
+            <ChevronDown className="w-3.5 h-3.5" />
+          </div>
         </button>
 
         {hasActiveFilters && onResetFilters && (
@@ -93,45 +97,55 @@ export const DirectoryFilters: React.FC<DirectoryFiltersProps> = ({
             <button
               type="button"
               onClick={() => setIsLicenseOpen(!isLicenseOpen)}
-              className="w-full flex items-center justify-between text-left font-display font-bold text-xs uppercase tracking-wider text-slate-800 hover:text-[#008744] transition-colors cursor-pointer py-1"
+              className="w-full flex items-center justify-between text-left font-display font-bold text-xs uppercase tracking-wider text-slate-800 hover:text-[#008744] transition-colors cursor-pointer py-1 group"
             >
               <span className="flex items-center gap-1.5">
                 <Layers className="w-3.5 h-3.5 text-[#008744]" />
                 Tipo de licencia
               </span>
-              {isLicenseOpen ? (
-                <ChevronUp className="w-3.5 h-3.5 text-slate-400" />
-              ) : (
-                <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
-              )}
+              <div
+                className={`w-6 h-6 rounded-md border flex items-center justify-center transition-all duration-300 ${
+                  isLicenseOpen
+                    ? 'rotate-180 bg-[#008744] text-white border-[#008744]'
+                    : 'bg-white text-slate-400 border-slate-200 group-hover:border-slate-300 group-hover:text-slate-700'
+                }`}
+              >
+                <ChevronDown className="w-3.5 h-3.5" />
+              </div>
             </button>
 
             {isLicenseOpen && (
               <div className="mt-2.5 flex flex-col gap-2 pl-1">
                 <label className="flex items-center gap-2.5 cursor-pointer text-xs text-slate-700 hover:text-[#008744] transition-colors">
                   <input
-                    type="checkbox"
+                    type="radio"
+                    name="licenseFilter"
+                    value="all"
                     checked={licenseFilter === 'all'}
                     onChange={() => onLicenseFilterChange('all')}
-                    className="w-4 h-4 rounded border-slate-300 text-[#008744] focus:ring-[#008744] accent-[#008744] cursor-pointer"
+                    className="w-4 h-4 text-[#008744] focus:ring-[#008744] accent-[#008744] cursor-pointer"
                   />
                   <span className="font-medium">Todas las licencias</span>
                 </label>
                 <label className="flex items-center gap-2.5 cursor-pointer text-xs text-slate-700 hover:text-[#008744] transition-colors">
                   <input
-                    type="checkbox"
+                    type="radio"
+                    name="licenseFilter"
+                    value="subscription"
                     checked={licenseFilter === 'subscription'}
-                    onChange={() => onLicenseFilterChange(licenseFilter === 'subscription' ? 'all' : 'subscription')}
-                    className="w-4 h-4 rounded border-slate-300 text-[#008744] focus:ring-[#008744] accent-[#008744] cursor-pointer"
+                    onChange={() => onLicenseFilterChange('subscription')}
+                    className="w-4 h-4 text-[#008744] focus:ring-[#008744] accent-[#008744] cursor-pointer"
                   />
                   <span className="font-medium">Suscripción URP</span>
                 </label>
                 <label className="flex items-center gap-2.5 cursor-pointer text-xs text-slate-700 hover:text-[#008744] transition-colors">
                   <input
-                    type="checkbox"
+                    type="radio"
+                    name="licenseFilter"
+                    value="open"
                     checked={licenseFilter === 'open'}
-                    onChange={() => onLicenseFilterChange(licenseFilter === 'open' ? 'all' : 'open')}
-                    className="w-4 h-4 rounded border-slate-300 text-[#008744] focus:ring-[#008744] accent-[#008744] cursor-pointer"
+                    onChange={() => onLicenseFilterChange('open')}
+                    className="w-4 h-4 text-[#008744] focus:ring-[#008744] accent-[#008744] cursor-pointer"
                   />
                   <span className="font-medium">Acceso Abierto</span>
                 </label>
@@ -143,17 +157,21 @@ export const DirectoryFilters: React.FC<DirectoryFiltersProps> = ({
             <button
               type="button"
               onClick={() => setIsMobileOpen(!isMobileOpen)}
-              className="w-full flex items-center justify-between text-left font-display font-bold text-xs uppercase tracking-wider text-slate-800 hover:text-[#008744] transition-colors cursor-pointer py-1"
+              className="w-full flex items-center justify-between text-left font-display font-bold text-xs uppercase tracking-wider text-slate-800 hover:text-[#008744] transition-colors cursor-pointer py-1 group"
             >
               <span className="flex items-center gap-1.5">
                 <Smartphone className="w-3.5 h-3.5 text-[#008744]" />
                 App Móvil
               </span>
-              {isMobileOpen ? (
-                <ChevronUp className="w-3.5 h-3.5 text-slate-400" />
-              ) : (
-                <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
-              )}
+              <div
+                className={`w-6 h-6 rounded-md border flex items-center justify-center transition-all duration-300 ${
+                  isMobileOpen
+                    ? 'rotate-180 bg-[#008744] text-white border-[#008744]'
+                    : 'bg-white text-slate-400 border-slate-200 group-hover:border-slate-300 group-hover:text-slate-700'
+                }`}
+              >
+                <ChevronDown className="w-3.5 h-3.5" />
+              </div>
             </button>
 
             {isMobileOpen && (
@@ -165,7 +183,7 @@ export const DirectoryFilters: React.FC<DirectoryFiltersProps> = ({
                     onChange={(e) => onHasMobileAppFilterChange(e.target.checked)}
                     className="w-4 h-4 rounded border-slate-300 text-[#008744] focus:ring-[#008744] accent-[#008744] cursor-pointer"
                   />
-                  <span className="font-medium">Solo con App Móvil</span>
+                  <span className="font-medium">Cuenta con app móvil</span>
                 </label>
               </div>
             )}
@@ -175,17 +193,21 @@ export const DirectoryFilters: React.FC<DirectoryFiltersProps> = ({
             <button
               type="button"
               onClick={handleToggleMaterias}
-              className="w-full flex items-center justify-between text-left font-display font-bold text-xs uppercase tracking-wider text-slate-800 hover:text-[#008744] transition-colors cursor-pointer py-1"
+              className="w-full flex items-center justify-between text-left font-display font-bold text-xs uppercase tracking-wider text-slate-800 hover:text-[#008744] transition-colors cursor-pointer py-1 group"
             >
               <span className="flex items-center gap-1.5">
                 <BookOpen className="w-3.5 h-3.5 text-[#008744]" />
                 Filtrar Por Materias
               </span>
-              {isMateriasOpen ? (
-                <ChevronUp className="w-3.5 h-3.5 text-slate-400" />
-              ) : (
-                <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
-              )}
+              <div
+                className={`w-6 h-6 rounded-md border flex items-center justify-center transition-all duration-300 ${
+                  isMateriasOpen
+                    ? 'rotate-180 bg-[#008744] text-white border-[#008744]'
+                    : 'bg-white text-slate-400 border-slate-200 group-hover:border-slate-300 group-hover:text-slate-700'
+                }`}
+              >
+                <ChevronDown className="w-3.5 h-3.5" />
+              </div>
             </button>
 
             {isMateriasOpen && (
@@ -198,7 +220,7 @@ export const DirectoryFilters: React.FC<DirectoryFiltersProps> = ({
                 ) : materias.length === 0 ? (
                   <p className="text-xs text-slate-400 py-2">No hay materias disponibles.</p>
                 ) : (
-                  <div className="max-h-60 overflow-y-auto pr-1 flex flex-col gap-2">
+                  <div className="max-h-[360px] overflow-y-auto pr-1 flex flex-col gap-2">
                     {materias.map((materia) => {
                       const isChecked = selectedMaterias.includes(materia);
                       return (

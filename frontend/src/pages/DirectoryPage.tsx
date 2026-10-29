@@ -204,7 +204,7 @@ export const DirectoryPage: React.FC<DirectoryPageProps> = ({ initialSearchQuery
                       <RefreshCw className="w-4 h-4 animate-spin text-[#008744]" />
                     </>
                   ) : (
-                    `Mostrando recursos (${filteredDbs.length}${searchQuery || hasMobileAppFilter || selectedMaterias.length > 0 || licenseFilter !== 'all' ? ` de ${databases.length}` : ''})`
+                    `Mostrando recursos (${filteredDbs.length})`
                   )}
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-500 mt-1">
