@@ -9,16 +9,28 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(() => typeof window !== 'undefined' && window.scrollY > 15);
+  const [isScrolled, setIsScrolled] = useState(() => typeof window !== 'undefined' && window.scrollY > 20);
   const isNonHome = currentView !== 'home';
 
   useEffect(() => {
+    let rafId: number | null = null;
+
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 15);
+      if (rafId === null) {
+        rafId = window.requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 20);
+          rafId = null;
+        });
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafId !== null) {
+        window.cancelAnimationFrame(rafId);
+      }
+    };
   }, []);
 
   return (
@@ -36,17 +48,17 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
         </div>
       </div>
 
-      <header className="sticky top-0 -mb-20 z-50 w-full overflow-x-clip pointer-events-none transition-colors duration-200">
+      <header className="sticky top-0 -mb-20 z-50 w-full overflow-x-clip pointer-events-none">
         <div className="max-w-[1280px] mx-auto px-6 sm:px-8 flex justify-end items-center w-full h-20">
           <div className="relative pointer-events-auto h-20 flex items-center">
             <div
-              className={`absolute top-0 bottom-0 -left-6 sm:-left-8 -right-[100vw] rounded-bl-3xl border-b border-l pointer-events-none transition-colors duration-200 ${
+              className={`absolute top-0 bottom-0 -left-6 sm:-left-8 -right-[100vw] rounded-bl-3xl border-b border-l pointer-events-none backdrop-blur-md transform-gpu transition-all duration-300 ease-in-out ${
                 isNonHome
                   ? isScrolled
-                    ? 'bg-[#0F172A]/90 backdrop-blur-md border-slate-800 shadow-md'
+                    ? 'bg-[#0F172A]/90 border-slate-800 shadow-md'
                     : 'bg-[#0F172A] border-slate-800 shadow-sm'
                   : isScrolled
-                    ? 'bg-white/75 backdrop-blur-md border-slate-200/70 shadow-md'
+                    ? 'bg-white/75 border-slate-200/70 shadow-md'
                     : 'bg-white border-slate-200 shadow-sm'
               }`}
             />
