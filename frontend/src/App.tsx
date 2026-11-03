@@ -7,7 +7,6 @@ import { DirectoryPage } from './pages/DirectoryPage';
 import { ConferencesPage } from './pages/ConferencesPage';
 import { AdminPage } from './pages/AdminPage';
 import { NotFoundPage } from './pages/NotFoundPage';
-import { triggerSilentWarmup } from './core/services/warmupService';
 
 import type { AppView } from './core/types/navigation';
 export type { AppView };
@@ -39,10 +38,6 @@ export const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<AppView>(() => parseHashRoute().view);
   const [directorySearchQuery, setDirectorySearchQuery] = useState(() => parseHashRoute().query);
   const [showScrollTop, setShowScrollTop] = useState(false);
-
-  useEffect(() => {
-    triggerSilentWarmup();
-  }, []);
 
   useEffect(() => {
     const handleHashChange = () => {
