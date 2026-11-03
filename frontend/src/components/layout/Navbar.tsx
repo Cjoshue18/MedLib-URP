@@ -95,21 +95,6 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
               >
                 Conferencias
               </button>
-              <button
-                type="button"
-                onClick={() => onNavigate('lost-found')}
-                className={`font-sans text-sm font-semibold transition-colors duration-200 cursor-pointer ${
-                  currentView === 'lost-found'
-                    ? isNonHome
-                      ? 'text-[#8CF9A9] border-b-2 border-[#8CF9A9] pb-1'
-                      : 'text-[#008744] border-b-2 border-[#008744] pb-1'
-                    : isNonHome
-                      ? 'text-slate-300 hover:text-white'
-                      : 'text-slate-600 hover:text-[#008744]'
-                }`}
-              >
-                Objetos Perdidos
-              </button>
               <a
                 href="https://biblioteca.urp.edu.pe/abnopac/"
                 target="_blank"
@@ -179,13 +164,6 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigate }) => {
                 className="block w-full text-left py-2 font-sans text-base font-semibold text-slate-200 hover:text-[#8CF9A9] transition-colors cursor-pointer"
               >
                 Conferencias
-              </button>
-              <button
-                type="button"
-                onClick={() => { onNavigate('lost-found'); setMobileMenuOpen(false); }}
-                className="block w-full text-left py-2 font-sans text-base font-semibold text-slate-200 hover:text-[#8CF9A9] transition-colors cursor-pointer"
-              >
-                Objetos Perdidos
               </button>
               <a
                 href="https://biblioteca.urp.edu.pe/abnopac/"

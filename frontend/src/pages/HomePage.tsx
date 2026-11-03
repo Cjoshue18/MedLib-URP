@@ -5,7 +5,7 @@ import {
 } from '../features/home';
 
 interface HomePageProps {
-  onNavigate: (view: 'home' | 'directory' | 'conferences' | 'lost-found', query?: string) => void;
+  onNavigate: (view: 'home' | 'directory' | 'conferences', query?: string) => void;
 }
 
 export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {

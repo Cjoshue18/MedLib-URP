@@ -5,7 +5,6 @@ import { Footer } from './components/layout/Footer';
 import { HomePage } from './pages/HomePage';
 import { DirectoryPage } from './pages/DirectoryPage';
 import { ConferencesPage } from './pages/ConferencesPage';
-import { LostFoundPage } from './pages/LostFoundPage';
 import { AdminPage } from './pages/AdminPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { triggerSilentWarmup } from './core/services/warmupService';
@@ -29,9 +28,6 @@ const parseHashRoute = (): { view: AppView; query: string } => {
   }
   if (hash === '#conferencias') {
     return { view: 'conferences', query: '' };
-  }
-  if (hash === '#objetos-perdidos' || hash === '#comunidad') {
-    return { view: 'lost-found', query: '' };
   }
   if (hash === '#gestion-bibliotecaria-famurp') {
     return { view: 'admin', query: '' };
@@ -94,8 +90,6 @@ export const App: React.FC = () => {
     } else if (view === 'conferences') {
       const q = query ? (query.startsWith('?') ? query : `?${query}`) : '';
       window.location.hash = `#conferencias${q}`;
-    } else if (view === 'lost-found') {
-      window.location.hash = '#objetos-perdidos';
     } else if (view === 'admin') {
       window.location.hash = '#gestion-bibliotecaria-famurp';
     } else if (view === '404') {
@@ -105,7 +99,7 @@ export const App: React.FC = () => {
   };
 
   if (currentView === 'admin') {
-    return <AdminPage onNavigate={navigateTo} />;
+    return <AdminPage onNavigate={(view) => navigateTo(view as AppView)} />;
   }
 
   return (
@@ -116,7 +110,6 @@ export const App: React.FC = () => {
         {currentView === 'home' && <HomePage onNavigate={navigateTo} />}
         {currentView === 'directory' && <DirectoryPage initialSearchQuery={directorySearchQuery} />}
         {currentView === 'conferences' && <ConferencesPage />}
-        {currentView === 'lost-found' && <LostFoundPage />}
         {currentView === '404' && <NotFoundPage onNavigate={navigateTo} />}
       </div>
 

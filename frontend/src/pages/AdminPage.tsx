@@ -14,7 +14,7 @@ import {
 } from '../features/admin';
 
 interface AdminPageProps {
-  onNavigate: (view: 'home' | 'directory' | 'conferences' | 'lost-found' | 'admin') => void;
+  onNavigate: (view: 'home' | 'directory' | 'conferences' | 'admin') => void;
 }
 
 export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {

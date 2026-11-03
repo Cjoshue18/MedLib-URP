@@ -4,7 +4,7 @@ import { HomeUpcomingActivities } from './HomeUpcomingActivities';
 import { HERO_SLIDES } from '../constants/heroConstants';
 
 interface HomeHeroProps {
-  onNavigate: (view: 'home' | 'directory' | 'conferences' | 'lost-found', query?: string) => void;
+  onNavigate: (view: 'home' | 'directory' | 'conferences', query?: string) => void;
 }
 
 export const HomeHero: React.FC<HomeHeroProps> = ({ onNavigate }) => {
