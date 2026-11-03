@@ -15,7 +15,6 @@ public class MedLibDbContext : DbContext
     public DbSet<TutorialRecurso> TutorialesRecursos => Set<TutorialRecurso>();
     public DbSet<UsuarioAdmin> UsuariosAdmin => Set<UsuarioAdmin>();
     public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
-    public DbSet<ObjetoPerdidoPost> ObjetosPerdidosPosts => Set<ObjetoPerdidoPost>();
     public DbSet<ConferenciaMedica> ConferenciasMedicas => Set<ConferenciaMedica>();
     public DbSet<Inscripcion> Inscripciones => Set<Inscripcion>();
     public DbSet<Asistencia> Asistencias => Set<Asistencia>();
@@ -120,15 +119,6 @@ public class MedLibDbContext : DbContext
                    .WithMany()
                    .HasForeignKey(e => e.IdUsuarioAdmin)
                    .OnDelete(DeleteBehavior.Cascade);
-        });
-
-        modelBuilder.Entity<ObjetoPerdidoPost>(entidad =>
-        {
-            entidad.ToTable("t_objeto_perdido_post");
-            entidad.HasKey(e => e.IdPost);
-            entidad.Property(e => e.IdPost).HasColumnName("id_post").ValueGeneratedOnAdd();
-            entidad.Property(e => e.UrlInstagram).HasColumnName("url_instagram").HasMaxLength(255).IsRequired();
-            entidad.Property(e => e.FechaCreacion).HasColumnName("fecha_creacion").HasDefaultValueSql("CURRENT_TIMESTAMP");
         });
 
         modelBuilder.Entity<ConferenciaMedica>(entidad =>
