@@ -99,7 +99,7 @@ export const App: React.FC = () => {
   };
 
   if (currentView === 'admin') {
-    return <AdminPage onNavigate={(view) => navigateTo(view as AppView)} />;
+    return <AdminPage onNavigate={navigateTo} />;
   }
 
   return (
