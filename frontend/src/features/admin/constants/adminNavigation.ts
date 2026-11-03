@@ -8,12 +8,6 @@ export const ADMIN_NAVIGATION_ITEMS: readonly AdminNavigationItem[] = [
     description: 'Catálogo general y matriz hexagonal',
   },
   {
-    id: 'lost-found',
-    label: 'Instagram',
-    sublabel: 'Publicaciones de Instagram',
-    description: 'Objetos perdidos y avisos de sala',
-  },
-  {
     id: 'conferences',
     label: 'Conferencias',
     sublabel: 'Conferencias',

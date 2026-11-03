@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { CheckCircle2 } from 'lucide-react';
 import { authService, AdminLoginForm } from '../features/auth';
 import { AdminDatabasesTab } from '../features/guides';
-import { AdminLostFoundTab } from '../features/community';
 import {
   AdminConferencesTab,
   AdminStatisticsTab,
@@ -93,8 +92,6 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onNavigate }) => {
             onCloseMatrixModal={() => setIsMatrixModalOpen(false)}
             onHexagonCountChange={setHexagonCount}
           />
-        ) : activeAdminTab === 'lost-found' ? (
-          <AdminLostFoundTab onShowFeedback={triggerFeedback} />
         ) : activeAdminTab === 'conferences' ? (
           <AdminConferencesTab
             onNavigateToStats={(confId) => {

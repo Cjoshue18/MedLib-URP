@@ -1,6 +1,5 @@
 import React from 'react';
 import { X, Database, Video, BarChart3 } from 'lucide-react';
-import { InstagramIcon } from '../../../components/common/InstagramIcon';
 import { AdminTab } from '../types';
 import { ADMIN_NAVIGATION_ITEMS } from '../constants/adminNavigation';
 
@@ -15,8 +14,6 @@ const renderTabIcon = (tabId: AdminTab) => {
   switch (tabId) {
     case 'databases':
       return <Database className="w-4 h-4 text-emerald-700" />;
-    case 'lost-found':
-      return <InstagramIcon className="w-4 h-4 text-pink-600" />;
     case 'conferences':
       return <Video className="w-4 h-4 text-emerald-700" />;
     case 'statistics':

@@ -1,4 +1,4 @@
-export type AdminTab = 'databases' | 'lost-found' | 'conferences' | 'statistics';
+export type AdminTab = 'databases' | 'conferences' | 'statistics';
 
 export interface AdminNavigationItem {
   id: AdminTab;
