@@ -19,15 +19,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@v4
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v6
+        uses: pnpm/action-setup@v4
         with:
           version: 10.5.2
 
       - name: Setup Node.js 22
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: 'pnpm'
@@ -40,3 +40,21 @@ jobs:
 
       - name: Build Frontend Production Bundle
         run: pnpm --filter medlib-urp-frontend build
+
+  validate-backend:
+    name: Validate Backend (.NET 10 Build)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore Backend Dependencies
+        run: dotnet restore backend/src/MedLib.Api/MedLib.Api.csproj
+
+      - name: Build Backend (Release)
+        run: dotnet build backend/src/MedLib.Api/MedLib.Api.csproj --no-restore -c Release
