@@ -38,10 +38,6 @@ MedLib-URP/
 │   │   │   ├── auth/                         # Autenticación administrativa (Login, Tokens, Sesión)
 │   │   │   │   ├── components/               # AdminLoginForm
 │   │   │   │   └── services/                 # authService
-│   │   │   ├── community/                    # Feed oficial de Instagram y Objetos Perdidos
-│   │   │   │   ├── components/               # AdminLostFoundTab, AdminNewPostModal, InstagramCarousel, InstagramPostEmbed
-│   │   │   │   ├── constants/                # lostFoundConstants (límites y restricciones de cartelera)
-│   │   │   │   └── services/                 # instagramService, lostFoundService
 │   │   │   ├── conferences/                  # Conferencias, capacitaciones y asistencias
 │   │   │   │   ├── components/
 │   │   │   │   │   ├── admin/                # Panel de conferencias, estadísticas, ConferenceReportHeader, ConferenceReportFilterBar
@@ -64,7 +60,6 @@ MedLib-URP/
 │   │   │   ├── HomePage.tsx                  # Portada institucional
 │   │   │   ├── DirectoryPage.tsx             # Catálogo de recursos con filtrado por especialidad
 │   │   │   ├── ConferencesPage.tsx           # Calendario de conferencias e inscripciones
-│   │   │   ├── LostFoundPage.tsx             # Registro de objetos perdidos en biblioteca
 │   │   │   └── AdminPage.tsx                 # Panel de administración general modularizado
 │   │   ├── utils/                            # Utilidades puras compartidas (csvExport, dateFormatter, textUtils, arrayUtils)
 │   │   ├── App.tsx                           # Enrutador de vistas
@@ -76,7 +71,7 @@ MedLib-URP/
 ├── backend/                                  # API RESTful en C# ASP.NET Core (.NET 10 LTS)
 │   └── src/MedLib.Api/
 │       ├── Common/                           # Utilidades transversales, constantes y contratos
-│       │   ├── Constants/                    # LostFoundConstants, ResourceConstants
+│       │   ├── Constants/                    # ResourceConstants
 │       │   ├── Interfaces/                   # ITokenService, IRefreshTokenService, IPasswordHasher
 │       │   ├── Security/                     # JwtTokenService, RefreshTokenService, BCryptPasswordHasher
 │       │   └── Validation/                   # ParticipantDocumentValidator (DNI, Código URP, CE, ciclos)
@@ -85,7 +80,6 @@ MedLib-URP/
 │       ├── Features/                         # Controladores, servicios y DTOs agrupados por dominio
 │       │   ├── Auth/                         # AuthController y AuthDtos
 │       │   ├── Conferences/                  # ConferencesController, AdminConferencesController, Services/ (IConferenceReportService, ConferenceReportService, ConferenceLifecycleBackgroundService)
-│       │   ├── LostFound/                    # LostFoundController y DTOs
 │       │   └── Resources/                    # ResourcesController, AdminResourcesController y DTOs
 │       ├── Infrastructure/                   # Acceso a datos, configuración y persistencia
 │       │   ├── Configuration/                # EnvironmentConfigurationHelper (carga de .env y normalización de conexiones)
@@ -119,7 +113,6 @@ El modelo relacional está compuesto por 10 tablas optimizadas con índices dedi
 | **`t_conferencia_medica`** | Conferencias | Conferencias y capacitaciones académicas programadas o en curso. | PK: `id_conferencia`. Índice: `fecha_hora_inicio`. |
 | **`t_inscripcion`** | Conferencias | Registro de participantes inscritos previamente a un evento. | PK: `id_inscripcion`. Unique: (`id_conferencia`, `numero_documento`). |
 | **`t_asistencia`** | Conferencias | Marcación de asistencia en tiempo real durante la conferencia. | PK: `id_asistencia`. Unique: (`id_conferencia`, `numero_documento`). |
-| **`t_objeto_perdido_post`** | Comunidad | Publicaciones sincronizadas de objetos encontrados en biblioteca. | PK: `id_post`. |
 | **`t_suscriptor_boletin`** | Boletín | Registro de suscripciones al boletín informativo institucional (pregrado, posgrado, residentado). | PK: `id_suscriptor`. Unique: `correo_institucional`. |
 
 ---
