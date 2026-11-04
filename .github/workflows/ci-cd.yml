@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   validate-frontend:
-    name: Validate Frontend (Typecheck & Build)
+    name: Validate Frontend (Typecheck, Test & Build)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -37,6 +37,9 @@ jobs:
 
       - name: Typecheck Frontend
         run: pnpm --filter medlib-urp-frontend typecheck
+
+      - name: Run Frontend Tests (Vitest)
+        run: pnpm --filter medlib-urp-frontend test
 
       - name: Build Frontend Production Bundle
         run: pnpm --filter medlib-urp-frontend build
